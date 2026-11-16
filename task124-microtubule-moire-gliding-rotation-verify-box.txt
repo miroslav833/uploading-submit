@@ -1,0 +1,19 @@
+The answer cannot be looked up. The papers below give the fringe analysis of microtubule images, the lattice accommodation model and the rotation of microtubules on kinesin. The angle depends on the zones and fringes drawn in the figure.
+
+Readings from the image file (3725 x 486 pixels). Arrowhead tips at x = 160 and 3565. Sharp zones at A, at B and at four places between, blurred zones near x = 500, 1180, 1860, 2545 and 3225, so five zone spacings of 681 pixels on average. Dark lines measured from the axis: zones 1, 3, 5 have 0, +-20 and a broad edge at +-36 pixels; zones 2, 4, 6 have +-10, +-28, +-38 pixels.
+
+Key by hand. N rods on a cylinder project to R sin(phi0 + 360 k/N). Front and back coincide when phi0 = 90 + m 180/N degrees, so the wall turns 180/N degrees between sharp zones. For N = 12 the two kinds of zone are 0, +-0.500R, +-0.866R, +-R and +-0.259R, +-0.707R, +-0.966R. With R = 39.4 pixels: 0, +-19.7, +-34.1, +-39.4 and +-10.2, +-27.9, +-38.1, as measured. Zone spacing over wall diameter is 681/78.8 = 8.64, and lattice accommodation gives 8.66 for the 12_3 lattice. Kinesin-1 follows one protofilament, so the microtubule turns with its wall: 5 x 180/12 = 75 degrees.
+
+The most tempting wrong answer is 64, from 14 protofilaments (5 x 180/14 = 64.3). The 14_3 lattice has the same ratio 8.66, so lengths alone do not exclude it. Its fringes do. The ratio fixes R = 681/17.31 = 39.3 pixels for either lattice, and 14 rods of this radius give 0, +-17.1, +-30.7, +-38.3 and +-8.8, +-24.5, +-35.4, +-39.3, which miss the measured inner lines at +-20 and at +-10, +-28. A radius of 45.5 pixels would fit those inner lines but puts lines at +-44.4 and +-41.0, +-45.5, outside the measured edges.
+
+Check with Python (standard library):
+import math
+def zone(N, R, m):
+    return sorted({round(R * math.sin(math.radians(90 + m * 180 / N + 360 * k / N)), 1) + 0.0 for k in range(N)})
+R = 681 / (2 * 13 * math.pi * 5.15 / (6 * 4.05))
+for N in (12, 14):
+    print(N, round(R, 1), zone(N, R, 0), zone(N, R, 1))
+print(5 * 180 / 12)
+It prints the radius 39.3 and the line positions of both kinds of zone for 12 and for 14 protofilaments, then 75.0.
+
+Sources: D. Chrétien and R. H. Wade, Biol. Cell 71, 161 (1991); R. H. Wade, D. Chrétien and D. Job, J. Mol. Biol. 212, 775 (1990); S. Ray, E. Meyhöfer, R. A. Milligan and J. Howard, J. Cell Biol. 121, 1083 (1993); D. Chrétien and S. D. Fuller, J. Mol. Biol. 298, 663 (2000). The uploaded notes contain the drawing program, the key and a program that reads the image file back.
