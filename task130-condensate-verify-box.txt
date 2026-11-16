@@ -1,0 +1,24 @@
+The answer cannot be looked up. Barer (1952) and Davies and Wilkins (1952) give the principle: the optical path difference of an object in an interference microscope equals its refractive index difference times its thickness, and the refractive index difference of a protein solution is the refractive index increment times the concentration. Zhao, Brown and Schuck (2011) give the increment of proteins. The number depends on the fringes drawn in the figure.
+
+Read from the figure (image 1300 x 1000 px, rows counted from the top):
+scale bar 160 px for 5 µm, so 32 px per µm
+droplet: columns 404 to 876, rows 264 to 736, diameter 472 px = 14.75 µm, centre at column 640 and row 500
+background: 29.4 fringes in 1000 px, spacing 34 px, bright fringes at rows ... 444, 478, 512, 546 ...
+bright fringes on the vertical diameter of the droplet: rows 280, 301, 325, 351, 379, 408, 439, 471, 504, 539, 576, 616, 660, and a bright cap at row 724 next to the lower rim
+the background fringe of row 512 enters at the left rim and crosses the vertical diameter at row 439
+
+Key by hand. The fringe of row 512 has risen 73 px = 2.15 spacings where it crosses the diameter, 61 px above the centre. For a sphere the displacement there is 0.966 of the value at the centre, so the centre has 2.2 spacings. The count on the diameter gives the same: 6.45 periods between rows 311 and 500, 4.65 between rows 500 and 689, difference 1.80 = 0.8 x 2.25. Then 2.25 x 0.546 µm / 14.75 µm = 0.0833 and 0.0833 / 0.185 mL/g = 0.450 g/mL, which is 450 mg/mL.
+
+The most tempting wrong answer is 50. It takes the quarter of a spacing seen at the centre as the whole displacement: 0.25 x 0.546 / 14.75 / 0.185 = 0.050 g/mL. One whole order gives 250 and three give 650. A fringe spacing read as about 24 px (40 fringes in the image height, where there are 29.4) leads to about four orders and to 750 or 850.
+
+Check with Python (standard library):
+from math import sqrt
+R, s, D = 236, 34, 472 / 32
+rise = (512 - 439) / s
+phi0 = rise / sqrt(1 - ((500 - 439) / R) ** 2)
+print(round(rise, 2), round(phi0, 2))
+for p in (0.25, 1.25, 2.25, 3.25):
+    print(p, round(0.8 * R / s + 0.4 * p, 2), round(0.8 * R / s - 0.4 * p, 2), round(p * 0.546 / D / 0.185 * 1000))
+It prints 2.15 2.22, then for each trial displacement the periods above and below the centre and the concentration: 5.65 5.45 50, 6.05 5.05 250, 6.45 4.65 450, 6.85 4.25 650.
+
+The uploaded notes contain the model, the key and a program that reads all of this back from the image file, at full size and reduced to 60 percent.
