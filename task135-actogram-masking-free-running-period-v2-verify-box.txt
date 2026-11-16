@@ -1,0 +1,13 @@
+The answer cannot be looked up. It depends on the record drawn in the figure. The papers below describe masking, the difference between masking and entrainment, and the periodogram used for the check.
+
+What the figure holds. Temperature is about 36.5 deg C in the light phase and 37.65 deg C in the dark phase on every day, with steps at 06:00 and 18:00. On top of this a band 11 h wide is warmer by 0.13 deg C (scatter of one reading 0.30 deg C). Its start is at 21:00 on day 1 and 1.5 h later in each following cycle: 06:00 on day 8, 10:30 on day 11, 16:30 on day 15, 18:00 on day 16, then in the dark phase, 06:00 again on day 25 and 10:30 on day 28. It is back at the same time of day after 17 days.
+
+Key by hand. The steps at the light changes are masking. The band is the subjective night of a free-running pacemaker. Its start moves 12 h in the 8 cycles from day 8 to day 16, 1.5 h per cycle, so tau = 24 + 1.5 = 25.5 h. Return after N = 17 days means 16 cycles in 17 days, tau = 24 x 17/16 = 25.5 h. Any return time from 15 to 20 days rounds to 25.5 h.
+
+The most tempting wrong answer is 24.0 h, from taking the warm dark phases as an entrained rhythm.
+
+Check with Python (standard library), the period for a return after N days:
+for N in (13, 15, 17, 20, 25): print(N, round(24 * N / (N - 1), 2))
+It prints 26.0, 25.71, 25.5, 25.26 and 25.0. The program in the uploaded notes reads the gray levels of image.png, removes the mean 24-h profile and finds the highest value of the periodogram at 25.50 h.
+
+Sources: J. Aschoff, Cold Spring Harb. Symp. Quant. Biol. 25, 11 (1960); N. Mrosovsky, Chronobiol. Int. 16, 415 (1999); P. G. Sokolove and W. N. Bushell, J. Theor. Biol. 72, 131 (1978); R. Refinetti, G. Cornelissen and F. Halberg, Biol. Rhythm Res. 38, 275 (2007).
