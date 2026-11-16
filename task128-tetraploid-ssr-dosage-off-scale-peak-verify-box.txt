@@ -1,0 +1,23 @@
+The answer cannot be looked up. It depends on the peaks drawn in the figure. Esselink, Nybom and Vosman (2004) describe how allele copy numbers in tetraploids are taken from peak ratios after a calibration on plants in which the copy numbers are known, and Mather (1935) and Fisher and Mather (1943) give tetrasomic segregation with double reduction.
+
+Peaks read from the figure (bp: RFU). Plant 1: 150: 2960, 162: 2540, 186: 2200, 198: 1900. Plant 2: 150: 8200 with a flat top about 0.75 bp wide, 198: 5490. Plant 3: 174: 4900. Plant 4: 150: 3230, 174: 2780, 186: 2360, 198: 2220. Plant 5: 150: 3940, 174: 3250, 198: 5100. Plant 6: 162: 2400, 174: 2080, 186: 1940, 198: 1680.
+
+Key by hand. Plants 1, 4 and 6 have four alleles, one copy each, so for equal copy number the 150 bp peak is about 1.5 times and the 174 bp peak about 1.24 times the 198 bp peak. Plant 5: 3940/1.5 = 2630, 3250/1.24 = 2620, 5100, so 150/174/198/198. Plant 2: the 150 bp peak is cut off at about 8200 RFU, so its height is a lower limit. Two copies would give 1.5 x 5490 = 8200 RFU, a peak that only touches the limit. Three copies would give 24700 RFU, and a Gaussian with sigma 0.25 bp cut at one third of its height has a flat top of 2 x 0.25 x sqrt(2 ln 3) = 0.74 bp, as drawn. So plant 2 is 150/150/150/198. With alpha = 0.13: plant 2 gives 150/198 at 0.435 and 198/198 at 0.0325; plant 5 gives 174/198 at 0.29 and 150/174 at 0.145. Fraction = 0.29 x 0.435 + 0.145 x 0.0325 = 0.1309, so 0.131.
+
+The most tempting wrong answer is 0.199. It takes the recorded 8200 RFU as the height of the peak, so plant 2 has two copies of each allele (150/198 at 0.58, 198/198 at 0.21): 0.29 x 0.58 + 0.145 x 0.21 = 0.199.
+
+Check with Python (standard library):
+from fractions import Fraction as F
+from itertools import combinations
+def gam(ch, a):
+    g = {}
+    for c in ch: g[(c, c)] = g.get((c, c), 0) + a / 4
+    for x, y in combinations(ch, 2):
+        k = tuple(sorted((x, y))); g[k] = g.get(k, 0) + (1 - a) / 6
+    return g
+def frac(p2, p5, a=F(13, 100)):
+    return sum(p * q for x, p in gam(p2, a).items() for y, q in gam(p5, a).items() if (x + y).count(150) == 1 and (x + y).count(174) == 1)
+print(float(frac([150, 150, 150, 198], [150, 174, 198, 198])), float(frac([150, 150, 198, 198], [150, 174, 198, 198])))
+It prints 0.1308625 and 0.19865.
+
+The uploaded notes contain the model, the key and a program that reads the image file back.
