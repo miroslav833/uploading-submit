@@ -1,0 +1,32 @@
+The answer cannot be looked up, because m is an invented mutation and the genotypes of the cells are in the figure only. The method is the mosaic analysis of Tomlinson and Ready (1987) and Reinke and Zipursky (1988): cells are marked one by one with white+ pigment granules, and a cell is needed if it is never mutant in an ommatidium of normal phenotype. The names of the rhabdomeres (R3 at the polar tip of the trapezoid, R1 to R3 anterior, mirror image across the equator) are shown in Zheng, Zhang and Carthew (1995). Tomlinson and Struhl (2001) is the source of the expectation that R1 and R6 signal to R7.
+
+Read from the figure. Dorsal ommatidia (1 to 6): R1 lower left, R2 middle left, R3 upper left, R4 upper right, R5 middle right, R6 lower right. Ventral ommatidia (7 to 12): R1 upper left, R2 middle left, R3 lower left, R4 lower right, R5 middle right, R6 upper right. Cells without a granule:
+1: R2, R3 (R7 present)
+2: R4 (R7 absent)
+3: R5 (R7 present)
+4: R3, R5, R7 (R7 present)
+5: R1 (R7 absent)
+6: R7 (R7 present)
+7: R2 (R7 present)
+8: R6 (R7 absent)
+9: R2, R5, R7 (R7 present)
+10: R3 (R7 present)
+11: R1, R2 (R7 absent)
+12: R3, R5 (R7 present)
+
+Key by hand. In the eight ommatidia with R7 the cells R2, R3, R5 and R7 are each mutant at least three times, so none of them is needed. R1, R4 and R6 always have a granule there. Ommatidia 2, 5 and 8 lack R7 with a single mutant cell each, R4, R1 and R6, so all three are needed. The set is R1, R4, R6.
+
+The most tempting wrong answer is R1, R6, the pair that flanks R7 and signals to it in the published work. It is ruled out by ommatidium 2 alone: R1 and R6 have their granules, only the upper right rhabdomere (R4) has none, and the central rhabdomere is missing. Numbering the ring the wrong way round gives R1, R3, R6. Using the dorsal names on the ventral ommatidia leaves R4, R6 and fits no set.
+
+Check with Python (standard library):
+from itertools import combinations
+C = ["R1", "R2", "R3", "R4", "R5", "R6", "R7"]
+neg = {1: "R2 R3", 2: "R4", 3: "R5", 4: "R3 R5 R7", 5: "R1", 6: "R7", 7: "R2", 8: "R6", 9: "R2 R5 R7", 10: "R3", 11: "R1 R2", 12: "R3 R5"}
+noR7 = {2, 5, 8, 11}
+for k in range(1, 8):
+    for S in combinations(C, k):
+        if all((not set(S) & set(neg[i].split())) == (i not in noR7) for i in neg):
+            print(S)
+It prints ('R1', 'R4', 'R6') and nothing else.
+
+The uploaded notes contain the layout, the key and a program that reads the same table back from the image file, at full size and reduced to 60 percent.
