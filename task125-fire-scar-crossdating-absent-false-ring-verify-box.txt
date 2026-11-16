@@ -1,0 +1,21 @@
+The answer cannot be looked up. The papers below describe cross-dating, the dating of fire scars on ponderosa pine, false rings and locally absent rings. The years depend on the rings drawn in the figure.
+
+Rings read from panel a, widths in mm from the bark inwards, every dark line taken as a boundary (58 rings): 0.75, 0.96, 0.45, 1.29, 1.16, 0.99, 1.07, 0.70, 1.01, 1.07, 0.34, 0.97, 0.76, 0.42, 1.27, 0.88, 0.50, 1.24, 0.97, 1.54, 1.17, 1.15, 0.79, 1.26, 0.74, 1.03, 1.15, 0.55, 1.13, 1.40, 1.60, 1.65, 1.76, 1.11, 1.34, 1.54, 0.40, 1.31, 1.58, 1.65, 1.10, 0.69, 1.09, 1.03, 1.72, 1.80, 1.80, 0.58, 1.63, 1.77, 2.49, 2.32, 0.69, 2.25, 1.59, 1.36, 1.67, 2.27. Scars 1, 2, 3 lie in rings 33, 21 and 9 of this list. Rings 25 and 26 are the two parts of one ring split by the diffuse band.
+Index of panel b from 1899 back to 1842: 0.76, 1.06, 0.42, 1.35, 1.23, 1.16, 1.09, 0.72, 1.00, 1.05, 0.38, 0.94, 0.85, 0.48, 1.25, 0.94, 0.45, 1.15, 0.62, 0.80, 1.40, 1.00, 1.12, 0.70, 1.05, 1.45, 0.95, 0.40, 0.84, 0.95, 1.29, 1.19, 1.32, 0.89, 1.09, 1.04, 0.35, 1.10, 1.00, 1.02, 0.84, 0.40, 0.72, 0.72, 1.13, 1.12, 1.09, 0.38, 1.06, 1.11, 1.11, 1.24, 0.44, 1.20, 0.91, 0.80, 0.93, 0.98.
+
+Key by hand. The ring under the bark is 1899. The nine narrow rings (rings 3, 11, 14, 17, 28, 37, 42, 48, 53) fall on the nine narrow years (1897, 1889, 1886, 1883, 1872, 1863, 1858, 1852, 1847) in a plain count. The band at 47.0 mm fades on both sides, so rings 25 and 26 are one ring of 1.77 mm, 1874. Then nine rings remain for the ten years 1873 to 1882: 1.15, 1.77, 1.26, 0.79, 1.15, 1.17, 1.54, 0.97, 1.24 mm against indices 0.95, 1.45, 1.05, 0.70, 1.12, 1.00, 1.40, 0.80, 0.62, 1.15. The first five fit 1873 to 1877 (width over index 1.21, 1.22, 1.20, 1.13, 1.03) and the last four fit 1878, 1879, 1880, 1882 (1.17, 1.10, 1.21, 1.08); 1881 is absent. Scar 1 is the fourth ring outside the 1863 ring, 1867. Scar 2 is the sixth ring outside the 1872 ring, 1878. Scar 3 is the ninth ring from the bark, 1891.
+
+The most tempting wrong answer is 1867, 1879, 1891, from a plain count from the bark, which agrees with all nine marker years. It gives the four rings from scar 2 outwards width over index of 0.84, 1.93, 1.56, 1.08.
+
+Check with Python (standard library): the nine rings between the markers of 1872 and 1883, band not counted, against the ten years 1873 to 1882 with each year in turn left out; scar 2 is in the sixth ring.
+W = [1.15, 1.77, 1.26, 0.79, 1.15, 1.17, 1.54, 0.97, 1.24]
+I = [0.95, 1.45, 1.05, 0.70, 1.12, 1.00, 1.40, 0.80, 0.62, 1.15]
+def corr(a, b):
+    n = len(a); ma = sum(a) / n; mb = sum(b) / n
+    return sum((x - ma) * (y - mb) for x, y in zip(a, b)) / (sum((x - ma) ** 2 for x in a) * sum((y - mb) ** 2 for y in b)) ** 0.5
+for miss in range(10):
+    yrs = [1873 + k for k in range(10) if k != miss]
+    print(1873 + miss, round(corr(W, [I[y - 1873] for y in yrs]), 3), "scar 2 in", yrs[5])
+It prints a correlation of 0.962 for 1881 absent, 0.930 for 1880, 0.822 for 1882 and 0.697 for 1879, all with scar 2 in 1878, and at most 0.595 for an absent year from 1873 to 1878, which would put scar 2 in 1879.
+
+Sources: A. E. Douglass, J. For. 39, 825 (1941); J. H. Dieterich and T. W. Swetnam, For. Sci. 30, 238 (1984); C. H. Baisan and T. W. Swetnam, Can. J. For. Res. 20, 1559 (1990); R. Wimmer, G. Strumia and F. Holawe, Can. J. For. Res. 30, 1691 (2000); S. St. George, T. R. Ault and M. C. A. Torbenson, Geophys. Res. Lett. 40, 3727 (2013). The uploaded notes contain the model, the ring list, the key and a program that reads the image file back.
