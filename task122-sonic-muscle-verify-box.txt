@@ -1,0 +1,23 @@
+The answer cannot be looked up. The papers below describe the two ways in which paired sonic muscles work: together, so that the fundamental of the call equals the twitch rate (toadfish), or in turn, so that the sound has twice the twitch rate of one muscle (searobin). The number depends on the lines drawn in the figure.
+
+Lines read from the figure, all between 0.2 s and 1.1 s:
+dark: 170, 340 (strongest), 510, 680, 850 Hz
+faint: 255 Hz and 425 Hz, half way between dark lines, about 30 dB below the 340 Hz line; a fainter one at 85 Hz
+The faint lines are about 6.5 dB above the mean background. They show as thin gray stripes when the picture is enlarged, and the notes find each of them in the image file at 15 or more times its error (the 85 Hz line at 6 times).
+
+Key by hand. Dark lines 170 Hz apart: 170 sound pulses per second. Faint lines at odd multiples of 85 Hz: the sound repeats exactly only 85 times per second, so two unlike pulses make one period, one from the left and one from the right muscle. Each muscle twitches at 170/2 = 85 Hz. Twitches of both muscles at the same instant are ruled out: at 170 Hz they give no line at 255 or 425 Hz, at 85 Hz they give lines there as strong as the neighbours.
+
+The most tempting wrong answer is 170. It comes from the dark lines alone with the rule that the fundamental equals the twitch rate.
+
+Check with Python (standard library):
+from math import gcd
+strong = [170, 340, 510, 680, 850]; weak = [85, 255, 425]
+g = 0
+for f in strong + weak: g = gcd(g, f)
+h = 0
+for f in strong: h = gcd(h, f)
+print(g, h, h // g)
+for n in range(1, 7): print(n * g, "strong" if n % 2 == 0 else "weak", abs(1 + (-1) ** n * 0.9) / 1.9)
+It prints 85 170 2, then the six lines with relative amplitudes 0.053 for the odd and 1.0 for the even multiples of 85 Hz.
+
+Sources: M. A. Connaughton, J. Exp. Biol. 207, 1643 (2004); A. H. Bass and R. Baker, Brain Behav. Evol. 38, 240 (1991); C. R. Skoglund, J. Biophys. Biochem. Cytol. 10 (suppl.), 187 (1961); M. L. Fine et al., J. Comp. Physiol. A 187, 371 (2001). The uploaded notes contain the model, the key, a direct sum over the pulse train and a program that reads the lines back from the image.
