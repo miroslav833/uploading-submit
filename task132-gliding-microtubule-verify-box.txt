@@ -1,0 +1,22 @@
+The answer cannot be looked up. The papers below give what is needed: kinesin-1 moves a microtubule with its minus end leading, both ends grow in free tubulin with GTP, and an uneven label along the lattice (speckles) marks the lattice. The number depends on the lines in the figure.
+
+Read from the figure (um at t = 0 and at t = 120 s):
+left edge of the band (trailing end, plus end): 1.20 -> 5.36, 34.7 nm/s
+right edge of the band (leading end, minus end): 6.20 -> 12.94, 56.2 nm/s
+streaks inside the band (lattice): the clearest bright streak 4.34 -> 9.95, 46.75 nm/s; other bright streaks 3.06 -> 8.67, 3.54 -> 9.15 and 5.06 -> 10.67, all with the same displacement of 5.61 um
+The streaks are faint, a few gray levels on a band of about 215. They show when the picture is enlarged and looked at along the direction of the band, and the notes find their speed from the image file with no streak chosen by hand (46.7 nm/s at full size and at 80 percent).
+
+Key by hand. Plus-end growth = lattice - trailing end = 46.75 - 34.67 = 12.1 nm/s. A 13-protofilament microtubule has 13 dimers per 8 nm, 1.625 per nm. 12.1 x 1.625 = 19.6, so 20 dimers per second to the nearest 5. The key holds for a lattice displacement of 5.45 to 5.82 um in 120 s.
+
+The most tempting wrong answer is 35. It comes from the two edges alone with the lattice taken to move with the leading end: (56.2 - 34.7) x 1.625 = 34.9. Splitting the lengthening by a textbook ratio of the two ends gives 25.
+
+Check with Python (standard library):
+trail = (1.20, 5.36); lead = (6.20, 12.94); streak = (4.34, 9.95)
+v = lambda p: (p[1] - p[0]) * 1000 / 120
+plus = v(streak) - v(trail)
+print(round(v(trail), 1), round(v(streak), 1), round(v(lead), 1))
+print(round(plus * 13 / 8, 1), 5 * round(plus * 13 / 8 / 5))
+print(round((v(lead) - v(trail)) * 13 / 8, 1))
+It prints 34.7 46.8 56.2, then 19.6 20, then 34.9.
+
+Sources: C. M. Waterman-Storer and E. D. Salmon, Biophys. J. 75, 2059 (1998); R. D. Vale, T. S. Reese and M. P. Sheetz, Cell 42, 39 (1985); R. A. Walker et al., J. Cell Biol. 107, 1437 (1988); J. Howard, A. J. Hudspeth and R. D. Vale, Nature 342, 154 (1989). The uploaded notes contain the model, the key and a program that reads the ends and the lattice speed back from the image.
