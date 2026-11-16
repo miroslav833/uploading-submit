@@ -1,0 +1,15 @@
+The value cannot be looked up, because it depends on the traces in the figure. The method is one-dimensional current source density analysis (Nicholson and Freeman 1975; Mitzdorf 1985). The treatment of the first contact follows Vaknin, DiScenna and Teyler (1988), and the boundary at the cortical surface is discussed by Pettersen et al. (2006).
+
+Read from the figure, potential at t0 in mV from the baseline, contacts at 0, 50, ... 750 um: -0.478, -0.260, -0.145, -0.215, -0.368, -0.595, -0.792, -0.860, -0.864, -0.882, -0.895, -0.865, -0.788, -0.674, -0.541, -0.409. Measured on the image file the values agree within 0.02 mV.
+
+Key by hand. Second differences v(z+h) - 2 v(z) + v(z-h) for 50 to 700 um: -0.103, -0.185, -0.083, -0.074, +0.030, +0.129, +0.064, -0.014, +0.005, +0.043, +0.047, +0.037, +0.019, -0.001 mV. A sink has a positive value, the largest is +0.129 mV at 300 um. At the pia the potential rises by 0.218 mV to the second contact. No current crosses the pia (nothing above it takes up current, and with uniform planes nothing flows sideways), so the gradient at the surface is zero and the second difference there is 2 x 0.218 = 0.436 mV, or 0.218 mV if the potential above the first contact is held at its value. Both are larger than 0.129 mV, so the strongest sink is at 0 um.
+
+The most tempting wrong answer is 300 um: only the fourteen contacts with two neighbours are scored. The sources at 50 to 200 um (sum -0.445 mV) then exceed all sinks below them (sum +0.374 mV) and the step at the surface has no explanation. A reading of the largest negativity gives 500 um.
+
+Check with Python (standard library):
+v = [-0.478,-0.260,-0.145,-0.215,-0.368,-0.595,-0.792,-0.860,-0.864,-0.882,-0.895,-0.865,-0.788,-0.674,-0.541,-0.409]
+d = [v[i+1] - 2*v[i] + v[i-1] for i in range(1, 15)]
+print(max(d), 50 * (1 + d.index(max(d))), 2 * (v[1] - v[0]), v[1] - v[0], 50 * v.index(min(v)))
+It prints 0.129 at 300, then 0.436 and 0.218 for the surface contact, and 500 for the largest negativity.
+
+The uploaded notes contain the model, all values and the program that measures the traces in the image file.
