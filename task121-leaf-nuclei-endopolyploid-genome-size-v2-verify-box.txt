@@ -1,0 +1,16 @@
+The value cannot be looked up, because it depends on the histogram in the figure. The method is the standard one of Dolezel, Greilhuber and Suda (2007), who also warn that in endopolyploid tissue the 2C peak can be small and the largest peak need not be 2C. Barow and Meister (2003) show how common endopolyploid leaves are, and Dolezel et al. (2003) give 1 pg = 978 Mbp.
+
+Read from the figure. Standard (pea, 2C) at channel 400. Dominant peak of the herb centred at channel 239.5, highest channel 892 events. Low peak centred at channel 479. Events per channel from channel 100 to 139: 49, 70, 71, 48, 45, 60, 56, 56, 48, 64, 55, 54, 53, 49, 57, 51, 77, 72, 76, 69, 69, 69, 62, 64, 53, 56, 54, 34, 49, 40, 45, 34, 39, 39, 49, 37, 34, 31, 58, 43. Channels 116 to 123 stand at 62 to 77 events between neighbours of about 50 to 55 before and 34 to 56 after.
+
+Key by hand. Channels 113 to 126 hold 878 events against 681 expected from the debris curve, an excess of about 200 events (7.5 standard deviations) centred near channel 120, half of 239.5. A peak of this width is a population of intact nuclei, and a leaf of a diploid has no nuclei below 2C. So channel 120 is 2C, 239.5 is 4C and 479 is 8C. 2C = 9.09 x (239.5 / 2) / 400 = 2.72 pg, 1C = 1.36 pg x 978 = 1331 Mbp, to the nearest 10 Mbp 1330.
+
+The most tempting wrong answer is 2660 Mbp (2670 with the peak read at channel 240): the dominant peak is taken as 2C, the peak at 479 as its G2 phase and the events near channel 120 as debris. 2C = 9.09 x 239.5 / 400 = 5.44 pg, 1C = 2.72 pg = 2660 Mbp.
+
+Check with Python (standard library):
+h = [49,70,71,48,45,60,56,56,48,64,55,54,53,49,57,51,77,72,76,69,69,69,62,64,53,56,54,34,49,40,45,34,39,39,49,37,34,31,58,43]
+left, right, mid = sum(h[8:16]) / 8, sum(h[24:32]) / 8, sum(h[16:24]) / 8
+print(left, mid, right)
+print(round(9.09 * (239.5 / 2) / 400 / 2 * 978, -1), round(9.09 * 239.5 / 400 / 2 * 978, -1))
+It prints 53.875 69.75 45.625, so the eight channels from 116 to 123 lie above both neighbouring stretches, and then 1330.0 and 2660.0.
+
+The uploaded notes contain the counts of all 640 channels, the fit of the debris, the key and a program that measures the histogram in the image file.
