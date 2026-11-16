@@ -1,0 +1,14 @@
+The answer cannot be looked up. It depends on the bands drawn in the figure. The papers below describe CHEF karyotypes of diploid yeasts, homologues of different length and bands that hold more than one chromosome.
+
+Bands of lane 8 as read from the figure (size, copies of chromosomes in the band): 3.18 Mb, 2; 2.86 Mb, 3; 2.61 Mb, 1; 2.38 Mb, 4; 2.17 Mb, 1; 1.98 Mb, 2; 1.79 Mb, 3; 1.58 Mb, 4; 1.41 Mb, 2; 1.22 Mb, 3; 1.07 Mb, 1; 0.91 Mb, 2; 0.80 Mb, 2. The copies are band darkness divided by band size, in units of the same ratio for the marker lane, where every band is one chromosome of a haploid strain and all plugs hold the same number of cells.
+
+Key by hand. Copies add to 30, an even number, so 15 chromosomes per haploid set. DNA per G1 cell = 2 x 3.18 + 3 x 2.86 + 1 x 2.61 + 4 x 2.38 + 1 x 2.17 + 2 x 1.98 + 3 x 1.79 + 4 x 1.58 + 2 x 1.41 + 3 x 1.22 + 1 x 1.07 + 2 x 0.91 + 2 x 0.80 = 55.86 Mb. Half of it is 27.93 Mb.
+
+The most tempting wrong answer is 23.96 Mb, the sum of the 13 printed band sizes with one chromosome counted per band.
+
+Check with Python (standard library):
+b = [(3.18,2),(2.86,3),(2.61,1),(2.38,4),(2.17,1),(1.98,2),(1.79,3),(1.58,4),(1.41,2),(1.22,3),(1.07,1),(0.91,2),(0.8,2)]
+print(sum(c for s, c in b), round(sum(s * c for s, c in b) / 2, 2), round(sum(s for s, c in b), 2))
+It prints 30 27.93 23.96.
+
+Sources: G. Chu, D. Vollrath and R. W. Davis, Science 234, 1582 (1986); E. P. Rustchenko-Bulgac, J. Bacteriol. 173, 6586 (1991); W. S. Chu, B. B. Magee and P. T. Magee, J. Bacteriol. 175, 6637 (1993); M. E. Zolan, Microbiol. Rev. 59, 686 (1995). The uploaded notes contain the model, the band table, the key and a program that measures every band in the image file.
