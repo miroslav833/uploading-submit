@@ -1,0 +1,24 @@
+The answer cannot be looked up. Erickson and Klug (1971) and Rohou and Grigorieff (2015) give the contrast transfer function with defocus, spherical aberration and amplitude contrast. Dubochet et al. (1988) give the reflections of hexagonal ice at 0.390, 0.367 and 0.344 nm. The number depends on the rings and spots drawn in the figure.
+
+Read from the figure (1600 x 1600 px, centre at 799.5, 799.5, Nyquist 800 px from the centre):
+sharp spots: 6 at a radius of 453.4 px, 6 at 481.9 px, 8 at 514.1 px; ratios 0.941 : 1 : 1.067, as for 3.90, 3.67 and 3.44 Å
+pixel size from the spots: 3.90 x 453.4 / 1600 = 3.67 x 481.9 / 1600 = 3.44 x 514.1 / 1600 = 1.105 Å (nominal 1.05 Å)
+dark rings at 136.7, 194.4, 239.0, 276.6, 309.9, 340.5, 368.4, 394.7, 419.6, 443.4, 466.1, 488.0, 508.9, 529.3, 549.1 px
+the 3.44 Å spots lie between the 13th and the 14th dark ring, a quarter of the way out
+
+Key by hand. Wavelength 0.019687 Å, half of Cs times wavelength cubed 103.0 Å^4, phase offset 0.022 of pi. At the 3.44 Å spots the order is 13.25, so the defocus is (13.25 - 0.022 + 103.0 / 3.44^4) x 3.44^2 / 0.019687 = 8390 Å. At 1/2.80 Å the order is 0.019687 x 8390 / 2.80^2 - 103.0 / 2.80^4 + 0.022 = 19.41, so 19 zeros lie inside. The count is 19 for any order between 12.97 and 13.63 at the 3.44 Å spots.
+
+The most tempting wrong answer is 18. It comes from the first dark ring read at about 140 px, where it lies at 136.7 px: on the real scale that gives a defocus of 0.80 µm and an order of 18.4 at 1/2.80 Å. A defocus of 0.80 µm would put only 12 dark rings inside the 3.44 Å spots (order 12.6), and the figure has 13. The nominal pixel of 1.05 Å gives 7650 Å and 17. The real scale without spherical aberration gives 20.
+
+Check with Python (standard library):
+from math import floor
+lam, c, a = 0.019687, 103.0, 0.022
+N = 13 + (514.1**2 - 508.9**2) / (529.3**2 - 508.9**2)
+dz = (N - a + c / 3.44**4) * 3.44**2 / lam
+n0 = lam * dz / 2.80**2 - c / 2.80**4 + a
+print(round(N, 2), round(dz), round(n0, 2), floor(n0))
+for d in (8000, 7650):
+    print(d, round(lam * d / 3.44**2 - c / 3.44**4 + a, 2), floor(lam * d / 2.80**2 - c / 2.80**4 + a))
+It prints 13.25 8392 19.42 19, then 8000 12.59 18 and 7650 12.01 17.
+
+The uploaded notes contain the model, the key and a program that finds the spots and the dark rings in the image file, at full size and at half size.
