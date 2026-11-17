@@ -1,0 +1,13 @@
+The answer rests on facts that are in the literature. In dicotyledons such as Pelargonium the mesophyll of the leaf margin comes from L2 and the inner tissue of the centre from L3 (Stewart, Semeniuk and Dermen 1974), so a white-margined pelargonium has a white L2; plastids pass through egg and pollen (Tilney-Bassett 1970), and such a plant gives only white seedlings when selfed. In monocotyledons L1 forms the mesophyll of the leaf margin (Stewart and Dermen 1979). For Hosta this was shown with ploidy chimeras: the margin has the DNA content of L1, and gametes and seedlings derive from L2, which is the reason given for the seedlings following the colour of the centre of the leaf (Zonneveld and Van Iren 2000; Zonneveld 2007).
+
+Key by hand. Gametes come from L2. Hosta: A (white margin) is white in L1, L2 green; B (white centre) has a white L2. Plastids come from the egg only, so every seedling is white when B is the seed parent: crosses 3 and 5. Pelargonium: C (white margin) has a white L2, D (white centre) a green L2 over a white L3. Plastids come from both gametes, so every seedling is white only when both parents have a white L2: cross 9, C selfed. Crosses 6 and 8 give green, variegated and white seedlings together. Answer 3, 5, 9.
+
+The most tempting wrong answer is 1, 4, 9. It reads the white margin of the Hosta sport as L2, as in a dicotyledon, and so takes A for the plant whose eggs carry defective plastids.
+
+Check with Python (standard library):
+L2 = {"H": "G", "A": "G", "B": "W", "P": "G", "C": "W", "D": "G"}
+X = ["AH", "HB", "BA", "AA", "BH", "CP", "PD", "DC", "CC", "DP"]
+print([i + 1 for i, c in enumerate(X) if L2[c[0]] == "W" and (i < 5 or L2[c[1]] == "W")])
+It prints [3, 5, 9]. With A and B exchanged in the first line it prints [1, 4, 9].
+
+The uploaded notes hold a program that derives L2 of each plant from the leaf pattern under each reading.
