@@ -1,0 +1,15 @@
+The answer cannot be looked up, because it depends on the two lengths drawn in the figure. The papers below describe the pulse-chase method, in which the band of label moves away from the base of the outer segment as discs are added behind it, and the rate of disc formation follows from the displacement and the disc repeat.
+
+Readings from the image file (3400 x 900 pixels). Scale bar 251 pixels for 1 um (3.98 nm per pixel). The outer segment starts at x = 759 to 760 pixels, where the thin connecting cilium (34 pixels half width) ends, and its tip is at x = 3250. The discs are dark lines 5.0 pixels apart across the whole stack (an autocorrelation along the stack in a stretch without grains gives 4.99 pixels, 19.9 nm); the lines are faint against the grain and run together at a reduced view, so the figure has to be viewed at full size. Of the 69 silver grains 64 lie over the outer segment, with mean x about 2570 pixels and a spread of about 125 pixels, and 5 lie over the inner segment.
+
+Key by hand. Displacement of the band d = (2570 - 760) x 3.98 nm = 7.2 um. Discs made in 96 hours N = 7200 nm / 20 nm = 360. Per day 360 / 4 = 90, to the nearest 10 again 90.
+
+The most tempting wrong answer is 60, from a disc repeat of 28 to 32 nm (the value often quoted for rod discs): 7200 / 28 / 4 = 64 and 7200 / 32 / 4 = 56. Measuring to the front of the band (x = 2820) gives 102 and measuring from the end of the inner segment (x = 560) gives 100.
+
+Check with Python (standard library):
+d_nm = (2570 - 760) * 3.98
+for s in (20, 28, 32):
+    print(s, round(d_nm / s / 4, 1))
+It prints 20 90.0, 28 64.3 and 32 56.2 (about; the first line is the key).
+
+Sources: R. W. Young, J. Cell Biol. 33, 61 (1967); M. M. LaVail, J. Cell Biol. 58, 650 (1973); B. M. Kevany and K. Palczewski, Physiology 25, 8 (2010). The uploaded notes contain the drawing program, the key and a program that reads the image file back.
