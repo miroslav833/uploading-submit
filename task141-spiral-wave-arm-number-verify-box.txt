@@ -1,0 +1,25 @@
+The answer cannot be looked up. Tomchik and Devreotes (1981) and Siegert and Weijer (1989) describe the spiral waves of cAMP and of cell movement round an aggregation centre and how period, spacing and speed are measured in dark-field recordings. Vasiev, Siegert and Weijer (1997) describe spirals with several arms in Dictyostelium. The value comes from the figure and from one line of kinematics: a pattern with N arms that turns once in T brings a front to a fixed cell every T/N.
+
+Read from the figure (image 1700 x 1400 px, x to the right, y downwards):
+scale bar 401 px for 10 mm, 40.1 px per mm
+centre of the aggregate at x 905, y 655, mean radius 63 px
+fronts on four rays, distance from the centre in px
+to the right: 114 156 196 234 284 332 387 439 479 522 561 599
+upwards: 107 147 189 240 280 330 368 407 453 495 540 589 633
+to the left: 133 173 215 260 318 368 412 457 497 534 579 622
+downwards: 129 170 213 256 299 352 390 432 475 524 573 616
+median spacing along a radius 45 px = 1.12 mm
+
+Key by hand. The front at 234 px on the right-hand ray, followed anticlockwise, is the front at 280 px on the upward ray, at 318 px on the left, at 352 px on the downward ray and at 387 px back on the right. The right-hand ray has the fronts at 284 and 332 px between 234 and 387, so one turn moves a front out by three fronts: three arms. One turn takes 360/30 = 12 min, and 12/3 = 4 min. The front at 332 px goes through 368, 412, 432 to 479 px, again with two fronts (387, 439) in between.
+
+The most tempting wrong answer is 12. It takes the pattern for a single spiral, one front per turn. A single spiral would move a front out by one spacing per turn, 11 px per quarter turn, where the figure shows 34 to 46 px. Two arms give 6 min, four arms 3 min.
+
+Check with Python (standard library):
+right = [114, 156, 196, 234, 284, 332, 387, 439, 479, 522, 561, 599]
+for start, end in ((234, 387), (332, 479)):
+    n = right.index(end) - right.index(start)
+    print(start, end, n, 360 / 30 / n)
+print([b - a for a, b in zip([234, 280, 318, 352], [280, 318, 352, 387])])
+It prints 234 387 3 4.0, then 332 479 3 4.0, then the quarter-turn steps [46, 38, 34, 35].
+
+The uploaded notes contain the model, the key and a program that finds the fronts in the image file, follows six of them once round the centre and also follows the phase of the fronts round three circles; each gives three.
