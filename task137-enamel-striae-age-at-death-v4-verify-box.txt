@@ -1,0 +1,14 @@
+You won't find this answer in a paper. The papers below give the method, daily cross-striations, Retzius lines at a fixed number of days within one person and the neonatal line as the mark of birth. The age itself depends on the lines drawn in this figure.
+
+Positions are x in px from the left edge of the image, with 200 px to 100 um. Enamel-dentine junction is at x = 90 and the surface at x = 1958. The neonatal line, darkest of all, is at x = 200, which is 55 um from the junction. Two Retzius lines come before it, at x = 105 and 162. After it there are 23, at x = 222, 284, 347, 412, 479, 547, 617, 688, 761, 835, 911, 988, 1067, 1147, 1228, 1310, 1394, 1479, 1565, 1653, 1742, 1832 and 1923. Each of the 22 gaps between neighbouring Retzius lines holds 10 dark cross-striations, so 11 daily steps. From the neonatal line to the first Retzius line is 4 daily steps (22 px at 5.5 px a day), and from the last Retzius line to the surface another 4 (35 px at 8.4 px a day).
+
+By hand that's 4 + 22 x 11 + 4 = 250 days.
+
+If the cross-striations aren't counted and the commonest human value of 9 days is taken, 23 Retzius lines plus 4 days give 210 days. With 8 days it's 180 to 190. You can check the 11 without counting single striations. Retzius lines are 31 um apart near the neonatal line and 46 um apart near the surface, the cross-striations there are 2.8 and 4.1 um apart, and the ratio is 11 at both ends. Counting from the junction gives 270 days, because 21 days of enamel were made before birth.
+
+A few lines of standard-library Python check it.
+lines = [222, 284, 347, 412, 479, 547, 617, 688, 761, 835, 911, 988, 1067, 1147, 1228, 1310, 1394, 1479, 1565, 1653, 1742, 1832, 1923]
+print(4 + (len(lines) - 1) * 11 + 4, 4 + (len(lines) - 1) * 9 + 4, len(lines) * 9 + 4)
+It prints 250 206 211.
+
+Uploaded notes have the growth record, the key and a program that counts the lines in the image file.
