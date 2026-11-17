@@ -1,0 +1,15 @@
+The list cannot be looked up, because it depends on the cells in the figure. The physiology is standard. Flock (1964) showed that the kinocilium side of the bundle gives the direction of excitation, Shotwell, Jacobs and Hudspeth (1981) measured the cosine rule, and Fernandez and Goldberg (1976) and Angelaki et al. (2004) treat the otolith organs as sensors of gravity minus linear acceleration. The gap in the spectrin label of the cuticular plate at the kinocilium (the fonticulus) is the usual polarity mark in work on planar polarity of the inner ear (Deans et al., 2007).
+
+Read from the figure. Angle of the fonticulus of each numbered cell from the centre of its plate, counterclockwise from medial (image right), in degrees: cell 1, 95; cell 2, 72; cell 3, 284; cell 4, 196; cell 5, 350; cell 6, 315; cell 7, 146; cell 8, 144; cell 9, 132; cell 10, 286; cell 11, 319; cell 12, 323; cell 13, 272; cell 14, 144; cell 15, 324; cell 16, 106; cell 17, 195; cell 18, 108; cell 19, 266; cell 20, 8. The program in the notes measures the same angles in the image file to within 2 degrees.
+
+Key by hand. Gravity along the macula: 9.81 sin 25 = 4.146 m/s2 towards anterior. Acceleration 60 degrees to the left of the nose: 4.0 cos 60 cos 25 = 1.813 m/s2 along anterior and 4.0 sin 60 = 3.464 m/s2 towards the left. The otoconial layer lags, so the inertial force is 1.813 towards posterior and 3.464 towards the right, which is medial in a left utricle. Net force: 2.333 anterior and 3.464 medial, 4.18 m/s2 at 34.0 degrees. Depolarised cells have the fonticulus within 90 degrees of this direction, between 304 and 124 degrees: cells 1, 2, 5, 6, 11, 12, 15, 16, 18, 20. The nearest cells are 9 (132 degrees, 8 outside the limit at 124) and 6 (315 degrees, 11 inside the limit at 304).
+
+The most tempting wrong answer is 3, 5, 6, 10, 11, 12, 13, 15, 19, 20. It follows when the pitch of the head is left out and the inertial force alone is used (1.813 posterior, 3.464 medial, 332 degrees).
+
+Check with Python (standard library):
+import math
+ang = [95,72,284,196,350,315,146,144,132,286,319,323,272,144,324,106,195,108,266,8]
+f = (4.0 * math.sin(math.radians(60)), 9.81 * math.sin(math.radians(25)) - 4.0 * math.cos(math.radians(60)) * math.cos(math.radians(25)))
+d = math.degrees(math.atan2(f[1], f[0]))
+print(round(d, 1), [i + 1 for i, a in enumerate(ang) if math.cos(math.radians(a - d)) > 0])
+It prints 34.0 [1, 2, 5, 6, 11, 12, 15, 16, 18, 20].
