@@ -1,0 +1,14 @@
+The answer cannot be looked up. It depends on the kymograph drawn in the figure. The first paper below shows that somites form faster than the tail-bud clock ticks in a shortening presomitic mesoderm (PSM), and why.
+
+What the figure holds (embryo frame, um and min). Somite boundaries form at (300, 20), (370, 55), (440, 90), (510, 125), (580, 160), (650, 195), (720, 230): one every 35.0 min, anterior end of the PSM moving at 2.0 um/min. Stripes 140 um apart, moving anteriorly at 2.0 um/min. They are bright in the 110 um behind the anterior end and faint (0.12 of that height, noise 0.10 of full scale) further back, up to the tail bud at 760 um at 0 min and 952 um at 240 min (0.8 um/min). The faint stripes and their end are best seen at full size between 700 and 1000 um.
+
+Key by hand. Period seen by an observer moving at u: T = 140/(u + 2.0). Tail bud, u = 0.8: 140/2.8 = 50.0 min. Anterior end, u = 2.0: 35.0 min (somite formation). Fixed point, u = 0: 70.0 min. Wave count: 240/35.0 - (500 - 212)/140 = 6.86 - 2.06 = 4.80 tail-bud cycles in 240 min, so 50 min.
+
+The most tempting wrong answer is 35 min, from equating the clock period with the period of somite formation, or from taking the posterior end of the bright zone, which moves with the anterior end, for the tail bud.
+
+Check with Python (standard library):
+lam, c = 140, -2.0
+for u in (0.8, 2.0, 0.0): print(u, round(lam / (u - c), 1))
+It prints 50.0, 35.0 and 70.0. The program in the uploaded notes fits the travelling wave to the PSM in image.png (136 um, -1.89 um/min), finds the posterior end of the faint stripes at 764 um + 0.78 um/min x t and gives 51 min, 50 to the nearest 5 min.
+
+Sources: D. Soroldoni et al., Science 345, 222 (2014); L. G. Morelli et al., HFSP J. 3, 55 (2009); I. Palmeirim et al., Cell 91, 639 (1997).
