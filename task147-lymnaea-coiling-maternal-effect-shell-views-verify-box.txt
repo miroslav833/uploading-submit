@@ -1,0 +1,24 @@
+The answer cannot be looked up, because the pedigree and the shells exist only in the figure. The rules are those of Sturtevant (1923) and Boycott et al. (1930), confirmed for Lymnaea stagnalis by Kuroda et al. (2009, 2016) and Davison et al. (2016): coiling is fixed by the genotype of the snail that laid the egg, D (dextral) dominant. A snail's own genotype shows in the coiling of the broods it lays. With the apex up and the aperture toward the viewer a dextral shell has its aperture on the right. A shell seen from the back shows the mirror image of that outline, but in every side view with the apex up the sutures of a dextral shell run from upper right to lower left (upper left to lower right in a sinistral one). Seen from the apex, straight or obliquely, a dextral shell grows clockwise.
+
+Read from the figure (D dextral, S sinistral, view):
+1 S back; 2 D back; 3 D from above and behind, clockwise; 4 D front, apex down; 5 D from above, clockwise; 6 S from above, apex lower left, anticlockwise; 7 D side; 8 D front, apex upper right; 9 S side, apex upper left; 10 S back, apex right; 11 S from above, apex left, anticlockwise; 12 D back, apex down; 13 S from above, apex lower right, anticlockwise; 14 S front, apex left.
+Pedigree: 1 laid eggs fertilized by 2 (brood 3, 4, 5); 2 laid eggs fertilized by 1 (brood 6); selfed broods: 3 gave 7, 8; 4 gave 9, 10; 5 gave 11; 6 gave 12; 8 gave 13; 10 gave 14.
+
+Key by hand. Brood of 1 dextral and 1 itself sinistral: 1 is Dd. Brood of 2 (6) sinistral: 2 is dd. 3, 4, 5 are Dd or dd; brood of 3 dextral, so 3 is Dd; broods of 4 and 5 sinistral, so both are dd, and their selfed offspring 9, 10, 11 are dd. 6 has a dextral brood, so 6 is Dd. 8 has a sinistral brood (13), so 8 is dd and 13 is dd; 14 is selfed from dd snail 10, so dd. 7 and 12 have no brood and come from Dd parents, so they stay open. Set: 2, 4, 5, 8, 9, 10, 11, 13, 14.
+
+The most tempting wrong answer is 1, 6, 9, 10, 11, 13, 14, the snails whose own shells are sinistral. It counts 1 and 6, which carry D because their broods are dextral, and misses 2, 4, 5 and 8, which are dextral themselves but lay sinistral broods. Reading the spiral of the shells seen from above the wrong way round makes 6, 11 and 13 dextral and leaves 4, 9, 10, 14.
+
+Check with Python (standard library):
+from itertools import product
+P = {3: (1, 2), 4: (1, 2), 5: (1, 2), 6: (2, 1), 7: (3, 3), 8: (3, 3), 9: (4, 4), 10: (4, 4), 11: (5, 5), 12: (6, 6), 13: (8, 8), 14: (10, 10)}
+C = dict(zip(range(1, 15), "SDDDDSDDSSSDSS"))
+ok = lambda c, m, f: any(sorted(a + b) == sorted(c) for a in m for b in f)
+sols = []
+for gs in product(["DD", "Dd", "dd"], repeat=14):
+    g = dict(zip(range(1, 15), gs))
+    if g[1] != "DD" and all((C[c] == "D") == ("D" in g[m]) and ok(g[c], g[m], g[f]) for c, (m, f) in P.items()):
+        sols.append(g)
+print([i for i in range(1, 15) if all(s[i] == "dd" for s in sols)])
+It prints [2, 4, 5, 8, 9, 10, 11, 13, 14] in about 15 seconds. Snail 1 cannot be DD, because it is sinistral and so its mother was dd.
+
+The uploaded notes contain the pedigree with the view of every shell, the key and a program that compares every shell in the image file with renders of both chiralities in the same view.
