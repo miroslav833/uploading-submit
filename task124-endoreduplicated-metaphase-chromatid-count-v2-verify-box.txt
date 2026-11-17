@@ -1,0 +1,16 @@
+The answer cannot be looked up. The papers below describe chromosomes with four and more chromatids after endoreduplication and the constancy of DNA per chromosome set. The number depends on what is drawn in the figure.
+
+Readings from the image file (3400 x 2500 pixels). There are 14 chromosomes, each with one centromere, centred near (x, y) = (1999, 459), (1258, 644), (2542, 682), (1625, 903), (2081, 919), (2623, 997), (1096, 1107), (670, 1321), (1693, 1336), (2783, 1358), (961, 1602), (2696, 1725), (1721, 1726), (1311, 2059). Each arm is a band 48 pixels wide. Averaged along the long arm, the gray level across the band has eight dark lines 6.0 pixels apart in every one of the 14 chromosomes. The lines are faint against the grain; they show at full size along the long arms, for example in the chromosomes at (1625, 903) and (2696, 1725).
+
+Key by hand. 14 chromosomes with 8 chromatids each are 112 chromatids. A diploid G1 nucleus has 14 chromatids in 9.4 pg, 0.6714 pg per chromatid. 112 x 0.6714 = 75.2 pg, the 16C level. The cell has gone through three S phases without separating its chromatids.
+
+The most tempting wrong answer is 18.8, from an ordinary metaphase with two chromatids per chromosome (2 x 9.4). Two chromatids would give two dark lines per arm and a band about 12 pixels wide. The figure has eight lines and a band of 48 pixels. Four chromatids (diplochromosomes) would give 37.6.
+
+Check with Python (standard library):
+chromosomes, chromatids_each, g1 = 14, 8, 9.4
+per_chromatid = g1 / 14
+print(round(chromosomes * chromatids_each * per_chromatid, 1))
+print(round(14 * 2 * per_chromatid, 1), round(14 * 4 * per_chromatid, 1))
+It prints 75.2, then 18.8 and 37.6.
+
+Sources: A. Levan and T. S. Hauschka, J. Natl. Cancer Inst. 14, 1 (1953); F. D'Amato, Caryologia 17, 41 (1964); H. Swift, Proc. Natl. Acad. Sci. USA 36, 643 (1950); B. A. Edgar and T. L. Orr-Weaver, Cell 105, 297 (2001). The uploaded notes contain the drawing program, the key and a program that reads the image file back.
