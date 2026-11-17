@@ -1,0 +1,15 @@
+The answer cannot be looked up. The papers below describe half-integer defects of the actin fibre field in Hydra and the rule that the charges on a closed surface add up to its Euler characteristic. The number depends on the field drawn in the figure.
+
+Readings from the image file (2000 x 2000 pixels, disc centre (1000, 1000), radius 930; x to the right, y down). Comet-shaped defects (+1/2) near (1010, 330), (560, 520), (1480, 560), (290, 620), (1730, 720), (1050, 900), (1780, 1000), (330, 1010), (1600, 1080), (1700, 1330), (620, 1500), (1180, 1560), (480, 1600), (1450, 1650), (1300, 1750). Three-armed defects (-1/2) near (1150, 230), (780, 760), (1330, 800), (200, 850), (860, 1130), (1620, 1420). Fibre angle at 0.95 of the radius, going clockwise on the page from 3 o'clock in steps of 5 degrees (angle from the +x axis, clockwise on the page, modulo 180), in the program below.
+
+Key by hand. Each step from one rim angle to the next, taken modulo 180 so that it lies between -90 and +90, is at most 49 degrees; the steps add up to 1620 degrees, 4.5 turns, so the half shown carries +9/2. The defects give the same: 15 x 1/2 - 6 x 1/2 = 9/2. The ball carries +2 in all, so the hidden half carries 2 - 9/2 = -5/2.
+
+The most tempting wrong answer is -2, from +4 on the half shown, when one half turn is lost on the rim next to a defect close to the edge or one comet is missed. Losing two half turns gives -3/2. Taking the two halves as alike gives +1.
+
+Check with Python (standard library):
+rim = [164, 22, 54, 81, 109, 139, 166, 0, 12, 29, 53, 90, 131, 171, 40, 78, 105, 127, 147, 166, 4, 22, 41, 61, 84, 112, 149, 9, 38, 61, 80, 97, 114, 132, 150, 168, 7, 21, 21, 16, 28, 53, 91, 123, 147, 169, 10, 30, 48, 66, 82, 99, 116, 133, 151, 164, 168, 168, 175, 7, 21, 38, 56, 76, 98, 121, 145, 174, 30, 65, 95, 126]
+turn = sum(((b - a + 90) % 180) - 90 for a, b in zip(rim, rim[1:] + rim[:1]))
+print(turn, turn / 360, 2 - turn / 360)
+It prints 1620 4.5 -2.5.
+
+Sources: Y. Maroudas-Sacks et al., Nat. Phys. 17, 251 (2021); A. Livshits et al., Cell Rep. 18, 1410 (2017); R. D. Kamien, Rev. Mod. Phys. 74, 953 (2002). The uploaded notes contain the drawing program, the key and a program that reads the image file back.
