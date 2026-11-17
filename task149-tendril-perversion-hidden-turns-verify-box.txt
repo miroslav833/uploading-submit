@@ -1,0 +1,24 @@
+The answer cannot be looked up. Goriely and Tabor (1998) and McMillen and Goriely (2002) show that a tendril with both ends fixed and no material twist has zero linking number, so its right-handed and left-handed turns are equal in number; Gerbode et al. (2012) show the same in cucumber tendrils. With several reversals of handedness the balance holds for the sum over all segments.
+
+Read from the figure (image 2200 x 1150 px, columns counted from the left):
+stem up to column 132, support wire at column 1783, leaf over columns 1177 to 1373
+reversals of handedness (short near-straight connectors) at columns 631, 1121 and 1420
+crests of the upper edge of the coil, one per turn:
+segment 1 (stem to 631): 287 341 396 450 505 559 611, 7 turns
+segment 2 (631 to 1121): 653 703 755 805 849 902 953 1006 1059, 9 turns
+segment 3 (1121 to 1420): 1148, then the leaf, then 1386
+segment 4 (1420 to the wire): 1432 1490 1550 1612 1672, 5 turns
+
+Key by hand. Segments 1 and 3 have one handedness, 2 and 4 the other. 7 + n3 = 9 + 5, so n3 = 7; with one turn visible on each side, 5 are behind the leaf, wound tighter than the visible coil.
+
+The most tempting wrong answer is 9. It applies the one-reversal rule (equal turns on both sides of a reversal) to the reversal at column 1121 alone. The same rule at column 1420 gives 5. Dividing the leaf width of 196 px by the visible pitch of about 55 px gives 3.6 hidden turns and 5 or 6 for the segment.
+
+Check with Python (standard library):
+seg1 = [287, 341, 396, 450, 505, 559, 611]
+seg2 = [653, 703, 755, 805, 849, 902, 953, 1006, 1059]
+seg4 = [1432, 1490, 1550, 1612, 1672]
+n3 = len(seg2) + len(seg4) - len(seg1)
+print(len(seg1), len(seg2), len(seg4), n3, n3 - 2)
+It prints 7 9 5 7 5: the turns of segments 1, 2 and 4, of the hidden segment, and of its part behind the leaf.
+
+The uploaded notes contain the model, the key and a program that reads these crests from the image file.
