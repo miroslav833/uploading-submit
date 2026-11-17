@@ -1,0 +1,15 @@
+The answer cannot be looked up. The papers below describe plastids with three envelope membranes and the import of their proteins by way of the endoplasmic reticulum and the Golgi apparatus. The number depends on the envelope drawn in the figure.
+
+Readings from the image file (3000 x 2000 pixels). The plastid is an ellipse about 2460 by 1120 pixels, turned by 9 degrees. Its outline is a dark band about 20 pixels wide. Averaged along the whole outline, the gray level across the band is 0.66 in the stroma, then 0.28, 0.39, 0.28, 0.39, 0.34 and 0.79 in the cytoplasm: three dark lines 6.75 to 7 pixels apart. The seven lamellae inside are bands of the same width and have three dark lines each, 7 pixels apart. The lines are faint against the grain; the envelope lines show at full size where the outline is straight, for example at the top near x = 1500, y = 440.
+
+Key by hand. Three envelope membranes and one thylakoid membrane lie between the cytosol and the thylakoid lumen: 3 + 1 = 4. By the route: ER membrane 1 (the vesicles then fuse with the outermost envelope membrane), middle and inner envelope membrane 2, thylakoid membrane 1, again 4.
+
+The most tempting wrong answer is 3, from an envelope of two membranes (2 + 1). Two lines 7 pixels apart would make a band about 13 pixels wide with one pale line in it. The figure has a band of 20 pixels with two pale lines. Four envelope membranes would give 5.
+
+Check with Python (standard library):
+envelope, thylakoid = 3, 1
+print(envelope + thylakoid, 1 + (envelope - 1) + thylakoid)
+print(2 + thylakoid, 4 + thylakoid)
+It prints 4 4, then 3 5.
+
+Sources: S. P. Gibbs, Can. J. Bot. 56, 2883 (1978); C. Sulli and S. D. Schwartzbach, J. Biol. Chem. 270, 13084 (1995); N. Nassoury, M. Cappadocia and D. Morse, J. Cell Sci. 116, 2867 (2003); P. J. Keeling, Philos. Trans. R. Soc. B 365, 729 (2010). The uploaded notes contain the drawing program, the key and a program that reads the image file back.
