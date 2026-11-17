@@ -1,0 +1,27 @@
+The answer cannot be looked up; it depends on the cells drawn in the figure. Burnham (1956) gives the rules used: alternate orientation of a ring or chain of four gives balanced gametes only, adjacent orientation gives duplication and deficiency gametes only, and two bivalents formed by the four chromosomes disjoin independently.
+
+Configurations in the sixteen cells (side view, spindle vertical):
+alternate ring of four (centromeres up, down, up, down round the ring, zigzag): cells 1, 5, 7, 10, 15
+alternate chain of four (the same zigzag, open at one junction): cells 4, 13
+adjacent ring of four (open flat ring, two neighbouring centromeres at each pole): cell 3
+adjacent ring of four turned half over (upright hourglass: upper bar two chromosomes joined end to end, both centromeres at the upper pole, lower bar the same at the lower pole, the two other links crossing in the middle): cells 9, 12, 14
+adjacent chain of four (the same open ring, broken at one junction): cell 6
+seven bivalents, no configuration of four: cells 2, 8, 11, 16
+Each cell with a configuration of four also holds five bivalents.
+
+Key by hand. Balanced share 1 for alternate, 0 for adjacent, 1/2 for seven bivalents. (7 x 1 + 5 x 0 + 4 x 1/2) / 16 = 9/16 = 56.25 %, so 56 %.
+
+The most tempting wrong answer is 69 %. The four cells with seven bivalents taken as normal meioses give (7 + 4) / 16 = 68.75 %. The three hourglass rings of cells 9, 12 and 14 taken as alternate because their links cross give (10 + 2) / 16 = 75 %. In those three rings each chromosome of the upper bar is joined to the other chromosome of the same bar, at the same pole, which is adjacent orientation whatever the crossing. In a cell with seven bivalents N1 pairs with T1 and N2 with T2, and the two bivalents disjoin independently, so half of the products carry a duplication and a deficiency. The textbook 50 % for semisterility is what the figure gives if one alternate cell is read as adjacent.
+
+Check with Python (standard library):
+from fractions import Fraction as F
+seg = {"N1": "1L 1R", "N2": "2L 2R", "T1": "1L 2R", "T2": "2L 1R"}
+ok = lambda g: sorted(" ".join(seg[c] for c in g).split()) == ["1L", "1R", "2L", "2R"]
+alt = F(ok(["N1", "N2"]) + ok(["T1", "T2"]), 2)
+adj = F(ok(["N1", "T1"]) + ok(["N2", "T2"]), 2)
+two = F(sum(ok([a, b]) for a in ("N1", "T1") for b in ("N2", "T2")), 4)
+key = (7 * alt + 5 * adj + 4 * two) / 16
+print(alt, adj, two, key, float(key) * 100)
+It prints 1 0 1/2 9/16 56.25.
+
+The uploaded notes contain the enumeration of every orientation, the list of cells read from the drawing program and the values of the other routes.
