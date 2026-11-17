@@ -1,0 +1,17 @@
+You won't find this answer in a paper. The papers below give the method, daily cross-striations, Retzius lines at a fixed number of days within one person and the neonatal line as the mark of birth. The age itself depends on the lines drawn in this figure.
+
+Positions are x in px from the left edge of the image, with 250 px to 100 um. Enamel-dentine junction is at x = 90 and the surface at x = 1887. The neonatal line, darkest of all, is at x = 207, which is 47 um from the junction. Two Retzius lines come before it, at x = 107 and 168. After it there are 23, at x = 230, 293, 358, 423, 489, 557, 625, 694, 765, 836, 908, 981, 1056, 1131, 1208, 1285, 1363, 1443, 1523, 1604, 1687, 1770 and 1855. Each of the 22 gaps between neighbouring Retzius lines holds 10 dark cross-striations, so 11 daily steps. From the neonatal line to the first Retzius line is 4 daily steps (23 px), and from the last Retzius line to the surface another 4 (32 px).
+
+By hand that's 4 + 22 x 11 + 4 = 250 days.
+
+If the cross-striations aren't counted and the commonest human value of 9 days is taken, 23 Retzius lines plus 4 days give 210 days. With 8 days it's 180 to 190. You can check the 11 without counting single striations. Retzius lines are 25 um apart near the neonatal line and 34 um apart near the surface, the cross-striations there are 2.3 and 3.1 um apart, and the ratio is 11 at both ends. Counting from the junction gives 270 days, because 21 days of enamel were made before birth.
+
+Thickness over a usual rate doesn't reach 250 either. From the neonatal line to the surface is 671 um. At 3.5 um a day that's 192 days, at 4 um 168 and at 3 um 224, so 190, 170 and 220 after rounding. This enamel grew slowly, 2.2 to 3.1 um a day, and its mean of 2.7 um can only be had from the count.
+
+A few lines of standard-library Python check it.
+lines = [230, 293, 358, 423, 489, 557, 625, 694, 765, 836, 908, 981, 1056, 1131, 1208, 1285, 1363, 1443, 1523, 1604, 1687, 1770, 1855]
+print(4 + (len(lines) - 1) * 11 + 4, 4 + (len(lines) - 1) * 9 + 4, len(lines) * 9 + 4)
+print(round(671 / 3.5), round(671 / 4.0), round(671 / 3.0))
+It prints 250 206 211 and then 192 168 224.
+
+Uploaded notes have the growth record, the key and a program that counts the lines in the image file.
