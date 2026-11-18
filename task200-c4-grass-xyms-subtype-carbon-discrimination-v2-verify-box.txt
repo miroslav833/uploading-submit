@@ -1,0 +1,15 @@
+The answer cannot be looked up. The papers below give the anatomical features of the C4 subtypes of grasses (chloroplast position in the Kranz cells, the mestome sheath) and the model for carbon isotope discrimination. The number depends on the anatomy drawn in the figure.
+
+Readings from the image file (1460 x 2230 pixels; x to the right, y down; leaf A in the top panel, leaf B in the bottom panel from y = 1130). Both leaves have a ring of small cells about 11 px deep inside the Kranz sheath (mestome sheath; thick-walled in leaf B) and a granular band of mesophyll chloroplasts just outside the Kranz sheath. Leaf A, veins near (330, 548), (790, 533), (1230, 577): the Kranz chloroplasts lie against the inner walls; darkness 0.41 to 0.46 in the inner third of the Kranz cells, 0.08 to 0.09 in the outer third, 0.48 to 0.49 just outside the sheath (mesophyll). Leaf B, veins near (330, 1684), (790, 1688), (1230, 1671): the Kranz chloroplasts lie against the outer walls; darkness 0.10 in the inner third, 0.40 to 0.43 in the outer third (verification notes, section 2). At reduced size the two leaves look alike: dark inner ring, pale Kranz cells, dark outer ring.
+
+Key by hand. Leaf A NAD-ME (phi 0.34), leaf B PCK (phi 0.30). Delta_A - Delta_B = (0.34 - 0.30) x 28.2 x 0.35 = 0.395 permil (Delta_A = 4.221, Delta_B = 3.826).
+
+The most tempting wrong answer is 0, from reading the mesophyll band outside the Kranz sheath of leaf A as centrifugal Kranz chloroplasts, so that both leaves are taken for PCK. NAD-ME against NADP-ME would give 1.38.
+
+Check with Python (standard library):
+a, b4, b3, s, r = 4.4, -5.7, 30.0, 1.8, 0.35
+D = lambda phi: a + (b4 + phi * (b3 - s) - a) * r
+print(round(D(0.34) - D(0.30), 3), round(D(0.34) - D(0.20), 3))
+It prints 0.395 1.382.
+
+Sources: P. W. Hattersley and L. Watson, Aust. J. Bot. 24, 297 (1976); T. A. B. Prendergast et al., Aust. J. Plant Physiol. 14, 403 (1987); G. D. Farquhar, Aust. J. Plant Physiol. 10, 205 (1983); P. W. Hattersley, Aust. J. Plant Physiol. 9, 139 (1982). The uploaded notes contain the drawing programs, the key and a program that reads the image file back.
