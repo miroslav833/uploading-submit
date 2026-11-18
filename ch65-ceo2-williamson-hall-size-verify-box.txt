@@ -1,0 +1,13 @@
+Key needs size and strain separated. Lorentzian profiles, so instrument, size and strain widths add.
+
+Widths read on the plotted samples (deg), with the instrument FWHM from the stem: (111) 1.814, 0.252; (220) 2.199, 0.328; (311) 2.423, 0.363; (400) 2.807, 0.416; (331) 2.995, 0.445; (422) 3.463, 0.492. Bragg angles from a = 0.5411 nm, lambda = 0.154056 nm.
+
+beta cos(theta) in rad against 4 sin(theta): 0.02642 at 0.9866, 0.02990 at 1.6105, 0.03169 at 1.8890, 0.03431 at 2.2775, 0.03490 at 2.4820, 0.03717 at 2.7896. Fit: intercept 0.02048, slope 0.0059. L = 0.94 x 0.154056 / 0.02048 = 7.07 nm, i.e. 7. Same fit on the profiles read back from the image file: 7.25 nm.
+
+Most tempting wrong answer: Scherrer on (111) alone, 5.48 nm (5). No instrument correction: 6.06 (6). Gaussian (quadratic) Williamson-Hall: 5.77 (6). None of the single or paired slips that keep K = 0.94 gives 7.
+
+Check, standard-library Python
+x=[0.9866,1.6105,1.8890,2.2775,2.4820,2.7896]; y=[0.02642,0.02990,0.03169,0.03431,0.03490,0.03717]
+n=6; mx=sum(x)/n; my=sum(y)/n; s=sum((a-mx)*(b-my) for a,b in zip(x,y))/sum((a-mx)**2 for a in x)
+print(round(0.94*0.154056/(my-s*mx),2))
+Output: 7.07
