@@ -1,0 +1,10 @@
+The list depends on the neurons in the figure and cannot be looked up. The physiology is in Knudsen and Konishi (1979) and Moiseff (1989): ITD codes azimuth, ILD codes elevation, and because the right ear of the barn owl points upward a sound from above is louder in the right ear. Tone ITD curves of owl midbrain neurons repeat with the period of the tone, and the best ITD is the peak that stays put when the frequency changes (Takahashi and Konishi 1986; Wagner, Takahashi and Konishi 1987).
+
+Neuron by neuron, the figure gives these best ITDs (the common peak of the 5.0 and 5.3 kHz curves) and best ILDs: 1: -130 us, +8 dB; 2: +110 us, +9 dB; 3: -45 us, -8 dB; 4: -115 us, +10 dB; 5: +150 us, -7 dB; 6: -25 us, +11 dB; 7: +125 us, +7 dB; 8: -140 us, -9 dB; 9: +55 us, -6 dB; 10: -105 us, +6 dB; 11: +135 us, +12 dB; 12: -60 us, +9 dB. A least-squares fit of a cosine of the right period to every tone curve gives these best ITDs within 4 microseconds, with the next-best coincidence 7 to 15 microseconds off; the same fit run on the curves read back from image.png agrees.
+
+Left and above (negative ITD, positive ILD): 1, 4, 6, 10, 12. The decisive neurons are 1, 2, 4, 7, 10 and 11, whose peaks nearest zero are side peaks on the wrong side; taking those gives 2, 6, 7, 11, 12. Taking the left ear as the upward one gives 3, 8.
+
+The readings can be checked with a few lines of Python (standard library):
+n = [(1,-130,8),(2,110,9),(3,-45,-8),(4,-115,10),(5,150,-7),(6,-25,11),(7,125,7),(8,-140,-9),(9,55,-6),(10,-105,6),(11,135,12),(12,-60,9)]
+print([i for i, t, l in n if t < 0 and l > 0])
+It prints [1, 4, 6, 10, 12].
