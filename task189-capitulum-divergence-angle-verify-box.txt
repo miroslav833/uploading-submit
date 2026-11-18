@@ -1,0 +1,20 @@
+The value can't be looked up. It comes from the spirals in the figure and the standard relation between parastichy numbers and divergence angle (Vogel 1979; Jean 1994). Swinton et al. (2016) found sunflower heads that don't follow the Fibonacci numbers.
+
+Spiral families read from the figure (image 1100 x 1100 px, head centred at about x 545, y 545):
+80 to 150 px from the centre, 14 one way and 23 the other, 9 still visible
+150 to 230 px, 23 and 37
+230 to 320 px, 37 and 60
+320 px to the rim at about 435 px, 60 and 97
+
+The numbers run 9, 14, 23, 37, 60, 97, each the sum of the two before, and backwards 5, 4, 1. The pairs bracket the angle between neighbouring convergents of d/360: 9 and 14 give 77.143 to 80.000 degrees, 14 and 23 give 77.143 to 78.261, 23 and 37 give 77.838 to 78.261, 37 and 60 give 77.838 to 78.000, 60 and 97 give 77.938 to 78.000. Every bracket from 23 and 37 outwards lies between 77.838 and 78.261, so the angle is 78 degrees to the nearest degree; the limit of the series, 360/(4 + 1/phi) = 77.955, agrees.
+
+A solver who assumes the usual Fibonacci head, or rounds 14, 23, 37 and 60 to 13, 21, 34 and 55, gets the golden angle 360/phi^2 = 137.5, or 138 to the nearest degree. One who decides the head is unusual and guesses the Lucas series gets 99.5, which rounds to 100. Neither set of numbers is in the figure.
+
+Python check (standard library):
+phi = (1 + 5 ** 0.5) / 2
+for p, q in ((2, 9), (3, 14), (5, 23), (8, 37), (13, 60), (21, 97)):
+    print(q, round(360 * p / q, 3))
+print(round(360 / (4 + 1 / phi), 3), round(360 / (3 + 1 / phi), 3), round(360 / phi ** 2, 3))
+It prints 9 80.0, 14 77.143, 23 78.261, 37 77.838, 60 78.0, 97 77.938, then 77.955 99.502 137.508.
+
+The uploaded notes also contain a program that finds the florets in the image file, ranks them by radius and recovers the families 14, 23, 37, 60 and 97 and the angle 77.955 degrees from the image alone.
