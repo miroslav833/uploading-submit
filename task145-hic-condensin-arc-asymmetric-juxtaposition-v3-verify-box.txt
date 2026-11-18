@@ -1,13 +1,12 @@
-The answer cannot be looked up. It depends on the map drawn in the figure. The papers below show the line of flank contacts made by condensin loaded at parS in Hi-C maps, and that it is tilted when the two sides move at different rates.
+The answer depends on the map in the figure; it cannot be looked up. Wang et al. (2015, 2017) show the line of flank contacts from condensin loaded at parS, and Brandao et al. (2019) show it tilts when the two sides move at different rates.
 
-What the figure holds. Chromosome 4,000 kb, circular, bins of 10 kb, parS at 400 kb. On top of the main diagonal there is a faint straight line of extra contacts (0.06 of the gray range, scatter of one bin 0.10, width about 50 kb). Its points, as (lower coordinate, higher coordinate) in kb: (400, 400) at parS, (164, 800), (0, 1078) at the edge of the map, then from 4,000 kb again (3928, 1200), (3751, 1500), (3456, 2000), (3161, 2500), end near (3043, 2700). It is easiest to see at full size between (3900, 1250) and (3100, 2600) and in the mirrored copy below the main diagonal. One contact moves 0.59 kb for every kb of the other.
+Figure: circular chromosome, 4,000 kb, bins of 10 kb, parS at 400 kb. The extra line is 0.09 of the gray range over a scatter of 0.10 per bin, about 50 kb wide. Points (lower, higher coordinate, kb): (400, 400), (164, 800), (0, 1078), then (3928, 1200), (3751, 1500), (3456, 2000), (3161, 2500), fading near (3043, 2700). Easiest to see at full size between (3900, 1250) and (3100, 2600), and in the copy below the diagonal.
 
-Key by hand. The contact at 1,500 kb is 1,100 kb from parS. The other contact is 0.59 x 1,100 = 649 kb from parS on the other side, at 400 - 649 = -249 kb, which is 3,751 kb on the circle and 3750 kb to the nearest 50 kb.
+By hand: slope 0.59. 1,500 kb is 1,100 kb from parS. 400 - 0.59 x 1,100 = -249 kb = 3,751 kb, so 3750.
+Equal rates give 3300 kb; no line passes (3300, 1500) or (2800, 2000).
 
-The most tempting wrong answer is 3300 kb. It comes from equal distances on both sides, 400 - 1,100 = -700 kb. A line for equal distances would pass through (3300, 1500) and (2800, 2000), and the map has none there.
-
-Check with Python (standard library):
+Python:
 for r in (0.59, 0.57, 0.61, 1.0): print(r, (400 - r * (1500 - 400)) % 4000)
-It prints 3751, 3773, 3729 and 3300. The program in the uploaded notes averages every bin of image.png, removes the mean gray level at each distance from the diagonal and sums the rest along every straight line from parS. The strongest line has a slope of 0.585, about ten standard deviations above the other lines, and the line of equal distances shows no excess.
+prints 3751, 3773, 3729, 3300. The notes include a program that reads every bin of image.png and finds the strongest line from parS at slope 0.590 (14 standard deviations above other lines); the equal-rate line shows nothing.
 
-Sources: X. Wang et al., Genes Dev. 29, 1661 (2015); X. Wang et al., Science 355, 524 (2017); N. T. Tran, M. T. Laub and T. B. K. Le, Cell Rep. 20, 2057 (2017); H. B. Brandao et al., Proc. Natl. Acad. Sci. USA 116, 20489 (2019).
+Sources: X. Wang et al., Genes Dev. 29, 1661-1675 (2015), Figs. 1-2; X. Wang et al., Science 355, 524-527 (2017), Figs. 1-3; N. T. Tran et al., Cell Rep. 20, 2057-2071 (2017), Fig. 1; H. B. Brandao et al., PNAS 116, 20489-20499 (2019), Figs. 1-3.
