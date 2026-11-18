@@ -1,0 +1,9 @@
+Key depends on which peak is wave V. V is the last positive peak of the IV/V complex before the big negative trough; IV can be the taller one (Chiappa, Gladstone and Young 1979; Stockard, Stockard and Sharbrough 1978).
+
+Peaks, mean of the two replicates: I 1.61 ms, III 3.77 ms, tall peak 5.60 ms, small peak 6.20 ms. Deepest trough after 5 ms at 7.36 ms, -0.48 uV. Between 5.60 and 6.20 ms the trace stays above baseline (lowest about +0.05 uV, 6.08 ms). Small peak is in both traces, 6.22 and 6.17 ms read back from the image file. Bump near 4.9 ms isn't (4.96 ms in one, 4.80 ms and under half the size in the other).
+
+V = 6.20 ms. I to V = 6.20 - 1.61 = 4.59, so 4.6 ms (4.60 and 4.58 from the two traces in the image). I to III 2.16 ms, normal. III to V 2.43 ms, long. Tall peak taken as V: 5.60 - 1.61 = 3.99, i.e. 4.0 ms, the textbook normal. That's the likely wrong answer.
+
+Check, standard-library Python
+print(round(6.20 - 1.61, 1), round(5.60 - 1.61, 1))
+Output: 4.6 4.0
