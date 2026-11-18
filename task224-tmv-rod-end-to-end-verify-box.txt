@@ -1,0 +1,14 @@
+The answer follows from the packing stated in the question and the micrograph, not from a source.
+
+Read from the image (the program in the notes measures it): scale bar 101 px = 100 nm. Eleven long rods, tip to tip 280, 280, 279, 279, 279, 278, 278, 278, 278, 278, 278 nm. Eleven shorter pieces of 239, 197, 179, 177, 167, 141, 140, 96, 86, 78, 48 nm. Gray level along the long rods (central 8 nm of the width), averaged over all eleven with their centres aligned, at -40, -30, -20, -10, -2, 0, +2, +10, +20, +30, +40 nm from the centre: 0.685, 0.682, 0.679, 0.683, 0.663, 0.620, 0.675, 0.680, 0.678, 0.676, 0.678. The dip at the centre is the deepest point of the averaged profile, and on ten of the eleven rods the darkest 4 nm stretch lies within 1 nm of the centre. On a single rod the line is 2 to 6 times the scatter of 4 nm block means, so it is faint by eye and shows best on an enlarged view of the middle of each rod. The five pieces longer than 140 nm show the same line 140 nm from one end.
+
+By hand: 16.33 x 3 / 2.30 = 21.3 nt per nm. Each long rod is two particles joined head to tail at that line, so one particle is 279 / 2 = 140 nm (two single particles of 140 and 141 nm agree), and the RNA is 140 x 21.3 = 2980 nt, 3000 to the nearest 500 (any length from 130 to 152 nm gives 3000).
+
+The most tempting wrong answer takes a long rod as one particle: 279 x 21.3 = 5940 nt, 6000 to the nearest 500.
+
+Check with Python (standard library):
+per_nm = 16.33 * 3 / 2.30
+print(round(per_nm, 2), round(140 * per_nm), 500 * round(140 * per_nm / 500), round(279 * per_nm))
+It prints 21.3 2982 3000 5943.
+
+Sources: H. Fraenkel-Conrat and R. C. Williams, Proc. Natl. Acad. Sci. USA 41, 690 (1955); K. Namba, R. Pattanayek and G. Stubbs, J. Mol. Biol. 208, 307 (1989). The uploaded notes contain the particle layout, the key and the program that reads the rods back from the image.
