@@ -1,0 +1,13 @@
+Read off the figure: R lobe peaks 0.39 at 2361 cm-1 (gas 0.37 + wing of the sharp band). Dip at 2349 = band origin, no Q branch. Sharp band at 2340 cm-1, 1.34 total. Gas under it ~0.32 (mirror of R side). So Lorentzian h = 1.02, FWHM 6.0 cm-1. Least-squares fit (rigid-rotor P/R + Lorentzian) on the traced curve: h 1.015, FWHM 6.03, gas area 15.35 cm-1.
+
+Key: area = (pi/2)(1.019)(6.0) = 9.60 cm-1. n_A = 9.60/2.0e7 = 4.8e-7 mol cm-2. q = 4.8e-7/4.0e-4 g = 1.2 mmol/g -> 1.
+
+Most tempting wrong answer: 2. Height read from zero (1.34 not 1.02) gives 1.58 mmol/g.
+
+Python check:
+import math
+a = math.pi/2*1.019*6.0
+print(round(a/2e7/4e-4*1e3, 2), round(a*1.341/1.019/2e7/4e-4*1e3, 2))
+-> 1.2 1.58
+
+Notes, section 2 (readback_png.py): the fit on the PNG.
