@@ -1,0 +1,14 @@
+Reduplicated tidemark: the uppermost one is the current mineralisation front, so calcified cartilage = upper tidemark to osteochondral junction (Lane & Bullough 1980; Burr 2004).
+
+Image 2000 x 1500 px, bar 335 px = 100 um. Measured in 60 um strips with lacunae/nuclei masked: faint tidemark ~150 um below the top (150.2 in the simulation), bold one ~213 um, junction mean ~322 um.
+
+Matrix green channel: ~207 above the faint line, 188 between, 172 below the bold line, so the in-between band is already stained darker.
+
+322 - 150 = 172 um -> 170. From the bold line: 322 - 213 = 109 um, i.e. 110, that's the trap.
+
+quick check:
+for top in (149.9, 212.8):
+    print(top, round(322.4 - top, 1), int(10 * round((322.4 - top) / 10)))
+-> 149.9 172.5 170 / 212.8 109.6 110
+
+Notes file has the simulation and the measuring script.
