@@ -1,0 +1,6 @@
+Lines (centre, FWHM, depth, all mm/s and fraction of baseline): -0.07, 0.26, 0.0400; 0.27, 0.42, 0.0371; 0.83, 0.26, 0.0400; 1.97, 0.26, 0.0600. Area (pi/2)*FWHM*depth: 0.01634, 0.02450, 0.01634, 0.02450. Equal areas pair -0.07 with 0.83 (Fe(III), delta 0.38, dEQ 0.90) and 0.27 with 1.97 (Fe(II), delta 1.12, dEQ 1.70).
+
+Key: A_III/A_II = 0.03267/0.04900 = 0.667; divide by f_III/f_II = 1.25: 0.533; Fe(III) = 0.533/1.533 = 34.8 %, so 35. Holds for area ratios 0.61 to 0.74.
+Most tempting wrong answer: no f correction, 40 %. Depths taken as areas: 39.7 % (40) with the correction, 45.2 % without.
+
+Check: import math; a = lambda w, d: math.pi / 2 * w * d; A3 = a(.26, .04) * 2; A2 = a(.42, .0371) + a(.26, .06); r = A3 / A2 / 1.25; print(round(100 * r / (1 + r), 1))
