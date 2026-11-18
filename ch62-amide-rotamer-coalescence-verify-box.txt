@@ -1,0 +1,24 @@
+The key follows from the numbers printed in the figure, not from a source.
+
+Data in the figure: 500.13 MHz. 298 K: M 2.7720 ppm, m 2.9540 ppm, integrals 78 : 22. 318 K: M 2.7661, m 2.9574. 353 K: trace marked T_c. 403 K: one line at 2.8323.
+
+By hand: shift slopes -2.95e-4 (M) and +1.70e-4 (m) ppm/K. At 353 K dnu = 0.207575 ppm = 103.81 Hz. At 403 K M 2.74102, m 2.97185, so pm(403) = 0.3954 (with 22 : 78 the line would be at 2.7918). van 't Hoff from K = 0.2821 (298 K) and 0.6541 (403 K): pm(353) = 0.3181, dP = 0.3639. Shanan-Atidi/Bar-Eli coalescence dP = [(X^2-2)/3]^1.5/X gives X = 2.1284, 1/tau = 306.5 s-1, k(M->m) = pm/tau = 97.48 s-1. Eyring: 73.5 kJ/mol.
+
+The most tempting wrong answer keeps the 298 K populations at T_c: dP = 0.56, k = 60.5 s-1, 74.9 kJ/mol.
+
+Check with Python (standard library):
+import math
+R,kB,h,T=8.314462618,1.380649e-23,6.62607015e-34,353
+f=lambda a,b,t:a+(b-a)*(t-298)/20
+dnu=(f(2.9540,2.9574,353)-f(2.7720,2.7661,353))*500.13
+M4,m4=f(2.7720,2.7661,403),f(2.9540,2.9574,403); p4=(2.8323-M4)/(m4-M4)
+K1,K2=22/78,p4/(1-p4); dH=R*math.log(K2/K1)/(1/298-1/403)
+K=math.exp(math.log(K1)-dH/R*(1/T-1/298)); pm=K/(1+K); dP=1-2*pm
+lo,hi=1.4143,5
+for _ in range(100):
+    X=(lo+hi)/2; lo,hi=(X,hi) if ((X*X-2)/3)**1.5/X<dP else (lo,X)
+k=pm*2*math.pi*dnu/X
+print(round(R*T*math.log(kB*T/(h*k))/1000,2))
+It prints 73.51.
+
+Sources: H. Shanan-Atidi and K. H. Bar-Eli, J. Phys. Chem. 74, 961 (1970); H. S. Gutowsky and C. H. Holm, J. Chem. Phys. 25, 1228 (1956). The uploaded notes contain the key script with every slip and the line-shape model.
