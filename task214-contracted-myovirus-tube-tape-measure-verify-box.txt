@@ -1,0 +1,8 @@
+Scale: 100 nm bar = 200 px, 0.50 nm per px. In all three particles the sheath is 50 nm long and 33 nm wide, with only a fine unresolved striation, on an opened baseplate 12 nm thick with spread fibres: contracted sheaths. Contraction leaves the tail tube at its full length and drives it out through the baseplate. Its end carries a small knob (about 7 nm) on the tail axis 88 nm beyond the baseplate, joined to the baseplate by a faint 9 nm rod; the other dots in the field are debris off the tail axes.
+
+Measured along each tail axis (pixel coordinates in the 1800 x 1500 figure): collar bottom to tip knob centre, particle top left (610, 417) to (673, 710), top right (1148, 479) to (1021, 751), bottom (1047, 1063) to (1329, 1165); each 300 px = 150 nm. Read-back from the pixels: knob peaks 148 to 150 nm from the collar bottom, faint rod 2 to 4 standard errors above the stain beside it.
+
+Key by hand: N = 150 nm / 0.150 nm per residue = 1000 (any tube length from 142.5 to 157.5 nm gives 1000 to the nearest 100).
+Most tempting wrong answer: sheaths taken as extended, tube = collar to baseplate end = 62 nm, 62 / 0.150 = 413, reported 400.
+
+Check in Python: import math; L = [math.dist(a, b) * 0.5 for a, b in [((610, 417), (673, 710)), ((1148, 479), (1021, 751)), ((1047, 1063), (1329, 1165))]]; print([round(x, 1) for x in L], round(sum(L) / 3 / 0.150, -2))
