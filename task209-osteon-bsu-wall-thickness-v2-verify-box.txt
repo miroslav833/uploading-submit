@@ -1,0 +1,19 @@
+Everything here turns on which line bounds the youngest bone structural unit. A unit is bounded by a reversal line, which is scalloped and cuts across older lamellae, while an arrest line is smooth and lies inside a unit (Parfitt et al. 1987). An osteon with a second reversal line inside it is a type II osteon (Ericksen 1991).
+
+The image is 2400 x 2400 px and 300 um across, and the 50 um scale bar is 400 px. The canal centre is at about x 1185, y 1215 px. I measured these distances from the canal centre in the image file.
+The canal surface is at a mean of 20.2 um (18.5 to 22.1).
+The bold bright smooth ring is at a mean of 45.9 um, and the mean gray barely changes across it (+0.011, which is just the ring's own edge).
+The faint scalloped line is at a mean of 73.6 um by ridge tracking, and the mean gray rises most steeply (+0.026) at 69.8 um. Its scallops are 11 to 20 um wide and 2.5 to 4.5 um deep, and the lamellae outside it are centred about 7 um off the canal and end obliquely against it.
+The outer scalloped boundary against interstitial bone is at a mean of 121.4 um.
+
+The youngest unit runs from the canal to the faint scalloped line, so 73.6 - 20.2 = 53.4 um (52.7 in the simulation). Measured to the scallop junctions it's 70 - 20.2 = 49.8, and to the crests 74.5 - 20.2 = 54.3. Every one of these is 50 um to the nearest 10 um.
+
+The most tempting wrong answer takes the bold bright ring as the cement line, which gives 45.9 - 20.2 = 25.7 um and rounds to 30. Taking the whole osteon gives 121.4 - 20.2 = 101.2 um, or 100.
+
+A quick check in standard-library Python
+canal, arrest, reversal, outer = 20.2, 45.9, 73.6, 121.4
+for r in (reversal, 70.0, 74.5, arrest, outer):
+    print(r, round(r - canal, 1), int(10 * round((r - canal) / 10)))
+prints 73.6 53.4 50, 70.0 49.8 50, 74.5 54.3 50, 45.9 25.7 30 and 121.4 101.2 100.
+
+The uploaded notes also hold the simulation and a program that finds the canal and both inner lines in the image file and measures the rise in mineral across each line. The faint line is easiest to see with the contrast stretched over the gray range of the osteon.
