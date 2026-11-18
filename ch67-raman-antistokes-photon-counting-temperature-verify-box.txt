@@ -1,0 +1,17 @@
+Anti-Stokes/Stokes photon-count ratio: I_AS/I_S = ((nuL + nu)/(nuL - nu))^3 exp(-c2 nu / T). Cubed, not fourth power, because a CCD counts photons (Malyj and Griffiths 1983).
+
+Fit table in the figure: Si optical phonon at -516.8 (anti-Stokes) and +516.8 cm-1 (Stokes), FWHM 4.8 cm-1, areas 208390 and 842600 photons. nuL = 18797 cm-1, c2 = 1.4388 cm K.
+
+Ratio 0.24732. Prefactor (19313.8/18280.2)^3 = 1.17940. c2 nu = 743.57 K. T = 743.57 / ln(1.17940/0.24732) = 476.0 K.
+Fourth power instead: 460 K. That's the likely wrong answer. No prefactor: 532 K.
+
+Check, standard-library Python
+from math import log
+nuL, nu, r = 18797, 516.8, 208390 / 842600
+for p in (3, 4):
+    print(p, round(1.4388 * nu / log(((nuL + nu) / (nuL - nu)) ** p / r), 1))
+Output:
+3 476.0
+4 459.8
+
+Sources: Malyj and Griffiths, Appl. Spectrosc. 37, 315 (1983); Hart, Aggarwal and Lax, Phys. Rev. B 1, 638 (1970); Balkanski, Wallis and Haro, Phys. Rev. B 28, 1928 (1983).
