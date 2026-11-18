@@ -1,0 +1,17 @@
+The answer follows from the formula in the question and the image, not from a source. The papers below describe the method and why dark regions in these images are not always close contacts.
+
+What the image shows, read as fractions of the background $I_b$ (the program in the notes averages rings round the centre of the disc): central disc 0.592; cell body 0.803; a faint ring 5.9 to 6.1 um from the centre at 0.814 to 0.820, 8 times the scatter of the ring averages above the body. Round the focal-contact streaks a band 0.3 to 0.9 um away is at 0.763, darker than the body, so they have no bright halo; the band 5.8 to 6.3 um round the disc is at 0.816, brighter than the body. The ring is too faint to see in single pixels; it shows when the image is enlarged and looked at round the disc.
+
+By hand, with k = 0.0307 per nm, the body at 0.80 is 41 nm on the first branch (no halo round the contacts). The disc at 0.59 is 30 nm on the first branch or 178 nm and 229 nm on the second fringe. The height changes in one direction between body and centre, so a ring brighter than the body can only come from passing the bright fringe at 102 nm (1.63 $I_b$), and the disc is on the second fringe. The membrane is nowhere above 200 nm, so it is the falling side, 178 nm, which is 180 to the nearest 10 nm. Readings from 0.52 to 0.63 all give 180.
+
+If the ring is missed, the disc reads as a close contact at 30 nm.
+
+Check with Python (standard library):
+import math
+k = 4 * math.pi * 1.335 / 546
+f = lambda h: 1 - 0.7 * math.exp(-h / 1000) * math.cos(k * h)
+sol = lambda t, lo, hi: min((abs(f(lo + i / 10) - t), lo + i / 10) for i in range((hi - lo) * 10))[1]
+print(round(f(102.2), 2), round(sol(0.592, 0, 102), 1), round(sol(0.592, 102, 205), 1), round(sol(0.592, 205, 307), 1))
+It prints 1.63 30.2 178.5 228.9.
+
+Sources: A. S. G. Curtis, J. Cell Biol. 20, 199 (1964); L. Limozin and K. Sengupta, ChemPhysChem 10, 2752 (2009). The uploaded notes contain the model, the key and the program that reads the levels back from the image.
