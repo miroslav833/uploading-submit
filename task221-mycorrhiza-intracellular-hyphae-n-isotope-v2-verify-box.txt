@@ -1,0 +1,13 @@
+Key depends on the mycorrhizal type of each root. Both have a mantle and a Hartig net reaching the outer cortex, so it's ecto against ectendo, i.e. hyphae inside the cortical cells or not (Yu, Egger and Peterson 2001; Peterson, Massicotte and Melville 2004).
+
+Image 1040 x 2110 px, 4 px per um, x right, y down. Root A centred at (520, 520), B at (520, 1590). Both: mantle about 5 um. Hartig net between the epidermal cells, along the epidermis/cortex boundary (radius 340 px) and between the outer cortical cells (266 to 340 px). A row of dark bodies about 2 um across inside the outer cortical cells, against the inner wall, radius about 275 px.
+A: solid. Gray 0.42 at the centre, 0.49 at the rim, centre paler in 1 of 85. Tannin.
+B: hollow. Gray 0.54 at the centre, 0.47 at the rim, centre paler in 49 of 76 (the rest cut obliquely). Hyphae inside the cells.
+
+A ecto, T_r 0.44. B ectendo, T_r 0.57. A minus B = 9.0 x (0.44 - 0.57) = -1.17 permil. Read the tannin in A as hyphae and you get 0. Swap A and B and you get +1.17.
+
+Check, standard-library Python
+print(round(9.0 * (0.44 - 0.57), 2), round(9.0 * (0.68 - 0.44), 2))
+Output: -1.17 2.16
+
+Sources: Hobbie and Colpaert, New Phytol. 157, 115 (2003); Yu, Egger and Peterson, Mycorrhiza 11, 167 (2001); Peterson, Massicotte and Melville, Mycorrhizas: Anatomy and Cell Biology (2004).
