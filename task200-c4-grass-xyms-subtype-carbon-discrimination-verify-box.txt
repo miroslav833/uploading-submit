@@ -1,0 +1,15 @@
+The answer cannot be looked up. The papers below give the anatomical features of the C4 subtypes of grasses (chloroplast position in the Kranz cells, the mestome sheath) and the model for carbon isotope discrimination. The number depends on the anatomy drawn in the figure.
+
+Readings from the image file (2400 x 1100 pixels; x to the right, y down). Five veins centred near (330, 548), (790, 533), (1230, 577), (1680, 542), (2110, 579). Round each: vascular bundle, a ring of small cells about 11 px deep (mestome sheath, also between the metaxylem vessels and the Kranz cells), Kranz cells about 30 to 34 px deep. The granular chloroplast band of the Kranz cells lies against their inner walls; their outer third is pale. A second granular band lies just outside the Kranz sheath, in the inner ends of the mesophyll cells. Averaged round each vein, the darkness is 0.42 to 0.43 in the inner third of the Kranz cells, 0.08 to 0.10 in the outer third and 0.35 to 0.39 just outside the sheath (verification notes, section 2).
+
+Key by hand. Centripetal Kranz chloroplasts with a mestome sheath: NAD-ME, phi = 0.34. Delta = 4.4 + (-5.7 + 0.34 x 28.2 - 4.4) x 0.35 = 4.4 - 0.179 = 4.22 permil.
+
+The most tempting wrong answer is 3.83 permil, from taking the mesophyll band outside the Kranz sheath for centrifugal Kranz chloroplasts (PCK, phi = 0.30). NADP-ME would give 2.84.
+
+Check with Python (standard library):
+a, b4, b3, s, r = 4.4, -5.7, 30.0, 1.8, 0.35
+for phi in (0.34, 0.30, 0.20):
+    print(phi, round(a + (b4 + phi * (b3 - s) - a) * r, 2))
+It prints 0.34 4.22, then 0.3 3.83 and 0.2 2.84.
+
+Sources: P. W. Hattersley and L. Watson, Aust. J. Bot. 24, 297 (1976); T. A. B. Prendergast et al., Aust. J. Plant Physiol. 14, 403 (1987); G. D. Farquhar, Aust. J. Plant Physiol. 10, 205 (1983); P. W. Hattersley, Aust. J. Plant Physiol. 9, 139 (1982). The uploaded notes contain the drawing program, the key and a program that reads the image file back.
