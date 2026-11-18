@@ -1,0 +1,11 @@
+Which response is APB's decides the key. The big one starts positive, so it isn't from the muscle under the electrode. 55 mA co-stimulates the ulnar nerve; its thenar muscles give a volume-conducted wave with a positive start.
+
+Plotted samples, both traces: first deflection 3.25 to 3.35 ms, dip to -0.40 mV at 3.65 ms, peak 5.9 mV at 6.15 ms. Sharpest bend of the falling limb 7.75 and 7.80 ms. After it the trace stays at 0.74 to 0.61 mV from 8.0 to 9.0 ms before dropping into the positive phase. Read back from the image file: 7.85 and 7.80 ms.
+
+DML 7.8 ms -> 8 ms. Normal at 8 cm is up to about 4.2 to 4.4 ms. Wrong answers likely: 3 (first deflection), 4 (negative takeoff).
+
+First-deflection rule? It times the muscle under the electrode, and a positive start can't be APB here. Kink as just wave shape? It's abrupt and in both traces; the smooth far-field wave alone bends about half as sharply, later. A real lab would confirm at lower current or with ulnar stimulation alone.
+
+Check, standard-library Python
+print(round(7.80), round(3.25), round(3.9))
+Output: 8 3 4
