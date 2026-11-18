@@ -1,0 +1,14 @@
+Curve, h nu (eV) and [F h nu]^1/2:
+1.5 0.490, 1.6 0.506, 1.7 0.522, 1.8 0.537, 1.9 0.551, 2.0 0.566, 2.1 0.580, 2.2 0.593, 2.3 0.607, 2.4 0.622, 2.5 0.671, 2.6 0.781, 2.7 0.931, 2.8 1.106, 2.9 1.294, 3.0 1.491, 3.1 1.693, 3.2 1.900, 3.3 2.109
+
+Below the edge y^2/h nu = 0.160 throughout -> F_c = K/S = 0.160 (K and S constant, F adds).
+sqrt(y^2 - 0.160 h nu): 0.440 at 2.6, 0.880 at 2.8, 1.320 at 3.0, 1.980 at 3.3 -> straight, slope 2.20 -> zero at 2.40. Key 2.4 eV.
+Likely wrong answer: raw line 2.8-3.3 eV crossed with the extrapolated baseline -> 2.58 -> 2.6. Raw line to zero -> 2.25.
+
+Check, standard-library Python
+import math
+d = {2.6: 0.781, 2.8: 1.106, 3.0: 1.491, 3.2: 1.900, 3.3: 2.109}
+z = {e: math.sqrt(y*y - 0.160*e) for e, y in d.items()}
+s = (z[3.3] - z[2.6]) / 0.7
+print(round(2.6 - z[2.6]/s, 2))
+Output: 2.4
