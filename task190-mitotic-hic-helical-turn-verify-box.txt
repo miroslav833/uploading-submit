@@ -1,0 +1,14 @@
+The answer can't be looked up, since it depends on the map. Gibcus et al. (2018) showed that a coiled chromatid axis gives a second diagonal in Hi-C, at a distance from the main diagonal equal to the DNA in one turn. The papers below give that and the loop-array picture of the mitotic chromosome.
+
+What the map shows. A broad dark band along the diagonal that fades out beyond about 17 to 20 Mb, and inside it a faint narrow line parallel to the diagonal. The line meets the left and top edges at 9 Mb, passes through (20, 29), (40, 49) and (60, 69) Mb and reaches the bottom and right edges at 79 Mb, in both halves of the map. Mean contacts per bin along the diagonals are 11.95 at 6.0 Mb, 10.77 at 7.0, 10.59 at 7.5, 10.81 at 8.0, 10.91 at 8.5, 11.03 at 9.0, 10.14 at 9.5, 9.15 at 10.0, 7.33 at 11.0 and 6.28 at 12.0. The program in the notes reads the image file alone and finds the excess over a smooth trend peaking at 9.0 Mb, 10.6 times the scatter. Per bin the line is only about 0.09 log units (4 percent of the gray range) above its surroundings, less than the scatter of single bins, so it shows only when the map is enlarged and looked at along the diagonal, and the averages along the diagonals are the firmer check.
+
+By hand, the line sits 9 Mb from the diagonal, so one turn holds 9 Mb and the 88 Mb chromosome makes about 9.8 turns. If the line isn't seen, the usual answer is 12 Mb, the value published for late prometaphase in chicken DT40 cells. Taking the edge of the dark band for a turn gives about 17.
+
+Check with Python (standard library):
+s = [6.0, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0, 11.0, 12.0]
+c = [11.95, 10.77, 10.59, 10.81, 10.91, 11.03, 10.14, 9.15, 7.33, 6.28]
+rise = [s[i] for i in range(1, len(s) - 1) if c[i] > c[i - 1] and c[i] >= c[i + 1]]
+print(rise, round(88 / rise[0], 1))
+It prints [9.0] 9.8.
+
+Sources: J. H. Gibcus et al., Science 359, eaao6135 (2018); N. Naumova et al., Science 342, 948 (2013). The uploaded notes contain the model, the key and the program that reads the line back from the image.
