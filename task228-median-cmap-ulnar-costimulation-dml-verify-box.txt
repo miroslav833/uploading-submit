@@ -1,0 +1,11 @@
+Key depends on which response is the median APB one. The big response starts positive, so it isn't from the muscle under the electrode. At 55 mA the ulnar nerve is co-stimulated; its thenar muscles give a volume-conducted response with an initial positive dip.
+
+Plotted samples, both traces: first deflection 3.25 to 3.35 ms (positive dip, low point -0.40 mV at 3.65 ms), negative peak 5.9 mV at 6.15 ms. Sharpest upward bend on the falling limb at 7.75 and 7.80 ms (7.80 in the mean), then a near-flat stretch at about +0.5 mV before the positive phase. That bend is the onset of the small median response. The smooth volume-conducted wave alone bends half as sharply there.
+
+DML = 7.8 ms, so 8 ms. Normal at 8 cm is up to about 4.2 to 4.4 ms. First deflection gives 3, negative takeoff 4: the likely wrong answers.
+
+Why not the first-deflection rule: it times the muscle under the electrode. The electrode is on the APB belly, so a positive start can't be APB; it's other muscles. The corner isn't just wave shape either: it's abrupt, in both traces, and a summed far-field wave is smooth. A real lab would confirm at lower current or with ulnar stimulation alone.
+
+Check, standard-library Python
+print(round(7.80), round(3.25), round(3.9))
+Output: 8 3 4
