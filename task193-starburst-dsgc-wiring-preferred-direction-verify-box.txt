@@ -1,0 +1,24 @@
+Rule (Euler et al. 2002; Briggman et al. 2011): a starburst dendrite releases GABA for motion from its soma toward its tip, so the unit vector u from the starburst soma to a synapse is a null direction of the ganglion cell. With equal weights, null = direction of the sum of u over the cell's five rings, and preferred = the opposite direction. Coordinates in um from the top left of the frame, x right (temporal), y down (ventral).
+
+Starburst somata: 1 (51,32) 2 (139,55) 3 (262,34) 4 (349,50) 5 (104,151) 6 (198,140) 7 (312,137) 8 (49,250) 9 (153,235) 10 (255,235) 11 (363,240) 12 (94,354) 13 (184,356) 14 (309,348).
+
+Rings, as ring (x,y) -> starburst cell whose dendrite carries it, found by following the gray dendrite through the figure:
+A: (37,150)->1, (80,152)->1, (123,135)->2, (120,158)->8, (30,62)->2
+B: (355,67)->3, (251,95)->2, (324,117)->6, (361,124)->11, (295,144)->4
+C: (204,241)->6, (174,178)->2, (146,159)->2, (248,173)->9, (175,199)->10
+D: (128,256)->12, (98,250)->12, (71,230)->12, (126,293)->8, (36,275)->9
+E: (262,349)->10, (295,357)->10, (361,330)->11, (277,270)->14, (271,243)->9
+F: (187,371)->14, (186,312)->14, (228,374)->14, (175,294)->12, (156,338)->9
+
+Key by hand: A sum u = (-0.47, +2.22), ventral null, dorsal preferred. B (+2.35, +0.35) nasal preferred. C (+0.32, +1.99) dorsal. D (+0.12, -2.12) ventral preferred. E (+0.97, +2.09) dorsal. F (-2.06, +0.62) temporal. Key: A, C, E.
+
+Most tempting wrong answer: each ring given to its nearest soma (somata 5, 5, 5, 5, 1 for A; 4, 3, 7, 7, 7 for B; 10, 6, 5, 6, 9 for C; 9, 8, 8, 9, 8 for D; 14, 14, 14, 10, 10 for E; 13 for all of F) gives B, C, D, E (B, D, E if C's ring at (204,241), 51 um from both 10 and 9, goes to 9). Those somata lie 15 to 66 um from the rings, on the smooth proximal part of their own dendrites, and the rings are not on their dendrites. The reverse rule (preferred = outward direction) gives D.
+
+Check in Python (standard library):
+import math
+S={1:(51,32),2:(139,55),3:(262,34),4:(349,50),5:(104,151),6:(198,140),7:(312,137),8:(49,250),9:(153,235),10:(255,235),11:(363,240),12:(94,354),13:(184,356),14:(309,348)}
+R={'A':[(37,150,1),(80,152,1),(123,135,2),(120,158,8),(30,62,2)],'B':[(355,67,3),(251,95,2),(324,117,6),(361,124,11),(295,144,4)],'C':[(204,241,6),(174,178,2),(146,159,2),(248,173,9),(175,199,10)],'D':[(128,256,12),(98,250,12),(71,230,12),(126,293,8),(36,275,9)],'E':[(262,349,10),(295,357,10),(361,330,11),(277,270,14),(271,243,9)],'F':[(187,371,14),(186,312,14),(228,374,14),(175,294,12),(156,338,9)]}
+for k,v in R.items():
+    nx=sum((x-S[s][0])/math.hypot(x-S[s][0],y-S[s][1]) for x,y,s in v); ny=sum((y-S[s][1])/math.hypot(x-S[s][0],y-S[s][1]) for x,y,s in v)
+    print(k, 'dorsal' if ny>abs(nx) else 'not dorsal')  # y is ventral, so null ventral = preferred dorsal
+Section 2 of the notes (key.py) recomputes every ring from the skeletons; section 3 finds all 30 rings and 14 somata in image.png and checks that each ring lies on its starburst dendrite and on no other.
