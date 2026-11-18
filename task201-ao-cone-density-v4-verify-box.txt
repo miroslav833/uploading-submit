@@ -1,0 +1,17 @@
+Bennett, Rudnicka & Edgar 1994 abbreviated method, q = 0.01306 (AL - 1.82) mm/deg -> 0.3341 mm/deg at 27.4 mm, field 0.1116 mm^2.
+
+Image is 2000 x 2000 px for 60 arcmin. Cones counted by local maxima: 5458 inside the field, 5485 incl. edge cones. FFT ring spacing 29.1 px (0.873 arcmin). ~1.51-1.52 per arcmin^2 either way.
+
+5458/0.1116 = 48,900; 5485/0.1116 = 49,100; spacing gives 48,800. All 49,000 at 2 s.f.
+
+If someone uses 0.291 mm/deg they get 5458/0.0847 = 64,000 (65,000 at 0.290). Square lattice 1/s^2 gives 42,000.
+
+quick check:
+import math
+q = 0.01306 * (27.4 - 1.82)
+print(round(q, 4), round(5458 / q**2), round(5485 / q**2))
+s = 0.873 / 60 * q
+print(round(2 / (math.sqrt(3) * s * s)), round(5458 / 0.291**2))
+-> 0.3341 48904 49146 / 48838 64454
+
+Notes file has the simulation and the cone-finding script.
