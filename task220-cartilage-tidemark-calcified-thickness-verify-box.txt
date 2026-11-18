@@ -1,0 +1,16 @@
+The answer depends on reading the faint upper line as a reduplicated tidemark. The most superficial tidemark is the current mineralisation front, so the calcified cartilage runs from it to the osteochondral junction (Lane and Bullough 1980; Burr 2004).
+
+The image is 2000 x 1500 px and the 100 um scale bar is 335 px, so 3.35 px per um. I measured the image file in 60-um-wide vertical strips with the lacunae and nuclei masked out. The faint upper tidemark lies at a median depth of 150 um below the top of the field, and the bold lower tidemark at 213 um. The osteochondral junction is irregular, and its mean depth is 322 um.
+
+The matrix stain shows the same thing. In the green channel, where a lower value means more basophilic, the matrix is about 207 above the faint line, 192 between the two lines and 172 below the bold one. So the band between the lines is already stained as calcified.
+
+Calcified cartilage from the upper tidemark is 322 - 150 = 172 um (170.2 in the simulation), which is 170 to the nearest 10 um.
+
+The most tempting wrong answer starts from the bold tidemark, 322 - 213 = 110 um, an ordinary-looking adult value that leaves out the 62 um band between the two tidemarks.
+
+A quick check in standard-library Python
+for top in (150.1, 212.8):
+    print(top, round(322.4 - top, 1), int(10 * round((322.4 - top) / 10)))
+prints 150.1 172.3 170 and 212.8 109.6 110.
+
+The uploaded notes also hold the simulation and the program that finds both tidemarks, the stain step and the junction in the image file.
