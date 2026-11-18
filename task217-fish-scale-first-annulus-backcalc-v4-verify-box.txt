@@ -1,0 +1,14 @@
+Key depends on spotting the faint first annulus. Annulus = band of crowded circuli with cutting over in the lateral fields (Ricker 1975; Devries and Frie 1996). Back-calculation by Fraser-Lee, L1 = a + (Lc - a) S1/Sc (Francis 1990).
+
+Image 2400 x 1800 px, focus near x 1430, y 905, anterior axis runs left. Margin 1,232 px from the focus on that axis, 48 circuli in between. Spacing 21 to 22 px near the focus, then 15 and 14 px for the circuli at 129, 144 and 158 px, then back to 21 to 30 px. That's annulus 1 (also weakly cut over laterally). Annuli 2 to 5 are plain bands at about 316 to 341, 541 to 552, 742 to 775 and 942 to 992 px.
+
+Outer edge of annulus 1 at 158 to 167 px: S1/Sc = 0.128 to 0.136, L1 = 30 + 282 x 0.136 = 68.3 mm (66.2 at 0.128). Nearest 10 mm, 70. The whole range 0.124 to 0.160 gives 70.
+
+Most tempting wrong answer: treat annulus 2 as annulus 1, 30 + 282 x 0.277 = 108, so 110 mm, an ordinary-looking age-1 length. Band middle instead of outer edge, about 60. Dahl-Lea (no intercept), 312 x 0.136 = 42, about 40.
+
+Check, standard-library Python
+for s in (158, 167, 341):
+    print(s, round(s / 1232, 3), round(30 + 282 * s / 1232, 1))
+Output: 158 0.128 66.2 / 167 0.136 68.2 / 341 0.277 108.1
+
+Uploaded notes: the simulation, plus a script that finds every circulus on the anterior axis in the image file and flags the crowded bands.
