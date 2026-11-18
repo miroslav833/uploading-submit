@@ -1,0 +1,14 @@
+Annulus = crowded circuli + cutting over laterally (Ricker 1975; Devries & Frie 1996). Fraser-Lee L1 = a + (Lc - a) S1/Sc (Francis 1990).
+
+Image 2400 x 1800, focus ~ (1430, 905), anterior axis to the left. Margin 1232 px out, 48 circuli. Spacing 21-22 px near the focus, then 14 and 13 px for circuli at 132/146/159 px, back to 21-30 px after: that's the faint annulus 1. The others are obvious bands at ~316-341, 541-552, 742-775, 942-992 px.
+
+S1 = 159-167 px -> S1/Sc 0.129-0.136 -> L1 = 66-68 mm -> 70. Any S1/Sc from 0.124 to 0.160 rounds to 70.
+
+Trap: miss the faint band, use annulus 2: 30 + 282 x 0.277 = 108 -> 110 mm. Band middle instead of outer edge ~60; Dahl-Lea (no intercept) ~40.
+
+quick check:
+for s in (159, 167, 341):
+    print(s, round(s / 1232, 3), round(30 + 282 * s / 1232, 1))
+-> 159 0.129 66.4 / 167 0.136 68.2 / 341 0.277 108.1
+
+Notes file has the simulation and the circulus-finding script.
