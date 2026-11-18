@@ -1,0 +1,13 @@
+Breslow thickness: top of the granular layer to the deepest invasive melanoma cell, at right angles to the surface. Cells of an associated naevus aren't included (Gershenwald et al. 2017; Scolyer et al. 2013).
+
+Image 2400 x 2080 px, 700 px per mm (0.5 mm bar = 350 px), x right, y down.
+Melanoma nodule: large epithelioid cells, about 17 um, vesicular nucleus about 9 um with a nucleolus. Base near y 1210. Tongues hang from the base, joined to it. Deepest tongue at x about 1048, lowest cell's lower edge y about 1294. Granular top above it y about 104.
+Below and around the base: small round cells, about 9 um, solid nucleus about 5 um, no nucleolus, in nests that shrink into cords and single cells with depth, down to y about 1849. Dermal naevus. Pixel read-back: mean nuclear radius 3.0 px in the tongue cells, 2.0 px in the deep cells.
+
+Breslow = (1294 - 104) / 700 = 1.70, so 1.7 mm. Counting the naevus cells gives (1849 - 100) / 700 = 2.5 mm. That's the likely wrong answer.
+
+Check, standard-library Python
+print(round((1294 - 104) / 700, 2), round((1849 - 100) / 700, 2))
+Output: 1.7 2.5
+
+Sources: Breslow, Ann. Surg. 172, 902 (1970); Gershenwald et al., CA Cancer J. Clin. 67, 472 (2017); Scolyer et al., Am. J. Surg. Pathol. 37, 1797 (2013).
