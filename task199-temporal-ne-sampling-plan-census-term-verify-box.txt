@@ -1,0 +1,13 @@
+The key rests on the sampling plans of the temporal method (Nei and Tajima 1981; Waples 1989). Under plan I (sampling after reproduction, or nondestructive sampling with return) the expected F carries an extra -1/N term with the census size N; under plan II (sampling before reproduction without return) sampling is independent of population size and N does not enter (Jorde and Ryman 2007, who state this explicitly). Adults killed before spawning are plan II.
+
+Key by hand. F_c per locus = (x - y)^2 / ((x + y)/2 - xy): 0.07765, 0.05216, 0.09375; mean 0.07452. Plan II: Ne = t / (2 (F_c - 1/(2 S0) - 1/(2 St))) = 6 / (2 (0.07452 - 0.016667)) = 51.86, so 52.
+
+The most tempting wrong answer is 46: the plan I estimator with N = 150, 6 / (2 (0.07452 - 0.016667 + 0.006667)) = 46.497.
+
+Check with Python (standard library):
+loci = [(0.62, 0.48), (0.30, 0.41), (0.55, 0.70)]
+F = sum((x - y) ** 2 / ((x + y) / 2 - x * y) for x, y in loci) / 3
+print(round(6 / (2 * (F - 1 / 120 - 1 / 120)), 2), round(6 / (2 * (F - 1 / 60 + 1 / 150)), 2))
+It prints 51.86 46.5 (46.497 before rounding).
+
+The uploaded notes hold the same computation with every intermediate number.
