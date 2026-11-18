@@ -1,0 +1,14 @@
+Key depends on where scar ends and blood begins inside the bright dome. On bright-blood PSIR, subendocardial scar is close to blood-pool signal (Kellman et al. 2016, J Cardiovasc Magn Reson 18:77); a thinned infarct expands outward (Hutchins and Bulkley 1978), so the remote cavity circle doesn't mark the endocardium.
+
+Image 2600 x 2300 px. Mean grey (8-bit) in a 4 mm band on x = 0 under the arrow: fat pad 45.1 to 36.5 mm, nulled myocardium 36.5 to 33.7 mm, then bright. Two-level fit of the bright part splits at 29.0 mm: 222 above, 204 below. Lateral wall (y = 0): the band next to the cavity edge is 176 against 201 further in, so no bright layer there.
+
+Wall 36.5 - 29.0 = 7.5 mm, scar 33.7 - 29.0 = 4.7 mm, 0.63, so 60. Model 4.2/7.0. Any endocardium from 28.5 to 30.3 mm gives 60.
+
+Most tempting wrong answer: endocardium on the remote circle (y = 24), 9.7/12.5 = 0.78, so 80. Fat pad read as scar, also about 80. Fat pad counted as wall, about 30.
+
+Check, standard-library Python
+for endo in (29.0, 24.0):
+    print(endo, round(100 * (33.7 - endo) / (36.5 - endo)))
+Output: 29.0 63 / 24.0 78
+
+Uploaded notes: the model of the ventricle, plus a script that reads the layers off the image file.
