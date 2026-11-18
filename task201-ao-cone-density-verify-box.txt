@@ -1,0 +1,19 @@
+The density comes from counting the cones in the figure and converting the angular field to retinal area with the Bennett, Rudnicka and Edgar (1994) formula, q = 0.01306 (AL - 1.82) mm per degree.
+
+Scale: AL = 27.4 mm, q = 0.01306 x 25.58 = 0.3341 mm per degree. The 1.00 degree field is 0.3341 mm square, 0.1116 mm^2.
+
+Mosaic read from the figure (image 2000 x 2000 px, 60 arcmin across, so 33.3 px per arcmin): 5,458 cone centres lie inside the field, an automatic count of local maxima finds 5,485 including cones cut by the border, and the power spectrum ring gives a centre spacing of 29.1 px = 0.873 arcmin. That is 1.51 to 1.52 cones per square arcmin.
+
+Density: 5458 / 0.1116 = 48,900 per mm^2; 5485 / 0.1116 = 49,100; from the spacing, 2 / (sqrt(3) x (4.86 um)^2) = 48,800. All give 49,000 to two significant figures.
+
+The most tempting wrong answer uses the emmetropic 0.291 mm per degree: field area (0.291)^2 = 0.0847 mm^2 and 5458 / 0.0847 = 64,000 (65,000 at 0.290 mm per degree). A square lattice, 1/s^2, gives 42,000.
+
+Python check (standard library):
+import math
+q = 0.01306 * (27.4 - 1.82)
+print(round(q, 4), round(5458 / q**2), round(5485 / q**2))
+s = 0.873 / 60 * q
+print(round(2 / (math.sqrt(3) * s * s)), round(5458 / 0.291**2))
+It prints 0.3341 48904 49146, then 48838 64454.
+
+The uploaded notes contain the simulation and a program that finds all the cones in the image file (every simulated cone is matched within 8 px) and measures the spacing from the image alone.
