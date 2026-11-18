@@ -1,0 +1,14 @@
+Everything turns on finding the faint first annulus. An annulus is a band of crowded circuli with cutting over in the lateral fields (Ricker 1975; Devries and Frie 1996), and the back-calculated length comes from Fraser-Lee, L1 = a + (Lc - a) S1/Sc (Francis 1990).
+
+The image is 2400 x 1800 px with the focus at about x 1430, y 905 px and the anterior axis running to the left. Along that axis in the image file the margin is 1,232 px from the focus, and there are 48 circuli in between. Near the focus they're 21 to 22 px apart, and the spacing drops to 14 and 13 px for the circuli at 132, 146 and 159 px before going back to 21 to 30 px. That's the faint first annulus, and it's also cut over slightly in both lateral fields. The other four annuli are clear bands at about 316 to 341, 541 to 552, 742 to 775 and 942 to 992 px.
+
+Taking the outer edge of the first annulus at 159 to 167 px gives S1/Sc = 0.129 to 0.136, and L1 = 30 + 282 x 0.136 = 68.3 mm (66.4 at 0.129). That's 70 to the nearest 10 mm, and anything from 0.124 to 0.160 still gives 70.
+
+The most tempting wrong answer misses the faint band and treats the second annulus as the first, which gives 30 + 282 x 0.277 = 108, or 110 mm, a normal-looking first-year length for a trout. Measuring to the middle of the faint band gives about 60, and Dahl-Lea without the intercept gives 312 x 0.136 = 42, about 40.
+
+A quick check in standard-library Python
+for s in (159, 167, 341):
+    print(s, round(s / 1232, 3), round(30 + 282 * s / 1232, 1))
+prints 159 0.129 66.4, 167 0.136 68.2 and 341 0.277 108.1.
+
+The uploaded notes also hold the simulation and a program that finds every circulus on the anterior axis of the image file and flags the crowded bands.
