@@ -1,0 +1,15 @@
+The answer cannot be looked up. The papers below describe the G1, S and G2 forms of premature chromosome condensation and phase durations in an exponentially growing culture. The number depends on the nuclei drawn in the figure.
+
+Readings from the image file (2400 x 2400 pixels; x to the right, y down; four rows of four nuclei). S phase, pulverised: (939, 322), (273, 882), (1474, 929), (1525, 1473), (2119, 1529), (929, 2140). G2, seven elements of two parallel chromatids about 4 px apart: (2133, 332), (336, 1473), (1478, 2139). G1, seven single threads: (322, 308), (1537, 331), (904, 915), (2081, 937), (909, 1475), (338, 2063), (2092, 2086). Thread length and stain vary between nuclei; the doubled chromatid is seen at full size.
+
+Key by hand. f_S = 6/16, f_G2 = 3/16, T = 20.0 h. t_S = T log2((1 + f_S + f_G2) / (1 + f_G2)) = 20 log2(25/19) = 7.92 h. Also t_G1 = 7.12 h and t_G2 = 4.96 h.
+
+The most tempting wrong answer is 7.25 h, from taking two G1 nuclei with thick threads for G2 (G2 5 of 16). One G1 taken for G2 gives 7.57 h; f_S x T gives 7.50 h.
+
+Check with Python (standard library):
+from math import log2
+T, n, s, g2 = 20.0, 16, 6, 3
+print(round(T * log2((1 + s / n + g2 / n) / (1 + g2 / n)), 2), round(T * log2((1 + s / n + 5 / n) / (1 + 5 / n)), 2))
+It prints 7.92 7.25.
+
+Sources: R. T. Johnson and P. N. Rao, Nature 226, 717 (1970); E. Gotoh et al., Biomed. Res. 16, 63 (1995); S. Okada, J. Cell Biol. 34, 915 (1967); E. Gotoh and M. Durante, J. Cell. Physiol. 209, 297 (2006). The uploaded notes contain the drawing program, the key and a program that reads the image file back.
