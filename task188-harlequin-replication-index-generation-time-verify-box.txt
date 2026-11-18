@@ -1,0 +1,16 @@
+The answer cannot be looked up. The papers below describe the staining of sister chromatids after BrdU, the first, second and third division patterns and the average generation time from the replication index. The number depends on the metaphases drawn in the figure.
+
+Readings from the image file (3400 x 2560 pixels; x to the right, y down). Fourteen spreads of 20 chromosomes. Third division (M3; 8 to 10 chromosomes pale on both chromatids next to 10 to 12 harlequins): (1298, 303), (1361, 985), (2989, 943), (2177, 1586), (2094, 2201). First division (M1; every chromosome one broad band, dark on both chromatids): (2057, 411), (375, 1615), (1290, 2188). Second division (M2; every chromosome a narrower dark chromatid with a faint pale chromatid along one side, changing sides at exchanges): (373, 360), (363, 926), (2096, 971), (1311, 1582), (3047, 1544), (2912, 2226). The chromatids lie 4.4 px apart, so the M1 and M2 difference is seen at full size along the long chromosomes.
+
+Key by hand. RI = (1 x 3 + 2 x 6 + 3 x 5) / 14 = 30 / 14 = 2.143. AGT = 48 h / 2.143 = 22.4 h.
+
+The most tempting wrong answer is 23.2 h, from reading one M2 spread as M1 (RI 29/14). Reading the three M1 spreads as M2 gives 20.4 h, and missing the pale chromosomes of the M3 spreads gives 26.9 h.
+
+Check with Python (standard library):
+m1, m2, m3, T = 3, 6, 5, 48
+ri = (m1 + 2 * m2 + 3 * m3) / (m1 + m2 + m3)
+wrong = (m1 + 1 + 2 * (m2 - 1) + 3 * m3) / 14
+print(round(ri, 4), round(T / ri, 1), round(T / wrong, 1))
+It prints 2.1429 22.4 23.2.
+
+Sources: S. A. Latt, Proc. Natl. Acad. Sci. USA 70, 3395 (1973); P. Perry and S. Wolff, Nature 251, 156 (1974); J. L. Ivett and R. R. Tice, Environ. Mutagen. 4, 358 (1982); P. E. Crossen and W. F. Morgan, Exp. Cell Res. 104, 453 (1977). The uploaded notes contain the drawing program, the key and a program that reads the image file back.
