@@ -1,0 +1,15 @@
+Key depends on why the peak separation grows with disk size. Kinetics and planar diffusion don't depend on the disk; the stem fixes the uncompensated resistance as the disk spreading resistance 1/(4 kappa r) (Newman 1966) and the peak current goes as r^2, so the ohmic shift goes as r.
+
+Peaks (mV vs Fc+/Fc), cathodic / anodic / separation: 1.0 mm -1026 / -880 / 146; 2.0 mm -1033 / -875 / 159; 3.0 mm -1040 / -869 / 171; 5.0 mm -1053 / -859 / 194. Linear in r (0.05, 0.10, 0.15, 0.25 cm): intercept 134.4 mV. psi = 0.270, k0 = 0.270 x 0.02926 = 0.0079 cm/s, log10 k0 = -2.10. Any kinetic separation from 128.3 to 140.1 mV gives -2.1. Simulated with no ohmic drop: 132.7 mV.
+
+Most tempting wrong answer: extrapolate against peak current (or area), 148.8 mV, -2.2. The 1.0 mm curve as it is, 146 mV, also -2.2.
+
+Check, standard-library Python
+import math
+den = math.sqrt(math.pi * 7e-6 * 96485.332 / (8.314462 * 298.15))
+for dE in (134.4, 148.8):
+    psi = (-0.6288 + 0.0021 * dE) / (1 - 0.017 * dE)
+    print(dE, round(math.log10(psi * den), 2))
+Output: 134.4 -2.1 / 148.8 -2.22
+
+Uploaded notes: the simulator, the peak data, and a script that reads the peaks off the image file.
