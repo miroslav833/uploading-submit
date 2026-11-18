@@ -1,0 +1,9 @@
+The latency depends on the recording in the figure and cannot be looked up. Wave V of the click ABR is identified as the last positive peak of the IV/V complex, the one followed by the large negative trough; wave IV can be the taller peak of the complex in normal ears (Chiappa, Gladstone and Young 1979; Stockard, Stockard and Sharbrough 1978).
+
+Peaks in the average of the two replicates: wave I 1.61 ms, wave III 3.77 ms, tall peak 5.60 ms, small peak 6.20 ms; the deepest trough after 5 ms is at 7.36 ms (-0.48 uV), and between 5.60 and 6.20 ms the trace stays above baseline (lowest about +0.05 uV at 6.08 ms). The small peak is present in both replicates (6.22 and 6.17 ms when the two traces are read back from the image file); the bump near 4.9 ms is not (4.96 ms in one trace, 4.80 ms and less than half the size in the other).
+
+Wave V is the 6.20 ms peak, so I to V = 6.20 - 1.61 = 4.59 ms, which is 4.6 ms to one decimal place (4.60 and 4.58 ms on the two traces read from the image). I to III is 2.16 ms (normal) and III to V 2.43 ms (prolonged). Taking the tallest peak as wave V gives 5.60 - 1.61 = 3.99 ms, which is 4.0 ms, the textbook normal value.
+
+The arithmetic can be checked with Python (standard library):
+print(round(6.20 - 1.61, 1), round(5.60 - 1.61, 1))
+It prints 4.6 4.0.
