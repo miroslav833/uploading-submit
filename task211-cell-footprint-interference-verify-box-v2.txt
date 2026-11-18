@@ -1,0 +1,17 @@
+The answer follows from the formula in the question and the two panels, not from a source. The papers below describe the method and why dark regions in these images are not always close contacts.
+
+What the image shows, as fractions of the background I_b of each panel (the program in the notes averages rings round the centre of the disc). Panel A (546 nm): central disc 0.571; cell body 0.774; a faint ring 5.9 to 6.3 um from the centre at up to 0.791, 8 times the scatter of the ring averages above the body; a band 0.3 to 0.9 um round the focal-contact streaks at 0.749, darker than the body, while the band 5.8 to 6.3 um round the disc is at 0.787, brighter. Panel B (407 nm): disc 0.755, cell body 1.054. The ring is too faint to see in single pixels; it shows when panel A is enlarged round the disc.
+
+By hand. Body: 0.774 in A fits 40, 166 or 242 nm, which would read 1.05, 0.50, 1.47 in B; B reads 1.05, so 40 nm. Disc: 0.571 in A fits 29, 180, 227, 395 or 421 nm, which would read 0.75, 0.76, 1.56, 1.40, 0.97 in B; B reads 0.755, which leaves 29 and 180 nm. The height changes in one direction between body and centre, so a ring brighter than the body can only come from passing the bright fringe at 102 nm (1.63 I_b in A); the disc is at 180 nm. Any A reading from 0.520 to 0.638 gives 180 to the nearest 10 nm.
+
+If the ring is missed, the disc reads as a close contact at 30 nm.
+
+Check with Python (standard library):
+import math
+f = lambda h, lam: 1 - 0.7 * math.exp(-h / 1000) * math.cos(4 * math.pi * 1.335 * h / lam)
+sol = lambda t, lo, hi: min((abs(f(lo + i / 10, 546) - t), lo + i / 10) for i in range((hi - lo) * 10))[1]
+hs = [sol(0.571, 0, 102), sol(0.571, 102, 205), sol(0.571, 205, 307)]
+print([round(h, 1) for h in hs], [round(f(h, 407), 2) for h in hs], round(f(102.2, 546), 2))
+It prints [28.9, 180.2, 227.1] [0.75, 0.76, 1.56] 1.63.
+
+Sources: A. S. G. Curtis, J. Cell Biol. 20, 199 (1964); L. Limozin and K. Sengupta, ChemPhysChem 10, 2752 (2009). The uploaded notes contain the model, the key and the program that reads the levels back from the image.
