@@ -1,0 +1,15 @@
+The answer cannot be looked up. The sources below give the anatomy of the mycorrhizal types (mantle, Hartig net, intracellular hyphae) and the nitrogen isotope model. The number depends on the anatomy drawn in the figure.
+
+Readings from the image file (1040 x 2110 pixels, 4 px per um; x to the right, y down; root A centred at (520, 520), root B at (520, 1590)). Both roots: mantle about 5 um (20 px); Hartig net between the epidermal cells, along the epidermis/cortex boundary (radius 340 px) and between the outermost cortical cells (radius 266 to 340 px); a row of dark profiles about 2 um across inside the outermost cortical cells against their inner walls (radius about 275 px). Root A: these profiles are solid, gray at the centre 0.42 against 0.49 at the rim, centre paler than rim in 1 of 85: tannin deposits, no hyphae inside cells. Root B: hollow, centre 0.54 against rim 0.47, centre paler in 49 of 76 (the rest cut obliquely): hyphae with wall and lumen inside the cells. The verification notes, section 2, print these from the pixels.
+
+Key by hand. Root A ectomycorrhiza (T_r 0.44), root B ectendomycorrhiza (T_r 0.57). delta15N_A - delta15N_B = 9.0 x (0.44 - 0.57) = -1.17 permil.
+
+The most tempting wrong answer is 0, from taking the tannin deposits of root A for intracellular hyphae, so that both roots read as ectendomycorrhizas. The roots the other way round give +1.17.
+
+Check with Python (standard library):
+Df = 9.0
+Tr = {"ECM": 0.44, "ectendo": 0.57, "arbutoid": 0.68}
+print(round(Df * (Tr["ECM"] - Tr["ectendo"]), 3), round(Df * (Tr["arbutoid"] - Tr["ECM"]), 3))
+It prints -1.17 2.16.
+
+Sources: E. A. Hobbie and J. V. Colpaert, New Phytol. 157, 115 (2003); T. Yu, K. N. Egger and R. L. Peterson, Mycorrhiza 11, 167 (2001); R. L. Peterson, H. B. Massicotte and L. H. Melville, Mycorrhizas: Anatomy and Cell Biology (2004). The uploaded notes contain the drawing programs, the key and a program that reads the image file back.
