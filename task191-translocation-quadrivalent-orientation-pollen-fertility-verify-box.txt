@@ -1,0 +1,14 @@
+The data are the 30 cells of the original figure. The rule applied to them is the textbook cytogenetics of interchange heterozygotes (Burnham 1956; Sybenga 1975): alternate orientation of the ring of four at metaphase I gives balanced gametes, adjacent orientation gives duplication-deficiency gametes that abort in pollen, so the viable fraction is the fraction of alternate rings.
+
+Reading the figure. Spindle vertical; every ring has two lobes above and two below the equator. Alternate: the chromosomes cross at the centre of the ring (continuous dark stain there). Adjacent: two chiasmata, one just above and one just below the centre, with a narrow lighter gap between them. Best seen at full size.
+
+Cells with alternate rings: 1, 2, 3, 4, 6, 8, 12, 14, 15, 19, 20, 23, 24 (13). Cells with adjacent rings: 5, 7, 9, 10, 11, 13, 16, 17, 18, 21, 22, 25, 26, 27, 28, 29, 30 (17).
+
+Key: 13/30 = 0.433, so 43 % viable pollen. The most tempting wrong answer is 50 %, the textbook semisterility that assumes equal frequencies of the two orientations.
+
+Check with Python (standard library):
+alt = [1, 2, 3, 4, 6, 8, 12, 14, 15, 19, 20, 23, 24]
+print(round(100 * len(alt) / 30))
+It prints 43.
+
+The uploaded notes hold the layout of the cells and a program that reads every ring back from the image.
