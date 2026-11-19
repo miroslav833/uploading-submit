@@ -1,0 +1,17 @@
+Key depends on where the axon ends. The pale area inside the compact myelin holds two zones.
+
+From the image file (scale bar 400 px = 200 nm):
+outer edge of compact myelin 1122 nm, inner edge 862 nm (equal-area diameters)
+faint ring, concentric: 564 nm
+inside the ring: dark particles median 9.7 nm, 11.8 per 10^4 nm^2 (neurofilaments) + microtubule rings
+between ring and myelin: particles median 17.0 nm, 5.3 per 10^4 nm^2 (ribosomes) + microtubule rings, no 10 nm dots
+
+Band = enlarged inner tongue, oligodendrocyte cytoplasm. Axon = inside the ring.
+g = 564 / 1122 = 0.503 -> 0.5. With the outer tongue crescent (0.6 % of area): 564 / 1127 = 0.500.
+Likely wrong answer: whole pale disc as axon, 862 / 1122 = 0.77 -> 0.8.
+
+Check, standard-library Python
+print(round(564/1122, 1), round(862/1122, 1))
+Output: 0.5 0.8
+
+Sources: Snaidero et al. 2014, Cell 156, 277-290, p. 277 (inner tongue, channels reopen in adults).
