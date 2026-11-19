@@ -1,0 +1,13 @@
+Key depends on seeing the dim newer label. Older label bright and deeper; newer dim, just under the surface, 12.5 µm outside the older one; both present = double.
+
+Segments (µm, labels): 1 212 both; 2 138 none; 3 145 newer only; 4 205 both; 5 178 older only; 6 172 both; 7 190 none; 8 160 newer only; 9 196 both; 10 154 older only; 11 180 none; 12 170 both.
+dLS 955, sLS 637, BS 2100. MS/BS = (955 + 318.5)/2100 = 0.606. MAR 12.5/10 = 1.25 µm/d. BFR/BS = 0.758 -> 0.76.
+
+Most tempting wrong answer: dim line not seen, so every double reads single and 3, 8 read bare: 1.25 x (955 + 332)/2/2100 = 0.38.
+
+Check, standard-library Python
+d, s, bs = 955, 637, 2100
+print(round(1.25*(d + s/2)/bs, 3), round(1.25*(d + 332)/2/bs, 3))
+Output: 0.758 0.383
+
+Sources: Recker et al., Bone 49, 955-964 (2011), section "Forming surface" and Table 2; Dempster et al., J. Bone Miner. Res. 28, 2-17 (2013), Table 3.
