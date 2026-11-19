@@ -1,0 +1,21 @@
+The figure is the only source of the number of cells. It is a simulated overhead photograph, 232 x 232 px, made for this question. The magnet housings are the bright blocks on a circle of radius 77.0 px about the point (115.5, 115.5) px, 8.8 px apart along the circle. There are 55 of them. Their azimuths about the centre, counter-clockwise from the direction to the right, are 2.4 degrees + k x 6.545 degrees for k = 0 to 54, the first few being 2.4, 9.0, 15.5, 22.0 and 28.6 degrees. Counted by quadrant from the right, counter-clockwise, they are 14, 14, 13 and 14.
+
+Key by hand. N = 55, so each sector magnet bends by 2 pi/55 = 0.114240 rad and has the radius 60.00/0.114240 = 525.21 mm. Horizontal matrices, lengths in mm: drift [[1, L], [0, 1]], lens [[1, 0], [-1/f, 1]] with f = +121.00 for the focusing and -121.00 for the defocusing quadrupole, sector magnet [[0.993482, 59.870], [-0.00021704, 0.993482]]. From just behind a focusing quadrupole to just behind the next one, the cell matrix is [[2.693493, 396.216], [-0.0144012, -1.747173]]. cos(mu) = 0.473160, mu = 1.077922 rad, beta = 396.216/sin(mu) = 449.75 mm, Q = 55 mu/(2 pi) = 9.4356. The displaced quadrupole adds the outward kick d/f = 0.41322 mrad, and the closed orbit at the kick is x = (d/f)(beta/2) cot(pi Q) = 92.92 um x 0.20508 = 19.06 um, which rounds to 19 um, outward.
+
+The most tempting wrong answer is +144 um. It follows when the bending magnets are treated as field-free stretches of 60 mm, without the horizontal focusing of a sector magnet: cos(mu) = 1 - 70 x 210/(2 x 121^2) = 0.497985, Q = 9.1870, beta = 462.98 mm, cot(pi Q) = 1.5015, x = +143.6 um. Miscounts give other values: 54 cells +80 um, 56 cells -30 um, 53 cells +256 um, 57 cells -100 um, 110 cells +0.2 um. No cell count from 7 to 220 other than 55 comes within 20 per cent of 19 um. Rectangular magnets in place of sector magnets would give +147 um.
+
+Check program (Python 3, standard library):
+import math
+def mul(X, Y): return [[sum(X[i][k]*Y[k][j] for k in (0, 1)) for j in (0, 1)] for i in (0, 1)]
+N, f, d = 55, 121.00, 50.0
+th = 2*math.pi/N; rho = 60.00/th
+D = lambda L: [[1, L], [0, 1]]
+Q = lambda g: [[1, 0], [-1/g, 1]]
+B = [[math.cos(th), rho*math.sin(th)], [-math.sin(th)/rho, math.cos(th)]]
+M = D(70.00)
+for X in (Q(-f), D(75.00), B, D(75.00), Q(f)): M = mul(X, M)
+T = [[1, 0], [0, 1]]
+for _ in range(N): T = mul(M, T)
+print((d/f)*T[0][1]/(2 - T[0][0] - T[1][1]))   # 19.057 (micrometres)
+
+The uploaded notes add an element-by-element tracking with the exact geometry of the sector magnets, which gives 19.05 um, a table over the cell counts 7 to 90 with a check up to 220, and a script that counts the 55 housings from the image file. Sources for the method: Courant and Snyder, Annals of Physics 3, 1 (1958), the parts on linear betatron oscillations and on misalignments, and Penner, Review of Scientific Instruments 32, 150 (1961), for the matrix of a uniform-field bending magnet.
