@@ -1,0 +1,18 @@
+The figure carries one value, the number of foils. It is a simulated back-lit micrograph (1065 x 190 px): thin dark vertical lines, one per foil, on a bright ground between two dark jaws. In the band of rows 83 to 94 px below the top edge the lines are at the columns
+39 45 51 59 66 72 79 84 91 96 / 103 110 117 124 131 137 144 150 157 164 / 171 180 189 199 207 216 224 232 240 249 / 257 265 272 280 286 294 300 306 311 318 / 325 331 339 345 352 359 365 370 376 383 / 389 396 401 407 413 419 423 429 435 439 / 445 451 456 461 467 472 478 484 491 497 / 506 513 521 528 536 543 550 556 563 571 / 579 586 593 600 608 614 622 628 636 645 / 654 662 671 679 688 695 702 710 718 726 / 732 738 745 750 756 761 767 772 777 783 / 789 795 800 806 811 817 823 829 835 841 / 847 852 858 863 869 874 879 885 890 896 / 903 909 915 921 927 934 941 949 958 967 / 975 984 991 999 1006 1013 1021 1028.
+That is 148 lines, 4 to 10 px apart with no gap wide enough for a missing line, so N = 148 and the aluminium thickness is D = 148 x 10.0 = 1480 um.
+
+Key by hand. A proton is counted when the path l it needs to slow from its initial energy to 1.20 MeV exceeds D. Mean: R(16 MeV) = 11.41 x 16^(7/4) = 11.41 x 128 = 1460.48 um, R(1.20 MeV) = 11.41 x 1.3758 = 15.70 um, mean of l = 1444.78 um, so D exceeds it by 35.22 um. Bohr: kappa = 4 pi (1.440e-13 MeV cm)^2 x 7.83e23 cm^-3 = 0.20403 MeV^2/cm = 2.0403e-5 MeV^2/um. Stopping power S = E^(1-p)/(alpha p), alpha p = 19.9675. Straggling of l: integral of kappa dE/S^3 from 1.20 to 16 MeV = kappa (alpha p)^3 (16^3.25 - 1.2^3.25)/3.25 = 2.0403e-5 x 7961.1 x 8190.2/3.25 = 409.3 um^2, sigma_s = 20.23 um. Beam spread: dR/dE = alpha p 16^0.75 = 159.74 um/MeV, times 0.150 MeV = 23.96 um. Total sigma = sqrt(409.3 + 574.1) = 31.36 um. Fraction = (1/2) erfc(35.22/(31.36 sqrt 2)), the part of a Gaussian above 1.123 standard deviations, 0.1307, that is 0.13.
+
+The most tempting wrong answer is 0.56. It belongs to 144 foils, the whole number nearest to 1444.78/10.0 = 144.5, which an estimate from the width of the stack and a typical spacing (good to a few per cent only) cannot tell from 148: then D - 1444.78 = -4.78 um, -0.152 standard deviations, fraction 0.561. One line more or less than 148: 147 foils 0.21, 149 foils 0.075. The stack as thick as the mean range, 146 foils, gives 0.31. Other values: 145 foils 0.43, 150 foils 0.039; at 148 foils, every emerging proton counted whatever its energy 0.27, beam spread left out 0.041, both left out 0.17, mean energy loss alone 0 (the stack is thicker than the mean range).
+
+Check in a second (Python 3, standard library):
+import math
+alpha, p, E0, sE, Eth, t = 11.41, 1.75, 16.00, 0.150, 1.20, 10.0
+kappa = 4*math.pi*(1.440e-13)**2*7.83e23*1e-4            # MeV^2 per um
+mean = alpha*(E0**p - Eth**p)
+var = kappa*(alpha*p)**3*(E0**(3*p-2) - Eth**(3*p-2))/(3*p-2) + (alpha*p*E0**(p-1)*sE)**2
+for N in (148, 144, 147, 149):
+    print(0.5*math.erfc((N*t - mean)/math.sqrt(2*var)))    # 0.1307, 0.5606, 0.2107, 0.0747
+
+Citations: Bohr, Phil. Mag. 30, 581 (1915); Lewis, Phys. Rev. 85, 20 (1952); Bichsel and Uehling, Phys. Rev. 119, 1670 (1960); Bortfeld, Med. Phys. 24, 2024 (1997). The uploaded notes hold the key script with other foil numbers and every wrong route recomputed, a Monte Carlo calculation of the slowing down that does not assume a Gaussian path length and gives 0.133 +- 0.001, the program that draws the figure and the read-back of the 148 foils from the image file.
