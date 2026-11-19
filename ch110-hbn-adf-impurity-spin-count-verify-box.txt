@@ -1,0 +1,24 @@
+Image: B red (dim), C orange, N yellow, O near white. In the file the spot maxima sit in four separate grey bands (B 77 to 84, C 151 to 156, N 221 to 225, O 252), so no site is doubtful.
+
+Foreign atoms, pixel positions (origin top left):
+single C on B: (1339,375) (824,563) (1210,712)
+single C on N: (1135,233) (684,831) (210,906)
+O on N: (242,1111) (1341,1147)
+C2 pairs: (349,253)+(359,320); (1049,458)+(1061,525); (220,587)+(230,656)
+C3, two C on B: (672,377)(618,420)(629,488); (1244,917)(1307,942)(1361,897)
+C3, two C on N: (996,886)(1006,955)(953,998)
+C4 zigzag: (456,938)(523,961)(533,1029)(597,1054)
+25 C + 2 O = 27 atoms, 15 defects.
+
+Spins (neutral): single C_B, C_N, O_N one electron over or under the closed shell, S = 1/2. Bonded C: Lieb, S = |n_B - n_N|/2 (Phys. Rev. Lett. 62, 1201). Pair 0 (Mackoit-Sinkeviciene et al., APL 115, 212101), C3 1/2, C4 (2 + 2) 0.
+S = 1/2 defects: 6 + 2 + 3 = 11.
+chi T = 0.12505 x 4 x 0.75 x 11/27 = 0.1528 -> 0.153 cm3 K mol-1.
+
+Most tempting wrong answer: the end C at (1361,897) passed over, that C3 becomes a pair: 10/26 -> 0.144. Every foreign atom as its own spin: 0.375.
+
+check:
+h = 0.12505*4*0.75
+print(round(h*11/27, 4), round(h*10/26, 4))
+-> 0.1528 0.1443
+
+Notes file: generator, key script, and a script that reads all atoms back from the PNG.
