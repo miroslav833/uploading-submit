@@ -1,0 +1,16 @@
+Labels printed in image.png (chi_m T in cm3 K mol-1): 20.0 K 0.0488, 150.0 K 0.2212, 300.0 K 0.2716. The curve rises and flattens; no maximum.
+
+Model, C = 0.12505, y = 3 zeta/(2 k_B T): chiT = (C/3)[10(1-k)^2 + 4(2+k)^2 (1-e^-y)/y + (1+2k)^2 e^-y]/(2 + e^-y). Gamma8 g = 2(1-k)/3, Gamma7 3 zeta/2 higher; k = 1 gives Kotani.
+The measured chi_m still holds the diamagnetism of the salt (only the holder was subtracted), so fit chi_m T = chiT + chi0 T through the three labels: zeta 145 cm-1, chi0 -3.5e-4 cm3 mol-1, k = 0.7196, so 0.72. Second root k = 1.30 is outside 0 < k <= 1.
+Most tempting wrong answer: no chi0, fit through 20 K and 300 K: k = 0.62 (zeta 281 cm-1), which puts 150 K at 0.169 instead of 0.2212. Through 20 K and 150 K: 0.69.
+
+Check, standard-library Python:
+import math
+C=3*0.12505; K=0.6950348
+def f(T,z,k):
+    y=1.5*z/(K*T); e=math.exp(-y)
+    return C*(10*(1-k)**2+4*(2+k)**2*(1-e)/y+(1+2*k)**2*e)/(18+9*e)
+z,k,c=144.96,0.7196,-3.5e-4
+print([round(f(T,z,k)+c*T,4) for T in (20,150,300)])   # 0.0488 0.2212 0.2716
+
+Sources: Kotani, J. Phys. Soc. Jpn. 4, 293 (1949); Figgis, Trans. Faraday Soc. 57, 198 (1961); Bain and Berry, J. Chem. Educ. 85, 532 (2008).
