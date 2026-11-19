@@ -1,0 +1,33 @@
+Key depends on the image; method named in the question.
+
+Classes read from the image (rows top to bottom, left to right):
+R1 A A B B A B B B
+R2 A A A A B B B B
+R3 A A A B B B B B
+R4 A A A A A A B A
+R5 A A A A A A A A
+R6 B B A A A A B B
+R7 B B A A A A A B
+34 A, 22 B. Peak brightness: B 0.59 to 0.66, A 0.75 to 0.83 of full scale, no overlap.
+
+139 nearest-neighbour pairs: AA 68, AB 38, BB 33.
+w/kT = -1/2 ln(38^2 / (4 x 68 x 33)) = -1/2 ln(0.16087) = 0.914
+
+Most tempting wrong answer 0.790: top-right corner particle called bright (AA 68, AB 41, BB 30). Without the factor 4: 0.220.
+
+Check, standard-library Python:
+import math
+rows = ["AABBABBB","AAAABBBB","AAABBBBB","AAAAAABA","AAAAAAAA","BBAAAABB","BBAAAAAB"]
+pos = {}
+for j, r in enumerate(rows):
+    for i, c in enumerate(r):
+        pos[(i + 0.5 * (j % 2), j * math.sqrt(3) / 2)] = c
+n = {"AA": 0, "AB": 0, "BB": 0}
+for p, a in pos.items():
+    for q, b in pos.items():
+        if p < q and abs(math.dist(p, q) - 1) < 1e-6:
+            n["".join(sorted(a + b))] += 1
+print(n, round(-0.5 * math.log(n["AB"]**2 / (4 * n["AA"] * n["BB"])), 4))
+prints {'AA': 68, 'AB': 38, 'BB': 33} 0.9136
+
+Notes: layout, key, all single misreads, brightness read-back.
