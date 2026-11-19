@@ -1,0 +1,10 @@
+Image content (pixel coordinates of image.png, origin top left): 110 particles, 110 linkers, one ring of 8 at (793,535) (890,576) (930,672) (890,770) (793,810) (696,770) (656,673) (696,576).
+The 43 tall (bright) particles: (793,810) (890,770) (930,672) (793,535) (656,673) (995,578) (641,954) (533,530) (598,537) (1109,739) (1225,583) (895,931) (1000,928) (1089,428) (589,1087) (862,486) (542,1181) (1091,981) (1142,337) (440,577) (860,1028) (358,1225) (1379,448) (398,643) (331,639) (455,846) (237,341) (546,1309) (616,850) (1238,832) (962,1012) (286,1301) (1314,218) (110,289) (1350,1035) (238,142) (1454,897) (139,378) (326,1387) (336,105) (105,184) (500,428) (417,390). The other 67 are low. In the PNG the tall ones have red-channel level 255 and the low ones 216 to 222; linker mid-points 63 to 74, background 14.
+Mass of each ring particle plus its branch, in the ring order above: 42, 4, 50, 4, 67, 1, 22, 6 (m). Mass beyond each of the 102 branch linkers: sum 965, sum of squares 23027.
+
+Key: branch linkers 196*965 - 23027 = 166113. Ring pairs at separation 1, 2, 3, 4: 1309, 7898, 1406, 3942, times 7/8, 12/8, 15/8, 16/8, total 188101/8 = 23512.625. (166113 + 23512.625)/196^2 = 4.9361, so 4.936.
+Most tempting wrong answer: path lengths 1, 2, 3, 4 round the ring: (166113 + 1309 + 2*7898 + 3*1406 + 4*3942)/196^2 = 5.290. Equal masses: 4.860. One particle in the wrong class: 4.879 to 4.981, never 4.936.
+
+Check: W = [42, 4, 50, 4, 67, 1, 22, 6]; r = sum(W[i] * W[j] * (j - i) * (8 - j + i) / 8 for i in range(8) for j in range(i + 1, 8)); print(r, round((196 * 965 - 23027 + r) / 196 ** 2, 4))
+
+Method: Eichinger, Macromolecules 13, 1 (1980); Klein and Randic, J. Math. Chem. 12, 81 (1993).
