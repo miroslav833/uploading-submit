@@ -1,0 +1,17 @@
+The figure carries one value, the number of wrinkles between the two red dots. It is a simulated photograph (300 x 430 px of a 300 x 456 px image) of the film seen at a slant, so the bands are closer together at the top (far) end, with a caption strip of 26 px under it that reads 'dot to dot on the film: 112.4 mm'. The far dot is near (150, 29) px and the near dot near (150, 401) px, each on a bright band. On the line between them the bright bands have their maxima at the rows
+28 34 39 45 51 57 63 69 75 81 / 88 94 101 108 115 123 130 138 146 153 / 161 169 177 185 193 201 209 217 226 234 / 243 252 261 270 279 289 298 308 318 328 / 338 348 359 369 379 390 400.
+These are 47 bands, the first and the last under the dots, so 45 bands lie between the dots and the dots are N = 46 wavelengths apart. The spacing rises evenly from 5 to 6 px at the far dot to 10 to 11 px at the near dot, with no gap. The wrinkles are about 5 per cent closer than average near both dots, so an estimate from the two end spacings alone (372 px over the geometric mean of 5.6 and 10.6 px) gives about 48 and not 46.
+
+Key by hand. Bending stiffness B = E t^3/[12(1 - nu^2)] = 4.50e9 x (0.900e-6)^3/(12 x 0.8556) = 3.195e-10 N m. Mean wavelength 112.4 mm/46 = 2.4435 mm, k = 2 pi/lambda = 2571.4 1/m. Clamp distance L = 0.2000 m, p = pi/L = 15.708 1/m. For the height A sin(px) cos(ky) the mean energy per unit area is (A^2/8)[B (k^2 + p^2)^2 + T p^2 + rho g] (bending, tension, water), and the excess width taken up by the wrinkles is k^2 A^2/8 per unit width. At fixed excess width the energy is least when B (k^4 - p^4) = rho g + p^2 T. B k^4 = 13969 N/m^3, rho g = 998 x 9.81 = 9790 N/m^3, difference 4179 N/m^3, p^2 = 246.74 1/m^2, T = 4179/246.74 = 16.94 N/m, that is 17 N/m.
+
+The most tempting wrong answer is 57 N/m. It follows when the water is left out and the wavelength of a stretched sheet in air is used: T = B k^4 L^2/pi^2 = 13969/246.74 = 56.6 N/m. Other values: 45 wavelengths 12 N/m, 47 wavelengths 22 N/m (47 is also the number of bands when the two under the dots are counted), 44 wavelengths 7.7, 48 wavelengths 27; bending stiffness without the factor 1 - nu^2, 8.8; T/L^2 in place of pi^2 T/L^2, 170; water left out with 45 or 47 wavelengths, 52 or 62; sideways compression taken as nu T at the buckling threshold, T = 2 sqrt(B rho g)/nu = 0.0093 N/m, a route that never uses the wavelength.
+
+Check in a second (Python 3, standard library):
+import math
+E, t, nu, L, d, rho, g, N = 4.50e9, 0.900e-6, 0.380, 0.2000, 0.1124, 998.0, 9.81, 46
+B = E*t**3/(12*(1 - nu**2))
+k, p = 2*math.pi*N/d, math.pi/L
+print((B*(k**4 - p**4) - rho*g)/p**2)      # 16.94, the key
+print(B*(k**4 - p**4)/p**2)                # 56.62, water left out
+
+Citations: Cerda, Ravi-Chandar and Mahadevan, Nature 419, 579 (2002); Cerda and Mahadevan, Phys. Rev. Lett. 90, 074302 (2003); Pocivavsek et al., Science 320, 912 (2008); Huang et al., Science 317, 650 (2007); Paulsen et al., Proc. Natl. Acad. Sci. 113, 1144 (2016). The uploaded notes hold the key script with other counts and every wrong route recomputed, a numerical check that finds the wavelength of least compressive force by a search and the tension by bisection and gives the same 16.94 N/m, the program that draws the figure and the read-back of the 46 wavelengths from the image file.
