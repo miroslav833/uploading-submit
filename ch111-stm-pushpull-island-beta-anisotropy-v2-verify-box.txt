@@ -1,0 +1,32 @@
+Image content (pixel coordinates in image.png, origin top left; direction of u = acceptor end to donor end, degrees counterclockwise from the nearly horizontal lattice axis, which is turned 8 degrees from the image x axis).
+Chain: molecule 1 centre (376,781), u 120; molecule 2 (355,630), u 240; molecule 3 (333,479), u 120. Contact 1-2 donor end to donor end, contact 2-3 acceptor end to acceptor end.
+Upper right pair: molecule 4 (1293,262), u 180; molecule 5 (1119,287), u 180; head to tail.
+Lower right pair: molecule 6 (1243,642), u 0; molecule 7 (1123,736), u 240; acceptor ends together.
+Single: molecule 8 (727,968), u 0.
+Gaps between the ends of molecules in contact 30 to 54 px; nearest ends of molecules not in contact 205 px. Donor lobe: green 255, blue 161 or more; acceptor end: green 154 or less, blue 27 or less.
+
+Key: V = -0.2 eps for the pair 4-5, +0.2 eps for 1-2, 2-3 and 6-7. beta = beta_0 sum_b Sym(w_b w_b u_b), w_b = sum_a G_ba u_a, G the inverse of H/eps.
+Chain (xxx, xxy, xyy, yyy) = (-0.2422, 0.2626, -1.5300, 0.7060); pair 4-5 (-3.125, 0, 0, 0); pair 6-7 (1.0471, -0.2349, -0.5046, -0.7048); molecule 8 (1, 0, 0, 0). Total (-1.3201, 0.0277, -2.0346, 0.0012).
+|v|^2 = 11.2547, |J=1|^2 = 6.7528, |beta|^2 = 14.1634, |J=3|^2 = 7.4106, rho = 1.048, so 1.05.
+Most tempting wrong answer, no coupling: eight rods added, net numbers 0, -2 and 2 on the three axes, S1^2 = 4, S3 = 4, rho^2 = 1/4 + 5*16/(12*4) = 1.917, rho = 1.38.
+Other wrong routes: all couplings -0.2 eps 0.634; all +0.2 eps 2.65; all signs reversed 1.58; tensor split in the plane only 0.823.
+
+Check:
+import math
+c = lambda d: (math.cos(math.radians(d)), math.sin(math.radians(d)))
+def agg(us, G):
+    t = [0] * 4
+    for b, (ux, uy) in enumerate(us):
+        wx = sum(G[b][a] * us[a][0] for a in range(len(us))); wy = sum(G[b][a] * us[a][1] for a in range(len(us)))
+        t = [t[0] + wx*wx*ux, t[1] + (wx*wx*uy + 2*wx*wy*ux)/3, t[2] + (wy*wy*ux + 2*wx*wy*uy)/3, t[3] + wy*wy*uy]
+    return t
+k = 0.2
+G3 = [[x / (1 - 2*k*k) for x in r] for r in [[1 - k*k, -k, k*k], [-k, 1, -k], [k*k, -k, 1 - k*k]]]
+Gm = [[1/(1 - k*k), k/(1 - k*k)], [k/(1 - k*k), 1/(1 - k*k)]]
+Gp = [[1/(1 - k*k), -k/(1 - k*k)], [-k/(1 - k*k), 1/(1 - k*k)]]
+P = [agg([c(120), c(240), c(120)], G3), agg([c(180), c(180)], Gm), agg([c(0), c(240)], Gp), agg([c(0)], [[1]])]
+T = [sum(p[i] for p in P) for i in range(4)]
+v2 = (T[0] + T[2])**2 + (T[1] + T[3])**2; n = T[0]**2 + 3*T[1]**2 + 3*T[2]**2 + T[3]**2
+print(round(v2, 4), round(n, 4), round(math.sqrt((n - 0.6*v2) / (0.6*v2)), 4))
+
+Method: Orr and Ward, Mol. Phys. 20, 513 (1971); Kasha, Rawls and El-Bayoumi, Pure Appl. Chem. 11, 371 (1965).
