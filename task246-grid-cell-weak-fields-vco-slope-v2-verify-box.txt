@@ -1,0 +1,18 @@
+Key depends on whether the dim fields count. They do: grid spacing is 31.2 cm, not 54 cm. G = 2/(sqrt(3) beta) is from Burgess, Barry and O'Keefe (2007). Unequal field rates in one grid cell: Ismakov et al. (2017).
+
+Fields away from the walls, x and y in cm, then peak rate in Hz.
+Bright: (113, 111) 14.5; (21, 99) 13.9; (71, 78) 10.5; (121, 57) 10.1; (64, 132) 10.1; (29, 44) 9.2; (79, 24) 8.8.
+Dim: (95, 138) 4.3; (136, 88) 4.1; (63, 49) 4.0; (48, 21) 4.0; (139, 34) 3.9; (34, 126) 3.8; (111, 28) 3.6; (103, 83) 3.6; (12, 69) 3.3; (41, 74) 3.3; (53, 104) 3.3; (16, 18) 3.0; (84, 107) 3.0; (126, 141) 3.0; (91, 52) 2.9.
+The dim ones are mid to light blue on dark blue, easy to see at full size. Under about 1 Hz between fields.
+
+Bright to bright is 54 cm: (71, 78) to (113, 111) 53.4, (71, 78) to (121, 57) 54.2. Triangle (71, 78), (113, 111), (121, 57) has its centre at (102, 82) and there's a dim field at (103, 83). Same for the others. Whole lattice 54/1.732 = 31.2 cm, beta = 2/(1.732 x 0.312) = 3.70.
+
+Bright fields alone would give 2/(1.732 x 0.54) = 2.1, the likely wrong answer. It needs the dim fields to be side peaks. For directions 60 degrees apart the sum is 4|cos(a/2)cos(c/2)|, no peak off the lattice, a quarter of maximum at a triangle centre. The sqrt(7)/4 side peak belongs to directions 120 degrees apart. Product of envelopes: 1/8 of peak there, about 1.4 Hz, against 2.9 to 4.3 Hz seen.
+
+Check, standard-library Python
+from math import sqrt
+print(round(2/(sqrt(3)*0.312), 2), round(2/(sqrt(3)*0.54), 2))
+Output: 3.7 2.14
+The notes have the program that finds the 22 maxima and fits both lattices (31.2 and 54.3 cm).
+
+Sources: Burgess, Barry and O'Keefe, Hippocampus 17, 801-812 (2007), section on two-dimensional interference; Hafting et al., Nature 436, 801-806 (2005), Fig. 1; Ismakov et al., Curr. Biol. 27, 2337-2343 (2017), Figs. 1-2.
