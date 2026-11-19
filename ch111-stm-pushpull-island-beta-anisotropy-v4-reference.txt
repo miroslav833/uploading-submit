@@ -1,0 +1,1108 @@
+Verification notes: coupling-induced change of the nonlinear anisotropy of forty push-pull molecules (ch111, version 4)
+
+1. What is here
+
+The key from the closed first-order form with the values of the wrong routes and of misread molecules, the same key from exact diagonalisation of every aggregate (for two values of the dipole change), and a readback of directions and contacts from the PNG. The layout is embedded at the end.
+
+Environment: Python 3.12.3; numpy 2.5.5, SciPy 1.18.1. Every program below is complete as printed and was run exactly as shown.
+
+2. Key from the closed form, wrong routes, misreads
+===================================================
+
+Command (run inside verification/): python3 key.py
+
+----- key.py -----
+"""Key and wrong routes for ch111 version 4 (standard library only), from verification/layout.json.
+Units: beta0 = 1, x = J/eps. Zeroth order B0 = sum_a u_a u_a u_a. A contact a-b with sign s adds, to first order
+and exactly, -6 s x Sym[u_a u_b u_b + u_a u_a u_b] (first-order energy s (J/mu^2) p_a(F) p_b(F) with
+p = alpha f + beta0 f^2 / 2, alpha = 2 mu^2 / eps). s is the sign of u_a.u_b - 3 (u_a.r)(u_b.r), r along the line of
+centres. rho^2 = (5/3) |B|^2 / |v|^2 - 1, kappa = d rho / dx at x = 0."""
+import json
+import math
+import os
+import sys
+
+p = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(os.path.abspath(__file__)), "layout.json")
+L = json.load(open(p))
+ang = [m["u_deg_lattice"] for m in L["molecules"]]
+cen = [m["centre_px"] for m in L["molecules"]]
+rot = L["rot_deg"]
+
+
+def uv(d):
+    return (math.cos(math.radians(d)), math.sin(math.radians(d)))
+
+
+def sym(p_, q, r):
+    return [p_[0] * q[0] * r[0],
+            (p_[0] * q[0] * r[1] + p_[0] * q[1] * r[0] + p_[1] * q[0] * r[0]) / 3,
+            (p_[0] * q[1] * r[1] + p_[1] * q[0] * r[1] + p_[1] * q[1] * r[0]) / 3,
+            p_[1] * q[1] * r[1]]
+
+
+def sign(a, b, ang_):
+    ua, ub = uv(ang_[a] + rot), uv(ang_[b] + rot)
+    rx, ry = cen[b][0] - cen[a][0], -(cen[b][1] - cen[a][1])           # image y runs down
+    n = math.hypot(rx, ry)
+    rx, ry = rx / n, ry / n
+    return 1 if ua[0] * ub[0] + ua[1] * ub[1] - 3 * (ua[0] * rx + ua[1] * ry) * (ub[0] * rx + ub[1] * ry) > 0 else -1
+
+
+def tensors(ang_, signs=None, factor=6.0):
+    U = [uv(d) for d in ang_]
+    B0 = [0.0] * 4
+    for u in U:
+        B0 = [x + y for x, y in zip(B0, sym(u, u, u))]
+    B1 = [0.0] * 4
+    for i, (a, b) in enumerate(L["contacts"]):
+        s = signs[i] if signs else sign(a, b, ang_)
+        t = [x + y for x, y in zip(sym(U[a], U[b], U[b]), sym(U[a], U[a], U[b]))]
+        B1 = [x - factor * s * y for x, y in zip(B1, t)]
+    return B0, B1
+
+
+W4 = (1, 3, 3, 1)
+
+
+def kappa(B0, B1, show=False):
+    v0 = (B0[0] + B0[2], B0[1] + B0[3])
+    v1 = (B1[0] + B1[2], B1[1] + B1[3])
+    n0 = sum(w * x * x for w, x in zip(W4, B0))
+    n1 = 2 * sum(w * x * y for w, x, y in zip(W4, B0, B1))
+    q0 = v0[0] ** 2 + v0[1] ** 2
+    q1 = 2 * (v0[0] * v1[0] + v0[1] * v1[1])
+    rho0 = math.sqrt(5 * n0 / (3 * q0) - 1)
+    k = (5 / 3) * (n1 / q0 - n0 * q1 / q0 ** 2) / (2 * rho0)
+    if show:
+        print("B0 (xxx, xxy, xyy, yyy) = (%.4f, %.4f, %.4f, %.4f)" % tuple(B0))
+        print("B1 (xxx, xxy, xyy, yyy) = (%.4f, %.4f, %.4f, %.4f)" % tuple(B1))
+        print("|B0|^2 = %.4f, d|B|^2/dx = %.4f, |v0|^2 = %.4f, d|v|^2/dx = %.4f" % (n0, n1, q0, q1))
+        print("rho0 = %.4f, d(rho^2)/dx = %.4f" % (rho0, 2 * rho0 * k))
+    return rho0, k
+
+
+counts = [ang.count(60 * k) for k in range(6)]
+print("molecules", len(ang), "by direction 0..300:", counts, "contacts", len(L["contacts"]))
+sg = [sign(a, b, ang) for a, b in L["contacts"]]
+print("contacts with s = -1 (head to tail):", sg.count(-1), " with s = +1 (like ends meet):", sg.count(1))
+B0, B1 = tensors(ang)
+rho0, key = kappa(B0, B1, show=True)
+print("KEY kappa = %.4f" % key)
+print("Heitler-London exciton model (one third of the first-order change): %.4f" % kappa(*tensors(ang, factor=2.0))[1])
+print("local-field factor squared instead of cubed (factor 4): %.4f" % kappa(*tensors(ang, factor=4.0))[1])
+print("all couplings negative: %.4f" % kappa(*tensors(ang, signs=[-1] * len(sg)))[1])
+print("all couplings positive: %.4f" % kappa(*tensors(ang, signs=[1] * len(sg)))[1])
+print("every sign reversed: %.4f" % kappa(*tensors(ang, signs=[-s for s in sg]))[1])
+ks = "%.3g" % key
+one = []
+for i in range(len(ang)):
+    a2 = ang[:]
+    a2[i] = (a2[i] + 180) % 360
+    one.append("%.3g" % kappa(*tensors(a2))[1])
+print("one molecule read end for end: %d cases, values from %s to %s, key among them: %s" % (len(one), min(one, key=float), max(one, key=float), ks in one))
+near = sorted(one, key=lambda v: abs(float(v) - key))[:4]
+print("  nearest to the key:", near)
+two = 0
+n = len(ang)
+for i in range(n):
+    for j in range(i + 1, n):
+        a2 = ang[:]
+        a2[i] = (a2[i] + 180) % 360
+        a2[j] = (a2[j] + 180) % 360
+        if "%.3g" % kappa(*tensors(a2))[1] == ks:
+            two += 1
+print("pairs of molecules read end for end that give the key again: %d of %d" % (two, n * (n - 1) // 2))
+----- end of key.py -----
+
+----- output -----
+molecules 40 by direction 0..300: [5, 6, 4, 7, 7, 11] contacts 20
+contacts with s = -1 (head to tail): 13  with s = +1 (like ends meet): 7
+B0 (xxx, xxy, xyy, yyy) = (-1.2500, -1.7321, 2.2500, -5.1962)
+B1 (xxx, xxy, xyy, yyy) = (10.5000, -9.5263, 19.5000, -7.7942)
+|B0|^2 = 52.7500, d|B|^2/dx = 417.0000, |v0|^2 = 49.0000, d|v|^2/dx = 300.0000
+rho0 = 0.8912, d(rho^2)/dx = 3.1987
+KEY kappa = 1.7946
+Heitler-London exciton model (one third of the first-order change): 0.5982
+local-field factor squared instead of cubed (factor 4): 1.1964
+all couplings negative: -0.0374
+all couplings positive: 0.0374
+every sign reversed: -1.7946
+one molecule read end for end: 40 cases, values from -0.0412 to 3.96, key among them: False
+  nearest to the key: ['1.83', '1.83', '1.83', '1.59']
+pairs of molecules read end for end that give the key again: 24 of 780
+----- end of output -----
+
+3. Key from exact diagonalisation
+=================================
+
+Command (run inside verification/): python3 exact.py
+
+----- exact.py -----
+"""Independent route: exact diagonalisation. For every aggregate the full Hamiltonian of its two-level molecules is
+built (units mu = eps = 1, dmu given as argument, default 1): H = sum_a n_a + x sum_contacts s_ab m_a m_b with
+m_a = sigma_x + dmu n_a. The static beta tensor follows from the sum over all eigenstates,
+beta_ijk = sum over the six index orders of sum_{p,q>0} M_0p (M - M_00)_pq M_q0 / (E_p E_q), in units of
+beta0 = 6 mu^2 dmu / eps^2. rho(x) is evaluated at small +x and -x and kappa is the central difference."""
+import itertools
+import json
+import math
+import os
+import sys
+import numpy as np
+
+L = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "layout.json")))
+dmu = float(sys.argv[1]) if len(sys.argv) > 1 else 1.0
+rot = L["rot_deg"]
+ang = [m["u_deg_lattice"] for m in L["molecules"]]
+cen = [m["centre_px"] for m in L["molecules"]]
+agg = [m["aggregate"] for m in L["molecules"]]
+U = [np.array([math.cos(math.radians(a)), math.sin(math.radians(a))]) for a in ang]
+sx, nn, I2 = np.array([[0, 1.0], [1, 0]]), np.array([[0, 0], [0, 1.0]]), np.eye(2)
+
+
+def op(o, a, n):
+    m = np.eye(1)
+    for k in range(n):
+        m = np.kron(m, o if k == a else I2)
+    return m
+
+
+def sign(a, b):
+    ua = np.array([math.cos(math.radians(ang[a] + rot)), math.sin(math.radians(ang[a] + rot))])
+    ub = np.array([math.cos(math.radians(ang[b] + rot)), math.sin(math.radians(ang[b] + rot))])
+    r = np.array([cen[b][0] - cen[a][0], -(cen[b][1] - cen[a][1])])
+    r = r / np.hypot(*r)
+    return 1 if ua @ ub - 3 * (ua @ r) * (ub @ r) > 0 else -1
+
+
+def beta(x):
+    B = np.zeros((2, 2, 2))
+    for g in sorted(set(agg)):
+        idx = [i for i in range(len(U)) if agg[i] == g]
+        n = len(idx)
+        d = [op(sx, k, n) + dmu * op(nn, k, n) for k in range(n)]
+        H = sum(op(nn, k, n) for k in range(n))
+        for a, b in L["contacts"]:
+            if a in idx:
+                H = H + sign(a, b) * x * d[idx.index(a)] @ d[idx.index(b)]
+        E, C = np.linalg.eigh(H)
+        E = E - E[0]
+        Me = [C.T @ sum(U[a][i] * d[k] for k, a in enumerate(idx)) @ C for i in range(2)]
+        N = len(E)
+        T = np.zeros((2, 2, 2))
+        for i, j, k in itertools.product(range(2), repeat=3):
+            mb = Me[j] - Me[j][0, 0] * np.eye(N)
+            T[i, j, k] = sum(Me[i][0, p] * mb[p, q] * Me[k][q, 0] / (E[p] * E[q]) for p in range(1, N) for q in range(1, N))
+        B += sum(np.transpose(T, p) for p in itertools.permutations(range(3))) / (6 * dmu)
+    return B
+
+
+def rho(B):
+    v = np.einsum("ijj->i", B)
+    return math.sqrt(((B ** 2).sum() - 0.6 * v @ v) / (0.6 * v @ v))
+
+
+h = 1e-4
+print("dmu/mu = %.2f: rho(0) = %.5f, kappa = (rho(+h) - rho(-h)) / 2h = %.4f" % (dmu, rho(beta(0.0)), (rho(beta(h)) - rho(beta(-h))) / (2 * h)))
+for x in (0.01, 0.02):
+    print("x = %.2f: exact rho %.4f" % (x, rho(beta(x))))
+----- end of exact.py -----
+
+----- output -----
+dmu/mu = 1.00: rho(0) = 0.89119, kappa = (rho(+h) - rho(-h)) / 2h = 1.7946
+x = 0.01: exact rho 0.9084
+x = 0.02: exact rho 0.9241
+----- end of output -----
+
+4. The same with the dipole change 0.4 mu
+=========================================
+
+Command (run inside verification/): python3 exact.py 0.4
+
+----- exact.py -----
+"""Independent route: exact diagonalisation. For every aggregate the full Hamiltonian of its two-level molecules is
+built (units mu = eps = 1, dmu given as argument, default 1): H = sum_a n_a + x sum_contacts s_ab m_a m_b with
+m_a = sigma_x + dmu n_a. The static beta tensor follows from the sum over all eigenstates,
+beta_ijk = sum over the six index orders of sum_{p,q>0} M_0p (M - M_00)_pq M_q0 / (E_p E_q), in units of
+beta0 = 6 mu^2 dmu / eps^2. rho(x) is evaluated at small +x and -x and kappa is the central difference."""
+import itertools
+import json
+import math
+import os
+import sys
+import numpy as np
+
+L = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "layout.json")))
+dmu = float(sys.argv[1]) if len(sys.argv) > 1 else 1.0
+rot = L["rot_deg"]
+ang = [m["u_deg_lattice"] for m in L["molecules"]]
+cen = [m["centre_px"] for m in L["molecules"]]
+agg = [m["aggregate"] for m in L["molecules"]]
+U = [np.array([math.cos(math.radians(a)), math.sin(math.radians(a))]) for a in ang]
+sx, nn, I2 = np.array([[0, 1.0], [1, 0]]), np.array([[0, 0], [0, 1.0]]), np.eye(2)
+
+
+def op(o, a, n):
+    m = np.eye(1)
+    for k in range(n):
+        m = np.kron(m, o if k == a else I2)
+    return m
+
+
+def sign(a, b):
+    ua = np.array([math.cos(math.radians(ang[a] + rot)), math.sin(math.radians(ang[a] + rot))])
+    ub = np.array([math.cos(math.radians(ang[b] + rot)), math.sin(math.radians(ang[b] + rot))])
+    r = np.array([cen[b][0] - cen[a][0], -(cen[b][1] - cen[a][1])])
+    r = r / np.hypot(*r)
+    return 1 if ua @ ub - 3 * (ua @ r) * (ub @ r) > 0 else -1
+
+
+def beta(x):
+    B = np.zeros((2, 2, 2))
+    for g in sorted(set(agg)):
+        idx = [i for i in range(len(U)) if agg[i] == g]
+        n = len(idx)
+        d = [op(sx, k, n) + dmu * op(nn, k, n) for k in range(n)]
+        H = sum(op(nn, k, n) for k in range(n))
+        for a, b in L["contacts"]:
+            if a in idx:
+                H = H + sign(a, b) * x * d[idx.index(a)] @ d[idx.index(b)]
+        E, C = np.linalg.eigh(H)
+        E = E - E[0]
+        Me = [C.T @ sum(U[a][i] * d[k] for k, a in enumerate(idx)) @ C for i in range(2)]
+        N = len(E)
+        T = np.zeros((2, 2, 2))
+        for i, j, k in itertools.product(range(2), repeat=3):
+            mb = Me[j] - Me[j][0, 0] * np.eye(N)
+            T[i, j, k] = sum(Me[i][0, p] * mb[p, q] * Me[k][q, 0] / (E[p] * E[q]) for p in range(1, N) for q in range(1, N))
+        B += sum(np.transpose(T, p) for p in itertools.permutations(range(3))) / (6 * dmu)
+    return B
+
+
+def rho(B):
+    v = np.einsum("ijj->i", B)
+    return math.sqrt(((B ** 2).sum() - 0.6 * v @ v) / (0.6 * v @ v))
+
+
+h = 1e-4
+print("dmu/mu = %.2f: rho(0) = %.5f, kappa = (rho(+h) - rho(-h)) / 2h = %.4f" % (dmu, rho(beta(0.0)), (rho(beta(h)) - rho(beta(-h))) / (2 * h)))
+for x in (0.01, 0.02):
+    print("x = %.2f: exact rho %.4f" % (x, rho(beta(x))))
+----- end of exact.py -----
+
+----- output -----
+dmu/mu = 0.40: rho(0) = 0.89119, kappa = (rho(+h) - rho(-h)) / 2h = 1.7946
+x = 0.01: exact rho 0.9083
+x = 0.02: exact rho 0.9238
+----- end of output -----
+
+5. Directions and contacts read back from the PNG
+=================================================
+
+Command (run inside verification/): python3 readback.py
+
+----- readback.py -----
+"""Read the figure back from image.png alone: lobes as local maxima of the smoothed green + blue signal, the two lobes
+of a molecule paired by distance (about 34 px), the brighter lobe taken as the donor end, the acceptor-to-donor
+direction binned on the lattice axes, and contacts as pairs of molecules whose nearest lobes are less than 80 px
+(2 nm) apart. Compared with layout.json."""
+import json
+import math
+import os
+import sys
+import numpy as np
+from PIL import Image
+from scipy import ndimage
+
+here = os.path.dirname(os.path.abspath(__file__))
+png = sys.argv[1] if len(sys.argv) > 1 else os.path.join(here, "..", "image.png")
+lay = json.load(open(os.path.join(here, "layout.json")))
+a = np.asarray(Image.open(png).convert("RGB")).astype(float)
+z = ndimage.gaussian_filter(a.sum(axis=2), 3.0)
+z[a.shape[0] - 120:, a.shape[1] - 300:] = 0
+mx = (z == ndimage.maximum_filter(z, size=15)) & (z > 0.5 * z.max())
+ys, xs = np.nonzero(mx)
+pts = np.array([xs, ys]).T.astype(float)
+val = z[ys, xs]
+print("lobes found:", len(pts))
+used, mol = set(), []
+for i in range(len(pts)):
+    if i in used:
+        continue
+    d = np.hypot(*(pts - pts[i]).T)
+    d[i] = 1e9
+    j = int(d.argmin())
+    used.update((i, j))
+    hi, lo = (i, j) if val[i] > val[j] else (j, i)
+    v = pts[hi] - pts[lo]
+    deg = math.degrees(math.atan2(-v[1], v[0])) - lay["rot_deg"]
+    mol.append({"c": pts[[i, j]].mean(axis=0), "lobes": pts[[i, j]], "deg": round(deg / 60) * 60 % 360, "sep": d[j], "ratio": val[lo] / val[hi]})
+print("molecules:", len(mol), " lobe separation px: %.1f to %.1f" % (min(m["sep"] for m in mol), max(m["sep"] for m in mol)))
+print("dim/bright lobe signal ratio: %.3f to %.3f" % (min(m["ratio"] for m in mol), max(m["ratio"] for m in mol)))
+C = np.array([m["centre_px"] for m in lay["molecules"]])
+order = [int(np.hypot(*(np.array([m["c"] for m in mol]) - c).T).argmin()) for c in C]
+read = [mol[i]["deg"] for i in order]
+print("directions that differ from the layout:", sum(r != m["u_deg_lattice"] for r, m in zip(read, lay["molecules"])))
+con, gaps, others = [], [], []
+for i in range(len(order)):
+    for j in range(i + 1, len(order)):
+        g = min(np.hypot(*(p - q)) for p in mol[order[i]]["lobes"] for q in mol[order[j]]["lobes"])
+        if g < 80:
+            con.append([i, j])
+            gaps.append(g)
+        else:
+            others.append(g)
+print("contacts read:", len(con), "equal to the layout list:", sorted(con) == sorted(lay["contacts"]))
+print("nearest lobes of molecules in contact: %.0f to %.0f px (%.2f to %.2f nm)" % (min(gaps), max(gaps), min(gaps) / 40, max(gaps) / 40))
+print("nearest lobes of any other pair: %.0f px (%.2f nm) or more" % (min(others), min(others) / 40))
+B = np.array([m["bright_lobe_px"] for m in lay["molecules"]]).round().astype(int)
+Dm = np.array([m["dim_lobe_px"] for m in lay["molecules"]]).round().astype(int)
+print("donor lobe  green %d to %d, blue %d to %d" % (a[B[:, 1], B[:, 0], 1].min(), a[B[:, 1], B[:, 0], 1].max(), a[B[:, 1], B[:, 0], 2].min(), a[B[:, 1], B[:, 0], 2].max()))
+print("acceptor lobe green %d to %d, blue %d to %d" % (a[Dm[:, 1], Dm[:, 0], 1].min(), a[Dm[:, 1], Dm[:, 0], 1].max(), a[Dm[:, 1], Dm[:, 0], 2].min(), a[Dm[:, 1], Dm[:, 0], 2].max()))
+----- end of readback.py -----
+
+----- output -----
+lobes found: 80
+molecules: 40  lobe separation px: 29.8 to 32.8
+dim/bright lobe signal ratio: 0.791 to 0.820
+directions that differ from the layout: 0
+contacts read: 20 equal to the layout list: True
+nearest lobes of molecules in contact: 51 to 63 px (1.29 to 1.57 nm)
+nearest lobes of any other pair: 122 px (3.06 nm) or more
+donor lobe  green 255 to 255, blue 157 to 180
+acceptor lobe green 202 to 228, blue 75 to 100
+----- end of output -----
+
+6. layout.json
+==============
+
+{
+ "rot_deg": 8.0,
+ "dim_to_bright": 0.76,
+ "px_per_nm": 40.0,
+ "molecules": [
+  {
+   "aggregate": 0,
+   "u_deg_lattice": 240,
+   "centre_px": [
+    251.0,
+    185.0
+   ],
+   "bright_lobe_px": [
+    244.7,
+    200.8
+   ],
+   "dim_lobe_px": [
+    257.4,
+    169.2
+   ]
+  },
+  {
+   "aggregate": 1,
+   "u_deg_lattice": 300,
+   "centre_px": [
+    717.7,
+    129.2
+   ],
+   "bright_lobe_px": [
+    728.2,
+    142.6
+   ],
+   "dim_lobe_px": [
+    707.2,
+    115.8
+   ]
+  },
+  {
+   "aggregate": 1,
+   "u_deg_lattice": 180,
+   "centre_px": [
+    643.8,
+    99.4
+   ],
+   "bright_lobe_px": [
+    627.0,
+    101.7
+   ],
+   "dim_lobe_px": [
+    660.6,
+    97.0
+   ]
+  },
+  {
+   "aggregate": 2,
+   "u_deg_lattice": 60,
+   "centre_px": [
+    513.7,
+    302.1
+   ],
+   "bright_lobe_px": [
+    520.0,
+    286.3
+   ],
+   "dim_lobe_px": [
+    507.3,
+    317.8
+   ]
+  },
+  {
+   "aggregate": 2,
+   "u_deg_lattice": 0,
+   "centre_px": [
+    450.9,
+    351.1
+   ],
+   "bright_lobe_px": [
+    467.7,
+    348.7
+   ],
+   "dim_lobe_px": [
+    434.1,
+    353.5
+   ]
+  },
+  {
+   "aggregate": 2,
+   "u_deg_lattice": 300,
+   "centre_px": [
+    377.0,
+    321.3
+   ],
+   "bright_lobe_px": [
+    387.5,
+    334.7
+   ],
+   "dim_lobe_px": [
+    366.5,
+    307.9
+   ]
+  },
+  {
+   "aggregate": 3,
+   "u_deg_lattice": 0,
+   "centre_px": [
+    170.4,
+    444.0
+   ],
+   "bright_lobe_px": [
+    187.2,
+    441.7
+   ],
+   "dim_lobe_px": [
+    153.5,
+    446.4
+   ]
+  },
+  {
+   "aggregate": 3,
+   "u_deg_lattice": 180,
+   "centre_px": [
+    79.3,
+    456.8
+   ],
+   "bright_lobe_px": [
+    62.4,
+    459.2
+   ],
+   "dim_lobe_px": [
+    96.1,
+    454.5
+   ]
+  },
+  {
+   "aggregate": 4,
+   "u_deg_lattice": 240,
+   "centre_px": [
+    1044.6,
+    173.6
+   ],
+   "bright_lobe_px": [
+    1038.3,
+    189.3
+   ],
+   "dim_lobe_px": [
+    1051.0,
+    157.8
+   ]
+  },
+  {
+   "aggregate": 4,
+   "u_deg_lattice": 180,
+   "centre_px": [
+    981.9,
+    222.6
+   ],
+   "bright_lobe_px": [
+    965.0,
+    225.0
+   ],
+   "dim_lobe_px": [
+    998.7,
+    220.2
+   ]
+  },
+  {
+   "aggregate": 4,
+   "u_deg_lattice": 180,
+   "centre_px": [
+    890.7,
+    235.4
+   ],
+   "bright_lobe_px": [
+    873.9,
+    237.8
+   ],
+   "dim_lobe_px": [
+    907.6,
+    233.0
+   ]
+  },
+  {
+   "aggregate": 5,
+   "u_deg_lattice": 0,
+   "centre_px": [
+    1316.5,
+    114.5
+   ],
+   "bright_lobe_px": [
+    1333.3,
+    112.1
+   ],
+   "dim_lobe_px": [
+    1299.6,
+    116.9
+   ]
+  },
+  {
+   "aggregate": 6,
+   "u_deg_lattice": 240,
+   "centre_px": [
+    164.5,
+    654.9
+   ],
+   "bright_lobe_px": [
+    158.1,
+    670.6
+   ],
+   "dim_lobe_px": [
+    170.9,
+    639.1
+   ]
+  },
+  {
+   "aggregate": 7,
+   "u_deg_lattice": 60,
+   "centre_px": [
+    1039.8,
+    385.0
+   ],
+   "bright_lobe_px": [
+    1046.2,
+    369.2
+   ],
+   "dim_lobe_px": [
+    1033.4,
+    400.8
+   ]
+  },
+  {
+   "aggregate": 7,
+   "u_deg_lattice": 180,
+   "centre_px": [
+    1102.6,
+    336.0
+   ],
+   "bright_lobe_px": [
+    1085.8,
+    338.3
+   ],
+   "dim_lobe_px": [
+    1119.4,
+    333.6
+   ]
+  },
+  {
+   "aggregate": 8,
+   "u_deg_lattice": 240,
+   "centre_px": [
+    1273.6,
+    460.8
+   ],
+   "bright_lobe_px": [
+    1267.3,
+    476.5
+   ],
+   "dim_lobe_px": [
+    1280.0,
+    445.0
+   ]
+  },
+  {
+   "aggregate": 8,
+   "u_deg_lattice": 300,
+   "centre_px": [
+    1262.5,
+    381.9
+   ],
+   "bright_lobe_px": [
+    1273.0,
+    395.3
+   ],
+   "dim_lobe_px": [
+    1252.1,
+    368.5
+   ]
+  },
+  {
+   "aggregate": 9,
+   "u_deg_lattice": 300,
+   "centre_px": [
+    468.6,
+    765.5
+   ],
+   "bright_lobe_px": [
+    479.1,
+    778.9
+   ],
+   "dim_lobe_px": [
+    458.1,
+    752.1
+   ]
+  },
+  {
+   "aggregate": 9,
+   "u_deg_lattice": 300,
+   "centre_px": [
+    412.0,
+    693.0
+   ],
+   "bright_lobe_px": [
+    422.4,
+    706.4
+   ],
+   "dim_lobe_px": [
+    401.5,
+    679.6
+   ]
+  },
+  {
+   "aggregate": 9,
+   "u_deg_lattice": 300,
+   "centre_px": [
+    355.3,
+    620.5
+   ],
+   "bright_lobe_px": [
+    365.8,
+    633.9
+   ],
+   "dim_lobe_px": [
+    344.9,
+    607.1
+   ]
+  },
+  {
+   "aggregate": 10,
+   "u_deg_lattice": 0,
+   "centre_px": [
+    802.9,
+    780.7
+   ],
+   "bright_lobe_px": [
+    819.7,
+    778.3
+   ],
+   "dim_lobe_px": [
+    786.1,
+    783.1
+   ]
+  },
+  {
+   "aggregate": 10,
+   "u_deg_lattice": 0,
+   "centre_px": [
+    711.8,
+    793.5
+   ],
+   "bright_lobe_px": [
+    728.6,
+    791.1
+   ],
+   "dim_lobe_px": [
+    695.0,
+    795.9
+   ]
+  },
+  {
+   "aggregate": 10,
+   "u_deg_lattice": 300,
+   "centre_px": [
+    637.9,
+    763.7
+   ],
+   "bright_lobe_px": [
+    648.4,
+    777.1
+   ],
+   "dim_lobe_px": [
+    627.4,
+    750.3
+   ]
+  },
+  {
+   "aggregate": 11,
+   "u_deg_lattice": 120,
+   "centre_px": [
+    1024.8,
+    711.0
+   ],
+   "bright_lobe_px": [
+    1014.4,
+    697.6
+   ],
+   "dim_lobe_px": [
+    1035.3,
+    724.4
+   ]
+  },
+  {
+   "aggregate": 11,
+   "u_deg_lattice": 60,
+   "centre_px": [
+    1035.9,
+    789.9
+   ],
+   "bright_lobe_px": [
+    1042.3,
+    774.2
+   ],
+   "dim_lobe_px": [
+    1029.6,
+    805.7
+   ]
+  },
+  {
+   "aggregate": 11,
+   "u_deg_lattice": 300,
+   "centre_px": [
+    1047.0,
+    868.8
+   ],
+   "bright_lobe_px": [
+    1057.5,
+    882.2
+   ],
+   "dim_lobe_px": [
+    1036.5,
+    855.4
+   ]
+  },
+  {
+   "aggregate": 12,
+   "u_deg_lattice": 180,
+   "centre_px": [
+    1398.6,
+    661.8
+   ],
+   "bright_lobe_px": [
+    1381.7,
+    664.2
+   ],
+   "dim_lobe_px": [
+    1415.4,
+    659.5
+   ]
+  },
+  {
+   "aggregate": 13,
+   "u_deg_lattice": 300,
+   "centre_px": [
+    1210.8,
+    771.9
+   ],
+   "bright_lobe_px": [
+    1221.3,
+    785.3
+   ],
+   "dim_lobe_px": [
+    1200.3,
+    758.5
+   ]
+  },
+  {
+   "aggregate": 13,
+   "u_deg_lattice": 120,
+   "centre_px": [
+    1267.4,
+    844.4
+   ],
+   "bright_lobe_px": [
+    1257.0,
+    831.0
+   ],
+   "dim_lobe_px": [
+    1277.9,
+    857.7
+   ]
+  },
+  {
+   "aggregate": 14,
+   "u_deg_lattice": 300,
+   "centre_px": [
+    773.8,
+    976.5
+   ],
+   "bright_lobe_px": [
+    784.3,
+    989.9
+   ],
+   "dim_lobe_px": [
+    763.4,
+    963.1
+   ]
+  },
+  {
+   "aggregate": 15,
+   "u_deg_lattice": 120,
+   "centre_px": [
+    257.0,
+    1168.3
+   ],
+   "bright_lobe_px": [
+    246.5,
+    1154.9
+   ],
+   "dim_lobe_px": [
+    267.5,
+    1181.7
+   ]
+  },
+  {
+   "aggregate": 15,
+   "u_deg_lattice": 60,
+   "centre_px": [
+    245.9,
+    1089.4
+   ],
+   "bright_lobe_px": [
+    252.3,
+    1073.7
+   ],
+   "dim_lobe_px": [
+    239.5,
+    1105.2
+   ]
+  },
+  {
+   "aggregate": 15,
+   "u_deg_lattice": 60,
+   "centre_px": [
+    280.4,
+    1004.1
+   ],
+   "bright_lobe_px": [
+    286.7,
+    988.4
+   ],
+   "dim_lobe_px": [
+    274.0,
+    1019.9
+   ]
+  },
+  {
+   "aggregate": 16,
+   "u_deg_lattice": 240,
+   "centre_px": [
+    941.7,
+    977.9
+   ],
+   "bright_lobe_px": [
+    935.3,
+    993.6
+   ],
+   "dim_lobe_px": [
+    948.0,
+    962.1
+   ]
+  },
+  {
+   "aggregate": 16,
+   "u_deg_lattice": 300,
+   "centre_px": [
+    952.8,
+    1056.8
+   ],
+   "bright_lobe_px": [
+    963.2,
+    1070.2
+   ],
+   "dim_lobe_px": [
+    942.3,
+    1043.4
+   ]
+  },
+  {
+   "aggregate": 17,
+   "u_deg_lattice": 240,
+   "centre_px": [
+    631.3,
+    1149.8
+   ],
+   "bright_lobe_px": [
+    625.0,
+    1165.6
+   ],
+   "dim_lobe_px": [
+    637.7,
+    1134.1
+   ]
+  },
+  {
+   "aggregate": 17,
+   "u_deg_lattice": 120,
+   "centre_px": [
+    620.3,
+    1070.9
+   ],
+   "bright_lobe_px": [
+    609.8,
+    1057.5
+   ],
+   "dim_lobe_px": [
+    630.7,
+    1084.3
+   ]
+  },
+  {
+   "aggregate": 18,
+   "u_deg_lattice": 60,
+   "centre_px": [
+    1402.3,
+    928.7
+   ],
+   "bright_lobe_px": [
+    1408.7,
+    912.9
+   ],
+   "dim_lobe_px": [
+    1395.9,
+    944.4
+   ]
+  },
+  {
+   "aggregate": 18,
+   "u_deg_lattice": 240,
+   "centre_px": [
+    1367.9,
+    1014.0
+   ],
+   "bright_lobe_px": [
+    1361.5,
+    1029.7
+   ],
+   "dim_lobe_px": [
+    1374.2,
+    998.2
+   ]
+  },
+  {
+   "aggregate": 19,
+   "u_deg_lattice": 180,
+   "centre_px": [
+    802.8,
+    1204.6
+   ],
+   "bright_lobe_px": [
+    786.0,
+    1207.0
+   ],
+   "dim_lobe_px": [
+    819.6,
+    1202.3
+   ]
+  }
+ ],
+ "contacts": [
+  [
+   1,
+   2
+  ],
+  [
+   3,
+   4
+  ],
+  [
+   4,
+   5
+  ],
+  [
+   6,
+   7
+  ],
+  [
+   8,
+   9
+  ],
+  [
+   9,
+   10
+  ],
+  [
+   13,
+   14
+  ],
+  [
+   15,
+   16
+  ],
+  [
+   17,
+   18
+  ],
+  [
+   18,
+   19
+  ],
+  [
+   20,
+   21
+  ],
+  [
+   21,
+   22
+  ],
+  [
+   23,
+   24
+  ],
+  [
+   24,
+   25
+  ],
+  [
+   27,
+   28
+  ],
+  [
+   30,
+   31
+  ],
+  [
+   31,
+   32
+  ],
+  [
+   33,
+   34
+  ],
+  [
+   35,
+   36
+  ],
+  [
+   37,
+   38
+  ]
+ ]
+}
+
