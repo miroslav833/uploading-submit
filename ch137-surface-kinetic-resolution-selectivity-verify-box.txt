@@ -1,0 +1,16 @@
+Key depends on four counts read from image.png. Molecule centres in pixels, origin top left. Three lobes = unconverted, four = converted; form A is the one with 5 left. In a three-lobe molecule the hook is the end lobe with the lower peak.
+A unconverted (5): (1012,1128) (539,795) (1196,479) (219,1125) (1226,114)
+A converted (16): (1136,298) (1370,509) (337,768) (778,802) (719,344) (996,942) (354,607) (201,866) (191,353) (202,524) (344,418) (1174,1176) (1294,859) (520,511) (317,991) (130,213)
+B unconverted (13): (1317,662) (1360,197) (887,517) (1350,1113) (747,643) (750,1145) (558,352) (453,1114) (1118,782) (933,698) (1042,114) (836,1016) (670,189)
+B converted (6): (661,962) (962,254) (409,195) (584,649) (1355,354) (817,123)
+Hook lobe peak: green 220 to 238, blue 93 to 111; rod lobes: green 255, blue 159 to 173. Rod lobe spacing 34 px, hook at the same spacing, 60 degrees off the rod line.
+
+Working. The site term cancels in r_A/r_B, so ln(c_A/c_A0) = s ln(c_B/c_B0). Starting amounts 21 and 19 from the image.
+s = ln(5/21)/ln(13/19) = 1.4351/0.3795 = 3.78.
+Most tempting wrong answer: racemic start (or the Kagan formula, which assumes one): ln(5/20)/ln(13/20) = 3.22. Zero-order reading, converted ratio 16/6 = 2.67. One unconverted molecule given the wrong hand: 4.51 (start then looks racemic) or 3.20.
+
+Check, standard-library Python:
+import math
+print(round(math.log(5/21)/math.log(13/19), 4), round(math.log(5/20)/math.log(13/20), 4))
+
+Sources: Kagan and Fiaud, Top. Stereochem. 18, 249 (1988); Keith, Larrow and Jacobsen, Adv. Synth. Catal. 343, 5 (2001).
