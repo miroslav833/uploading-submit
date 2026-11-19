@@ -1,0 +1,16 @@
+The figure is the only source of the number of pinholes. It is a simulated back-lit micrograph, 232 x 232 px, made for this question. The pinholes are the bright dots on a circle of radius 79.9 px about the point (115.5, 115.5) px, 8.8 px apart. There are 57 of them, at the azimuths 1.83 degrees + k x 6.316 degrees for k = 0 to 56, counter-clockwise from the direction to the right (1.8, 8.1, 14.5, 20.8, 27.1, ...). Counted by quadrant from the right, counter-clockwise, they are 14, 15, 14 and 14.
+
+Key by hand. N = 57 and a chord of 150.0 um give the circle radius R = 150.0/(2 sin(pi/57)) = 1361.5 um. The field in the focal plane is the sum over the pinholes of exp[i 64 phi_j - i u cos(theta - phi_j)] with u = 2 pi R r/(lambda f). Expanding in Bessel functions, only the azimuthal orders 64 + 57 q survive: ..., -50, 7, 64, 121, ... Near the axis the order 7 stands alone, so the intensity is proportional to J_7(u)^2, dark on the axis, with its first bright ring at the first maximum of J_7, u = 8.5778. Then r = 8.5778 x 632.8 nm x 500.0 mm/(2 pi x 1.3615 mm) = 0.3173 mm, which is 0.32 mm.
+
+The most tempting wrong answer is 2.5 mm: the ring taken as continuous, a vortex of charge 64 in the focal plane and the first maximum of J_64 at u = 67.25. Other routes: 0.41 mm (first zero of J_7 in place of its maximum), 0.14 mm (the vortex ignored, first side ring of J_0, which is also the rule 1.22 lambda f/D), 0.16 mm (diameter of the circle used as its radius), 0.48 mm (second ring of J_7). Miscounts: 56 pinholes 0.36 mm, 58 pinholes 0.27 mm, 55 pinholes 0.41 mm, 59 pinholes 0.23 mm, 64 pinholes a bright centre with its first side ring at 0.13 mm. Within 12 of the true count no other number of pinholes comes closer than 14 per cent.
+
+Check program (Python 3, standard library), a direct sum of the 57 waves:
+import math, cmath
+lam, f, s, ell, N = 632.8e-9, 0.500, 150.0e-6, 64, 57
+R = s/(2*math.sin(math.pi/N))
+def I(r): return abs(sum(cmath.exp(1j*(ell*2*math.pi*j/N - 2*math.pi*R*r*math.cos(2*math.pi*j/N)/(lam*f))) for j in range(N)))**2
+r = 100e-6
+while I(r + 1e-6) > I(r): r += 1e-6
+print(r*1e3)   # 0.317 to 0.318 (mm)
+
+The verification notes give the Bessel-function calculation with a table over the pinhole counts 6 to 125 and a script that counts the 57 pinholes from the image file. Sources: Berkhout and Beijersbergen, Phys. Rev. Lett. 101, 100801 (2008); Thide et al., Phys. Rev. Lett. 99, 087701 (2007).
