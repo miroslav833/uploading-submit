@@ -1,0 +1,16 @@
+Key depends on removing cyclohexanone's own 13C=O (and C=18O) band from the 1679 cm-1 component.
+
+Figure data: fitted areas (base 10) 11.1 cm-1 at 1715, 0.956 cm-1 at 1679. Path 25.0 um. B: ketone 1.40e4, enone 1.65e4 L mol-1 cm-2.
+Ketone: 11.1/(1.40e4 x 2.50e-3) = 0.317 mol/L.
+13C=O at 1715 x sqrt(6.857/7.172) = 1677 cm-1; C=18O at 1674. Abundances 13C 0.0107, 18O 0.00205 (Berglund and Wieser, Pure Appl. Chem. 83, 397 (2011), Table 1, p. 400).
+Isotopologue area 11.1 x 0.01287 = 0.143. Enone: (0.956 - 0.143)/(1.65e4 x 2.50e-3) = 19.7 mmol/L, so 20.
+Without 18O 20.3; 13C at 1.11 % 19.6; all round to 20.
+
+Most tempting wrong answer: 0.956/41.25 = 23.2, so 23 mmol/L (whole 1679 area as enone).
+
+Check:
+A1715, A1679, Bl = 11.1, 0.956, 1.65e4*25.0e-4
+r = (0.0107*0.99757 + 0.9893*0.00205)/(0.9893*0.99757)
+print(round((A1679 - A1715*r)/Bl*1e3, 1), round(A1679/Bl*1e3, 1))   # 19.7 23.2
+
+Sources: Berglund and Wieser 2011 (isotope abundances, Table 1, p. 400).
