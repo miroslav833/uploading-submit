@@ -1,0 +1,13 @@
+What the figure carries. Two maps of the conductance against B - 1.650 T (0 to 1.70 mT) and V_g (-400 to -360 mV). Panel (a): horizontal stripes, maxima at V_g = -394.1, -387.1, -380.1, -373.1 and -366.0 mV (period 7.0 mV), the same at every B. Panel (b): slanted stripes; on the bottom edge (V_g = -400 mV) the maxima are at 0.090, 0.250, 0.410, 0.570, 0.731, 0.891, 1.051, 1.212, 1.372 and 1.532 mT, nine periods in 1.442 mT, so the field period is 0.1602 mT. Along a stripe V_g rises by 87 mV per mT (gate period 14 mV).
+
+Key by hand. Charge in the cell in units of e: f_T B A/phi_0 in the levels of the f_T freely transmitted channels, B A_I/phi_0 in the level of the interfering channel, a whole number N in the levels of the fully reflected channels. Without interaction A_I = A(V_g): period phi_0/A in both panels and V_g falling with B along a stripe. The figure shows no dependence on B in (a) and V_g rising with B in (b), so the charge of the cell is fixed: theta/2pi = q(V_g) - N - f_T B A/phi_0. For (a), f_T = 0: no dependence on B. For (b), f_T = 2: period phi_0/(2A) with V_g rising with B. A = 4.136e-15 Wb/(2 x 1.602e-7 T) = 1.29e-11 m^2 = 13 um^2. Every period from 0.153 to 0.165 mT gives an area that rounds to 13 um^2. The gate periods, 14 mV in (b) and 7.0 mV in (a), have the ratio 2 = 4/(4 - 2) that the same charge balance gives when the gate acts through the area.
+
+The most tempting wrong answer is 26 um^2, from A = phi_0/dB = 4.136e-15/1.602e-7, the rule for a cell without interaction. Other values: phi_0/(3 dB), with the three channels inside the cell, 8.6 um^2; phi_0/(4 dB), with the filling factor, 6.5 um^2; a period of 0.126 mT from all 13.5 stripes that cross the frame of panel (b) in place of the 10.6 periods along one row, 16 um^2, or 33 um^2 without interaction.
+
+Short check (Python 3, standard library):
+phi0 = 4.136e-15
+peaks = [0.090, 0.250, 0.410, 0.570, 0.731, 0.891, 1.051, 1.212, 1.372, 1.532]      # mT, bottom edge of panel (b)
+dB = (peaks[-1] - peaks[0])/(len(peaks) - 1)*1e-3
+print(dB*1e3, phi0/(2*dB)*1e12, phi0/dB*1e12)      # 0.1602 mT, 12.9 um^2 (key), 25.8 um^2 (no interaction)
+
+Citations: Ofek et al., Proc. Natl. Acad. Sci. 107, 5276 (2010), Eq. 1 and the f_T = 0 result; Zhang et al., Phys. Rev. B 79, 241304(R) (2009); Halperin, Stern, Neder and Rosenow, Phys. Rev. B 83, 155440 (2011), Eq. 18. The uploaded notes hold the key script with every wrong route, a numerical minimisation of the electrostatic model that gives 0.1603 mT for this area without the closed form, the program that draws the figure and the read-back of both maps from the image file.
