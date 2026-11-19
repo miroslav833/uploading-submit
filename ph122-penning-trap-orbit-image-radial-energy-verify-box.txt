@@ -1,0 +1,15 @@
+The figure is a simulated camera frame (136 x 136 px) and what is read from it is the number of bright knots on the ring. The ring is centred at (68, 68) px and has a radius of 40 px. The knots lie on its inner side, on a circle of radius 38 px, and there are 27 of them. Measured anticlockwise from the +x direction their azimuths are 12, 26, 39, 53, 66, 79, 92, 106, 119, 132, 146, 159, 172, 185, 199, 212, 225, 239, 252, 266, 279, 292, 306, 319, 333, 346 and 359 degrees. Neighbours are 13.0 to 13.8 degrees apart (360/27 = 13.33), which is 8.9 px along the circle. The strongest Fourier component of the brightness round that circle has 27 cycles per turn.
+
+Key by hand. In an ideal Penning trap the radial motion is u = R- exp(-i w- t) + R+ exp(-i w+ t + i a), two circular motions in the same sense, with w+ + w- = wc = e B / m. The speed is |w+ R+ - w- R-| at its lowest, when the two velocities are opposed, and this happens (w+ - w-)/w- times in one magnetron period. The brightness is the time spent in a pixel, so the knots are these slow points. The orbit closes after one magnetron period, so K = w+/w- is a whole number and the number of knots is K - 1 = 27, K = 28. wc = 1.6022e-19 x 4.460/(9.012 x 1.6605e-27) = 4.7752e7 per second, w- = wc/29 = 1.6466e6 per second. K R+ = 78.4 um against R- = 60.0 um, so v_min = w- (K R+ - R-) = 1.6466e6 x 18.4e-6 = 30.3 m/s.
+
+The most tempting wrong answer is 26.6 m/s. The number of knots is then taken as the frequency ratio, K = 27: (wc/28)(75.6 - 60.0) um = 26.6 m/s. Other values: the two motions taken in opposite senses (K = 26) give 22.6, one knot more gives 33.7, two more 37.0, w+ set equal to wc with w- = wc/28 gives 31.4, K taken as R-/R+ (21 or 22) gives 2.6 or 3.32, the same shortcut with K = 27 gives 27.6, the fastest speed is 228.
+
+Check in a few seconds (Python 3, standard library). The first number is the key, the second the most tempting wrong answer:
+wc = 1.6022e-19*4.460/(9.012*1.6605e-27)
+def vmin(K, Rm=60.0e-6, Rp=2.80e-6):
+    wm = wc/(K + 1)
+    return abs(K*wm*Rp - wm*Rm)
+print(vmin(28))     # 30.298
+print(vmin(27))     # 26.601
+
+Citations: Brown and Gabrielse, Rev. Mod. Phys. 58, 233 (1986); Kretzschmar, Eur. J. Phys. 12, 240 (1991); Blaum, Phys. Rep. 425, 1 (2006); Mavadia et al., Nat. Commun. 4, 2571 (2013). The uploaded notes hold the key script with the closed form and the speed sampled along the orbit, the values for other counts and for the wrong routes, the program that draws the frame and the read-back of the knots from the image file.
