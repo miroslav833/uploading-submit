@@ -1,0 +1,26 @@
+Key depends on three things read from the image: 18 rings, outermost radius 1.50 mm, innermost 0.403 mm.
+
+Rings on the row through the centre (centre pixel 1014, 991; bar 300 px = 0.5 mm), x of each crossing:
+1914 1861 1787 1736 1695 1647 1599 1562 1526 1484 1449 1422 1379 1353 1331 1304 1281 1256
+Radii in px: 900 847 773 722 681 633 585 548 512 470 435 408 365 339 317 290 267 242. Closest pair 22 px apart.
+Dark spot at the centre, radius 80 px: where the last water dried, not a pinned position.
+
+Thin cap V = (pi/4) theta R^3 (Wu, Man, Doi, Langmuir 34, 9572 (2018); arXiv v1 Eq. 2).
+Each jump keeps V and lands at theta_0: theta_r,k/theta_0 = (R_k+1/R_k)^3.
+17 jumps, product telescopes: theta_r/theta_0 = (242/900)^(3/17) = 0.793, theta_r = 7.14 deg.
+f = gamma (cos theta_r - cos theta_0) = 72.0 (0.99225 - 0.98769) = 0.329 -> 0.33 mN/m.
+Unbalanced Young force: Gelderblom et al., Soft Matter 18, 8535 (2022), Sec. 5.3; small-angle form in Wu et al., arXiv v1 Eq. 8.
+
+Other readings:
+19 rings counted: 0.31. 21 rings: 0.29. 17 rings: 0.34. Rings added between real ones are the usual slip.
+Spot taken as a 19th pinned position: 0.49.
+Cube left out of the jump rule: 0.13.
+
+Check, standard-library Python:
+import math
+for rings in (18, 19, 21, 17):
+    th = 9.0*(241.8/900)**(3/(rings-1))
+    print(rings, round(72*(math.cos(math.radians(th)) - math.cos(math.radians(9))), 3))
+-> 18 0.329 / 19 0.314 / 21 0.288 / 17 0.344
+
+Notes file: generator, key script, and a script that finds all 18 rings in the PNG.
