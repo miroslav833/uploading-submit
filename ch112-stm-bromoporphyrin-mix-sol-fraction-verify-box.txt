@@ -1,0 +1,14 @@
+Image content (pixel coordinates of molecule centres in image.png, origin top left), grouped by the number of bright lobes (bromophenyl legs).
+0 Br, 2 molecules: (1129,491) (1252,635)
+1 Br, 8: (196,1054) (207,294) (494,507) (739,932) (1320,1158) (1392,520) (1619,155) (1620,519)
+2 Br, 14: (89,148) (105,671) (122,874) (396,787) (488,299) (537,913) (591,1195) (946,527) (988,117) (1169,134) (1194,322) (1437,191) (1543,1027) (1619,1196)
+3 Br, 12: (406,1045) (612,743) (655,178) (678,505) (820,681) (906,1134) (989,832) (1099,1128) (1228,994) (1361,818) (1519,351) (1570,780)
+4 Br, 4: (159,492) (308,611) (396,127) (935,299)
+In the PNG a bright lobe peaks at grey 216 to 224, a dim lobe at 164 to 172, the centre of a molecule near 95, background 25. Lobes sit 39 px from the centre.
+
+Key: Br legs 8 + 28 + 36 + 16 = 88. Leg shares 8/88, 28/88, 36/88, 16/88. f_w = 236/88 = 2.68, p_c = 0.595. Recursion u = 0.3 + 0.7 (8 + 28u + 36u^2 + 16u^3)/88; without the root u = 1: 28u^2 + 91u - 80 = 0, u = 0.7197. S = (2 + 8u + 14u^2 + 12u^3 + 4u^4)/40 = 20.557/40 = 0.514.
+Most tempting wrong answer: all molecules as four-functional with leg conversion 0.70 x 88/160 = 0.385, u = 1 - 0.385 + 0.385 u^3, u = 0.8592, S = u^4 = 0.545. Without the two Br-free molecules: 0.488. One leg misread: 0.474, 0.482, 0.497, 0.499, 0.529, 0.533, 0.550 or 0.564; 0.533 is the molecule at (1252,635) read with one bright lobe. Counts 0/9/15/12/4 (91 Br legs): 4u^2 + 13u - 12 = 0, u = 3/4 exactly, S = 0.538. Counts 1/10/14/11/4 (87 Br legs): u = 0.7709, S = 0.587.
+
+Check: import math; n = [2, 8, 14, 12, 4]; p = 0.7; B = sum(f*n[f] for f in range(5)); a = [f*n[f]/B for f in range(5)]; u = (-(a[3]+a[4]) + math.sqrt((a[3]+a[4])**2 - 4*a[4]*(a[2]+a[3]+a[4]-1/p)))/(2*a[4]); print(B, round(u, 4), round(sum(n[f]*u**f for f in range(5))/sum(n), 4))
+
+Method: Miller and Macosko, Macromolecules 9, 206 (1976); Macosko and Miller, Macromolecules 9, 199 (1976).
