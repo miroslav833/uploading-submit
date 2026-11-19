@@ -2,7 +2,7 @@ Key depends on whether Fe's dispersion at Cu K-alpha is added to the f0 table.
 
 Figure data (220 = 1000): 111 30.42, 200 14.41.
 m: 8, 6, 12. LP: 34.841, 25.469, 11.549.
-f = f0 + f' + i f'', Fe -1.179, 3.204; Al 0.204, 0.246.
+f = f0 + f' + i f''. f', f'' at Cu K-alpha 1 from Cromer and Liberman, J. Chem. Phys. 53, 1891 (1970), Table I (also LA-4403 p. 8, osti.gov/servlets/purl/4139993): Fe -1.179, 3.204; Al 0.204, 0.246.
 |fFe - fAl|^2: 116.72 (111), 108.79 (200). |3 fFe + fAl|^2: 3803.6 (220).
 x_b - x_a = 0.702. x_a + x_b - 2 x_c = 0.676. x_a + x_b = 0.838. x_b = 0.770.
 
@@ -22,4 +22,4 @@ def xb(fp, fpp, ap, app):
     return ((1+s)/2+d)/2
 print(round(xb(-1.179, 3.204, 0.204, 0.246), 3), round(xb(0, 0, 0, 0), 3))   # 0.77 0.747
 
-Sources: Cromer and Liberman 1970 (f', f''); Cromer and Mann 1968 (f0).
+Sources: Cromer and Liberman 1970, Table I (f', f''; LA-4403 p. 8); Cromer and Mann 1968 (f0).
