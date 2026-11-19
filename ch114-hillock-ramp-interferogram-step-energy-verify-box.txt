@@ -1,0 +1,26 @@
+Key depends on one number from the image: 24 dark rings between the flat face and the apex.
+
+Count them on the row through the apex (apex at pixel 980, 940; 300 px per mm). Dark centres to the right of the apex, x in px:
+993 1018 1044 1070 1096 1123 1151 1179 1208 1237 1267 1297 1329 1361 1395 1430 1466 1503 1543 1585 1631 1681 1738 1812
+Spacing 25 px at the centre, 73 px at the rim. In the file the dark rings are near grey 31, the bright ones near 200.
+
+One fringe = 632.8/(2 x 1.360) = 232.65 nm = 465.29 steps. N = 24 x 465.29 = 11167 steps.
+
+Spiral: turns 19 rho_c apart (Cabrera and Levine, Philos. Mag. 1, 450), rho_c = Omega alpha/(kT sigma) (Burton, Cabrera, Frank 1951).
+Steps leave at v/(19 rho_c), that goes as sigma^2. With sigma = s t and v = b sigma:
+N = b kT s^2 tau^3/(57 Omega alpha), L = b s tau^2/2, so alpha = 2 kT L sigma_f/(57 Omega N).
+alpha = 2 x 4.1419e-21 x 3.00e-3 x 0.0230/(57 x 1.20e-28 x 11167) = 7.48e-3 J m-2.
+
+Other readings:
+25 rings: 7.18. 23 rings: 7.81. These are the likely slips, a ring lost or gained in the fine centre.
+Steady spiral at the final sigma over the whole radius, N = L/(19 rho_c): 11.2 (1.5 times the key).
+Index of the solution left out: 5.50.
+
+Check, standard-library Python:
+kT = 1.380649e-23*300
+for rings in (24, 25, 23):
+    N = rings*632.8e-9/(2*1.360*0.500e-9)
+    print(rings, round(2*kT*3.00e-3*0.0230/(57*1.20e-28*N)*1e3, 2))
+-> 24 7.48 / 25 7.18 / 23 7.81
+
+Ring positions follow r = L[1 - ((k - 1/2)/24)^(2/3)], k from the outside: 2.773 mm ... 0.042 mm. Notes file: generator, key script, fringe count from the PNG.
