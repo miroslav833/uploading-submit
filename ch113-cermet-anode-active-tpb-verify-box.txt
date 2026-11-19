@@ -1,0 +1,48 @@
+Layer as drawn. Rows from the top, sites from the electrolyte (left) side, N = Ni, Y = YSZ, . = empty site. Rows 1, 3, 5, 7, 9 start at x = 121 px, rows 2, 4, 6, 8, 10 at x = 163 px, spacing 84 px, first row at y = 128 px, row height 72.8 px, each particle within 2 px of its site (image 1208 x 911 px, strip edges at x = 86 and 1123 px).
+row 1: N Y Y Y N N N . Y . Y Y
+row 2: N . N Y N N N Y Y Y N N
+row 3: N N N Y Y N Y N Y N N Y
+row 4: N . . Y . Y . N Y N Y Y
+row 5: Y N N Y Y Y Y . Y Y N Y
+row 6: Y Y Y Y Y N Y N . N N Y
+row 7: N Y N Y N N N Y N N N N
+row 8: N . Y Y N N N Y Y Y N Y
+row 9: N N N . N Y . N Y N N N
+row 10: N N N . N . N N N . Y N
+58 Ni, 47 YSZ, 15 empty. Grey level at the spot centres (0 to 255): Ni 210 to 216, YSZ 187 to 194, nothing in between; any image viewer shows it with the pixel inspector.
+Touching the electrolyte strip: first particle of rows 1, 3, 5, 7, 9 (N, N, Y, N, N). Touching the collector strip: last particle of rows 2, 4, 6, 8, 10 (N, Y, Y, Y, N).
+
+Key by hand. Working contact = Ni joined to the collector through Ni, on a YSZ joined to the electrolyte through YSZ. YSZ joined to the electrolyte, 29, all through (5,1). Ni joined to the collector, 31, through (2,12) and (10,12). Contacts between the two sets, per YSZ particle (row, site): (5,6) 1, (5,7) 1, (6,4) 1, (6,5) 3, (6,7) 3, (7,4) 1, (7,8) 4, (8,4) 3, (8,8) 3, (8,9) 3, (8,10) 5, (9,9) 4. Total 32. Per Ni particle 32/58 = 0.552.
+Likely wrong answers: one dark spot away from the working region read as Ni, for instance (1,9), which has an empty site on either side: 32/59 = 0.542. Two such spots: 32/60 = 0.533. The dark spots most easily taken for Ni are the ones beside empty sites or on the rim: (1,9), (4,4), (4,6), (10,11), (8,12), (1,11), (1,12). One bright spot read as YSZ: 32/57 = 0.561. All 105 Ni-YSZ contacts counted: 1.81.
+
+Check, standard-library Python
+rows = """NYYYNNN.Y.YY
+N.NYNNNYYYNN
+NNNYYNYNYNNY
+N..Y.Y.NYNYY
+YNNYYYY.YYNY
+YYYYYNYN.NNY
+NYNYNNNYNNNN
+N.YYNNNYYYNY
+NNN.NY.NYNNN
+NNN.N.NNN.YN""".split()
+R, C = len(rows), len(rows[0])
+def nb(r, c):                      # rows 1, 3, 5, ... (index 0, 2, ...) are the unshifted ones
+    d = -1 if r % 2 == 0 else 0
+    cand = [(r, c - 1), (r, c + 1), (r - 1, c + d), (r - 1, c + d + 1), (r + 1, c + d), (r + 1, c + d + 1)]
+    return [(a, b) for a, b in cand if 0 <= a < R and 0 <= b < C and rows[a][b] != "."]
+def fill(start, kind):
+    seen = {s for s in start if rows[s[0]][s[1]] == kind}
+    todo = list(seen)
+    while todo:
+        for q in nb(*todo.pop()):
+            if rows[q[0]][q[1]] == kind and q not in seen:
+                seen.add(q); todo.append(q)
+    return seen
+ysz = fill([(r, 0) for r in range(0, R, 2)], "Y")          # first particle of rows 1, 3, ... on the electrolyte
+ni = fill([(r, C - 1) for r in range(1, R, 2)], "N")       # last particle of rows 2, 4, ... on the collector
+work = sum(1 for p in ni for q in nb(*p) if q in ysz)
+allc = sum(1 for r in range(R) for c in range(C) if rows[r][c] == "N" for q in nb(r, c) if rows[q[0]][q[1]] == "Y")
+n_ni = sum(row.count("N") for row in rows)
+print(n_ni, sum(row.count("Y") for row in rows), len(ni), len(ysz), allc, work, round(work / n_ni, 3), round(work / (n_ni + 1), 3), round(allc / n_ni, 2))
+Output: 58 47 31 29 105 32 0.552 0.542 1.81
