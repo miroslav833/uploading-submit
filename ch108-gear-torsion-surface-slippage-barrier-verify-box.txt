@@ -1,0 +1,22 @@
+Key comes from the figure. The papers are background on gearing and gear slippage (residual isomers).
+
+Minima (phi1, phi2): a (13, 95), d (248, 221) in the valley phi1 + phi2 near 110; b (30, 199), e (271, 318) near 230; c (133, 215), f (10, 338) near 350.
+Passes inside a valley: all below 50.
+Passes over the ridges, position and the two contours they lie between:
+a/d valley to b/e valley: (355, 173) 110-120; (216, 313) 120-130.
+b/e valley to c/f valley: (78, 212) 110-120; (292, 359) 160-170.
+a/d valley to c/f valley: (126, 284) 130-140; (332, 77) 130-140.
+
+d to c: along the valley through the phi1 edge to a, over (355, 173), over (78, 212). Highest contour crossed 110.
+Most tempting wrong answer: 130, one slip over (126, 284), the pass next to c. Second: 120, from reading the pass at (78, 212) one line high or leaving by (216, 313).
+
+Check (the level of a pass is the contour just below it):
+edges = [("ad", "be", 110), ("ad", "be", 120), ("be", "cf", 110), ("be", "cf", 160), ("ad", "cf", 130), ("ad", "cf", 130)]
+best = {"ad": 0}
+for _ in range(3):
+    for u, v, h in edges:
+        for p, q in ((u, v), (v, u)):
+            if p in best and max(best[p], h) < best.get(q, 999):
+                best[q] = max(best[p], h)
+print(best["cf"], min(h for u, v, h in edges if {u, v} == {"ad", "cf"}))
+Output: 110 130
