@@ -7,7 +7,7 @@ Key. (R)-L 0.60 mmol, (S)-L 2.65 mmol, ee_L = -2.05/3.25 = -0.6308.
 ML2 equilibrium: x - y = ee_L, x + y + z = 1, z^2 = 60 x y -> beta = z/(x+y) from 1 - ee_L^2 (1+beta)^2 = 4 beta^2/60, beta = 0.5682; x = 0.00345, y = 0.63422, z = 0.36233.
 ee = 0.940 (x - y)/(x + y + 0.15 z) = 0.940 x (-0.6308) x 1.5682/1.0852 = -0.857, i.e. -85.7 %.
 
-Most tempting wrong answer: every spiral read as turning like R, all batches (R): +94.0 %. Reference misread (all signs reversed): +85.7 %. No nonlinear effect (linear): -59.3 %. D read as (R): -74.5 %. A read as (R): +54.2 %. Statistical K = 4: -79.7 %.
+Most tempting wrong answer: every spiral read as turning like R, all batches (R): +94.0 %. Reference misread (all signs reversed): +85.7 %. No nonlinear effect (linear): -59.3 %. D read as (R): -74.5 %. A read as (R): +54.2 %. A and D against B and C: -21.7 %. Statistical K = 4: -79.7 %.
 
 Check:
 import math
