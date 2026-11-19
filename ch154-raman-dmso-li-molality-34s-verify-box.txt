@@ -1,0 +1,16 @@
+Key depends on removing free DMSO's 34S (and half its 33S) S=O line from the 1032 cm-1 component.
+
+Figure data: fitted areas 100.0 at 1042 and 14.9 at 1032 cm-1. Four DMSO per Li+, equal cross-sections, M(DMSO) 78.13.
+34S=O at 1042 x sqrt(10.661/10.874) = 1031.7 cm-1; 33S=O at 1036.7. S abundances 0.9499 / 0.0075 / 0.0425 (Berglund and Wieser, Pure Appl. Chem. 83, 397 (2011), Table 1, p. 400).
+All free DMSO = 100.0/0.95365 = 104.86; free lines in the 1032 component = 104.86 x 0.04625 = 4.85.
+Bound = 10.05; bound fraction 0.0875; x 12.80 mol/kg / 4 = 0.280 mol/kg, so 0.3.
+Other treatments of 33S and the 34S range: 0.267 to 0.288, all 0.3.
+
+Most tempting wrong answer: 14.9/114.9 x 12.80/4 = 0.415, so 0.4.
+
+Check:
+A42, A32, k = 100.0, 14.9, 1000/78.13
+F = A42/(0.9499 + 0.0075/2); B = A32 - F*(0.0425 + 0.0075/2)
+print(round(k*B/(B + F)/4, 3), round(k*A32/(A32 + A42)/4, 3))   # 0.28 0.415
+
+Sources: Berglund and Wieser 2011 (S isotope abundances, Table 1, p. 400).
