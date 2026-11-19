@@ -1,0 +1,19 @@
+Spots read from the PNG (centre 900, 900; rim 800 px = 50.0 deg):
+6 integer spots, r = 696 px (0.870 of rim), azimuths 11, 71, 131, 191, 251, 311 deg.
+6 inner half-order, r = 348 px (0.500 of 696): 11/191 deg peak 131; 71/251 deg peak 115; 131/311 deg peak 102.
+6 outer half-order, r = 603 px (0.866): 101/281 deg peak 98; 161/341 deg peak 86; 41/221 deg peak 75.
+
+Key. sin(theta) = 0.870 x 0.7660 = 0.667; lambda = 1.789 A; d10 = 2.683 A; a = 2 d10/sqrt3 = 3.10 A; substrate 1.20e15 cm-2. Half-order sets unequal, each inner pair with the outer pair at 90 deg: p(2x1) in three domains, not p(2x2) (threefold axis would make the sets equal). Coverage 1/2 -> 6.0e14 cm-2.
+
+Most tempting wrong answer: 3e14, p(2x2) at coverage 1/4.
+
+Check, standard-library Python:
+import math
+lam = 12.264/math.sqrt(47)
+s = 696/800*math.sin(math.radians(50))
+a = lam/s*2/math.sqrt(3)*1e-8
+n = 2/(math.sqrt(3)*a*a)
+print(round(a*1e8, 2), f'{0.5*n:.1e}', f'{0.25*n:.1e}')
+-> 3.1 6.0e+14 3.0e+14
+
+Notes, section 2 (readback_png.py): the spot table from the PNG.
