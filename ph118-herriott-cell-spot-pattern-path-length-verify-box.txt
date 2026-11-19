@@ -1,0 +1,20 @@
+The figure is a simulated camera image (258 x 182 px) of 59 spots on an ellipse: centre (128.9, 90.3) px, semi-axes 110.0 and 62.0 px, long axis 18 degrees from the horizontal. The spots are equally spaced in the parameter angle of the ellipse (6.10 degrees), so they are 6.6 px apart at the ends of the long axis and 11.7 px apart on the flat sides. Spot number j in time has the brightness 0.988^(2(j-1)) of the first one. Going counter-clockwise on the page from the spot at (24.9, 125.9) px, the reflection numbers are
+32 21 10 58 47 36 25 14 3 51 40 29 18 7 55 44 33 22 11 59 48 37 26 15 4 52 41 30 19 8 56 45 34 23 12 1 49 38 27 16 5 53 42 31 20 9 57 46 35 24 13 2 50 39 28 17 6 54 43.
+Counter-clockwise the number falls by 11 from place to place (the brightness rises by 1/0.767 = 1.30) and jumps back up 11 times; clockwise the brightness falls by 0.767 per place and jumps up by about 3 eleven times. The first reflection is the spot at (203.8, 28.8) px, the second the spot at (44.0, 70.0) px, 16 places counter-clockwise from it.
+
+Key by hand. A paraxial ray between two mirrors of radius R_c at distance d meets them at x = a sin(n theta + alpha), cos(theta) = 1 - d/R_c, so the places lie on an ellipse and the parameter angle advances by theta per pass. 59 reflections on the rear mirror mean N = 118 passes. The beam leaves by the hole it entered: 118 theta = 2 pi M, theta = pi M/59, and consecutive reflections on the rear mirror lie M places apart. Neighbouring places differ by s reflections with s M = 1 (mod 59), and s is the number of brightness ramps per turn, 11. So 11 M = 1 (mod 59): M = 43 (11 x 43 = 473 = 8 x 59 + 1), or 16 counted the other way round. theta = 16 pi/59 = 48.81 degrees or 131.19 degrees; d = 600.0 mm x (1 - cos theta) = 204.9 mm or 995.1 mm; the mirrors are closer than R_c, so d = 204.9 mm and L = 118 x 0.20489 m = 24.18 m. Answer 24.2 m.
+
+The most tempting wrong answer is 11.8 m: the number of ramps taken for M itself, theta = 11 pi/59, d = 100.0 mm. Other values: one mirror only counted (N = 59) 12.1 m; the root with d above R_c 117 m; consecutive reflections taken as neighbours 0.10 m; two ramps read in place of 11 (M = 29) 68.9 m; 58 or 60 spots 40.4 or 11.6 m; 10 or 12 ramps 3.58 or 2.49 m; focal length R_c in place of R_c/2 48.4 m.
+
+Check in a second (Python 3.8 or later, standard library):
+import math
+P, r, Rc = 59, 11, 0.6000
+M = pow(r, -1, P); M = min(M, P - M)          # 16
+d = Rc*(1 - math.cos(math.pi*M/P))           # 0.20489 m
+print(M, d, 2*P*d)                           # 16 0.20489 24.177
+x, s = 0.010, 0.0                            # ray trace: 118 passes, each followed by a reflection
+for n in range(2*P): x += d*s; s -= 2*x/Rc
+print(x)                                     # 0.010 again: the ray is back at the hole
+print(2*P*Rc*(1 - math.cos(math.pi*r/P)))    # 11.80, the number of ramps taken for M
+
+Citations: Herriott, Kogelnik and Kompfner, Appl. Opt. 3, 523 (1964); Herriott and Schulte, Appl. Opt. 4, 883 (1965); Kogelnik and Li, Appl. Opt. 5, 1550 (1966); Altmann, Baumgart and Weitkamp, Appl. Opt. 20, 995 (1981); McManus, Kebabian and Zahniser, Appl. Opt. 34, 3336 (1995). The uploaded notes hold the key script (key, ray trace with the order of the spots, other readings, wrong routes), the program that draws the figure and the read-back of the 59 spots, the 11 ramps and the order of the reflections from the image file.
