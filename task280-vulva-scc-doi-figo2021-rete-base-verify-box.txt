@@ -1,0 +1,21 @@
+Key rests on the FIGO 2021 reference level for vulvar depth of invasion: basement membrane of the deepest adjacent dysplastic tumour-free rete ridge (Olawaiye et al. 2021, Table 3 note a). Not the papilla tips (2009 method), not the normal epidermis.
+
+Read from the pixels of the figure (1200 x 555 px, bar 75 px = 0.5 mm, 150 px per mm):
+dermal papilla tips in the HSIL: y 112
+bases of the tumour-free dysplastic ridges either side of the focus (x 507 and 693): y 260
+base of the ridge the carcinoma comes from (x 608): y 303 with the nests attached
+short pegs of the mature epidermis at both edges: y 158
+deepest invasive tumour: y 367 (x 607)
+
+Key: (367 - 260)/150 = 0.71, so 0.7 mm. IA with 1.5 cm.
+Likely wrong answer: 2009 method from the papilla tips, (367 - 112)/150 = 1.70 mm, IB.
+Also wrong: from the normal pegs, (367 - 158)/150 = 1.39 mm.
+
+Check, standard-library Python
+ppm = 150
+print(round((367 - 260)/ppm, 2), round((367 - 112)/ppm, 2), round((367 - 158)/ppm, 2))
+Output: 0.71 1.7 1.39
+
+Notes: section 1 has the drawn levels and the other readings, section 2 the read-back program.
+
+Source: Olawaiye et al., Int. J. Gynecol. Obstet. 155(1), 43-47 (2021), Table 3 note a; Carroll et al., J. Low. Genit. Tract Dis. 29(4), 304-309 (2025), Introduction and Fig. 1.
