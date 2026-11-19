@@ -1,0 +1,22 @@
+The figure carries one value, the number of turns. It is a simulated photograph (520 x 160 px) of a long mandrel seen at an angle, so the turns are closer together at the right (far) end. The fibre is the red line and runs from the left green dot near (65, 98) px to the right green dot near (454, 50) px; both dots lie at the same height on the mandrel. On the line y = 118.5 - 0.130 x along the middle of the mandrel the red line is crossed at the columns
+67 78 88 99 110 120 130 140 150 160 / 169 179 188 198 207 216 225 234 243 252 / 260 269 277 286 294 302 310 318 326 334 / 342 350 357 364 372 380 387 394 402 408 / 416 422 430 436 443 450.
+The spacing falls evenly from 10.8 px to 6.8 px with no gap. That is 46 crossings, one per turn, so N = 46.
+
+Key by hand. One turn takes s = sqrt(22.35^2 + (2 pi 59.00)^2) = 371.381 mm of fibre. Torsion of the helix: tau = 2 pi p/s^2 = 1.01816 rad/m (0.37813 rad per turn). Radius of curvature: s^2/(4 pi^2 R) = 59.2145 mm. Without birefringence the plane of polarisation is carried along without turning about the fibre axis, so relative to the stripe (the outward normal) it turns at -tau. A stripe that stays outward means the glass itself is twisted at tau, and the twist drags the plane along at 0.0730 tau, so the net rate relative to the stripe is Omega = 0.927 tau = 0.94384 rad/m. Bend retardance: delta = 0.1350 x (2 pi/632.8 nm) x (40.0 um/59.2145 mm)^2 = 0.61166 rad/m, with axes along the stripe direction and across it. In the stripe frame the fibre is one uniform elliptical retarder: T = cos^2(Delta L/2) + (delta/Delta)^2 sin^2(Delta L/2), Delta = sqrt(delta^2 + 4 Omega^2) = 1.98430 rad/m, (delta/Delta)^2 = 0.09502. With L = 46 x 0.371381 = 17.0835 m, Delta L/2 = 16.9494 rad = 5 pi + 1.2414, cos^2 = 0.1045, sin^2 = 0.8955, T = 0.1045 + 0.0851 = 0.1897, that is 0.19.
+
+The most tempting wrong answer is 0.63. It follows when the twist of the glass is overlooked: Omega = tau = 1.01816 rad/m, Delta = 2.12621 rad/m, Delta L/2 = 18.1616 rad, (delta/Delta)^2 = 0.0828, T = 0.630. The solid-angle rule 2 pi N (1 - cos theta) gives the same rotation for whole turns. Other values: 45 turns 0.47, 47 turns 0.10 (47 is also the number of separate red pieces, because the first and the last turn each show as a partial arc), 43 turns 0.98, 44 turns 0.79, 48 turns 0.24; bend left out 0.84; twist term added in place of subtracted 0.76; bend and twist both left out 0.01; mandrel radius used as radius of curvature 0.18; 2 pi R used as the fibre length of a turn 0.21.
+
+Check in a second (Python 3, standard library):
+import math
+R, p, r, lam, N = 59.00e-3, 22.35e-3, 40.0e-6, 632.8e-9, 46
+s = math.hypot(p, 2*math.pi*R)
+tau = 2*math.pi*p/s**2
+rc = s**2/(4*math.pi**2*R)
+delta = 0.1350*(2*math.pi/lam)*(r/rc)**2
+for c in (0.0730, 0.0):                      # with the twist of the glass, and without it
+    om = (1 - c)*tau
+    D = math.hypot(delta, 2*om)
+    h = D*N*s/2
+    print(math.cos(h)**2 + (delta/D)**2*math.sin(h)**2)   # 0.1897, then 0.6302
+
+Citations: Ross, Opt. Quantum Electron. 16, 455 (1984); Tomita and Chiao, Phys. Rev. Lett. 57, 937 (1986); Berry, Nature 326, 277 (1987); Ulrich and Simon, Appl. Opt. 18, 2241 (1979); Lefevre, Electron. Lett. 16, 778 (1980); Ulrich, Rashleigh and Eickhoff, Opt. Lett. 5, 273 (1980). The uploaded notes hold the key script with other turn counts and every wrong route recomputed, a transport of the field along the helix in three dimensions that uses neither the Frenet formulas nor the closed form and gives the same 0.1897, the program that draws the figure and the read-back of the 46 turns from the image file.
