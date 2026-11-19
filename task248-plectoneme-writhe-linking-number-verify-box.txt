@@ -1,0 +1,10 @@
+Data from the figure: 9 nodes between the end loops (x = 162, 271, 381, 490, 600, 710, 819, 929, 1038 px), and at every node the continuous near segment rises from lower left to upper right. Arms antiparallel, so each node is a +1 crossing: left-handed interwinding, positive supercoiling.
+
+Key: Tw = 1800/10.5 = 171.43; Wr = +9 sin 56 = +7.46 (ideal interwound superhelix, White and Bauer 1986, Boles et al. 1990); Lk = 178.89, so 179. The Gauss integral of the drawn closed path gives Wr = +7.461.
+
+Most tempting wrong answer: reading it as a right-handed (negatively supercoiled) plectoneme, Wr = -7.46, Lk = 163.97, so 164. Counting each node as one full unit of writhe gives 180.
+
+Check in seconds:
+import math
+Tw = 1800/10.5
+print(round(Tw + 9*math.sin(math.radians(56))), round(Tw - 9*math.sin(math.radians(56))))   # 179 164
