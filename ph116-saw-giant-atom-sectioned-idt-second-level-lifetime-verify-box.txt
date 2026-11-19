@@ -1,0 +1,14 @@
+The figure (497 x 150 px) is a simulated micrograph of the finger region, and three integers are read from it. It shows two groups of bright lines. The left group has 27 lines, with centres from x = 33.1 px to 216.3 px at mid height. The right group has 22 lines, from 315.1 px to 463.1 px. The lines are 7.05 px apart in both groups and lean 1.3 degrees from the vertical. From the last line of the left group to the first line of the right group it is 98.8 px, that is 14.0 grid periods, so 13 grid positions are empty. Fingers stand on the grid positions 0 to 26 and 40 to 61, 49 in all.
+
+Key by hand: a transition at frequency f emits with a rate proportional to |A|^2, where A is the sum of exp(i n phi) over the occupied positions n and phi = pi (f/f0 - 1). The alternating sign and the propagation phase pi f/f0 per grid period combine to phi. At f0 all 49 terms are 1, so 1/T1 = 2401 g, with g the rate of one finger. Level 2 decays only to level 1, with twice the single-finger rate (oscillator matrix element sqrt 2) and at 3779.0 MHz, where phi = -0.22175 rad. A section of M fingers gives D = sin(M phi/2)/sin(phi/2), which is 1.332 for 27 fingers and 5.838 for 22. The section centres are 37.5 grid periods apart and cos(37.5 phi) = -0.4454, so |A|^2 = 1.78 + 34.09 - 6.93 = 28.93. The decay time is T1 x 2401/(2 x 28.93) = 604 ns x 41.49 = 25.06 us, that is 25 us.
+
+The most tempting wrong answer is 0.30 us. It follows from the oscillator rule alone, level 2 decaying twice as fast as level 1 (T1/2 = 302 ns), without the frequency dependence of the transducer. Other wrong routes: the frequency dependence without the factor 2 gives 50 us, the empty stretch ignored (49 fingers in one row) 16 us, the two sections added without their interference 20 us, the sign of the right section reversed 17 us, an empty stretch of 14 or 12 positions 28 or 23 us. One finger more or fewer gives 24 or 23 us in the left section and 38 or 18 us in the right section.
+
+Check in a second (Python 3, standard library). It prints |A|^2, the key and the oscillator-rule value in us:
+import math
+occ = list(range(27)) + list(range(40, 62))
+phi = math.pi*(3779.0/4066.0 - 1)
+A2 = abs(sum(complex(math.cos(n*phi), math.sin(n*phi)) for n in occ))**2
+print(round(A2, 2), round(604*len(occ)**2/(2*A2)/1000, 2), round(604/2/1000, 2))   # 28.93 25.06 0.3
+
+Citations: Gustafsson et al., Science 346, 207 (2014); Frisk Kockum, Delsing and Johansson, Phys. Rev. A 90, 013837 (2014); Koch et al., Phys. Rev. A 76, 042319 (2007); Andersson et al., Nature Physics 15, 1123 (2019). The uploaded notes hold the key script with the neighbouring readings and every wrong route, the same decay with the transit time kept (0.3 per cent longer), a simulation in which the level is coupled finger by finger to a discretised phonon continuum, the program that draws the figure and the read-back of 27, 13 and 22 from the image file.
