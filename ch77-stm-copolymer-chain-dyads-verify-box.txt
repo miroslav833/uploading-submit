@@ -1,0 +1,10 @@
+Sequence, 140 units from the free end in the upper middle (A bright, B dim):
+BABABAABAA ABABBBBAAB ABABAABABA BAABBAABBB ABABAABABA AABBABAABB BAABABAAAA ABBAAAABAB BABABABBBB BABABBBABA BABBABABAB BAABBBABAB ABABBBBBBA AABAABBAAB
+In the PNG the bright dots have grey level 236 to 244 and the dim ones 120 to 148; neighbours are 34 px apart, strands that pass each other stay 51 px or more apart.
+
+Key: pairs AA 24, BB 27, AB 44, BA 44 (139). rA rB = 24*27/(44*44) = 648/1936 = 0.3347, so 0.335.
+Most tempting wrong answer: unit 17 (last of the four B, units 14 to 17) read as A: AA 25, BB 26, AB 44, BA 44, 650/1936 = 0.336. Unit 88 (second of the five B, units 87 to 91) read as A: AA 24, BB 25, AB 45, BA 45, 600/2025 = 0.296. One misread unit anywhere gives 0.293, 0.296, 0.333, 0.336, 0.357, 0.376 or 0.380.
+
+Check: s = "BABABAABAAABABBBBAABABABAABABABAABBAABBBABABAABABAAABBABAABBBAABABAAAAABBAAAABABBABABABBBBBABABBBABABABBABABABBAABBBABABABABBBBBBAAABAABBAAB"; from collections import Counter; c = Counter(a + b for a, b in zip(s, s[1:])); print(c, round(c["AA"] * c["BB"] / (c["AB"] * c["BA"]), 4))
+
+Method: Mayo and Lewis, J. Am. Chem. Soc. 66, 1594 (1944); Harwood and Ritchey, J. Polym. Sci. B 2, 601 (1964).
