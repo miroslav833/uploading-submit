@@ -1,0 +1,20 @@
+Key rests on telling carcinoma cells from sinus histiocytes of the same tone and packing; only the nuclei differ. Size is the largest contiguous group of tumour cells (Steiner et al. 2018, histiocytes as the usual mimic).
+
+Read from the pixels of the figure (1995 x 1295 px, bar 351 px = 0.5 mm, 702 px per mm):
+tumour cells, marked by a dark nucleolus in a light nucleus: largest extent 1010 px = 1.44 mm
+pale island (tumour plus histiocyte-filled sinus): largest extent 1705 px = 2.43 mm
+mean grey of the two cell populations: 134 and 134, so tone alone doesn't separate them
+
+Drawn: tumour cells about 16 um with 9 um vesicular nuclei and nucleoli; histiocytes about 17 um, foamy cytoplasm, 5 x 4 um dark oval nuclei, no nucleolus; lymphocytes 7 um.
+
+Key: 1010/702 = 1.44, so 1.4 mm (micrometastasis).
+Likely wrong answer: whole island 1705/702 = 2.43, so 2.4 mm (would read as a macrometastasis).
+
+Check, standard-library Python
+ppm = 702
+print(round(1010/ppm, 2), round(1705/ppm, 2))
+Output: 1.44 2.43
+
+Notes: section 1 has the drawn cell types and extents, section 2 the read-back program.
+
+Source: Steiner et al., Am. J. Surg. Pathol. 42(12), 1636-1646 (2018), Introduction, Methods (Reference Standard Classification), Fig. 4C.
