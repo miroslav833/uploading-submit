@@ -1,0 +1,20 @@
+The figure (324 x 182 px) holds two simulated photographs, and two numbers are read from it: the number of rotor blades in panel (a) and the number of stator vanes in panel (b). Panel (a) is centred at pixel (80.5, 80.5), panel (b) at (242.5, 80.5); in both the blades reach from a radius of 26 px to 60 px. The black gaps between the blades are 9.6 px apart at the outer end in panel (a) and 8.3 px apart in panel (b). Measured clockwise from the upward direction, the centres of the gaps of panel (a) lie at 3.6 + 9.231 j degrees (j = 0 to 38) and those of panel (b) at 2.9 + 8.000 j degrees (j = 0 to 44), each within 0.5 degrees of that grid on a circle of radius 58 px. So B = 39 and V = 45.
+
+Key by hand: at the blade-passing frequency w = B Omega the rotor-locked field has the circumferential order B, and the V equally spaced vanes, each loaded by the passing wakes with the phase B theta_j, radiate only the orders m = B - kV: ..., 84, 39, -6, -51, ... In a rigid circular duct with uniform flow the mode J_m(kappa r) exp[i(m theta + kz z - w t)] has kappa a = j'_(|m|,mu) and kz = [-M k +- sqrt(k^2 - (1 - M^2) kappa^2)]/(1 - M^2); the plus sign is the wave that travels with the flow, away from the stage. Numbers: Omega = 280.23 rad/s, k = 39 Omega/c = 31.761 rad/m, k a = 7.9403, M = 154.2/344.1 = 0.44813, 1 - M^2 = 0.79918. A mode propagates if j' < k a/sqrt(1 - M^2) = 8.882: only |m| = 6 in its first radial order does (j'_(6,1) = 7.5013; j'_(6,2) = 11.735; j'_(39,1) = 41.76). Then sqrt(63.048 - 0.79918 x 56.269) = 4.2519, M k a = 3.5582, kz a = (4.2519 - 3.5582)/0.79918 = 0.8679 and 2 pi/kz = 2 pi x 0.25/0.8679 = 1.810 m, that is 1.8 m.
+
+The most tempting wrong answer is 0.60 m. It follows when the mean flow is left out: kz a = sqrt(63.048 - 56.269) = 2.604 and 2 pi x 0.25/2.604 = 0.603 m. Other wrong routes: the wave that travels against the flow, 0.16 m; sqrt(1 - M^2) in place of 1 - M^2 in the denominator, 2.0 m; no denominator, 2.3 m. Wrong counts: 44 or 46 vanes give 0.65 or 0.84 m, 40 or 38 blades give 0.59 or 0.51 m (for 46 vanes and for 38 blades the phase runs towards the stage), and both counts one too high or one too low give 1.3 or 3.2 m.
+
+Check in a few seconds (Python 3, standard library). It finds the first zero of J'_6 by bisection on the power series and prints the zero, the key and the still-air value:
+import math
+def J(n, x): return sum((-1)**k*(x/2)**(2*k+n)/(math.factorial(k)*math.factorial(k+n)) for k in range(60))
+def dJ(n, x): return (J(n-1, x) - J(n+1, x))/2
+B, V, rpm, a, c, U = 39, 45, 2676, 0.25, 344.1, 154.2
+m = abs(B - V); lo, hi = float(m), m + 3.0
+while hi - lo > 1e-10:
+    mid = (lo + hi)/2
+    lo, hi = (mid, hi) if dJ(m, mid) > 0 else (lo, mid)
+k = B*rpm*2*math.pi/60/c; M = U/c; kap = lo/a
+kz = (-M*k + math.sqrt(k*k - (1 - M*M)*kap*kap))/(1 - M*M)
+print(round(lo, 4), round(2*math.pi/kz, 3), round(2*math.pi/math.sqrt(k*k - kap*kap), 3))   # 7.5013 1.81 0.603
+
+Citations: Tyler and Sofrin, SAE Trans. 70, 309 (1962); Morfey, J. Sound Vib. 1, 60 (1964) and 14, 37 (1971); Rienstra, J. Fluid Mech. 380, 279 (1999). The uploaded notes hold the key script with every other count and every wrong route recomputed, an independent check of the three steps (orders radiated by 45 vanes under 39 wakes, the radial eigenvalue by direct integration, the two roots of the dispersion relation with their group velocities), the program that draws the figure and the read-back of 39 and 45 from the image file.
