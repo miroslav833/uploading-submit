@@ -1,0 +1,25 @@
+Key depends on whether Fe's dispersion at Cu K-alpha is added to the f0 table.
+
+Figure data (220 = 1000): 111 30.42, 200 14.41.
+m: 8, 6, 12. LP: 34.841, 25.469, 11.549.
+f = f0 + f' + i f'', Fe -1.179, 3.204; Al 0.204, 0.246.
+|fFe - fAl|^2: 116.72 (111), 108.79 (200). |3 fFe + fAl|^2: 3803.6 (220).
+x_b - x_a = 0.702. x_a + x_b - 2 x_c = 0.676. x_a + x_b = 0.838. x_b = 0.770.
+
+Most tempting wrong answer: f0 as tabulated, no dispersion. Same steps give x_b - x_a = 0.671, x_a + x_b = 0.822, x_b = 0.747, so 0.75.
+Other tables (Sasaki, Henke) give 0.7696 and 0.7695.
+Check inside the figure: 1000 I(440)/I(220) is 96.6 from f0 alone and 94.4 with dispersion (f0 at 440: Fe 11.746, Al 5.818). Label on 440: 94.44.
+
+Check, standard-library Python
+import math
+A, L = 5.792, 1.5406
+def g(n, m):
+    t = math.asin(L*math.sqrt(n)/(2*A)); return m*(1+math.cos(2*t)**2)/(math.sin(t)**2*math.cos(t))
+def xb(fp, fpp, ap, app):
+    fe = [complex(v+fp, fpp) for v in (21.837, 21.001, 18.556)]; al = [complex(v+ap, app) for v in (10.063, 9.616, 8.545)]
+    r = g(8, 12)*abs(3*fe[2]+al[2])**2
+    d = math.sqrt(0.03042*r/(g(3, 8)*abs(fe[0]-al[0])**2)); s = math.sqrt(0.01441*r/(g(4, 6)*abs(fe[1]-al[1])**2))
+    return ((1+s)/2+d)/2
+print(round(xb(-1.179, 3.204, 0.204, 0.246), 3), round(xb(0, 0, 0, 0), 3))   # 0.77 0.747
+
+Sources: Cromer and Liberman 1970 (f', f''); Cromer and Mann 1968 (f0).
