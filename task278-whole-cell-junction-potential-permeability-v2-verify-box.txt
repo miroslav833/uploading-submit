@@ -1,0 +1,14 @@
+The figure crosses zero at -30.0 mV. That voltage still carries the junction between pipette solution and Ringer, because the offset was nulled in Ringer before the seal. Henderson equation, mobilities from Barry's table (gluconate 0.33, Ng and Barry 1995): +16.3 mV. True reversal -46.3 mV.
+
+Pipette: K+ 148.9, gluconate 140, Cl- 5, HEPES- 3.9 mM. Ringer: Na+ 144.4, K+ 5, Ca2+ 2, Mg2+ 1, Cl- 151, HEPES- 4.4 mM. NMDG-Cl: NMDG+ 150, Cl- 145.6, HEPES- 4.4 mM. 22 C, RT/F 25.43 mV.
+
+P_NMDG/P_K = (148.9/150) exp(-46.3/25.43) = 0.16.
+
+The NMDG-Cl/pipette junction (+25.1 mV) never existed, since the bath was changed with the pipette inside the cell. Used anyway it gives 0.11. No correction gives 0.31. The 3 M KCl bridge changes by 0.7 mV on the exchange (0.157, still 0.16).
+
+from math import exp
+print(round(148.9/150*exp((-30.0-16.3)/25.43), 3), round(148.9/150*exp((-30.0-25.1)/25.43), 3), round(148.9/150*exp(-30.0/25.43), 3))
+prints 0.161 0.114 0.305
+
+Notes: ljp.py has every junction, key.py reads the crossing back from the PNG (-30.0 mV).
+Sources: Neher, Methods Enzymol. 207, 123-131 (1992), p. 123, opening summary paragraph; Ng and Barry, J. Neurosci. Methods 56, 37-41 (1995), p. 37, Abstract; Virginio et al., J. Physiol. 519, 335-346 (1999), Methods section, subsection Electrophysiology.
