@@ -1,0 +1,19 @@
+The figure is the only source of the mesh data. It is a plot made for this question: five meshes at x = 0, 40, 50, 60 and 80 mm, with the potentials 0, 88, 20, 90 and 0 V printed beside the corners of the curve, straight lines between them, a downward arrow at mesh 2 and an upward arrow at mesh 4.
+
+Key by hand. For an electron U = -e phi, so in eV the corners of U are 0, -88, -20, -90, 0: two wells with a barrier at mesh 3. The electrons have E = -31 eV. In units of sqrt(2 m eV) mm the action of an oscillation of height d above the floor of a V-shaped well is (4/3) d^1.5 (l_a/DU_a + l_b/DU_b). Before the ramp J0 = (4/3) 57^1.5 (40/88 + 10/68) = 345.19. After both ramped potentials have moved by s volts, the left well at the barrier energy has the area A_L = (4/3) sqrt(68 - s) [10 + 40 (68 - s)/(88 - s)], which equals J0 at s = 21.51 V (A_L(21.5) = 345.23, A_L(21.6) = 344.69). The right well has A_R = (4/3) sqrt(70 + s) [10 + 20 (70 + s)/(90 + s)]. At s = 21.51: dA_L/ds = -5.357 and dA_R/ds = +2.251. An electron gains energy in proportion to |dA_L/ds| on each round of the left well and loses in proportion to dA_R/ds on a round of the right well, so it reaches the barrier with an excess spread evenly up to the first amount and is caught if the excess is below the second. Fraction caught = 2.251/5.357 = 0.4202, which is 0.42.
+
+The most tempting wrong answer is 0.30, from 2.251/(2.251 + 5.357): the rule for an orbit that starts above the barrier, applied to one that starts inside the shrinking well. Other routes: 1 (every electron falls into the deeper well); 0.49 from the share of the right well in the area of both wells at the crossing, or from a crossing put at s = 11 V by keeping the energy above the floor, or from derivatives taken at fixed widths; 0.58 from the right rule applied to the potentials of the figure without moving to the crossing; 0.26 and 0.33 from a crossing found with half or three quarters of the action.
+
+Check program (Python 3, standard library):
+import math
+AL = lambda s: 4/3*math.sqrt(68 - s)*(10 + 40*(68 - s)/(88 - s))
+AR = lambda s: 4/3*math.sqrt(70 + s)*(10 + 20*(70 + s)/(90 + s))
+J0 = 4/3*57**1.5*(40/88 + 10/68)
+lo, hi = 0.0, 67.9
+for _ in range(60):
+    mid = (lo + hi)/2
+    lo, hi = (mid, hi) if AL(mid) > J0 else (lo, mid)
+s, h = lo, 1e-6
+print(s, (AR(s + h) - AR(s - h))/(AL(s - h) - AL(s + h)))   # 21.5064  0.4202
+
+The uploaded notes add a direct integration of the motion of seven thousand electrons through the slow ramp, without any use of actions, which gives 0.426 +- 0.006 in the right-hand well. Sources for the rule: Neishtadt, J. Appl. Math. Mech. 39, 594 (1975); Cary, Escande and Tennyson, Phys. Rev. A 34, 4256 (1986); Henrard, Celest. Mech. 27, 3 (1982).
