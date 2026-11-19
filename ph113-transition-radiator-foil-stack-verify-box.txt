@@ -1,0 +1,20 @@
+The figure carries one value, the number of foils. It is a simulated photograph (700 x 210 px) of the stack seen at an angle through a lens with barrel distortion, so the foil edges are closer together at the right (far) end and the picture is compressed a little towards both margins. Bright lines are foil edges; the grey blocks at the two ends are the flanges. On the middle row (y = 105 px) the edges are at the columns
+75 85 95 105 115 125 135 144 154 164 / 174 183 193 203 212 222 231 241 250 259 / 268 278 287 296 305 314 323 332 341 350 / 358 367 375 384 392 400 409 417 425 433 / 441 449 457 464 472 480 487 494 502 509 / 516 523 530 537 544 551 558 564 571 577 / 584 590 596.
+The spacing falls from 10.0 px to 6.4 px (means over five gaps) with no gap. That is 63 edges, so N = 63 foils (and 62 gaps). The stack length in the image over a mean spacing is not a count: 521 px over the geometric mean of the end spacings (8.0 px) gives 65 gaps.
+
+Key by hand. Phase slip over a path l: phi = (omega l/2c)(1/gamma^2 + theta^2 + omega_p^2/omega^2). omega/2c = 11650 eV/(2 x 197.327 eV nm) = 2.95195e10 1/m; gamma = 3913.9, 1/gamma^2 = 6.528e-8; (20.66/11650)^2 = 3.1449e-6; (0.7067/11650)^2 = 3.680e-9. At theta = 0: foil 1.4215 rad, gap 0.9161 rad, period Phi_0 = 2.3375 rad. N foils give sin^2(N Phi/2)/sin^2(Phi/2) times one foil. A very long radiator radiates only where Phi = 2 pi m; Phi_0 < 2 pi, so the innermost ring has m = 1, with (omega (l1 + l2)/2c) theta_1^2 = 2 pi - 2.3375 = 3.9457 rad, theta_1 = 0.5361 mrad. At 0.988 theta_1 the phase per period is 2 pi - (1 - 0.988^2) x 3.9457 = 2 pi - 0.09413 rad. N delta/2 = 63 x 0.047064 = 2.9650 rad = pi - 0.1766; sin^2 = 0.030848; sin^2(0.047064) = 0.0022134; ratio 13.9, that is 14.
+
+The most tempting wrong answer is 22. It follows from 62 in place of 63 (one edge missed, or the gaps counted in place of the foils): 62 x 0.047064 = 2.9180 rad = pi - 0.2236, sin^2 = 0.04918, ratio 22. Other values: 61 foils 32, 60 foils 44, 64 foils 7.5, 65 foils 3.1 (also the two flanges counted as foils), 66 foils 0.56 (the count that the stack length and the end spacings suggest), 70 foils 10, 71 foils 18; 33 or 100 foils 450, the largest value possible at this angle, 1/sin^2(delta/2); foils added without interference 63; on the ring itself 3969; whole phase taken as proportional to theta^2, delta = 2 pi (1 - 0.988^2), 180; air treated as vacuum 8.6; 1/gamma^2 left out 68; 450.0 um read as the period in place of the gap 10; phase omega l/c in place of omega l/2c 2400.
+
+The ratio is that of the ideal stack the question defines. In a real stack of this length the multiple scattering of a 2 GeV electron, about 0.2 mrad, is far larger than the 6 urad between the detector and the ring, which is why the question states that scattering is neglected.
+
+Short check (Python 3, standard library):
+import math
+c = 11650/(2*197.327e-9)                     # omega/2c in 1/m
+g2 = (0.51100e-3/2.000)**2                   # 1/gamma^2
+phi0 = c*(15.00e-6*(g2 + (20.66/11650)**2) + 450.0e-6*(g2 + (0.7067/11650)**2))
+d = (1 - 0.988**2)*(2*math.pi - phi0)
+for N in (63, 62):
+    print(N, math.sin(N*d/2)**2/math.sin(d/2)**2)   # 13.94, then 22.22
+
+Citations: Artru, Yodh and Mennessier, Phys. Rev. D 12, 1289 (1975); Cherry, Hartmann, Mueller and Prince, Phys. Rev. D 10, 3594 (1974); Fabjan and Struczinski, Phys. Lett. B 57, 483 (1975); Dolgoshein, Nucl. Instrum. Methods A 326, 434 (1993); Andronic and Wessels, Nucl. Instrum. Methods A 666, 130 (2012). The uploaded notes hold the key script with other foil counts and every wrong route recomputed, the program that draws the figure and the read-back of the 63 edges from the image file.
