@@ -1,0 +1,33 @@
+Key depends on a, read from the dot lattice, and on knowing which projection it is.
+Image 1100 x 1100 px, bar 220 px = 100 nm (2.2 px/nm), y down.
+Dark-dot lattice (264 dots fitted): u = (-19.96, -60.51) px, v = (50.40, -39.01) px, both 63.7 px = 28.95 nm, 70.5 deg apart.
+Dot centres, e.g.: (580, 502), (560, 442), (630, 463), (480, 200), (832, 307).
+Short diagonal u - v: 73.6 px = 33.45 nm, pale blob at its middle. Long diagonal u + v: 104.1 px = 47.3 nm.
+Ratios 1 : 1.155 : 1.633 = sqrt3/4 : 1/2 : 1/sqrt2.
+
+By hand. Those ratios and 70.5 deg are the <110> projection of Ia-3d: zone reflections (1 -1 +-2) at cos = -1/3, cell a/2 x a/sqrt2, side sqrt3 a/4. So a = 2 x 33.45 = 66.9 nm (side gives 66.9 too). First Ia-3d peak (211): q* = 2 pi sqrt6 / 66.9 = 0.230 nm^-1 -> 0.23. Two figures hold for a from 65.5 to 68.4 nm.
+
+Likely wrong: dot spacing 28.95 nm taken as d211: 2 pi / 28.95 = 0.217 -> 0.22. The dot rows, not the dots, are the (211) fringes: row spacing a/sqrt6 = 27.3 nm.
+Others: short diagonal a/2 as d211, 0.19; read as [100] with the dot spacing = a/2, 0.27; read as [111], 0.25.
+
+Check, standard-library Python
+import math
+px = 2.2                                    # px per nm (100 nm bar = 220 px)
+u, v = (-19.96, -60.51), (50.40, -39.01)    # primitive vectors of the dark-dot lattice, px, y down
+lu, lv = math.hypot(*u), math.hypot(*v)
+ang = math.degrees(math.acos((u[0] * v[0] + u[1] * v[1]) / lu / lv))
+s = (u[0] - v[0], u[1] - v[1])              # short diagonal (bright blob in its middle)
+l = (u[0] + v[0], u[1] + v[1])              # long diagonal
+print("sides %.1f %.1f px, angle %.2f deg, short diag %.1f px, long diag %.1f px" % (lu, lv, ang, math.hypot(*s), math.hypot(*l)))
+print("ratios short/side %.3f (2/sqrt3 = 1.155), long/short %.3f (sqrt2 = 1.414)" % (math.hypot(*s) / lu, math.hypot(*l) / math.hypot(*s)))
+area = abs(u[0] * v[1] - u[1] * v[0]) / px ** 2
+a = math.sqrt(area / (math.sqrt(2) / 8))     # [110] of Ia-3d: primitive cell a^2 sqrt2 / 8
+print("a = %.2f nm, d211 = %.2f nm, q* = %.4f nm^-1 -> %.2f" % (a, a / math.sqrt(6), 2 * math.pi * math.sqrt(6) / a, 2 * math.pi * math.sqrt(6) / a))
+print("nearest-dot spacing taken as d211: %.2f" % (2 * math.pi / (lu / px)))
+Output:
+sides 63.7 63.7 px, angle 70.52 deg, short diag 73.6 px, long diag 104.1 px
+ratios short/side 1.155 (2/sqrt3 = 1.155), long/short 1.415 (sqrt2 = 1.414)
+a = 66.89 nm, d211 = 27.31 nm, q* = 0.2301 nm^-1 -> 0.23
+nearest-dot spacing taken as d211: 0.22
+
+Sources: Dolan et al., Adv. Opt. Mater. 3, 12 (2015), Sec. 1 Eq. (4) and Fig. 1 caption (accepted manuscript).
