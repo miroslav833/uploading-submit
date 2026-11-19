@@ -1,0 +1,15 @@
+The figure (506 x 132 px) is a simulated map of the plasma electron density with two red marks above it, and one integer is read from it. The mark D (driver) stands at x = 476.5 px and the mark W (witness) at x = 44.5 px, 432.0 px apart. To the right of D the map is uniform. To the left of D it is striped with a wavelength of 5.24 px, so the marks are 82.5 wavelengths apart. Between the marks lie 83 dark stripes, with centres from x = 45.8 px to 475.7 px, and 82 bright stripes, from 48.4 px to 472.6 px. The first stripe behind D is dark and starts right at D. W stands a quarter of a wavelength to the left of a dark stripe and a quarter to the right of a bright one. So the witness rides the 83rd accelerating crest, N = 83, and its phase in the plateau is 165 pi.
+
+Key by hand: behind a thin wide sheet of electrons the field is E = E_m cos(k_p xi), with E_m = sigma/eps0 = Q/(pi R^2 eps0) = 3.1956 GV/m whatever the density. The force on an electron, -eE, accelerates most at k_p xi = (2N - 1) pi, and the density minima lie a quarter of a wavelength in front of these crests, so N dark stripes lie between the driver and crest N. In the ramp each layer oscillates at its local plasma frequency and the witness arrives a fixed time later, so the phase is 165 pi u with u = sqrt(1 + 0.0227 z/L). Then the energy change is -e E_m (2L/0.0227) [u sin(165 pi u)/(165 pi) + cos(165 pi u)/(165 pi)^2] between u = 1 and u = 1.011286. The phase at the exit is 165 pi + 5.8504 rad, its sine is 0.41940 and its cosine -0.90780, the bracket is 0.0008186, and with e E_m L = 223.69 MeV the change is -0.07212 x 223.69 = -16.13 MeV, that is -16 MeV.
+
+The most tempting wrong answer is 224 MeV. It is e E_m L, the gain of an electron that stays on the crest, as in a uniform plasma. Other wrong routes: sigma/(2 eps0) as the amplitude gives -8.1 MeV, 82 crests give -19 MeV and 84 give -13 MeV, a plasma frequency proportional to the density gives -14 MeV, a witness on a decelerating crest (166 pi) gives +15 MeV.
+
+Check in a second (Python 3, standard library). It prints e E_m L, the key by Simpson's rule and the value for 82 crests, in MeV:
+import math
+W0 = 2.000e-9/(math.pi*150.0e-6**2*8.8541878128e-12)*70.00e-3/1e6
+def dW(N, m=20000):
+    f = lambda s: -math.cos((2*N - 1)*math.pi*math.sqrt(1 + 0.02270*s))
+    return W0*(f(0) + f(1) + sum((4 if i % 2 else 2)*f(i/m) for i in range(1, m)))/(3*m)
+print(round(W0, 2), round(dW(83), 2), round(dW(82), 2))   # 223.69 -16.13 -18.8
+
+Citations: Chen, Dawson, Huff and Katsouleas, Phys. Rev. Lett. 54, 693 (1985); Katsouleas, Phys. Rev. A 33, 2056 (1986); Dawson, Phys. Rev. 113, 383 (1959); Keinigs and Jones, Phys. Fluids 30, 252 (1987). The uploaded notes hold the key script with every crest number from 57 to 109 and every wrong route, an integration of the linearised field and fluid equations in time at 241 places along the ramp, which gives -16.13 MeV without any formula for the wave, the program that draws the figure and the read-back of 83 dark and 82 bright stripes from the image file.
