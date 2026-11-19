@@ -1,0 +1,14 @@
+The count is of day layers in the endocuticle, eleven of them. The orange exocuticle is pre-ecdysial and is skipped. Day layers are smooth (non-lamellate), night layers striped (lamellate), as in Sviben et al. 2020 for locust tibia.
+
+Layer table of the figure, depth below the outer surface in um (exocuticle 0.9 to 13.0):
+night 13.00-14.19, day 14.19-15.96, night 15.96-17.00, day 17.00-18.47, night 18.47-19.54, day 19.54-21.01, night 21.01-22.26, day 22.26-23.97, night 23.97-25.05, day 25.05-26.89, night 26.89-28.10, day 28.10-29.70, night 29.70-30.86, day 30.86-31.11 (the thin one), night 31.11-32.07, day 32.07-33.75, night 33.75-34.96, day 34.96-36.44, night 36.44-37.65, day 37.65-39.19, night 39.19-40.40, day 40.40-41.86 (against the epidermis).
+
+Read back from the image in three vertical strips: 11 striped and 11 smooth runs each time. The thin smooth run peaks at green 161 to 165, ordinary day layers about 169; the brightest point between lamellae inside any night band is 150 to 152. So the thin line is day cuticle, not a gap between lamellae.
+
+Read the doubled block as one night and you get 10, the likeliest wrong answer. Counting every band gives 22.
+
+days = [(14.19, 15.96), (17.00, 18.47), (19.54, 21.01), (22.26, 23.97), (25.05, 26.89), (28.10, 29.70), (30.86, 31.11), (32.07, 33.75), (34.96, 36.44), (37.65, 39.19), (40.40, 41.86)]
+print(len(days), min(round(b - a, 2) for a, b in days))
+prints: 11 0.25
+
+Sources: Sviben et al., ACS Appl. Mater. Interfaces 12, 25581-25590 (2020), abstract and Fig. 1B; Schlein and Gratz, Bull. World Health Organ. 47, 71-76 (1972), abstract p. 71.
