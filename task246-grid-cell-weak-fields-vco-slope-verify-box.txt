@@ -1,0 +1,16 @@
+The answer comes from the map; it cannot be looked up. G = 2/(sqrt(3) beta) is in Burgess, Barry and O'Keefe (2007); unequal peak rates across the fields of one grid cell are documented by Ismakov et al. (2017).
+
+Interior fields in the figure, (x, y) in cm and peak rate in Hz.
+Strong: (113, 111) 14.5; (21, 99) 13.9; (71, 78) 10.5; (121, 57) 10.1; (64, 132) 10.1; (29, 44) 9.2; (79, 24) 8.8.
+Weak: (95, 138) 4.3; (136, 88) 4.1; (63, 49) 4.0; (48, 21) 4.0; (139, 34) 3.9; (34, 126) 3.8; (111, 28) 3.6; (103, 83) 3.6; (12, 69) 3.3; (41, 74) 3.3; (53, 104) 3.3; (16, 18) 3.0; (84, 107) 3.0; (126, 141) 3.0; (91, 52) 2.9.
+Between fields the rate is below about 1 Hz. The weak fields are mid blue to light blue on dark blue and are plain at full size.
+
+By hand: strong fields are 54 cm apart, e.g. (71, 78) to (113, 111) is 53.4 cm and (71, 78) to (121, 57) is 54.2 cm. Each weak field is at the centre of a triangle of strong ones, e.g. (71, 78), (113, 111), (121, 57) has its centre at (102, 82). All fields together: spacing 54/sqrt(3) = 31.2 cm, and beta = 2/(1.732 x 0.312) = 3.70 cycles per metre.
+Strong fields only: beta = 2/(1.732 x 0.54) = 2.1. This fails because the model as stated has no field at a triangle centre: with directions 60 degrees apart the summed signal is 4|cos(a/2)cos(c/2)|, a quarter of peak there and without a maximum. A product of envelopes gives 1/8 of peak (1.4 Hz); the fields there are 2.9 to 4.3 Hz. Side maxima of sqrt(7)/4 need directions 120 degrees apart.
+
+Python:
+from math import sqrt
+for G in (0.312, 0.54): print(G, round(2/(sqrt(3)*G), 2))
+prints 3.7 and 2.14. The notes include the program that finds the 22 maxima and fits both lattices (31.2 cm and 54.3 cm).
+
+Sources: Burgess, Barry and O'Keefe, Hippocampus 17, 801-812 (2007), section on two-dimensional interference (grid scale against beta); Hafting et al., Nature 436, 801-806 (2005), Fig. 1; Ismakov et al., Curr. Biol. 27, 2337-2343 (2017), Figs. 1-2.
