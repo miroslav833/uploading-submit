@@ -1,0 +1,23 @@
+Key depends on the ring count: 18 rings, so 17 jumps. Not 19 or 21.
+
+Centre pixel (1014, 991). Bar 300 px = 0.5 mm.
+Ring crossings right of the centre, x in px:
+1914 1861 1787 1736 1695 1647 1599 1562 1526 1484 1449 1422 1379 1353 1331 1304 1281 1256
+Radii: 900 847 773 722 681 633 585 548 512 470 435 408 365 339 317 290 267 242. Closest two are 22 px apart.
+Central spot, radius 80 px. That's the last water drying, not a pinned position: landing there would need (80/242)^3 = 0.04 of theta_0.
+
+Thin cap V = (pi/4) theta R^3, jump at constant V, lands at theta_0. Per jump theta_r/theta_0 = (R_next/R)^3.
+Product over 17 jumps: (242/900)^(3/17) = 0.793, theta_r = 7.14 deg.
+f = 72.0 (cos 7.14 - cos 9.0) = 72.0 (0.99225 - 0.98769) = 0.329, so 0.33 mN/m.
+
+Likely wrong: an extra ring or three read in, 0.31 (19 rings) or 0.29 (21). Spot counted as a ring, 0.49. One ring missed, 0.34.
+
+Check, standard-library Python
+import math
+for rings in (18, 19, 21, 17):
+    th = 9.0*(241.8/900)**(3/(rings-1))
+    print(rings, round(72*(math.cos(math.radians(th)) - math.cos(math.radians(9))), 3))
+Output: 18 0.329 / 19 0.314 / 21 0.288 / 17 0.344
+The notes have the generator and a script that finds all 18 rings in the PNG.
+
+Sources: Wu, Man and Doi, Langmuir 34, 9572 (2018), arXiv v1 Eqs. 2, 8, 10; Gelderblom, Diddens and Marin, Soft Matter 18, 8535 (2022), Sec. 5.3.
