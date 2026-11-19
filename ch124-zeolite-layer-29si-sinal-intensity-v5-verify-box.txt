@@ -1,0 +1,29 @@
+Key depends on reading each disc against the legend greys: Si 200, Al 172, midpoint 186, nearest disc 3 off it.
+
+Element and grey, rows from the top:
+row 1: Si 197 Si 192 Si 201 Al 172 Si 198 Si 200 Si 190 Si 201 Si 189
+row 2: Al 170 Si 202 Si 201 Si 199 Si 200 Al 180 Si 198 Si 192 Si 199
+row 3: Si 197 Si 199 Al 166 Si 203 Si 199 Si 201 Si 199 Si 199 Al 170
+row 4: Si 198 Si 191 Si 202 Si 202 Al 177 Si 197 Al 176 Si 202 Si 199
+row 5: Al 169 Si 201 Si 198 Al 175 Si 199 Al 173 Si 199 Al 179 Si 203
+row 6: Si 200 Si 200 Al 168 Si 202 Si 198 Si 197 Si 191 Si 201 Al 182
+row 7: Al 176 Si 200 Si 200 Si 199 Al 165 Si 202 Si 199 Si 192 Si 201
+row 8: Si 198 Al 168 Si 200 Si 190 Si 198 Si 200 Al 176 Si 200 Al 168
+row 9: Al 168 Si 197 Al 169 Si 200 Si 202 Al 172 Si 199 Al 170 Si 202
+
+n = 0 to 4: 8, 26, 14, 10, 1. Si(2Al) 14/59 = 23.7 %.
+Likeliest wrong answer 31.4 %, the eight darker Si (189 to 192) taken as Al.
+
+Check, standard-library Python. Paste the nine rows between the quotes.
+rows = '''...'''
+g = [l.split()[2:] for l in rows.strip().splitlines()]
+A = {(i, j) for i in range(9) for j in range(9) if g[i][2 * j] == "Al"}
+n = [0] * 5
+for i in range(9):
+    for j in range(9):
+        if (i, j) not in A:
+            n[sum(((i + a) % 9, (j + b) % 9) in A for a, b in ((1, 0), (-1, 0), (0, 1), (0, -1)))] += 1
+print(n, round(100 * n[2] / sum(n), 1))
+prints [8, 26, 14, 10, 1] 23.7
+
+Sources: Lippmaa et al., J. Am. Chem. Soc. 1981 (Si(nAl) lines); Loewenstein, Am. Mineral. 1954.
