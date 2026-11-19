@@ -8,7 +8,7 @@ x_b - x_a = 0.702. x_a + x_b - 2 x_c = 0.676. x_a + x_b = 0.838. x_b = 0.770.
 
 Most tempting wrong answer: f0 as tabulated, no dispersion. Same steps give x_b - x_a = 0.671, x_a + x_b = 0.822, x_b = 0.747, so 0.75.
 Other tables (Sasaki, Henke) give 0.7696 and 0.7695.
-Check inside the figure: 1000 I(440)/I(220) is 96.6 from f0 alone and 94.4 with dispersion (f0 at 440: Fe 11.746, Al 5.818). Label on 440: 94.44.
+Check inside the figure: 1000 I(440)/I(220) is 96.6 from f0 alone and 94.4 with dispersion (f0 at 440: Fe 11.747, Al 5.818). Label on 440: 94.44.
 
 Check, standard-library Python
 import math
