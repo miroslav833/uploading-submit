@@ -16,4 +16,4 @@ q = sum(s*x/(xs*2*b) for s, x, xs, b in zip(sense, x5, x1, band))
 print(round(q, 4), round(math.pi**2*abs(q)*math.sqrt(6.0e-12/(8.8541878e-12*12.0)), 4))
 prints -0.3615 0.8478
 
-Sources: de Gennes, Solid State Commun. 6, 163 (1968); Meyer, Appl. Phys. Lett. 12, 281 (1968); Bouligand and Livolant, J. Physique 45, 1899 (1984).
+Sources: Yip and Kwok, Appl. Phys. Lett. 78, 425 (2001), p. 425, Eq. (2) (unwinding field); Sleczkowski et al., Proc. Natl. Acad. Sci. USA 115, 4334 (2018), Results, 'Static Analysis of CLC Droplets', text to Fig. 1E-H and Fig. 3 (spiral view of the radial structure, bands half a pitch apart).
