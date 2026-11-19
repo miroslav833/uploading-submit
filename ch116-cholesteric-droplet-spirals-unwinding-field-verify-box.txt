@@ -1,0 +1,19 @@
+Image content, as text. Four droplets, each a two-armed spiral of bright bands, viewed along the radial defect.
+A: 0.80 mol %, band spacing 2.00 um, bright arms turn counterclockwise going outward from the centre.
+B: 2.00 mol %, band spacing 1.25 um, clockwise.
+C: 0.50 mol %, band spacing 2.50 um, clockwise.
+D: 1.50 mol %, band spacing 1.60 um, counterclockwise.
+Scale bar 5 um in panel D. 2.4 to 3.5 bands per droplet radius, so the sense shows at the centre and along every arm.
+
+Key. Pitch = 2 x band spacing: 4.00, 2.50, 5.00, 3.20 um. Twisting power 1/(p x): 0.3125, 0.2000, 0.4000, 0.2083 um^-1 per mol %. Same viewing side in all four, so equal spiral sense means equal sign: A and D against B and C. Fifth mixture: 0.2031 + 0.1354 - 0.2600 - 0.4400 = -0.3615 um^-1, pitch 2.767 um. E_c = (pi^2/p) sqrt(K22/(eps0 d_eps)) = 9.870 x 0.3615 x 0.2376 V = 0.848 V/um.
+
+Most tempting wrong answer: no signs, 0.2031 + 0.2600 + 0.4400 + 0.1354 = 1.0385 um^-1, E_c = 2.44 V/um. D read with the sense of B and C: 0.2031 - 0.8354 = -0.6323, 1.48 V/um. Band spacing taken as the pitch: 1.70 V/um. Other sign patterns: 0.263, 0.372, 0.581, 1.22, 1.80 V/um.
+
+Check:
+import math
+x1 = [0.80, 2.00, 0.50, 1.50]; band = [2.00, 1.25, 2.50, 1.60]; sense = [+1, -1, -1, +1]; x5 = [0.65, 1.30, 1.10, 0.65]
+q = sum(s*x/(xs*2*b) for s, x, xs, b in zip(sense, x5, x1, band))
+print(round(q, 4), round(math.pi**2*abs(q)*math.sqrt(6.0e-12/(8.8541878e-12*12.0)), 4))
+prints -0.3615 0.8478
+
+Sources: de Gennes, Solid State Commun. 6, 163 (1968); Meyer, Appl. Phys. Lett. 12, 281 (1968); Bouligand and Livolant, J. Physique 45, 1899 (1984).
