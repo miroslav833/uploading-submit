@@ -17,4 +17,4 @@ b = (-2*e*e + math.sqrt(4*e**4 - 4*(4/60 + e*e)*(e*e - 1))) / (2*(4/60 + e*e))
 print(round(e, 4), round(b, 4), round(100*0.94*e*(1 + b)/(1 + 0.15*b), 2))
 prints -0.6308 0.5682 -85.68
 
-Sources: Fellows et al., Nat. Commun. 15, 3161 (2024), Introduction (third paragraph) and Results, 'Effect of molecular chirality' (enantiomers give mirror-image spiral domains); Geiger et al., Chem. Sci. 11, 12453 (2020), section 'Influence of K_Hetero and k2'' and Discussion (Kagan's ML2 model).
+Sources: Fellows et al., Nat. Commun. 15, 3161 (2024), p. 3, p. 5 and p. 6, Fig. 4c,d (enantiomers give mirror-image spiral domains); Geiger et al., Chem. Sci. 11, 12453 (2020), Fig. 6 and section 'Influence of K_Hetero and k2'' with Fig. 7e,f (Kagan's ML2 model). The uploaded notes hold every sign pattern, a numerical speciation check and a readback of each spiral from the PNG.
