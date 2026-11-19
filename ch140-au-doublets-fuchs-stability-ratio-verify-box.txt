@@ -1,0 +1,19 @@
+Key depends on how many of the eight close pairs are in contact: 5. Not 8.
+
+60 particles. Close pairs (pixel centres, centre spacing, brightest grey on the line between them; support 223):
+touching: (123,739)/(167,782) 61.4 px 145; (1547,670)/(1554,736) 66.6 px 145; (1017,85)/(992,139) 59.5 px 150; (958,257)/(943,312) 56.6 px 157; (983,663)/(1032,697) 59.4 px 160.
+gap of carbon: (1102,515)/(1158,506) 56.7 px 205; (247,509)/(306,523) 60.5 px 211; (590,736)/(649,723) 60.7 px 218.
+Spacing does not sort them (sizes scatter about 8 %); the seam does.
+
+By hand. N2/N0 = 5/60. k = 2 (5/60) / (2.00e17 x 600) = 1.389e-21 m^3 s^-1. k_fast = 8 kT/(3 eta) = 1.233e-17 m^3 s^-1 for dN2/dt = k N1^2/2. W = 8.88e3 -> 8.9e3.
+
+Likely wrong: 5.6e3 (all eight pairs taken as doublets). 4.4e3 with k_fast = 4kT/(3 eta).
+
+Check, standard-library Python:
+kT = 1.380649e-23 * 298.15
+kfast = 8 * kT / (3 * 0.890e-3)
+k = 2 * (5 / 60) / (2.00e17 * 600)
+print(round(kfast / k))
+Output: 8880
+
+Sources: Hegedűs et al., Langmuir 37, 2466 (2021), section on colloidal stability with monovalent salts, Eq. (3) (W = k_fast / k). Notes uploaded: model, key, other readings, image read-back.
