@@ -1,0 +1,17 @@
+Key depends on why the profiles are flattened. Microtubules are the standard: 25 nm across (Ledbetter and Porter 1963, 23 to 27 nm), cut square here.
+
+From the image file: scale bar 230 px for 200 nm. 26 ring profiles in the axon, long axis 25.0 nm (24.7 to 25.4), short axis 19.0 nm (18.7 to 19.3), ratio 0.76, long axis horizontal in every one (within 2 degrees). Axon profile inside the axolemma 0.860 um^2, 1.25 um wide, 0.89 um high.
+
+Long axis = 25 nm, so the short axis was shortened: section compression along the cutting direction, 24 %. Area in the block 0.860/0.76 = 1.13 um^2, equal-area diameter 1.20 um. Key 1.2.
+
+Most tempting wrong answers. No correction: 1.05, so 1.0. Oblique cut, area times 0.76: 0.654 um^2, 0.91 um. An oblique cut would leave the short axis at 25 nm and stretch the long one to 33 nm, and at 40 degrees the ring walls would smear by about 60 nm through a 70 nm section; they are sharp.
+
+Check, standard-library Python
+from math import pi, sqrt
+k = 19/25
+for a in (0.860/k, 0.860, 0.860*k): print(round(sqrt(4*a/pi), 3))
+Output: 1.2 1.046 0.912
+
+Rounding: the answer stays 1.2 for any ratio above 0.701 and up to 0.828.
+
+Sources: Peachey, J. Biophys. Biochem. Cytol. 4, 233-242 (1958), abstract p. 233; Ledbetter and Porter, J. Cell Biol. 19, 239-250 (1963), abstract p. 239; Tilney et al., J. Cell Biol. 59, 267-275 (1973), abstract p. 267.
