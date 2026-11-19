@@ -1,0 +1,24 @@
+The figure carries two whole numbers. It is a simulated map (682 x 604 px) of the population against dc flux (horizontal, -1.51 to 7.29 mPhi0) and source amplitude (vertical, 0 to 214.9 mV). The vertical lines are the multiphoton resonances. They are 9.40 px (0.1760 mPhi0) apart, at the image columns
+97 107 116 125 135 144 154 163 172 182 / 191 201 210 219 229 238 248 257 266 276 / 285 295 304 313 323 332 342 351 360 370 / 379 389 398 407 417 426 436 445 454 464 / 473 483 492 501 511 520 530 539 548 558.
+The line at zero bias, the one that reaches the apex of the wedge at the bottom, is the ninth of these (column 172, 0 mPhi0). The circle M is centred at pixel (445.2, 141.8), on the line at column 445, which is the 29th line to the right of the line at zero bias: (445.2 - 172.3)/9.40 = 29.0. So n = 29. Along that line, from the bottom, the dark places between bright lobes are at the image rows 191, 141, 98 and 61 (147, 169, 187 and 203 mV on the axis; the zeros of J_29 times 4.213 mV are 147.6, 168.5, 186.7 and 203.7 mV). M is the second one, so A_M/(hbar omega) is the second zero of J_29, 39.9908 (the first four zeros are 35.037, 39.991, 44.320, 48.348). A check without the line count: the line at zero bias has 16 dark places in the frame, the highest at 208 mV, and the sixteenth zero of J_0 is 49.483, so one unit of A/(hbar omega) is 4.20 mV and M has 40.0; the second zeros of J_28, J_29 and J_30 are 38.887, 39.991 and 41.093.
+
+Key by hand. Under the sinusoid the n-photon resonance has the coupling Delta J_n(A/hbar omega), so a dark place on line n is a zero of J_n. For a square wave of amplitude A' the phase of the rotating frame is a triangle and its n-th Fourier coefficient has the modulus c_n = 2x'|sin(pi(x' - n)/2)|/(pi|x'^2 - n^2|), x' = A'/hbar omega. With x' = (5/3) x 39.9908 = 66.6513 and n = 29: x' - n = 37.6513, |sin(18.8257 pi)| = 0.5207, 2x'/pi = 42.4316, x'^2 - n^2 = 3601.40, c = 42.4316 x 0.5207/3601.40 = 0.006135, gap/h = 10.90 MHz x 0.006135 = 66.87 kHz, that is 67 kHz.
+
+The most tempting wrong answer is 24 kHz. It follows when the Bessel coupling is kept for the square wave: 10.90 MHz x |J_29(66.6513)| = 23.7 kHz. Other values: 0 (M taken as a node of the square wave as well); 875 kHz (square wave replaced by its fundamental, 4A'/pi); 366 kHz (factor 5/3 left out); 420 kHz (A' read as peak to peak); line 28 126 kHz, line 30 87 kHz, line 24 117 kHz, line 20 (lines taken as 0.25 mPhi0 apart) 17 kHz; first dark place 128 kHz, third 109 kHz; zero rounded to 40.0, 64 kHz.
+
+Check in a few seconds (Python 3, standard library):
+import math
+def J(n, x, m=4000):                        # Bessel's integral, Simpson's rule
+    h = math.pi/m
+    s = 1 + math.cos(n*math.pi) + sum((4 if i % 2 else 2)*math.cos(n*i*h - x*math.sin(i*h)) for i in range(1, m))
+    return s*h/3/math.pi
+a, b = 39.0, 41.0                           # brackets the second zero of J_29
+for _ in range(50):
+    c = (a + b)/2
+    a, b = (a, c) if J(29, a)*J(29, c) <= 0 else (c, b)
+x = 5/3*a
+print(a)                                                              # 39.9908
+print(10900*2*x*abs(math.sin(math.pi*(x - 29)/2))/(math.pi*(x*x - 29**2)))   # 66.87 kHz
+print(10900*abs(J(29, x)))                                            # 23.7 kHz, the tempting wrong value
+
+Citations: Oliver et al., Science 310, 1653 (2005); Berns et al., Nature 455, 51 (2008); Shevchenko, Ashhab and Nori, Phys. Rep. 492, 1 (2010); Silveri et al., New J. Phys. 17, 043058 (2015); Olver, Phil. Trans. R. Soc. Lond. A 247, 328 (1954). The uploaded notes hold the key script with other counts and every wrong route, an exact calculation of the Floquet quasienergies for the square wave and for the sinusoid that uses neither the Bessel functions nor the closed form, the program that draws the figure and the read-back of both counts from the image file.
