@@ -1,0 +1,25 @@
+Key comes from the image, not from a paper. Manoharan et al. 2003 and Yi et al. 2004 give the cluster shapes; Cohen 1960 the truncated-Poisson estimate.
+
+Clusters by label, n and what is seen:
+n = 1: 14, 22.
+n = 2: 8, 25 (pair); 21 (one disc, as dark as two spheres: end-on).
+n = 3: 4, 28 (tilted); 6 (nearly edge-on); 7, 24 (stacked pair + one disc).
+n = 4: 5, 26 (rhomb); 9, 27 (stacked pair + two discs); 15 (triangle round a light, single-thickness centre).
+n = 5: 12, 18 (triangle round a black centre); 2, 3, 10, 13 (side or edge views).
+n = 6: 1, 20 (square round a black centre); 16 (ring of six); 17, 23 (two stacked pairs + two discs).
+n = 7: 11, 19 (pentagon round a black centre).
+
+28 clusters, 117 spheres, mean 4.1786. lambda/(1 - exp(-lambda)) = 4.1786 gives lambda = 4.11.
+
+Most tempting wrong answer: 4.18, the plain mean with the zero class left in. Reading 12 and 18 like 15, as tetrahedra, gives 4.03; missing the end-on dimer 21 gives 4.07.
+
+Check:
+import math
+n = [1]*2 + [2]*3 + [3]*5 + [4]*5 + [5]*6 + [6]*5 + [7]*2
+m = sum(n) / len(n)
+lo, hi = 0.01, 20.0
+for _ in range(100):
+    mid = (lo + hi) / 2
+    lo, hi = (mid, hi) if mid / (1 - math.exp(-mid)) < m else (lo, mid)
+print(len(n), sum(n), round(lo, 3))
+Output: 28 117 4.11
