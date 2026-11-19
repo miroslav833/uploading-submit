@@ -1,0 +1,19 @@
+Key depends on how many particles carry a TiOx rim: 7 of 32. Not 5.
+
+Particles, 4 rows of 8, from the top left.
+Covered (faint grey ring just outside the dark Pt disc): r1 2, r1 4, r1 5, r1 6, r2 2, r4 5, r4 7.
+Pixel centres of the covered ones: (261, 96), (570, 75), (734, 101), (872, 105), (229, 239), (729, 601), (1030, 615).
+Ring 3 to 18 px outside the edge minus the support beyond: -12 to -15 grey for those seven, -3.4 to +2.6 for the 25 others.
+
+By hand. Surface Pt per cap 2 pi (1.5)^2 / 0.0807 = 175.2. Exposed Pt = 2.40e16 x 25/32 x 175.2 = 3.285e18. TOF = 9.50e17 / 3.285e18 = 0.289 -> 0.29 s^-1.
+
+Likely wrong: 0.27 (the faint rims on r1 5 and r1 6 missed). 0.23 if the overlayer is ignored.
+
+Check, standard-library Python:
+import math
+n, covered = 32, 7
+per_cap = 2 * math.pi * 1.5 ** 2 / 0.0807
+print(round(9.50e17 / (2.40e16 * (n - covered) / n * per_cap), 3))
+Output: 0.289
+
+Sources: Leybo et al., Chem. Soc. Rev. 53, 10450 (2024), Section 4 (c-SMSI: encapsulation after high-temperature reduction, suppressed H2 and CO chemisorption). Notes uploaded: model, key, other readings, image read-back.
