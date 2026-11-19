@@ -1,0 +1,16 @@
+Key depends on reading the rate maximum as a coverage effect, not deactivation.
+
+Points in the plot (T, ln TOF): 430 K -3.07; 445 K -1.98; 460 K -0.93; 475 K -0.02; 490 K 1.01; 505 K 1.83; 520 K 2.54; 535 K 3.21; 550 K 3.68; 565 K 3.96; 580 K 4.14; 595 K 4.12; 610 K 4.08; 625 K 3.99; 640 K 3.94; 655 K 3.83; 670 K 3.75; 685 K 3.63; 700 K 3.56
+
+TOF = k theta, theta = KP/(1+KP). Low T (theta -> 1): slope gives E. High T (theta -> 0): slope gives E + dH_ads.
+430-490 K: E_app = 119 kJ/mol. 655-700 K: E_app = -23 kJ/mol. dH_ads = -23 - 119 = -142.
+Full fit of the LH expression to all points: E 118.5, dH_ads -143 kJ/mol, KP = 1 at 560 K.
+Answer: -1.4 x 10^2 kJ/mol.
+
+Likely wrong: 119 (low-T slope only, rollover read as deactivation); -23 (high-T slope taken as dH).
+
+Check, standard-library Python
+print(round(-23 - 119, -1))
+Output: -140
+
+Notes: generator and the full least-squares fit (key.py).
