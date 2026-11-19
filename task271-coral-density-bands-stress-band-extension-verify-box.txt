@@ -1,0 +1,19 @@
+The key is a band count. Between base and T there are nine broad light bands, so nine years in 84 mm, 9.33 mm per year. The two thin bright lines at 30.1 and 67.3 mm, each just above a summer band, are the stress bands of the two bleachings and are not years. Counted as years they give 11 and 7.6 mm per year.
+
+Band layout from the drawing program (mm from base, low-density band then high-density band):
+1: 0.0-5.3, 5.3-9.6
+2: 9.6-14.8, 14.8-19.0
+3: 19.0-24.6, 24.6-29.1
+4: 29.1-33.5, 33.5-37.1 (stress line 30.1)
+5: 37.1-42.4, 42.4-46.8
+6: 46.8-52.2, 52.2-56.7
+7: 56.7-62.0, 62.0-66.3
+8: 66.3-70.8, 70.8-74.5 (stress line 67.3)
+9: 74.5-79.7, 79.7-84.0 (T)
+
+Python check:
+years = [9.6, 9.4, 10.1, 8.0, 9.7, 9.9, 9.6, 8.2, 9.5]
+T = sum(years); print(round(T, 1), round(T/len(years), 3), round(T/(len(years) + 2), 3))
+prints 84.0 9.333 7.636
+
+Cantin and Lough, PLoS ONE 9, e88720 (2014), Methods and Fig. 2B; DeCarlo and Cohen, Coral Reefs 36, 749-761 (2017), Discussion 'High-density stress banding' and Fig. 8.
