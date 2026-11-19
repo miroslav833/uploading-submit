@@ -1,0 +1,20 @@
+Key depends on whether the blue flanks are the surround of the midline row. They aren't: they reach 0.78 of the peak and pooled surrounds stop at 0.375.
+
+Map readings, peak = 1. Through the middle (0 on the horizontal axis): red band 0.99 on the midline, zero at 0.35 deg either side, blue minimum -0.78 at 0.67 deg (just past -0.8 near the ends of the band), zero again at 1.05 deg, pale red band up to 0.2 at 1.3 deg. Along the bands: red at half height at -1.99 and +1.99 deg (the 0.5 contour ends there), blue at half depth at -1.99 and +2.00 deg. Contours every 0.1.
+
+Limit for one row. Across a dense row the profile is exp(-y^2/2s^2) - (r/k) exp(-y^2/2k^2s^2), with k >= 2 the width ratio and r <= 1 the volume ratio. Worst case k = 2, r = 1: with u = exp(-y^2/8s^2) it is u^4 - u/2, minimum -3/16 at u = 1/2, peak 1/2, ratio 0.375. k = 3 gives 0.294.
+
+Rows. One row: flanks at most 0.375. Two rows: ON pair same problem and nothing positive outside; OFF pair gives the midline about 0.8 of the OFF depth, map has 1.3; ON plus OFF is not symmetric. Three rows with an ON pair under the pale bands: blue band roughly 0.375 x (1 + 0.2) = 0.45 at most; the best-fitting ON-pair version reaches -0.56 and misses the map by 0.22. Three rows with an OFF pair fits. Least-squares fits over centre SD 0.15 to 0.45 deg, width ratio 2 to 4, volume ratio 0.25 to 1 and any pair distance, worst point error: one ON row 0.34, ON pair 0.28, OFF pair 0.32, three rows with ON pair 0.22, three rows with OFF pair 0.014.
+
+Length. Equal weights in a row put half height 0.125 deg past the last centre, so half-height length = 0.25 N. Measured 3.98 deg, N = 16. 15 would end at 1.875 deg and 17 at 2.125 deg. 3 x 16 = 48.
+
+Likely wrong answer: 16, one ON row with the flanks put down to its surrounds, as in Hubel and Wiesel's 1962 drawing. 80 if the pale red bands are taken for two more rows.
+
+Check, standard-library Python
+from math import exp, log
+y2 = 8*log(2)
+print(round(-(exp(-y2/2) - 0.5*exp(-y2/8))/0.5, 3), round(0.375*1.2, 2), round(0.2/0.78, 2), round(3.98/0.25), 3*16)
+Output: 0.375 0.45 0.26 16 48
+The notes have the scan over k and r, the fits of every arrangement and the read-back from the picture (flank -0.78, bands 15.9 and 16.0 afferents long).
+
+Sources: Hubel and Wiesel, J. Physiol. 160, 106-154 (1962), Text-fig. 19; Reid and Alonso, Nature 378, 281-284 (1995), Fig. 2 and text; Rodieck, Vision Res. 5, 583-601 (1965); Linsenmeier et al., Vision Res. 22, 1173-1183 (1982), for surround widths and strengths of cat X cells.
