@@ -1,0 +1,18 @@
+Key depends on the number of bright (alpha) grains, cut grains counted as one half.
+Grain centres in image.png (pixels, origin top left).
+alpha inside, 9: (298,747) (614,590) (801,488) (961,455) (981,320) (1212,782) (1396,1012) (1466,541) (1471,794)
+alpha cut by the frame, 12: (59,663) (117,1101) (404,1254) (612,190) (638,1194) (998,1109) (1019,55) (1330,1199) (1514,118) (1623,1155) (1631,826) (1677,518)
+beta inside, 21: (168,531) (210,955) (308,484) (322,569) (393,299) (433,448) (454,925) (460,1101) (645,771) (722,939) (799,1162) (925,166) (960,794) (960,945) (1059,618) (1151,502) (1214,548) (1238,267) (1243,70) (1302,631) (1564,331)
+beta cut, 9: (17,96) (136,329) (192,109) (291,1217) (443,54) (985,1272) (1281,32) (1514,1244) (1670,327)
+Median grey per grain: alpha 215 to 223, beta 192 to 201. Boundaries 3 px, dark. Bar 340 px = 100 um.
+
+Key: n_alpha = 15.0 / (500 x 376 um^2) = 7.98e-5 um^-2. X_ext = pi n G^2 t^2 + (pi/3) I G^2 t^3 = 5.640e-4 t^2 + 1.0414e-5 t^3. X_ext = ln 2 at t = 28.39 min (terms 0.4547 and 0.2384). 28.4 min.
+Most tempting wrong answer 28.1 min, from the thin beta strip at (17,96) counted as alpha (15.5); its boundary with (192,109) bows into that beta grain, so it is a later nucleus. Every grain as a site: 20.0 min. No beta term: 35.1 min.
+Top-edge wedge (443,54) is beta by grey level (197). Beta count as a check: predicted 24.2 in the field, counted 25.5.
+
+Check, standard-library Python:
+import math; A = 500*376; n = 15/A; G = 1.5; I = 4.42e-6; a = math.pi*n*G*G; b = math.pi*I*G*G/3; t = 20.0
+for _ in range(30): t -= (a*t*t + b*t**3 - math.log(2))/(2*a*t + 3*b*t*t)
+print(round(t, 2))
+
+Source: Farjas and Roura, Phys. Rev. B 78, 144101 (2008), Sec. II Eqs. (6) and (7), Sec. III.1 Eq. (12), App. B Eq. (55).
