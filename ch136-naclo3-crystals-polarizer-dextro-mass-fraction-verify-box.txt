@@ -1,0 +1,20 @@
+Key depends on the hand of every crystal, read from its grey value against its edge.
+
+Grey = 10470 sin^2(3.13 a + 0.31 deg) if dextrorotatory, 10470 sin^2(3.13 a - 0.31 deg) if levorotatory (a = edge in mm). Dextro is brighter at equal edge (analyser turned counterclockwise, dextro turns the plane clockwise).
+
+Crystals, label (edge mm, grey in the PNG):
+dextro: 1 (1.61, 91), 3 (2.06, 145), 5 (1.70, 101), 6 (2.32, 182), 7 (2.22, 167), 8 (1.89, 123), 9 (1.73, 104), 10 (2.18, 162), 11 (1.78, 110), 12 (1.73, 104), 14 (2.26, 173), 16 (2.27, 174), 20 (1.88, 122), 21 (2.07, 146), 27 (2.34, 185), 28 (1.63, 93), 29 (1.73, 104), 32 (1.64, 94), 33 (1.77, 109), 34 (2.36, 188), 35 (2.18, 162), 36 (1.90, 124)
+levo: 2 (2.05, 118), 4 (1.64, 74), 13 (2.41, 166), 15 (2.09, 123), 17 (1.63, 73), 18 (2.09, 123), 19 (1.92, 103), 22 (2.08, 122), 23 (2.21, 139), 24 (1.76, 86), 25 (2.01, 114), 26 (2.47, 175), 30 (2.19, 136), 31 (2.57, 190)
+
+Mass ~ a^3. Sum over dextro 175.8 mm^3, total 308.4 mm^3, fraction 0.570, so 0.57.
+
+Single misreads: crystal 31 (largest, levo) taken as dextro gives 0.625 (0.62 or 0.63); crystal 1 (smallest, dextro) taken as levo gives 0.56. Hands swapped: 0.43. By number: 0.61.
+
+Check, standard-library Python
+import math
+D = [1.61, 2.06, 1.70, 2.32, 2.22, 1.89, 1.73, 2.18, 1.78, 1.73, 2.26, 2.27, 1.88, 2.07, 2.34, 1.63, 1.73, 1.64, 1.77, 2.36, 2.18, 1.90]
+L = [2.05, 1.64, 2.41, 2.09, 1.63, 2.09, 1.92, 2.08, 2.21, 1.76, 2.01, 2.47, 2.19, 2.57]
+print(round(sum(a**3 for a in D)/sum(a**3 for a in D+L), 4))
+Output: 0.5700
+
+Source for the method of telling the hands apart: Copithorne-Crainey et al., Ultrason. Sonochem. 79, 105763 (2021), Sec. 2.4.1, Figs. 2-3.
