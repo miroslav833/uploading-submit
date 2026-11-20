@@ -1,0 +1,12 @@
+The figure is a cooling run at 0.5 K/min. The spike that goes off scale at -6.5 C is the bulk water. The pore water gives the exotherm whose peak is printed as -11.0 C, so the depression is 11.0 K from 0 C.
+
+The relation in the question, dT_m = 32.3/(r - 0.68), is for melting, where the ice/liquid interface is a cylinder of curvature 1/r. On cooling the bulk ice enters the pore with a hemispherical front of curvature 2/r, so dT_f = 2 x 32.3/(r - 0.68). Then r - 0.68 = 64.6/11.0 = 5.87 nm, r = 6.55 nm and d = 13.1 nm. Answer 13 nm. Brun's freezing constants (64.67/dT + 0.57) give 12.9 nm, still 13.
+
+Use the melting relation for the freezing peak and r is 32.3/11.0 + 0.68 = 3.62 nm, d = 7.2 nm. That's the likely wrong answer.
+
+Python, standard library
+print(round(2*(2*32.3/11.0 + 0.68), 1), round(2*(32.3/11.0 + 0.68), 1))
+Output: 13.1 7.2
+The notes have the other readings too.
+
+Enninful et al., Materials 15, 2350 (2022), Sec. 1, Eq. (2); Stepien et al., Materials 17, 620 (2024), Sec. 3.1, Eqs. (3)-(4).
