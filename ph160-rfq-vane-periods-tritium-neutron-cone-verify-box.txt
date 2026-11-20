@@ -1,0 +1,21 @@
+The figure carries one value, the number of modulation periods of the vane between the dashed lines S and E. It is a simulated profile trace (1040 x 380 px) with no horizontal scale: a black line that rises and falls with a period growing from about 6 to about 12 px. S lies at x = 136 px, E at x = 1008 px, and the crests between them stand at x =
+139 146 153 159 166 173 180 188 195 202 / 210 217 224 232 240 248 255 263 271 279 / 287 296 304 312 321 329 338 346 355 363 / 372 381 390 399 408 417 426 435 445 454 / 464 473 482 492 502 511 521 531 541 551 / 561 571 581 591 601 611 622 632 642 653 / 663 674 684 695 706 717 727 738 749 760 / 771 782 793 805 816 827 838 850 861 873 / 884 896 907 919 931 943 954 966 978 990 / 1002.
+That is 91 crests, so 91 periods between S and E. One period of the modulation of one vane is two cells of the RFQ (each cell beta lambda/2 long, the tip going from its smallest to its largest distance from the axis in one cell), so the section holds 182 cells.
+
+Key by hand. W = 316.0 + 182 x 4.050 = 1053.10 keV. Q = 938.272 + 2808.921 - 939.565 - 2808.391 = -0.7630 MeV; threshold 0.7630 x 3747.193/2808.921 = 1017.87 keV. Centre-of-mass speed V = sqrt(2 x 938.272 x 1.05310)/3747.193 = 0.011863 c. Kinetic energy in the centre-of-mass frame after the reaction E* = 1.05310 x 2808.921/3747.193 - 0.7630 = 0.026411 MeV; neutron speed there v* = sqrt(2 x 0.026411 x 2808.391/(939.565 x 3747.956)) = 0.006490 c. Since v* < V all neutrons go forward inside a cone of half-angle arcsin(v*/V) = arcsin(0.54710) = 33.17 degrees, that is 33 degrees.
+
+The most tempting wrong answer is 29 degrees. It belongs to 90 periods, at which the energy at E is a round 316.0 + 180 x 4.050 = 1045.0 keV, 27.13 keV above threshold: sin(theta) = 0.4820, 28.8 degrees. Taking one crest-to-crest period as one cell gives 91 cells, 316.0 + 91 x 4.050 = 684.55 keV, below the threshold of 1017.87 keV, so the answer 0. Other values: 92 periods give 37.2 degrees; 181 or 183 cells give 31.0 or 35.2 degrees; 87 periods, the fewest above the threshold, give 9.1 degrees; four cells per period give 1790 keV, above 1145.96 keV, where neutrons go in all directions. Relativistic kinematics gives 33.11 degrees.
+
+Check in a second (Python 3, standard library):
+import math
+mp, mt, mn, mh = 938.272, 2808.921, 939.565, 2808.391   # MeV/c^2
+Q = mp + mt - mn - mh
+def cone(P):                                            # P = periods between S and E
+    W = 0.3160 + 2*P*0.004050                           # MeV
+    V = math.sqrt(2*mp*W)/(mp + mt); Es = W*mt/(mp + mt) + Q
+    if Es <= 0: return 0.0
+    vs = math.sqrt(2*Es*mh/(mn*(mn + mh)))
+    return math.degrees(math.asin(vs/V)) if vs < V else 180.0
+print(cone(91), cone(90), cone(92), cone(45.5))          # 33.17, 28.81, 37.19, 0.0
+
+Citations: Kapchinskiy and Teplyakov, Prib. Tekh. Eksp. 2, 19 (1970); Stokes and Wangler, Annu. Rev. Nucl. Part. Sci. 38, 97 (1988); Liskien and Paulsen, At. Data Nucl. Data Tables 11, 569 (1973). The uploaded notes hold the key script with other period counts and the wrong routes, a relativistic check with a Monte Carlo of isotropic emission in the centre-of-mass frame, the program that draws the figure and the read-back of the 91 periods from the image file.
