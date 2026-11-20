@@ -1,0 +1,21 @@
+What the figure carries, as text. A grey moiré topograph, field 700 um along x (the diffraction vector) by 350 um along y, ticks every 100 um on both axes, 1.26 px per um. Straight, evenly spaced, slanted fringes. Read back from the pixels by a least-squares plane wave: period along x 64.2 um (10.90 periods in 700 um), period along y 110 um (3.18 periods in 350 um), spacing at right angles to the fringes 55.4 um, fringes turned 30.3 degrees from the y axis. Bright fringes along the line y = 175 um: 7, 71, 135, 199, 264, 328, 392, 456, 520, 585, 649 um.
+
+Key by hand. Behind the analyser I ~ 1 + V cos[2 pi (eps x/d + dtheta y/d)], so the period along the diffraction vector is d/eps whatever the residual rotation is. d220 = 5.4310/sqrt(8) = 1.9201 A, eps = 1.9201e-10/64.2e-6 = 2.99e-6. The bulk modulus, lattice constant and Debye temperature are those of the 28Si crystal at 295 K. Quasi-harmonic crystal at zero pressure: dE_static/dV = gamma E_vib/V; a change of mass at fixed T gives dV/V = (gamma/(B V)) (dE_vib/dM) dM with dE_vib/dM = -(E_vib - T C_V)/(2M) for frequencies ~ M^(-1/2); so da/a = -gamma (E_vib - T C_V)/(6 B V) dM/M. Debye spectrum: E_vib - T C_V = k Theta [9/8 + 3 D'(x)], x = 645/295 = 2.1864, D(x) = 0.4066, D'(x) = -3D/x + 3/(e^x - 1) = -0.1783, bracket 0.590, E_vib - T C_V = 5.254e-21 J. V = a^3/8 = 2.0024e-29 m^3, B V = 1.9583e-18 J, K = 1.10 x 5.254e-21/(6 x 1.9583e-18) = 4.92e-4. dM = eps M/K = 2.99e-6 x 27.9769/4.92e-4 = 0.170 u. Answer 0.17 u. A reading of the period between 62.5 and 66.0 um gives 0.175 to 0.165 u; half a last digit in every given moves the result between 0.169 and 0.171 u.
+
+The most tempting wrong answer. The spacing at right angles to the fringes, 55.4 um, taken for d/eps: eps = 3.46e-6 and dM = 0.20 u. That spacing is d/sqrt(eps^2 + dtheta^2) and contains the unknown rotation. Other routes: zero-point energy alone (bracket 9/8) 0.089 u; E_vib in place of E_vib - T C_V 0.060 u; high-temperature bracket 3x/10 0.15 u; frequency taken ~ 1/M 0.085 u; natural silicon assumed 0.11 u.
+
+Check program (Python 3, standard library):
+
+import math
+k = 1.380649e-23; a = 5.4310e-10; Th = 645.0; T = 295.0; gam = 1.10; B = 97.8e9; M = 27.9769; Lx = 64.2e-6
+x = Th/T; n = 2000; h = x/n
+f = lambda t: t*t if t < 1e-8 else t**3/math.expm1(t)
+D = 3/x**3*(h/3)*(f(0) + f(x) + sum((4 if i % 2 else 2)*f(i*h) for i in range(1, n)))
+br = 9/8 + 3*(-3*D/x + 3/math.expm1(x))
+K = gam*k*Th*br/(6*B*a**3/8)
+eps = a/math.sqrt(8)/Lx
+print(round(br, 3), round(K*1e4, 3), round(eps*M/K, 3))     # 0.59 4.919 0.17
+
+Independent check in the attached notes: the free energy with a discrete Debye spectrum of 6000 modes is minimised numerically for the two masses, with the static energy fitted to the given lattice constant and bulk modulus at 295 K; the mass difference that gives eps = 2.99e-6 is 0.171 u. A product of two gratings averaged over the lattice period reproduces the periods d/eps and d/dtheta.
+
+Sources: Bonse and Hart, Z. Phys. 190, 455 (1966), moiré fringes in an X-ray interferometer; Pavone and Baroni, Solid State Commun. 90, 295 (1994), quasi-harmonic theory of the isotope shift of the lattice constant; Buschert et al., Phys. Rev. B 38, 5219 (1988), measured shift in germanium; Massa et al., Metrologia 48, S37 (2011), plane spacing of enriched silicon; London, Z. Phys. Chem. 16, 302 (1958), volume against isotopic mass; Cardona and Thewalt, Rev. Mod. Phys. 77, 1173 (2005), review.
