@@ -1,0 +1,13 @@
+What the figure carries. A simulated camera image of the exit face (933 x 600 px, x from 0 to 1400 um, y from 0 to 900 um, 1.50 um per pixel, intensity over input intensity from 0.55 to 1.45 in grey). The fringes stop at a straight edge, the line, which meets y = 0 at x = 1327 um and y = 900 um at x = 673 um (the figure was drawn with the normal of the line at 36.0 deg to +x, through x = 1000 um, y = 450 um). Upstream of it, on the side of smaller x, stand fringes parallel to the line. Intensity maxima along the row y = 450 um, going away from the line: 984, 924, 864, 804, 747, 687, 626, 566, 506 um. Eight periods along x on the rows y = 150, 300, 450, 600, 750 um: 60.02, 59.46, 59.83, 59.27, 59.65 um each, mean 59.65 um. Beyond about 470 um from the line the maxima crowd together and fade (the front of the pattern).
+
+Key by hand. alpha = atan(654/900) = 36.0 deg. Period along the normal 59.65 cos(alpha) = 48.25 um. v_n = 13.00 mrad x cos(alpha) = 10.517 mrad. Stationary Bogoliubov wave: lambda/(2 Lambda) = sqrt(v_n^2 - c^2), so c^2 = 1.1060e-4 - (0.78024/96.50)^2 = 1.1060e-4 - 6.537e-5 = 4.523e-5 (c = 6.73 mrad). c^2 = -I d(delta n)/dI = |n2| I/(1 + I/Is)^2 with I/Is = 1, so n2 = -4.523e-5 x 4/1.40e5 = -1.292e-9, that is -1.3e-9 m^2/W. The key holds for a period along the normal of 47.7 to 49.0 um and an angle within about 0.4 deg. Check: the front lies at L (v_n^2 - c^2)/v_n = 466 um from the line, where the fringes in the figure fade. A full propagation through the cell gives a period about 0.6 per cent above the formula, which keeps the key.
+
+Tempting wrong answers. Sound speed taken from delta n itself: -6.5e-10. Saturation left out: -3.2e-10. Whole tilt instead of its normal part: -3.0e-9. Spacing along x taken as the period: -1.9e-9. Period read a tenth too long: -1.6e-9, a tenth too short: -8.5e-10. Sound speed set equal to the tilt (the largest value for which any fringes form): -4.8e-9.
+
+Check program (standard library):
+import math
+a=math.atan(654/900); Lam=59.65e-6*math.cos(a)
+vn=13.00e-3*math.cos(a); c2=vn**2-(0.78024e-6/(2*Lam))**2
+print(math.degrees(a), Lam*1e6, c2, -c2*(1+1.40e5/1.40e5)**2/1.40e5)   # 36.0, 48.25, 4.523e-5, -1.292e-9
+
+Citations: Carusotto, Hu, Collins and Smerzi, PRL 97, 260403 (2006); Carusotto and Ciuti, RMP 85, 299 (2013); Carusotto, Proc. R. Soc. A 470, 20140320 (2014); Fontaine et al., PRL 121, 183604 (2018); Larre and Carusotto, PRA 92, 043802 (2015).
