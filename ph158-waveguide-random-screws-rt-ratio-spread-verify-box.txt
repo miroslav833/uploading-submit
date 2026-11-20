@@ -1,0 +1,28 @@
+The figure is 876 x 76 px and shows 83 screw heads on a line that is tilted by 0.7 degrees. Their x positions in pixels, left to right, ten to a group, are 52.2, 65.2, 75.0, 81.0, 93.5, 101.8, 114.9, 123.3, 133.3, 146.3; then 151.3, 164.8, 171.9, 177.7, 190.0, 198.2, 210.5, 218.8, 224.6, 237.3; then 249.8, 262.4, 269.6, 279.7, 288.2, 299.9, 308.7, 317.3, 327.4, 338.1; then 349.4, 355.4, 367.6, 375.3, 380.8, 393.1, 400.3, 406.1, 414.1, 424.1; then 436.6, 445.1, 453.1, 462.0, 469.2, 474.5, 487.6, 494.7, 503.1, 516.1; then 526.8, 532.2, 539.3, 551.5, 560.8, 572.3, 580.8, 589.8, 599.8, 608.3; then 614.9, 623.5, 630.3, 641.2, 648.1, 654.1, 667.0, 672.9, 683.7, 694.1; then 704.7, 712.8, 724.1, 736.1, 747.7, 759.8, 767.6, 778.1, 791.6, 797.3; and last 805.2, 811.6, 822.9. Neighbouring heads are 5.0 to 13.5 px apart, so every head is separate on an enlarged copy. The guide wavelength is 17 px in the picture and the spacings were drawn between 0.30 and 0.80 guide wavelengths. The picture has no scale and needs none.
+
+By hand, with y = 2/T - 1 = (1 + R)/(1 - R): two lossless scatterers a distance d apart give y_ab = y_a y_b - sqrt((y_a^2 - 1)(y_b^2 - 1)) cos(2 beta d + const). A spacing that is uniform over half a guide wavelength makes the phase uniform over 2 pi, so cos averages to 0 and cos^2 to 1/2. Then <y_ab> = y_a y_b and <y_ab^2> = y_a^2 y_b^2 + (y_a^2 - 1)(y_b^2 - 1)/2, which is the same as saying that (3 y^2 - 1)/2 multiplies on average. For one screw y = g = 1.05255/0.94745 = 1.11093 and (3 g^2 - 1)/2 = 1.35125. For 83 screws <y> = g^83 = 6194 and <y^2> = 1/3 + (2/3) x 1.35125^83 = 1/3 + (2/3) x 7.095e10 = 4.730e10. The variance of y is 4.730e10 - 6194^2 = 4.726e10, its standard deviation 2.174e5, and R/T = (y - 1)/2, so the standard deviation of R/T is 1.087e5, which is 1.1 x 10^5 to two figures. One screw more or less gives 1.26e5 or 9.35e4.
+
+The wrong answer that tempts most is 2.2 x 10^5, the standard deviation of 2/T - 1 with the factor 1/2 forgotten. The mean of R/T is 3097 and is sometimes given in place of the spread. If the constant 1/3 and the factor 2/3 are dropped one gets 1.3 x 10^5.
+
+A check in Python, standard library only. It prints the closed form and then the same standard deviation for three screws by brute-force quadrature over the two spacings.
+
+import cmath, math
+R1, N = 0.05255, 83
+g = (1 + R1)/(1 - R1); P2 = (3*g*g - 1)/2
+sd = lambda n: 0.5*math.sqrt(1/3 + (2/3)*P2**n - g**(2*n))
+print(sd(N))                             # 108699
+b = 2*math.sqrt(R1/(1 - R1))             # shunt susceptance of one screw
+S = ((1 - 0.5j*b, -0.5j*b), (0.5j*b, 1 + 0.5j*b))
+mul = lambda A, B: tuple(tuple(sum(A[i][k]*B[k][j] for k in range(2)) for j in range(2)) for i in range(2))
+v, n = [], 64
+for i in range(n):
+    for j in range(n):
+        M = S
+        for p in (i, j):
+            ph = 2*math.pi*(0.30 + 0.5*(p + 0.5)/n)
+            M = mul(mul(M, ((cmath.exp(-1j*ph), 0), (0, cmath.exp(1j*ph)))), S)
+        v.append(abs(M[1][1])**2 - 1)
+m = sum(v)/len(v)
+print(math.sqrt(sum((x - m)**2 for x in v)/len(v)), sd(3))   # both 0.156763
+
+The attached notes also average 1/T and 1/T^2 exactly for all 83 screws with 4 x 4 and 16 x 16 matrices (standard deviation 1.086992e5). Sources: Landauer, Philos. Mag. 21, 863 (1970); Anderson, Thouless, Abrahams and Fisher, Phys. Rev. B 22, 3519 (1980).
