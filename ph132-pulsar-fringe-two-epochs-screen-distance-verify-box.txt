@@ -1,0 +1,15 @@
+What the figure carries. Two simulated dynamic spectra (panels of 400 x 300 px, 0 to 80 min, 326.5 to 327.5 MHz, darker is more flux). Panel (a), day 0: the stripes rise to the right at 60 kHz/min. Along the row at 327.0 MHz there are 35 flux maxima between 0.5 and 78.9 min; the 1st, 11th, 21st and 31st lie at 0.5, 23.5, 46.5 and 69.7 min, so the period along time is 2.31 min (11.5 px). Along frequency the period is 139 kHz. Panel (b), day 12: the stripes fall to the right at 55 kHz/min. Along the same row there are 41 flux maxima between 1.5 and 78.7 min; the 1st, 11th, 21st and 31st lie at 1.5, 20.7, 40.1 and 59.5 min, so the period along time is 1.93 min (9.7 px). Along frequency the period is 106 kHz. The figure was drawn with periods of 2.305 and 1.931 min and a distance of 26.03 pc.
+
+Key by hand. Delay of the bent path tau = D_eff theta^2/(2c), D_eff = D D_s/(D - D_s), theta^2 = b^2 + mu^2 (t - t0)^2, so d2tau/dt2 = D_eff mu^2/c whatever b and t0 are. Fringe rate at fixed frequency f = nu dtau/dt; stripes rise while the delay shrinks. Rates from thirty periods in 69.2 min and in 58.0 min: -7.225 mHz in (a), +8.621 mHz in (b), change 15.846 mHz in 12.00 d = 1.0368e6 s. mu = 20.6 mas/yr = 3.1647e-15 rad/s. D_eff = c (f_b - f_a)/(nu mu^2 dt) = 2.99792e8 x 1.5846e-2/(3.27e8 x 1.0016e-29 x 1.0368e6) m = 1.399e21 m = 45.34 kpc. D - D_s = D^2/(D + D_eff) = 1100^2/(1100 + 45339) pc = 26.06 pc, so 26 pc. Check of the signs: tau_a = 1/(139 kHz) = 7.2 us, tau_b = 1/(106 kHz) = 9.4 us, difference 2.2 us; dt (f_a + f_b)/(2 nu) = 2.2 us with opposite signs and 25 us with equal signs.
+
+Tempting wrong answers. Rates taken with the same sign: 237 pc. One panel alone with the structure assumed on the pulsar's path: 36 pc from (a), 33 pc from (b). D dropped against D_eff: 27 pc. Periods read a tenth to a fifth too long: 29 to 32 pc.
+
+Check program (standard library):
+import math
+mas=math.pi/180/3600/1000; yr=3.15576e7; pc=3.0856776e16; c=2.99792458e8
+D=1100*pc; mu=20.6*mas/yr; nu=327.0e6; dt=12.00*86400
+fa=-30/(69.2*60); fb=30/(58.0*60)
+Deff=c*(fb-fa)/(nu*mu*mu*dt)
+print(Deff/pc, D*D/(D+Deff)/pc)   # 45339 pc, 26.06 pc
+
+Citations: Rickett, Lyne and Gupta, MNRAS 287, 739 (1997); Wolszczan and Cordes, ApJ 320, L35 (1987); Cordes, Rickett, Stinebring and Coles, ApJ 637, 346 (2006); Walker, Melrose, Stinebring and Zhang, MNRAS 354, 43 (2004); Hill et al., ApJ 619, L171 (2005).
