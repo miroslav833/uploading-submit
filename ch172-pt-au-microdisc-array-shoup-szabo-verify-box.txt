@@ -1,0 +1,17 @@
+Discs in image.png (radius printed beside each), metal/glass grey ratio measured against the glass just outside each object:
+reference pads: Au 2.67, Pt 2.61 (Au brighter)
+5 um 2.61 Pt; 7 um 2.68 Au; 10 um 2.61 Pt; 13 um 2.68 Au; 16 um 2.62 Pt; 20 um 2.69 Au; 25 um 2.62 Pt; 30 um 2.69 Au
+The field is about 20 % darker at the lower left than at the upper right, so raw grey misleads; the ratio to the local glass does not.
+Pt discs: 5, 10, 16, 25 um. Au gives no current.
+
+Key: Shoup-Szabo, i = 4nFDc r f(tau), tau = 4Dt/r^2, f = 0.7854 + 0.8862 tau^-1/2 + 0.2146 exp(-0.7823 tau^-1/2). 4Dt = 400 um^2, tau^-1/2 = r/20 um, 4nFDc = 0.77188 nA/um.
+25 um 38.090, 16 um 19.873, 10 um 10.603, 5 um 4.567 nA; total 73.1 nA. Other accurate transient formulas (Aoki-Osteryoung series) give 72.9.
+Most tempting wrong answer 77.6 nA: Cottrell current plus the full steady-state current (f = 1 + 0.8862 tau^-1/2) for the same discs. Pt and Au swapped 99.6. Smallest disc as Au 68.6; 7 um disc as Pt 79.9. Steady state only 43.2.
+
+Check, standard-library Python:
+import math
+k = 4*2*96485.33*1e-5*1e-6*1e-4*1e9   # nA per um of radius
+f = lambda r: 0.7854 + 0.8862*r/20 + 0.2146*math.exp(-0.7823*r/20)
+print(round(sum(k*r*f(r) for r in (5, 10, 16, 25)), 2))
+
+Source: Seki, Yokoyama, Yamamoto, arXiv:2604.09274v2, Sec. VII Eq. (55) (Shoup-Szabo), Table 1 footnote, Sec. III Eq. (30).
