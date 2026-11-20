@@ -1,0 +1,19 @@
+What the figure carries, as text. A trace of 117 lines of similar height, 4.0 to 7.7 px apart, irregularly. The first line at the left is labelled 9D. Lines number 1, 11, 21, ..., 111 are at x = 60.5, 122.5, 177.5, 225.5, 284.5, 344.5, 396.6, 450.5, 511.5, 567.5, 621.4, 677.2 px of the image, and lines 101 to 110 at 621.4, 626.5, 631.8, 636.8, 641.9, 647.5, 653.5, 658.8, 663.6, 669.5 px. The red marker points at the line at 636.8 px. It is line number 104, and 13 lines follow it.
+
+Which line that is. n* = n - 2.471 for nD and n - 4.049 for nS, and the lines come in the order of n*. Between nD (n - 2.471) and (n+1)D (n - 1.471) lies (n+2)S (n - 2.049), so the row runs 9D, 11S, 10D, 12S, ...: line 2j-1 is (8+j)D and line 2j is (10+j)S. Line 104 is 62S, n* = 57.951.
+
+Key by hand. Square of the field along the axis ~ 1 + cos 2kZ. Free electron: ponderomotive energy e^2 E^2/(4 m w^2), amplitude taken as 1. Rydberg electron: the same averaged over the orbital, amplitude theta = <cos 2kz> = <sin(Kr)/(Kr)> for an S state, K = 4 pi/lambda. Semiclassical radial density of a straight Kepler orbit, P(r) = sqrt(r/(2a - r))/(pi a) for 0 < r < 2a, a = n*^2 a0; with r = a(1 - cos t) the average is sin(Ka) J0(Ka)/(Ka). K a0 = 4 pi x 0.052918/1064.0 = 6.2499e-4, n*^2 = 3358.3, Ka = 2.0989, sin(Ka) = 0.8638, J0(Ka) = 0.1672, theta = 0.0688 (numerical radial wave function: 0.0689). Core: energy -4 pi eps0 alpha_c E^2/4 with alpha_c the polarisability volume, which is -alpha_c (hbar w)^2 in atomic units = -15.8 x 0.042823^2 = -0.0290 of the free-electron amplitude. Ratio 0.0688 - 0.0290 = +0.040.
+
+The most tempting wrong answer. The marked line given the number of the D line before it, 60S: theta = 0.1179, ratio 0.089. Core left out: 0.069. Two lines fewer or more in the count: 61S 0.063, 63S 0.019. Core added with the wrong sign: 0.098.
+
+Check program (Python 3, standard library):
+
+import math
+a0, lam, n = 0.052918, 1064.0, 62 - 4.049
+x = 4*math.pi/lam*a0*n*n
+N = 2000
+j0 = sum(math.cos(x*math.sin((i + 0.5)*math.pi/N)) for i in range(N))/N
+th = math.sin(x)*j0/x
+print(round(x, 4), round(th, 4), round(15.8*0.042823**2, 4), round(th - 15.8*0.042823**2, 4))     # 2.0989 0.0688 0.029 0.0398
+
+Sources: Dutta et al., Phys. Rev. Lett. 85, 5551 (2000), and Anderson, Younge and Raithel, Phys. Rev. Lett. 107, 263001 (2011), ponderomotive lattice for Rydberg atoms; Topcu and Derevianko, Phys. Rev. A 88, 043407 (2013), radial average for nS states and its sign change; Derevianko et al., Phys. Rev. Lett. 82, 3589 (1999), polarisability of the Cs+ core; Weber and Sansonetti, Phys. Rev. A 35, 4650 (1987), levels of caesium.
