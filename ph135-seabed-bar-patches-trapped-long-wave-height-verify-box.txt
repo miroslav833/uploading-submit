@@ -1,0 +1,13 @@
+The figure (549 x 120 px) is a simulated relief image of the seabed, sea on the left, shore on the right, and two integers are read from it. The left patch has 34 bright bar crests, with centres from x = 24.8 px to 210.2 px, and the right patch has 47, from x = 262.9 px to 520.9 px. The crests are 5.6 px apart and tilted by 1.5 degrees against the vertical of the image. The flat stretch between the patches is about 8.5 bar spacings long. So the seaward patch has N1 = 34 bars and the shoreward patch N2 = 47.
+
+Key by hand: long waves travel at sqrt(g h) = 5.425 m/s, so the wavelength is 5.425 x 14.75 = 80.02 m, twice the bar spacing, and the bars reflect resonantly. With the surface elevation written as A e^{ikx} + B e^{-ikx} in the long-wave equation (g H eta')' + omega^2 eta = 0, H = h - b sin 2kx, the slow amplitudes obey A' = -kappa B, B' = -kappa A with kappa = k b/(4h). A patch of N bars reflects tanh(x) and transmits 1/cosh(x) with x = N pi b/(4h) = 0.06021 N: x1 = 2.047, r1 = 0.9672, t1 = 0.2539 for 34 bars and x2 = 2.830, r2 = 0.9931 for 47 bars. On the flat stretch at its best length the shoreward wave is a0 t1/(1 - r1 r2) = a0 cosh(x2)/cosh(x1 - x2) = 6.430 a0, the seaward wave is r2 times that, and the antinodes reach a0 e^{x2}/cosh(x1 - x2) = 12.82 a0 = 12.82 x 6.00 mm = 76.9 mm, that is 7.7 cm.
+
+The most tempting wrong answers come from the counts: 33 or 35 bars in the seaward patch give 7.4 or 8.0 cm, and 46 or 48 bars in the shoreward patch give 7.5 or 7.8 cm. Other wrong routes: the two patches interchanged give 3.5 cm, two equal patches of 47 bars give 10 cm, the shoreward wave alone without the standing wave gives 3.9 cm, twice the coupling (23 cm taken as half the bar height) gives 69 cm and half the coupling (23 cm taken as the full height) gives 2.3 cm, and no build-up at all gives 1.2 cm.
+
+Check in a second (Python 3, standard library). It prints the answer in cm for (34, 47), (33, 47) and (34, 46) bars:
+import math
+kb = math.pi*0.2300/(4*3.000)
+a = lambda n1, n2: 0.600*math.exp(n2*kb)/math.cosh((n1 - n2)*kb)
+print(round(a(34, 47), 2), round(a(33, 47), 2), round(a(34, 46), 2))   # 7.69 7.38 7.52
+
+Citations: Mei, J. Fluid Mech. 152, 315 (1985); Davies and Heathershaw, J. Fluid Mech. 144, 419 (1984); Couston, Guo, Chamanzar and Alam, Phys. Rev. E 92, 043015 (2015); Yu and Mei, J. Fluid Mech. 404, 251 (2000). The uploaded notes hold the key script with a table of neighbouring counts and every wrong route; a direct Runge-Kutta integration of the long-wave equation over the actual bed, with no coupled-wave approximation, which finds the best length of the flat stretch at 8.49 bar spacings and 7.72 cm there; the program that draws the figure; and the read-back of 34 and 47 bars from the image file.
