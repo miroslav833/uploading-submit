@@ -1,0 +1,15 @@
+Key depends on reading the pore peak on a cooling run as freezing (ice invasion), not melting.
+
+Figure: cooling at 0.5 K/min. Bulk water spike (off scale) at -6.5 C. Pore-water exotherm, peak printed at -11.0 C. Depression 11.0 K from 0 C.
+
+Given melting relation dT_m = 32.3/(r - 0.68). Melting: cylindrical interface, curvature 1/r. Freezing: hemispherical ice front entering the pore, curvature 2/r, so dT_f = 2 x 32.3/(r - 0.68).
+r - 0.68 = 64.6/11.0 = 5.87 nm; r = 6.55 nm; d = 13.1 nm. Answer 13 nm.
+Brun's freezing constants (64.67/dT + 0.57) give 12.9 nm, also 13.
+
+Most tempting wrong answer: melting relation used for the freezing peak, r = 32.3/11.0 + 0.68 = 3.62 nm, d = 7.2 nm.
+
+Check, standard-library Python
+print(round(2*(2*32.3/11.0 + 0.68), 1))
+Output: 13.1
+
+Sources: Enninful et al., Materials 15, 2350 (2022), Sec. 1, Eq. (2); Stepien et al., Materials 17, 620 (2024), Sec. 3.1, Eqs. (3)-(4).
