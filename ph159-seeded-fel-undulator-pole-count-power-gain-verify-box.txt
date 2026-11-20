@@ -1,0 +1,21 @@
+The answer is not taken from a paper. It follows from the givens and from the number of undulator poles in the photograph, so the photograph's content is listed here as text.
+
+What the photograph shows: one row of 122 bright bars (the poles) between dark blocks. Their spacing on the image is not uniform: 8.2 px at the left end, 9.0 px near the 34th bar, 5.6 px at the right end. Distances of the bars from the left edge of the image in px, every tenth bar from the 10th to the 120th: 132.6, 219.2, 307.8, 396.5, 484.3, 570.0, 652.4, 731.1, 805.2, 874.7, 938.5, 996.9. The first bar is at 58.0 px and the last two are at 1002.4 and 1007.9 px. The verification notes list all 122 positions as recovered from the image file.
+
+The key by hand. Resonance gives gamma = sqrt(lambda_u (1 + K^2/2)/(2 lambda)) = 238.61. The planar-undulator factor is J0(xi) - J1(xi) = 0.8117 at xi = K^2/(4 + 2K^2) = 0.3277, so Khat = 1.5828. The gain parameter is Gamma^3 = (I/I_A) Khat^2 k_u/(gamma^3 r_b^2) with I_A = 17045 A and k_u = 2 pi/lambda_u = 200.10 per metre: Gamma^3 = 43.69 m^-3, Gamma = 3.522 m^-1. 122 poles are 61 periods, L = 1.9154 m, Gamma L = 6.746. The third derivative of the field amplitude equals i Gamma^3 times the amplitude, and its first and second derivatives vanish at the entrance, so the three modes share the seed equally and the power gain is [1 + 4 cosh^2(a) + 4 cosh(a) cos(3 Gamma L/2)]/9 with a = sqrt(3) Gamma L/2 = 5.842. That is (1 + 118722 - 530)/9 = 13132, or 1.3 x 10^4.
+
+Wrong answers that come up easily. Without the factor 1/9 the growing mode alone gives exp(sqrt(3) Gamma L) = 1.2 x 10^5, the most tempting one. A count that is short by two poles (60 periods) gives 10831, that is 1.1 x 10^4, and one that is long by two gives 1.6 x 10^4. Using K without the factor J0 - J1 gives 7.6 x 10^4.
+
+A short check in Python (standard library):
+
+import math
+lam, lu, K, I, rb, poles = 800.0e-9, 31.40e-3, 1.950, 890.0, 0.2100e-3, 122
+J = lambda n, x: sum((-1)**k*(x/2)**(2*k+n)/(math.factorial(k)*math.factorial(k+n)) for k in range(20))
+g = math.sqrt(lu*(1+K*K/2)/(2*lam)); xi = K*K/(4+2*K*K); Kh = K*(J(0,xi)-J(1,xi))
+Gam = (I/17045.1*Kh**2*(2*math.pi/lu)/(g**3*rb**2))**(1/3)
+x = Gam*poles/2*lu; a = math.sqrt(3)*x/2
+print(round(g,2), round(Gam,4), round((1+4*math.cosh(a)**2+4*math.cosh(a)*math.cos(1.5*x))/9))
+
+It prints 238.61 3.522 13132.
+
+Sources for the method: Bonifacio, Pellegrini and Narducci, Opt. Commun. 50, 373 (1984); Huang and Kim, Phys. Rev. ST Accel. Beams 10, 034801 (2007).
