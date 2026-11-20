@@ -1,0 +1,13 @@
+The figure (406 x 110 px) is a simulated electron micrograph of the middle band of the meander, and one integer is read from it. It shows 67 bright vertical lines, the straight sections of the wire, with centres from x = 24.8 px to 381.1 px, 5.40 px apart and tilted by 1.2 degrees; the span is 66.0 spacings. So the meander has N = 67 sections and the wire is 67 x 8.215 um = 550.4 um long.
+
+Key by hand: the gap is Delta = 1.764 kB x 7.600 K = 1.8510e-22 J. For a dirty-limit BCS film at kB T and hbar omega far below Delta, the Mattis-Bardeen result sigma_2/sigma_n = pi Delta/(hbar omega) gives the kinetic inductance per square hbar R_sq/(pi Delta) = 1.05457e-34 x 212.0/(pi x 1.8510e-22) = 38.45 pH, and along the 0.8000 um wide wire 4.806e-5 H/m. With the magnetic inductance the total is 4.848e-5 H/m, the wave speed is 1/sqrt(4.848e-5 x 62.00e-12) = 1.824e7 m/s, and a line shorted at one end and open at the other resonates first at v/(4 l) = 1.824e7/(4 x 550.4e-6) = 8.285 GHz, that is 8.3 GHz.
+
+The most tempting wrong answers come from the count: 66 sections give 8.4 GHz and 68 give 8.2 GHz. Other wrong routes: a half-wave resonance gives 17 GHz, the kinetic inductance hbar R_sq/Delta without the pi gives 4.7 GHz, Delta = kB Tc gives 6.2 GHz, 2 Delta in place of Delta gives 12 GHz, and a lumped circuit 1/(2 pi sqrt(L l C l)) gives 5.3 GHz. Leaving out the magnetic inductance gives 8.32 GHz, which rounds to the key.
+
+Check in a second (Python 3, standard library). It prints the resonance in GHz for 67, 66 and 68 sections:
+import math
+Lk = 1.054571817e-34*212.0/(math.pi*1.764*1.380649e-23*7.600)/0.8000e-6
+f = lambda n: 1/(4*n*8.215e-6*math.sqrt((Lk + 0.4200e-6)*62.00e-12))/1e9
+print(round(f(67), 3), round(f(66), 3), round(f(68), 3))   # 8.285 8.41 8.163
+
+Citations: Mattis and Bardeen, Phys. Rev. 111, 412 (1958); Annunziata et al., Nanotechnology 21, 445202 (2010); Zmuidzinas, Annu. Rev. Condens. Matter Phys. 3, 169 (2012); Samkharadze et al., Phys. Rev. Applied 5, 044004 (2016). The uploaded notes hold the key script with every section count from 61 to 73 and every wrong route; an independent route that solves the BCS gap equation at 20 mK, integrates the Mattis-Bardeen kernel at the resonance frequency itself and finds the lowest eigenfrequency of a ladder of 4000 LC cells, giving 8.283 GHz; the program that draws the figure; and the read-back of 67 sections from the image file.
