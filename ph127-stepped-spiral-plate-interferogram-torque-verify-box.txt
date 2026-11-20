@@ -1,0 +1,23 @@
+The figure carries two things, the number of sectors and the step of the fringes from sector to sector. It is a simulated interferogram of 760 x 760 px: rings about the centre (379.5, 380) px in a zone from about 190 to 350 px, on a grey background, with the radial fringe spacing falling from 26 px at 200 px to 15 px at 340 px. The rings are broken along 7 radial lines at about 28, 79, 131, 182, 234, 285 and 337 degrees (counter-clockwise from the right-hand horizontal), so N = 7. Bright fringes on the rays through the middle of the sectors, in px from the centre:
+53.5 deg: 207.0 230.0 251.5 271.5 290.5 308.0 324.0 339.5
+105.5 deg: 224.0 246.0 266.5 285.5 303.0 320.0 335.5
+156.5 deg: 217.0 239.5 261.0 280.0 298.0 315.0 330.5
+208.5 deg: 210.0 233.0 254.5 273.5 292.5 309.5 326.0 341.5
+259.5 deg: 203.0 226.0 248.5 268.5 286.5 304.0 321.0 336.5
+311.5 deg: 219.5 242.5 262.5 281.5 299.5 316.5 332.0
+2.5 deg: 214.0 236.5 257.5 276.5 295.0 312.0 328.0 343.5
+From each sector to the next, counter-clockwise, every fringe lies about 7 px closer to the centre where the spacing is 23 px (224 to 217 to 210 to 203 px; from 207 to 224 px the next fringe has taken its place, 207 - 7 = 200 px being the fringe one spacing below 224 px). The demodulated step is -0.286 of a spacing on average over the 7 lines (-0.278 to -0.295). By the statement in the question a fringe lies farther out where the optical path is longer, so the path shrinks by 0.29 of a wavelength per sector counter-clockwise, apart from whole wavelengths. Seven equal steps lead back to the first sector, so the phase step is Delta = 2 pi k/N with whole k; here k = -2 (2/7 = 0.286) and Delta = -102.9 degrees.
+
+Key by hand. A mask of N flat sectors with the step Delta at every edge sends a beam without angular dependence into the orders m = k + pN (-2, 5, -9, 12, ...) with the weights [sin(pi m/N)/(pi m/N)]^2 = 0.759, 0.121, 0.037, 0.021, ... The mean order, summed with p and -p paired, is (N/2 pi) sin(Delta) = -(7/2 pi) x 0.9749 = -1.086. Seen against the beam, counter-clockwise in the figure is counter-clockwise about the direction of propagation, so the beam gains 1.086 hbar per photon clockwise and the plate gets the opposite. P/omega = P lambda/(2 pi c) = 3.00 x 1.030e-6/(2 pi x 2.998e8) = 1.640e-15 N m. Torque = +1.640e-15 x 1.086 = +1.78e-15 N m, that is +1.8 fN m (counter-clockwise in the figure).
+
+The most tempting wrong answer is +3.3 fN m: the plate taken as an ideal spiral plate of charge -2, so 2 hbar per photon, 1.640e-15 x 2 = 3.28e-15 N m. Other values: sense of the step or sign of the torque reversed, -1.8; step of 1/7 of a spacing inward, 1.4; step of 3/7 inward, 0.79; step taken as 3/7 or 1/7 of a spacing outward (fringes matched to the wrong neighbour across a step), -0.79 or -1.4; strongest order alone (2 x 0.759), 2.5; 1 hbar per photon, 1.6; the picture read as a step of 5/7 the other way and 5 hbar per photon, -8.2.
+
+Check in a second (Python 3, standard library):
+import math
+lam, P, c, N, k = 1030e-9, 3.00, 2.998e8, 7, -2
+mean = sum((k + p*N)*(math.sin(math.pi*(k + p*N)/N)/(math.pi*(k + p*N)/N))**2 for p in range(-20000, 20001))
+print(mean, N/(2*math.pi)*math.sin(2*math.pi*k/N))      # -1.08617 and -1.08615
+print(-P*lam/(2*math.pi*c)*N/(2*math.pi)*math.sin(2*math.pi*k/N)*1e15)   # 1.7817 fN m, the key
+print(P*lam/(2*math.pi*c)*2*1e15)                       # 3.2808 fN m, 2 hbar per photon
+
+Citations: Allen, Beijersbergen, Spreeuw and Woerdman, Phys. Rev. A 45, 8185 (1992); Beijersbergen, Coerwinkel, Kristensen and Woerdman, Opt. Commun. 112, 321 (1994); Sueda, Miyaji, Miyanaga and Nakatsuka, Opt. Express 12, 3548 (2004); Berry, J. Opt. A 6, 259 (2004); Gotte, Franke-Arnold, Zambrini and Barnett, J. Mod. Opt. 54, 1723 (2007). The uploaded notes hold the key script with every other reading of the step and every wrong route recomputed, a calculation on a square grid that takes the mean of x p_y - y p_x behind the mask by fast Fourier transform and gives -1.086 without the orders or the closed form, the program that draws the figure and the read-back of the 7 sectors and the step from the image file.
