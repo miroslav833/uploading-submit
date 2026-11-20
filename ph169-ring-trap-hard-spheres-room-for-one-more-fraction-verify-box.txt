@@ -1,0 +1,12 @@
+What the figure carries. 71 bright spots lie on a circle of 118 px radius, one per sphere; one diameter is 8.8 px and neighbouring spots are 0.93 to 1.93 diameters apart.
+
+By hand. The track is 2 pi x 42.93 um = 269.74 um, or 84.398 diameters. With 71 spheres the free length F is 13.398 diameters, in 71 gaps. Hard spheres give every allowed configuration the same weight, so the gaps are uniform on the simplex of total length F, and k chosen gaps all exceed one diameter with probability (1 - k/13.398)^70. One more sphere fits when the largest gap exceeds a diameter: P = 71 (1 - x)^70 - C(71,2) (1 - 2x)^70 + C(71,3) (1 - 3x)^70 - ... with x = 0.07464, which is 0.31127 - 0.03025 + 0.00113 - 0.00002 = 0.2821, so 0.28.
+
+The most tempting wrong answer is 0.31, the first term alone. Independent gaps give 0.27. One sphere fewer or more gives 0.41 or 0.17.
+
+import math
+n, sigma, R = 71, 3.196, 42.93
+x = sigma/(2*math.pi*R - n*sigma)
+print(round(sum((-1)**(k+1)*math.comb(n, k)*(1 - k*x)**(n - 1) for k in range(1, int(1/x) + 1)), 4))   # 0.2821
+
+The attached notes also check the sum by two Monte Carlo runs (0.283 and 0.275) and count the 71 spots from the pixels.
