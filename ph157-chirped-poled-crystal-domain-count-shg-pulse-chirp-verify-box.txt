@@ -1,0 +1,13 @@
+What the figure carries. The micrograph shows 147 dark stripes (inverted domains) in a row, on average 8.57 px apart over the first ten and 7.59 px over the last ten. Left walls, in px from the left edge of the image, of stripes 1, 11, 21 and so on: 34.1, 119.8, 205.1, 289.1, 372.7, 454.9, 536.9, 617.9, 698.4, 777.9, 857.0, 934.9, 1012.4, 1089.1, 1165.2; stripe 147 ends at 1215 px. With two walls per stripe there are 294 walls and 293 domains between the outer walls.
+
+By hand. K0 = 2 pi / 20.572 um = 0.305424 per um and K0 L = 858.517 rad. The grating phase over L is 293 pi = 920.487 rad, so D = 2 (920.487 - 858.517) / (2810.9 um)^2 = 15.686 per mm^2. A second-harmonic frequency is made where the grating matches it, a distance (292.9 fs/mm)/D per unit of angular frequency further on, and gains 292.9 fs/mm less delay for it, so the grating gives the second harmonic -(292.9)^2 / 15.686 = -5469 fs^2. The square of a chirped Gaussian carries half the dispersion of the pulse, so the fundamental needs +10938 fs^2, which is +1.1 x 10^4 fs^2.
+
+The most tempting wrong answer is +5500 fs^2, from leaving out the factor 2 between the fundamental and its square. One stripe fewer or more gives +12000 or +9900 fs^2.
+
+import math
+L, lam0, n, gvm = 2810.9, 20.572, 147, 292.9     # um, um, stripes, fs/mm
+M = 2*n - 1
+D = 2*(math.pi*M - 2*math.pi/lam0*L)/L**2*1e6    # per mm^2
+print(M, round(D, 3), round(gvm**2/D), round(2*gvm**2/D))   # 293 15.686 5469 10938
+
+The attached notes also sum the second harmonic over the 293 domains without the stationary-phase step (shortest pulse between 10800 and 11200 fs^2 for fundamental pulses of 60 to 220 fs) and read the 147 stripes back from the pixels of the figure.
