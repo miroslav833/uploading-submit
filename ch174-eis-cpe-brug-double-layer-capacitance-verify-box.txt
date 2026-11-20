@@ -1,0 +1,13 @@
+Read from the figure (ohm cm2): Rs 3.0 (inset), arc closes at 83.0 so Rct 80.0, top of arc at 65 Hz with -Z'' 31.5.
+
+The arc is flattened (31.5, not 40). tan(alpha pi/4) = 31.5/40 gives alpha 0.849. Brug for a surface distribution on bare metal: C = [1/(w Rct)] (Rs/(Rs+Rct))^((1-alpha)/alpha) = 30.6 x (3/83)^0.177 = 30.6 x 0.555 = 17.0 uF cm-2.
+
+1/(w Rct) alone is 30.6, i.e. 31. That is the ideal-capacitor (or film) value and is not the answer. Q^(1/alpha) with no resistance term is 14.1.
+
+import math
+Rs, Rct, f, h = 3.0, 80.0, 65.0, 31.5
+a = 4/math.pi*math.atan(2*h/Rct)
+print(round(1e6/(2*math.pi*f*Rct)*(Rs/(Rs+Rct))**((1-a)/a), 1))
+prints 17.0
+
+Lutz et al., J. Neural Eng. 22 (2025), 'Assessment of capacitance from impedance'; Moehl et al., ACS Meas. Sci. Au 6, 1433 (2026).
