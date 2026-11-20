@@ -1,0 +1,23 @@
+The figure is the only source of the soliton number, so the data are given here as text.
+
+Data read from the image (460 x 150 px). Crystal edges at x = 30 and 430 px. Dark lines between the edges, x in px on the middle row: 34.9, 44.4, 53.9, 63.1, 72.4, 81.4, 90.1, 99.1, 107.9, 116.6, 125.1, 133.6, 142.1, 150.6, 159.1, 167.4, 175.4, 183.6, 191.6, 199.6, 207.4, 215.4, 223.1, 230.6, 238.4, 245.9, 253.4, 260.9, 268.4, 276.1, 283.6, 291.1, 298.9, 306.6, 314.4, 322.4, 330.6, 338.9, 347.4, 356.4, 365.4, 374.6, 384.4, 394.1, 404.4, 414.6, 425.1. That is 47 lines. The spacing runs from 7.5 px in the middle to 10.5 px near the edges because the magnification varies, so the count cannot be replaced by a division.
+
+Key by hand. L = 3224 nm / 47 = 68.60 nm, L/L0 = 68.60/48.0 = 1.4291. For the soliton lattice of lowest energy, L/L0 = 4 K(k) E(k)/pi^2 and H/Hc = k^2/E(k)^2 (Dzyaloshinskii 1964; de Gennes 1968 for the cholesteric analogue). K E = 3.5261 gives k' = 0.12943, K = 3.4412, E = 1.02467, k^2 = 0.98325, H/Hc = 0.93647, mu0 Hc = 194.35 mT, Hc - H = 12.35 mT, which is 12 mT to two figures.
+
+Most tempting wrong answer: 26 mT. It follows from 52 solitons: 3224 nm / 52 is a whole 62.0 nm, L/L0 = 1.2917, H/Hc = 0.8748 (close to 7/8), mu0 Hc = 208.0 mT. The crystal width divided by the line spacing in the middle of the frame also gives 52 or 53. The list above has 47 positions, and 46 or 48 solitons give 10.5 or 14.4 mT.
+
+Check program (Python, standard library):
+
+import math
+def KE(m):
+    a, b, c = 1.0, math.sqrt(1 - m), math.sqrt(m); s, p = 0.5 * c * c, 1.0
+    for _ in range(40):
+        a, b, c = 0.5 * (a + b), math.sqrt(a * b), 0.5 * (a - b); s += p * c * c; p *= 2
+    K = math.pi / (2 * a); return K, K * (1 - s)
+r = 3224 / (48.0 * 47); lo, hi = 1e-12, 1 - 1e-15
+for _ in range(80):
+    m = 0.5 * (lo + hi); K, E = KE(m)
+    lo, hi = (m, hi) if 4 * K * E / math.pi ** 2 < r else (lo, m)
+print(182.0 * (E * E / m - 1))      # 12.35
+
+The attached notes also contain a numerical minimisation of the chain energy that uses no elliptic integrals and gives the same 12.35 mT, and a script that recovers the 47 line positions from the PNG.
