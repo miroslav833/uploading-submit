@@ -1,0 +1,16 @@
+The answer is not in a paper. It follows from the mode number of the driven mode, which only the figure gives, and from the theory of dissipation dilution in strings (citations above). The uploaded notes contain the scripts and their output.
+
+What the figure shows. A string between two grey clamp pads (gap from x = 70 to 530 px), turned by 1.6 deg, with 80 bright antinodes separated by dark nodes. The scan is not linear, so the lobe spacing varies from about 4.5 to 7.8 px. Lobe centres along the image rows: 10th at x = 117 px, 20th at 174, 30th at 244, 40th at 307, 50th at 359, 60th at 407, 70th at 460, 80th at 527. Mode n = 80.
+
+Key by hand. n = 80. Stress sigma = rho (2 L fM/n)^2 = 3100 x (588.74 m/s)^2 = 1.0745 GPa. lambda = (h/L) sqrt(E/(12 sigma)) = 1.46776e-4. Clamp term 2 lambda = 2.9355e-4, distributed term (n pi lambda)^2 = 1.36078e-3, sum 1.65434e-3, dilution 604.5. Q = 5600 x 604.5 = 3.385e6, so 3.4 x 10^6. An exact solution of the clamped beam under tension (stress adjusted so that mode 80 sits at 7.84985 MHz, kinetic and bending energies integrated over the exact mode shape) gives 3.382e6.
+
+Most tempting wrong answer. Taking the mode number as 92, where the implied stress is a tidy 0.810 GPa with bending included, gives Q = 2.1 x 10^6; the map has 80 lobes, not 92. Counting 79 lobes gives a stress of 1.10 GPa and Q = 3.5 x 10^6. Mode 81 gives 3.2 x 10^6, mode 83 (stress 1.00 GPa) gives 3.0 x 10^6. Without the clamp term Q = 4.1 x 10^6, with only the clamp term 1.9 x 10^7.
+
+Check program (Python 3, standard library; prints sigma = 1.0745 GPa, lambda = 1.46776e-04, Q = 3.385e+06):
+
+import math
+L, h, rho, E, Qint, fM, n = 3.000e-3, 100.0e-9, 3.10e3, 250e9, 5.60e3, 7.84985e6, 80
+sigma = rho * (2 * L * fM / n) ** 2
+lam = (h / L) * math.sqrt(E / (12 * sigma))
+Q = Qint / (2 * lam + (n * math.pi * lam) ** 2)
+print("sigma = %.4f GPa, lambda = %.5e, Q = %.4g" % (sigma / 1e9, lam, Q))
