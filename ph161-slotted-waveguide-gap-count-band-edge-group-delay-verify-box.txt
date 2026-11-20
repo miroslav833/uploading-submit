@@ -1,0 +1,9 @@
+The number of gaps is only in the figure. Centres of the 82 bright silicon sections along the guide, in px: 49.4 54.3 58.5 64.4 69.6 75.4 80.6 86.7 92.8 98.7 104.5 110.5 116.5 121.7 127.5 132.4 137.5 142.5 147.6 153.0 158.5 164.5 170.4 175.5 181.4 186.8 192.5 198.2 203.4 208.5 214.1 219.7 225.5 231.5 238.3 244.6 251.5 258.6 266.2 273.6 281.5 289.7 297.5 305.7 313.7 321.5 329.6 338.4 345.7 353.5 361.7 369.7 377.7 385.6 393.8 401.8 409.2 416.5 423.5 430.2 436.4 442.4 448.4 454.5 460.4 466.1 471.7 477.8 483.5 489.5 495.6 502.3 508.6 515.1 521.2 526.7 533.3 539.3 544.5 550.5 556.4 561.8. The first gap begins at column 46 and the last ends at column 566, so there are N = 83 gaps. The period varies from 4.2 to 8.8 px, so the slotted length over one measured period gives anything from 68 to 94.
+
+By hand: both sections are 408.8 nm of optical path, T1 = 408.8 nm/c = 1.3636 fs. rho = 1.75, kappa = (1 + rho)^2/(2 rho) = 2.1607. Bloch phase: cos(beta) = 1 - kappa sin^2(phi). The N-period row transmits fully where N beta = m pi; next to the stop band beta = pi(1 - 1/N). The phase derivative of t_N there is tau = N (d beta/d omega) |Im(1/t_1)|/sin(beta) = 4 N cos^2(pi/2N) [kappa - 2 cos^2(pi/2N)] T1/sin^2(pi/N). For N = 83: 4 x 83 x 0.999642 x 0.161431 x 1.3636 fs / 0.0014320 = 51.02 ps, so 51 ps. The product of the 165 layer matrices gives 51.015 ps at 1985.08 nm.
+
+The delay of an infinite crystal over 83 periods, N d(beta)/d(omega), is 3.4 ps and is the natural wrong answer; 82 or 84 gaps give 49 or 53 ps.
+
+Check in Python: import math; N=83; k=2.75**2/3.5; c2=math.cos(math.pi/(2*N))**2; print(4*N*c2*(k-2*c2)*2.8*146e-9/2.998e8/math.sin(math.pi/N)**2) prints 5.1017e-11 (seconds).
+
+Method: Bendickson, Dowling and Scalora, Phys. Rev. E 53, 4107 (1996); Scalora et al., Phys. Rev. E 54, R1078 (1996); Dowling et al., J. Appl. Phys. 75, 1896 (1994); Bock et al., Opt. Express 18, 20251 (2010).
