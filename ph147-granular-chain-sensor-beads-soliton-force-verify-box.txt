@@ -1,0 +1,14 @@
+The figure (683 x 66 px) is a simulated side photograph of the chain, with red marks A and B above two sensor spheres, and one integer is read from it. The spheres touch and each shows one highlight; the highlights are 6.60 px apart. 101 spheres are in the frame, 18 to the left of the sphere under A and 20 to the right of the sphere under B, and B is the 62nd sphere after A. The marks stand at x = 130.5 px and 539.5 px, 409 px or 62.0 diameters apart. So the sensors are N = 62 diameters, 0.2953 m, apart.
+
+Key by hand: the wave speed is V = 0.2953 m/0.5023 ms = 587.9 m/s. For two equal spheres the Hertz law is F = A delta^(3/2) with A = E sqrt(d)/(3(1 - nu^2)) = 4.879e9 N/m^1.5. The long-wavelength equation of the chain has c^2 = A d^(5/2)/m = 2E/(pi rho (1 - nu^2)), c = 4111 m/s, and Nesterenko's solitary wave satisfies V = (2/sqrt5) c xi_m^(1/4), so xi_m = (5V^2/(4c^2))^2 = 0.025567^2 = 6.537e-4. The largest overlap is d xi_m = 3.113 um and the largest force A (d xi_m)^(3/2) = 26.8 N, that is 27 N.
+
+The most tempting wrong answers come from the count, since the force goes as the sixth power of the speed: 61 diameters give 24 N and 63 give 30 N, and 58 diameters, which would make the speed a round 550 m/s, give 18 N; the figure shows 62. Other wrong routes: the sphere radius in place of half the radius as the effective radius gives 38 N, leaving out 1 - nu^2 gives 32 N, the bar speed sqrt(E/rho) in place of c gives 9.2 N. An exact computation of the discrete chain, outside the continuum description the question asks for, gives 25 N.
+
+Check in a second (Python 3, standard library). It prints the force in N for 62, 61 and 63 diameters:
+import math
+E, nu, rho, d, t = 193.0e9, 0.300, 7990.0, 4.763e-3, 0.5023e-3
+A = E*math.sqrt(d)/(3*(1 - nu**2)); c2 = 2*E/(math.pi*rho*(1 - nu**2))
+F = lambda n: A*d**1.5*(5*(n*d/t)**2/(4*c2))**3
+print(round(F(62), 2), round(F(61), 2), round(F(63), 2))   # 26.8 24.31 29.5
+
+Citations: Nesterenko, J. Appl. Mech. Tech. Phys. 24, 733 (1983); Coste, Falcon and Fauve, Phys. Rev. E 56, 6104 (1997); Daraio, Nesterenko, Herbold and Jin, Phys. Rev. E 72, 016603 (2005); Sen, Hong, Bang, Avalos and Doney, Phys. Rep. 462, 21 (2008). The uploaded notes hold the key script with every count from 57 to 67 and every wrong route; a time integration of the discrete chain of 160 spheres with the real data, which confirms the sixth-power law and puts the discrete solitary wave 1.24 per cent faster than the continuum one at the same force; the program that draws the figure; and the read-back of 62 diameters from the image file.
