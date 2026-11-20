@@ -1,0 +1,18 @@
+The figure is the only source of the number of balls. It is a simulated photograph, 250 x 250 px, made for this question. The balls are the bright dots on a circle of radius 85.5 px about the point (124.5, 124.5) px, 8.8 px apart along the circle. There are 61 of them. Their azimuths about the centre, counter-clockwise from the direction to the right, are 1.83 degrees + k x 5.902 degrees for k = 0 to 60, the first few being 1.8, 7.7, 13.7, 19.6 and 25.5 degrees. Counted by quadrant from the right, counter-clockwise, they are 15, 16, 15 and 15. The circumference, 537 px, over the mean spacing of 8.80 px gives 61.0; 60 or 62 balls would need a mean spacing of 8.95 or 8.66 px.
+
+Key by hand. Spheres attract as point masses, so the energy of the two rings is U(phi) = -G m^2 N sum_j D(phi + 2 pi j/N) with D(theta) = [s^2 + 4 R^2 sin^2(theta/2)]^(-1/2), R = 40.00 mm, s = 5.80 mm, m = 0.2721 g, N = 61. Of the Fourier components of D only those of order N, 2N, ... survive the sum, and the torque dU/dphi has the amplitude 2 G m^2 N^3 d_N, where d_N = (1/pi) int_0^pi D cos(N theta) d theta = Q_{N-1/2}(1 + s^2/2R^2)/(pi R), close to sqrt(eta/sinh eta) K_0(N eta)/(pi R) with eta = 2 arsinh(s/2R) = 0.144873. Numbers: N eta = 8.8373, K_0(8.8373) = 6.041e-5, sqrt(eta/sinh eta) = 0.99825, 2 G m^2 N^3/(pi R) = 1.7851e-11 N m, so the amplitude is 1.7851e-11 x 0.99825 x 6.041e-5 = 1.076e-15 N m, which rounds to 1.1 fN m. The term of order 2N is 2e-4 of this.
+
+The most tempting wrong answer is 1.2 fN m, the value for 60 balls (1.19), which follows when the spacing of the dots is estimated and divided into the circumference instead of the balls being counted; 62 balls give 0.97 and 64 give 0.79 fN m. No ball count from 4 to 199 other than 61 comes within 8 per cent of the key. A different kind of error, letting each ball feel only the nearest ball of the other ring, gives N R x 2 G m^2/(3 sqrt3 s^2) = 138 fN m.
+
+Check program (Python 3, standard library), which sums Newton's law over all pairs and needs no special function:
+import math
+G, R, m, s, N = 6.674e-11, 40.00e-3, 0.2721e-3, 5.80e-3, 61
+def torque(phi):
+    t = 0.0
+    for j in range(N):
+        th = phi + 2*math.pi*j/N
+        t += R*R*math.sin(th)/(s*s + 4*R*R*math.sin(th/2)**2)**1.5
+    return G*m*m*N*t
+print(max(torque(2*math.pi/N*k/400) for k in range(400))*1e15)   # 1.0763 (fN m)
+
+The uploaded notes add the coefficient d_N by direct quadrature, by the Bessel form and by the straight-row form (1.0763, 1.0764 and 1.0695 fN m), a table over the ball counts 52 to 71 and over counts a guesser might take, the effect of rounding the givens (1.066 to 1.087 fN m), and a script that counts the 61 balls from the image file. Sources: Hoyle et al., Physical Review Letters 86, 1418 (2001), for the kind of experiment; Bailey and Kostelecky, Physical Review D 74, 045001 (2006), for the model of two rings of point masses; Cohl and Tohline, Astrophysical Journal 527, 86 (1999), for the Fourier coefficients of the inverse distance.
