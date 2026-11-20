@@ -1,0 +1,16 @@
+What the figure carries. A bead-pull record, frequency shift against time from 0 to 480 s, with 112 separate peaks of about 240 Hz on a flat baseline, 5.5 to 16 px apart. Their times in s: 15.3 17.9 20.6 23.5 26.5 29.7 33.1 36.7 40.3 44.0 47.5 51.0 54.4 57.7 61.0 64.4 67.8 71.3 74.9 78.5 (20) 82.2 85.9 89.4 92.8 96.0 99.1 102.1 105.0 107.9 110.8 113.8 116.8 119.8 123.0 126.2 129.6 132.9 136.2 139.5 142.8 (40) 146.0 149.2 152.4 155.7 159.0 162.5 166.1 169.9 173.8 177.9 182.0 186.0 189.9 193.7 197.3 200.9 204.5 208.1 211.8 215.5 (60) 219.3 223.1 226.9 230.6 234.2 237.7 241.1 244.4 247.7 251.0 254.4 257.9 261.5 265.3 269.2 273.2 277.3 281.4 285.5 289.6 (80) 293.6 297.9 302.2 306.9 311.9 317.2 322.6 327.8 332.9 337.7 342.5 347.2 352.1 357.1 362.2 367.4 372.6 377.5 382.3 387.1 (100) 391.8 396.8 402.1 408.0 414.2 420.7 427.1 433.4 439.9 446.7 454.3 462.2 (112). So the tank has N = 112 cells.
+
+Key by hand. lambda = 0.74483 m, e E0T lambda = 0.93103 MeV. Smooth approximation with p = beta gamma of the synchronous proton: dp/dn = G = e E0T lambda cos(phi_s)/mc^2 = 8.5934e-4, p0 = 0.07305, p1 = p0 + 112 G = 0.16929 (13.35 MeV). Deviations: dw/dn = a beta phi with a = e E0T lambda |sin(phi_s)| = 0.46552 MeV per radian, dphi/dn = -2 pi w/(mc^2 beta^2 gamma^3). Phase advance per cell [2 pi a/(mc^2 beta gamma^3)]^(1/2), 0.206 rad at the entrance and 0.134 rad at the exit. Phase of the oscillation at the exit Psi = 2 sqrt(kappa) [F(p1) - F(p0)] with F(p) = sqrt(p)(1 - p^2/10 + p^4/24) and kappa = 2 pi a/(mc^2 G^2) = 4221.4, so Psi = 18.213 rad and sin(Psi) = -0.595. Energy amplitude at the exit phi_0 [a mc^2/2 pi]^(1/2) (p0 p1)^(3/4) = 0.069813 x 8.338 MeV x 0.037084 = 21.59 keV. Energy deviation 21.59 x (-0.595) = -12.8 keV, so -13 keV. The two equations integrated numerically give -13.2 keV, and a gap-by-gap tracking without the smooth approximation gives -12.9 keV to first order and -12.8 keV with the full cosine.
+
+Other values. 111 cells: -15 keV. 113 cells: -10 keV (-11 keV integrated). 60 cells, taken from a known machine: -16 keV. Non-relativistic kinematics: -10 keV. Entrance value of the amplitude kept: -6.8 keV; exit value: -24 keV. Early instead of late: +13 keV.
+
+Short check (Python 3, standard library):
+from math import *
+mc2, lam, N = 938.272, 299.792458/402.5, 112
+G = 1.250*lam*cos(radians(30))/mc2; a = 1.250*lam*sin(radians(30))
+p0 = sqrt((1 + 2.5/mc2)**2 - 1); p1 = p0 + G*N; k = 2*pi*a/(mc2*G*G)
+F = lambda p: 2*sqrt(p)*(1 - p*p/10 + p**4/24)
+psi = sqrt(k)*(F(p1) - F(p0))
+print(psi, radians(4.0)*sqrt(a*mc2/(2*pi))*(p0*p1)**0.75*sin(psi)*1e3)      # 18.213 rad, -12.8 keV
+
+Citations: Alvarez et al., Rev. Sci. Instrum. 26, 111 (1955); McMillan, Phys. Rev. 68, 143 (1945); Slater, Rev. Mod. Phys. 20, 473 (1948); Maier and Slater, J. Appl. Phys. 23, 68 (1952); Henderson et al., Nucl. Instrum. Methods A 763, 610 (2014). The uploaded notes hold the key script, the gap-by-gap tracking, the program that draws the figure and the count of the peaks from the image file.
