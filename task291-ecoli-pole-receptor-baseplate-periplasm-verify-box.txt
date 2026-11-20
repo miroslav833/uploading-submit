@@ -1,0 +1,13 @@
+Three equally dark lines at the apex, 8 px per nm (25 nm bar = 200 px). Rows 70, 211, 387 px, so 17.6 nm and 22 nm apart. Ribosomes only below the innermost line.
+
+Outer line = outer membrane (r 400 nm, given). Middle line = inner membrane, 17.6 nm in: E. coli periplasm 21.0 +- 2.7 nm (Matias et al. 2003, Table 1). Innermost line = CheA/CheW base plate of the polar receptor array, 22 nm below the inner membrane in E. coli (Briegel et al. 2009, Table 1). Peptidoglycan sits 5.3 nm under the outer membrane and is not resolved here, so the middle line cannot be it. K-12 has no S-layer, capsule or O-antigen, so nothing sits outside the outer membrane (that reading gives 19 aL).
+
+V = (2/3) pi (400^3 - 382.4^3) nm^3 = 1.69e7 nm^3 = 17 aL.
+Reading the lines as outer membrane, peptidoglycan, inner membrane: (2/3) pi (400^3 - 360.4^3) = 36 aL.
+
+from math import pi
+print(round(2/3*pi*(400**3-382.4**3)/1e6, 1), round(2/3*pi*(400**3-360.4**3)/1e6, 1))
+prints 16.9 36.0
+
+Notes: key.py has the key and wrong routes, readback.py finds the three lines in the PNG (17.6 and 22.3 nm, 16.95 aL).
+Sources: Briegel et al., PNAS 106, 17181-17186 (2009), Table 1 and Fig. 1 legend; Matias et al., J. Bacteriol. 185, 6112-6118 (2003), Table 1 and subsection PG.
