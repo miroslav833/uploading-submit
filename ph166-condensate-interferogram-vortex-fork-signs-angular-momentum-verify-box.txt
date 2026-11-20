@@ -1,0 +1,11 @@
+What the figure carries. Ten vortices are marked with circles and letters. At A, C, D, F, H and J the extra fringe comes from above and ends at the centre of the circle (the fork opens upward). At B, E, G and I it comes from below. Away from the vortices the fringes are vertical, 6.2 px apart.
+
+By hand. The bright fringes lie where theta - k x = 2 pi m. Above a counter-clockwise vortex the polar angle falls from pi to 0 from left to right, below it rises from -pi to 0, so a line above the core crosses one bright fringe more than a line below it. Fork open upward means counter-clockwise, sign +1. One vortex at r0 gives the cloud q hbar times the number of atoms outside r0, because the circulation round a circle about the axis is q h/m only if the circle encloses the core. For n0 (1 - r^2/R^2) that fraction is (1 - s^2)^2: 0.9341, 0.8148, 0.7136, 0.6099, 0.5308, 0.4450, 0.3577, 0.2774, 0.2020, 0.1262 for A to J. With the signs + - + + - + - + - + the sum is +1.201, which is +1.2.
+
+The most tempting wrong answer is -1.2, from the fork rule the wrong way round. Without the weights the sum is +2; with the weight of a three-dimensional cloud, power 5/2, it is +1.1.
+
+s = [0.183, 0.312, 0.394, 0.468, 0.521, 0.577, 0.634, 0.688, 0.742, 0.803]
+q = [+1, -1, +1, +1, -1, +1, -1, +1, -1, +1]
+print(round(sum(qi*(1 - si*si)**2 for qi, si in zip(q, s)), 4))    # 1.201
+
+The attached notes also read the ten signs back from the pixels of the figure: the fringes are demodulated and the remaining phase is followed round each marked vortex.
