@@ -1,0 +1,13 @@
+The figure is a simulated off-axis electron hologram (640 x 440 px) of a horizontal Co/CoO nanowire, outer radius 35.0 nm (56 px at 1.6 px/nm; scale bar 50 nm = 80 px). What is read from it is the offset of the vacuum fringes below the wire relative to the continuation of those above it. The fringes are 32.0 px apart and tilted 3 degrees from the vertical (5.2 px to the right per 100 px down). A bright fringe above passes x = 321.1 px at y = 100 px; continued along the tilt it reaches x = 333.1 px at y = 330 px, where the fringes below lie at x = 314.6 and 346.7 px: 0.578 period to the left or 0.422 to the right. A fit of a tilted plane wave to a band of rows above and one below gives 0.582/0.418; the unwrapped phase down three columns gives -0.581 to -0.584 period, and rows 52 to 54 px above and below the axis (in the shell) differ by about -0.58.
+
+Key by hand. In the vacuum on both sides there is no electrostatic phase; the phase difference between the two sides is the Aharonov-Bohm phase 2 pi Phi/(h/e) of the flux of the Co core, Phi = mu0 Ms pi rc^2 (CoO has no net moment at room temperature). The offset allows 0.422, 0.578, 1.422 and 1.578 h/e below the cap of 1.64 h/e set by the outer radius; the parity of the electrostatic (even) and magnetic (odd) phases, or a fringe followed through the wire, gives -0.58 period: Phi = 0.578 h/e = 2.392e-15 Wb. Then rc = sqrt(Phi/(pi x 1.76 T)) = 20.8 nm, so 21 (oxide shell 14 nm). Offsets from 0.562 to 0.618 give 21.
+
+The most tempting wrong answer is 18 nm: the shift taken in the other sense, 0.422 h/e. Other values: half a fringe 19; fringes taken as aligned (one flux quantum) 27; one whole fringe added 33 or 34; columns compared straight down instead of along the tilt (rows 140 and 275 give 0.36 or 0.64) 16 or 22; h/2e as the flux quantum 15; the whole wire taken as magnetic 35.
+
+Check in a few seconds (Python 3, standard library). The first number is the key, the second the most tempting wrong answer:
+import math
+rc = lambda f: math.sqrt(f*(6.6261e-34/1.6022e-19)/(math.pi*1.76))*1e9
+print(rc(0.578))   # 20.80
+print(rc(0.422))   # 17.77
+
+Citations: Aharonov and Bohm, Phys. Rev. 115, 485 (1959); Lichte and Lehmann, Rep. Prog. Phys. 71, 016102 (2008); Dunin-Borkowski et al., Science 282, 1868 (1998). The uploaded notes hold the key script, the program that draws the hologram and the read-back from the image file.
