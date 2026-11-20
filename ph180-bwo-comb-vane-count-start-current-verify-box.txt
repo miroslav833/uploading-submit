@@ -1,0 +1,24 @@
+The figure is 757 x 112 px and shows 107 vanes between two end blocks. Their x positions in pixels, left to right, ten to a group, are 39.0, 43.0, 46.8, 50.8, 54.8, 58.8, 63.0, 67.2, 71.4, 75.6; then 79.8, 84.4, 88.7, 93.3, 97.7, 102.5, 107.0, 111.6, 116.5, 121.4; then 126.1, 131.0, 135.9, 140.9, 146.1, 151.3, 156.5, 161.5, 166.8, 172.2; then 177.5, 183.1, 188.5, 194.1, 199.7, 205.4, 211.0, 216.9, 222.6, 228.5; then 234.4, 240.4, 246.4, 252.5, 258.7, 264.9, 271.0, 277.2, 283.7, 290.0; then 296.4, 303.0, 309.4, 316.0, 322.6, 329.1, 336.0, 342.9, 349.5, 356.2; then 363.1, 370.1, 377.0, 384.0, 391.1, 398.2, 405.3, 412.5, 419.8, 427.0; then 434.2, 441.5, 448.9, 456.2, 463.7, 471.0, 478.4, 486.0, 493.4, 501.0; then 508.4, 516.0, 523.6, 531.2, 538.7, 546.4, 554.0, 561.6, 569.2, 576.9; then 584.4, 592.0, 599.7, 607.3, 615.0, 622.5, 630.0, 637.6, 645.0, 652.6; and last 660.0, 667.6, 675.0, 682.2, 689.7, 697.0, 704.0. Neighbouring vanes are 3.9 to 7.6 px apart, the period growing from left to right and falling off a little at the right edge because of the lens.
+
+By hand. Period p = 16.31 mm/107 = 0.15243 mm. A backward-wave oscillator needs a circuit wave whose energy runs against the beam. Its space harmonic with forward phase has the phase shift 2 pi - 0.712 pi = 1.288 pi per period, so the phase velocity is v = 2 f p/1.288 = 3.3137e7 m/s, and the comb holds Nc = 107 x 0.644 = 68.91 wavelengths. In the three-wave theory with waves exp(-j be z + be C d z) the backward circuit gives d^2 (d + j b) = j. With an unmodulated beam at the gun end and no circuit field at the collector end, the lowest solution is b = 1.522, C N = 0.3141, N = be L/(2 pi) = Nc/(1 + b C). So C = 0.3141/(68.908 - 0.478) = 0.004590, the beam speed is v (1 + b C) = 3.3368e7 m/s, the voltage u^2/(2 e/m) = 3165 V, and the starting current 4 V C^3/K = 4 x 3165.4 x 9.670e-8/1.01 = 1.21 mA, which is 1.2 mA to two figures. With the beam exactly at the wave speed and N = Nc the result is 1.17 mA, the same to two figures.
+
+The most tempting wrong answer is 24 mA. It takes the beam as running with the fundamental (0.712 pi per period, 10.5 kV), a wave whose energy travels with the beam and gives no feedback. Leaving the 4 out of C^3 = K I/(4 V) gives 0.30 mA.
+
+A check in Python, standard library only. It integrates the two linear equations of the three-wave theory along the tube and prints the circuit field at the collector end, which vanishes at the start values, and then the key.
+
+import math
+b, CN = 1.5218, 0.31407
+f = lambda y: (y[1], y[2], -1j*b*y[2] + 1j*y[0])      # y = (beam current, its derivative, circuit field)
+y, n = (0j, 0j, 1 + 0j), 4000
+h = 2*math.pi*CN/n
+for _ in range(n):                                    # Runge-Kutta, fourth order
+    k1 = f(y); k2 = f(tuple(a + h/2*k for a, k in zip(y, k1)))
+    k3 = f(tuple(a + h/2*k for a, k in zip(y, k2))); k4 = f(tuple(a + h*k for a, k in zip(y, k3)))
+    y = tuple(a + h/6*(p + 2*q + 2*r + s) for a, p, q, r, s in zip(y, k1, k2, k3, k4))
+print(abs(y[2]))                                      # about 1e-5: no circuit field at the collector end
+nv, L, fr, phi, K, em = 107, 16.31e-3, 140.0e9, 0.712, 1.01, 1.7588e11
+th = (2 - phi)*math.pi; v = 2*math.pi*fr*(L/nv)/th; Nc = nv*th/(2*math.pi)
+C = 0.3141/(Nc - 0.3141*1.522); V = (v*(1 + 1.522*C))**2/(2*em)
+print(V, 4*V*C**3/K*1e3)                              # 3165.4 V, 1.2124 mA
+
+Sources: Pierce, Proc. IRE 35, 111 (1947); Johnson, Proc. IRE 43, 684 (1955).
