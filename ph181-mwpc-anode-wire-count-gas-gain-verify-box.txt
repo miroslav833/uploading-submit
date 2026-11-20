@@ -1,0 +1,18 @@
+The figure is 700 x 300 px and shows 87 anode wires over the dark foil. Their x positions in pixels on the middle row, left to right, ten to a group, are 78.2, 82.9, 87.7, 92.3, 97.1, 102.0, 106.9, 111.8, 116.8, 121.8; then 126.8, 131.9, 137.0, 142.1, 147.3, 152.6, 157.9, 163.1, 168.6, 174.0; then 179.4, 184.9, 190.4, 196.0, 201.7, 207.3, 213.0, 218.9, 224.7, 230.5; then 236.3, 242.3, 248.3, 254.3, 260.5, 266.7, 272.9, 279.1, 285.3, 291.7; then 298.1, 304.4, 311.0, 317.5, 324.0, 330.8, 337.3, 344.1, 350.9, 357.8; then 364.6, 371.6, 378.5, 385.6, 392.7, 399.8, 407.0, 414.2, 421.5, 428.9; then 436.2, 443.7, 451.1, 458.8, 466.2, 473.9, 481.7, 489.3, 497.2, 505.0; then 513.0, 520.9, 528.9, 536.9, 545.0, 553.1, 561.3, 569.6, 577.9, 586.2; and last 594.7, 603.0, 611.4, 620.0, 628.5, 637.1, 645.8. Neighbouring wires are 4.7 px apart at the left and 8.6 px at the right because of the slant.
+
+By hand. Pitch s = 195.3 mm/86 = 2.2709 mm. For a plane of wires midway between grounded cathodes at distance l, V0 = (lambda/2 pi eps0)[pi l/s - ln(2 pi a/s)] = (lambda/2 pi eps0)(11.0672 + 3.5875), so lambda/2 pi eps0 = 3250/14.6546 = 221.77 V (lambda = 12.34 nC/m, surface field 221.8 kV/cm). The density is (940/1013)(293.15/297.15) = 0.91545 of the reference, so K = 43.94 kV/cm. Diethorn: ln G = (221.77 ln2/23.6) ln(221.77/43.94) = 6.5136 x 1.6188 = 10.544, G = 3.80e4, which is 3.8e4 to two figures. The givens moved by half a unit of their last digit keep it between 3.70e4 and 3.90e4.
+
+The most tempting wrong answer is 1.5e4: since 195.3 = 93 x 2.100, it takes a pitch of exactly 2.100 mm (94 wires) instead of counting the 87 wires. Dividing 195.3 mm by the number of wires instead of the gaps gives 3.3e4. Leaving out the density correction gives 2.1e4. Each wire more or less moves the gain by about 13 per cent (86 wires 4.4e4, 88 wires 3.3e4).
+
+A check in Python, standard library only. It sums the exact series for the potential at the wire surface and prints the key.
+
+import math
+N, D, l, a, V0, dV, K = 87, 195.3e-3, 8.00e-3, 10.0e-6, 3250.0, 23.6, 4.80e6
+s = D/(N - 1)
+c = math.pi*l/s - math.log(2*math.sin(math.pi*a/s))
+c += sum(math.cos(2*math.pi*m*a/s)*(math.tanh(2*math.pi*m*l/s) - 1)/m for m in range(1, 60))
+x = V0/c                                    # lambda/(2 pi eps0), V
+rho = (940/1013)*(293.15/297.15)
+print(x, math.exp(math.log(2)/dV*x*math.log(x/(a*K*rho))))   # 221.77 V, 3.80e4
+
+Sources: Charpak et al., Nucl. Instrum. Methods 62, 262 (1968); Erskine, Nucl. Instrum. Methods 105, 565 (1972); Hendricks, Nucl. Instrum. Methods 102, 309 (1972).
