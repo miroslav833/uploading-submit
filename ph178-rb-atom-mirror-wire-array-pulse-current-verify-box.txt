@@ -1,0 +1,15 @@
+The image is the only source of the wire pitch. It is a simulated electron micrograph, 480 x 144 px (a 480 x 120 px frame and a strip under it), made for this question; the strip gives the centre-to-centre distance from wire A to wire B, 252.7 um. With pixel columns numbered from 0, the wire centres along the bright band lie at x = 90.1 + 7.3 j px; A is j = 0 and B is j = 41 (389.4 px), so there are 41 pitches. Every fifth wire from A is at 90.1, 126.6, 163.1, 199.6, 236.1, 272.6, 309.1, 345.6 and 382.1 px, and B is the next one.
+
+Key by hand. a = 252.7 um/41 = 6.1634 um, k = pi/a = 0.509716 1/um. The stretched state |2,2> of 87Rb has U = mu_B |B|. Required field at z0 = 10.0 um: B = m g (H - z0)/mu_B = 3.0380e-4 T. Field of the alternating array (fundamental of period 2a, rectangular wires): |B| = (mu0 I/a) F exp(-k z), F = [sin(k w/2)/(k w/2)] [(1 - exp(-k t))/(k t)] = 0.92841 x 0.64053 = 0.59468. With exp(k z0) = 163.557 and mu0/a = 0.20389 T/A: I = 3.0380e-4 x 163.557/(0.20389 x 0.59468) = 0.4098 A, which rounds to 0.41 A. Higher harmonics change the smallest field along the mirror by about 1e-5.
+
+The most tempting wrong answer is 0.24 A, from treating the wires as line currents at their top faces (F = 1). One line current per wire at the centre of its cross-section gives 0.40 A; the height counted from the wire mid-plane on top of the depth factor gives 0.67 A. Other counts: 40 pitches give 0.37 A, 42 give 0.46 A, 39 give 0.33 A, 43 give 0.51 A.
+
+Check program (Python 3, standard library):
+import math
+m, g, muB, mu0 = 1.4432e-25, 9.810, 9.2740e-24, 4e-7*math.pi
+w, t, H, z0, a = 2.60e-6, 1.90e-6, 2.00e-3, 10.0e-6, 252.7e-6/41
+k = math.pi/a
+F = math.sin(k*w/2)/(k*w/2)*(1 - math.exp(-k*t))/(k*t)
+print(m*g*(H - z0)/muB*math.exp(k*z0)/(mu0/a*F))   # 0.4098 (A)
+
+The uploaded notes add a table over 30 to 55 pitches, other routes, the effect of rounding every given (0.407 to 0.413 A), a Biot-Savart sum over filaments with every harmonic (0.40981 A), and a script that counts the wires from the image file. Sources: Opat, Wark and Cimmino, Appl. Phys. B 54, 396 (1992); Roach et al., Phys. Rev. Lett. 75, 629 (1995); Drndic et al., Phys. Rev. A 60, 4012 (1999); Hinds and Hughes, J. Phys. D 32, R119 (1999).
