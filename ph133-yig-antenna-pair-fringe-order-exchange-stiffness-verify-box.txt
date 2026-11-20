@@ -1,0 +1,16 @@
+What the figure carries. A map of Re(Delta S21) against B (28 to 32 mT) and frequency (2.10 to 2.85 GHz). Nothing below the uniform resonance, which rises from 2.111 GHz at 28 mT to 2.279 GHz at 32 mT; above it bright and dark fringes that run parallel to that edge. Above the map: 'M: B = 30.00 mT, 381.9 MHz above the uniform resonance'. On the line B = 30.00 mT the maxima lie at (GHz) 2.1958 (order 0, the edge), 2.2096, 2.2236, 2.2376, 2.2518, 2.2661, 2.2806, 2.2952, 2.3099, 2.3247, 2.3396 (order 10), 2.3547, 2.3699, 2.3851, 2.4006, 2.4161 (15), 2.4317, 2.4475, 2.4634, 2.4794, 2.4955 (20), 2.5117, 2.5280, 2.5445, 2.5610, 2.5777 (25, under M), 2.5945. The spacing grows from 13.8 MHz at the edge to 16.7 MHz at M.
+
+Key by hand. Maxima of cos(kD) at kD = 2 pi n, order 0 at the uniform resonance; M is order 25, so k = 2 pi x 25/25.00 um = 6.283e6 rad/m and kt = 0.12566. f_H = 28.00 x 0.03000 = 0.8400 GHz, f_M = 28.00 x 0.1750 = 4.9000 GHz, uniform resonance sqrt(f_H (f_H + f_M)) = 2.19581 GHz, M at 2.57771 GHz. For a profile uniform across the thickness f^2 = (f_H + f_X + f_M P)(f_H + f_X + f_M (1 - P)), P = 1 - (1 - exp(-kt))/(kt) = 0.06028, f_X = f_M lambda^2 k^2. (1.13537 + f_X)(5.44463 + f_X) = 6.64459 gives f_X = 0.06962 GHz, lambda^2 = f_X/(f_M k^2) = 3.599e-16 m^2, A = lambda^2 (mu0 Ms)^2/(2 mu0) = 4.39e-12 J/m = 4.4 pJ/m. A layer-resolved calculation without an assumed profile gives 4.42 pJ/m. Check without counting: the fringe spacing at M, 16.7 MHz, is the group velocity over D; order 25 gives 16.7 MHz, order 24 (with the 5.26 pJ/m it needs) 17.9 MHz, order 26 (3.63 pJ/m) 15.6 MHz.
+
+The most tempting wrong answer is 3.6 pJ/m, from order 26 (the maximum at the edge counted as the first fringe); it is close to the usual value of yttrium iron garnet. Order 24 gives 5.3 pJ/m. The surface-wave term f_M^2 (1 - exp(-2kt))/4 in place of f_M^2 P (1 - P) gives 4.6 pJ/m at order 25 and 3.9 pJ/m at order 26. The dipolar term to first order, f_M^2 kt/2, gives 3.0 pJ/m, and P = kt/2 inside P (1 - P) gives 3.9 pJ/m. For 4.385 pJ/m and order 25 the layer-resolved calculation gives 2.57700 GHz, the uniform-profile form 2.57771 GHz and the surface-wave form 2.57263 GHz.
+
+Short check (Python 3, standard library):
+from math import pi, sqrt, exp
+g, ms, t, D, B, off, n = 28.00, 0.1750, 20.00e-9, 25.00e-6, 30.00e-3, 0.3819, 25
+fH, fM = g*B, g*ms; f = sqrt(fH*(fH + fM)) + off; k = 2*pi*n/D
+P = 1 - (1 - exp(-k*t))/(k*t)
+b = 2*fH + fM; c = (fH + fM*P)*(fH + fM*(1 - P)) - f*f
+fX = (-b + sqrt(b*b - 4*c))/2
+print(fX, fX/(fM*k*k)*ms**2/(2*4e-7*pi)*1e12)      # 0.0696 GHz, 4.39 pJ/m
+
+Citations: Kalinikos and Slavin, J. Phys. C 19, 7013 (1986), lowest mode with unpinned surface spins; Damon and Eshbach, J. Phys. Chem. Solids 19, 308 (1961); Vlaminck and Bailleul, Phys. Rev. B 81, 014425 (2010); Yu et al., Sci. Rep. 4, 6848 (2014); Klingler et al., J. Phys. D 48, 015001 (2015). The uploaded notes hold the key script with every wrong route and the rounding scan, the layer-resolved calculation, the program that draws the figure and the read-back of the order from the image file.
