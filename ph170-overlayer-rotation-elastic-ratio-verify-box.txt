@@ -1,0 +1,18 @@
+Data the figure carries, as text. The image is a triangular lattice of about 4,900 spheres, 8.5 px apart, turned against the left-right direction. Along the row through the middle of the frame the first sphere is at (x, y) = (9.4, 316.8) px and the last at (629.2, 168.9) px, y counted downward: the row rises 147.9 px over 619.8 px, 13.42 degrees. A line fit to each of the 61 rows with more than 40 spheres gives 13.39 degrees (spread 0.02). The other two row families run at 73.4 and -46.6 degrees. So the crystal is turned by theta = 13.39 degrees against the light rows.
+
+Key by hand. In two dimensions c_L^2 = (K + mu)/rho, so delta = c_L^2/c_T^2 - 1 = K/mu = 4.60. Orientation of lowest energy (Novaco and McTague 1977): cos(theta) = [1 + eta^2 (1 + 2 delta)] / [eta (2 + delta (1 + eta^2))], eta = a_s/a_o > 1 because the crystal is denser than the pattern. With theta = 13.39 deg: eta = 1.3217, a_o = 7.15/1.3217 = 5.410 um. Moiré lattice constant L = a_s a_o / sqrt(a_s^2 + a_o^2 - 2 a_s a_o cos(theta)) = 17.07 um, so 17 um. A brute-force minimisation of the second-order energy over the angle gives the same eta and L.
+
+Most tempting wrong answer. Reading the rows at 12 degrees instead of 13.4 gives a_o = 5.57 um and L = 19 um. The key holds for any reading between 13.10 and 13.80 degrees. Other slips: crest spacing sqrt(3) L/2 = 15 um; branch eta < 1, 21 um; rotation dropped from the moiré formula, 22 um.
+
+Check program (Python, standard library):
+import math
+d, a_s, th = 4.60, 7.15, math.radians(13.39)
+f = lambda e: (1 + e*e*(1 + 2*d)) / (e*(2 + d*(1 + e*e))) - math.cos(th)
+lo, hi = 1.0001, 2.0
+for _ in range(100):
+    m = (lo + hi) / 2
+    lo, hi = (m, hi) if f(m) > 0 else (lo, m)
+a_o = a_s / m
+print(a_o, a_s*a_o / math.sqrt(a_s**2 + a_o**2 - 2*a_s*a_o*math.cos(th)))   # 5.410, 17.07
+
+Citations: Novaco and McTague, Phys. Rev. Lett. 38, 1286 (1977); McTague and Novaco, Phys. Rev. B 19, 5299 (1979); Shaw, Fain and Chinn, Phys. Rev. Lett. 41, 955 (1978); Bohlein, Mikhael and Bechinger, Nat. Mater. 11, 126 (2012); Hermann, J. Phys.: Condens. Matter 24, 314210 (2012).
