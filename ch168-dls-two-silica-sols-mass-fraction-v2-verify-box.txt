@@ -1,0 +1,16 @@
+The figure labels the 15 nm peak with 40 % of the scattered intensity and the 70 nm peak with 60 %. The stem gives 633 nm, 173 deg, water at 1.330, one silica, dilute.
+
+Per particle the intensity goes as d^6 times the sphere form factor, mass as d^3. q = 4 pi 1.330/633 nm x sin 86.5 deg = 0.02635 nm-1, so qR is 0.922 for the big spheres and P = 0.842 (0.992 for the small ones). Mass ratio (60/40)(15/70)^3(0.992/0.842) = 0.0174, so 1.71 % is in the 70 nm sol. Answer 1.7. A full Mie series for silica (1.457) in water gives 1.68 %.
+
+Leave the form factor out and it's 1.45 %, so 1.5, the likely wrong answer. Reading the intensity share as mass gives 60.
+
+Python, standard library
+import math
+q = 4*math.pi*1.330/633*math.sin(math.radians(86.5))
+P = lambda d: (3*(math.sin(q*d/2) - q*d/2*math.cos(q*d/2))/(q*d/2)**3)**2
+m = [40/(15**3*P(15)), 60/(70**3*P(70))]
+print(round(100*m[1]/sum(m), 2), round(100*(60/70**3)/(40/15**3 + 60/70**3), 2))
+Output: 1.71 1.45
+The notes also hold the Mie series and the other wrong routes.
+
+Rayleigh, Proc. R. Soc. Lond. A 90, 219-225 (1914); Bohren and Huffman, Absorption and Scattering of Light by Small Particles (1983), ch. 4 and appendix A; Berne and Pecora, Dynamic Light Scattering (1976), ch. 8.
