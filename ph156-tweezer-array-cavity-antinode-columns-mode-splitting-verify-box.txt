@@ -1,0 +1,30 @@
+The answer is not in a paper. It follows from which tweezers hold an atom, which only the figure shows, and from the linear theory of atoms in a lossy cavity (citations above). The uploaded notes contain the scripts and their output.
+
+What the figure shows. A 22 x 12 array of sites, pitch 5.0 px, 129 atoms. Occupation, rows from the top, columns from the left (1 = atom):
+1011010111111101000111
+1001111001111100001001
+0100000010110010110000
+0110110010111110011000
+1011111011110010011011
+1000001011001100110100
+1010010111010110111010
+0010110001100011000100
+1101101001100101001110
+1100000001100001101010
+1000001111001000110000
+0010001010100010111101
+Atoms per column 1 to 22: 8 4 6 4 5 6 6 3 8 9 9 6 5 6 6 4 6 7 7 5 5 4. Odd-numbered columns 71, even-numbered columns 58.
+
+Key by hand. 2d/lambda = 9.7530/0.78024 = 12.500, so neighbouring columns differ by 12.5 pi in the standing-wave phase: column 1 (leftmost) is on an antinode, column 2 on a node, and so on. Only the 71 atoms in the odd-numbered columns couple. Amplitude equations da/dt = -(kappa/2) a - i G B, dB/dt = -(Gamma/2) B - i G a with G^2 = g^2 N give s = -(kappa + Gamma)/4 +- i sqrt(G^2 - ((kappa - Gamma)/4)^2). In MHz (rates over 2 pi): g^2 N = 0.5615^2 x 71 = 22.385, ((24.42 - 6.067)/4)^2 = 4.58825^2 = 21.052. Difference of the two frequencies = 2 sqrt(22.385 - 21.052) = 2.309 MHz. Answer 2.3 MHz. The frequencies separate only above 66.77 coupled atoms. A numerical diagonalisation with all 129 atoms gives 2.3091 MHz.
+
+Most tempting wrong answer. 0: averaging the standing wave (all 129 atoms with g^2/2, effective number 64.5) or taking the even-numbered columns as antinodes (58 atoms) puts the array below 66.77 coupled atoms. One atom fewer or more in the odd-numbered columns gives 2.0 or 2.6 MHz. All 129 atoms with g give 8.9 MHz, and no decay gives 9.5 MHz.
+
+Check program (Python 3, standard library, prints 12.5, 71 and 2.3091):
+
+import math
+rows = ["1011010111111101000111", "1001111001111100001001", "0100000010110010110000", "0110110010111110011000",
+        "1011111011110010011011", "1000001011001100110100", "1010010111010110111010", "0010110001100011000100",
+        "1101101001100101001110", "1100000001100001101010", "1000001111001000110000", "0010001010100010111101"]
+lam, d, g, kappa, Gamma = 780.24e-9, 4.8765e-6, 0.5615, 24.42, 6.067
+N = sum(int(r[c]) * math.cos(2 * math.pi * c * d / lam) ** 2 for r in rows for c in range(22))
+print(2 * d / lam, round(N, 3), 2 * math.sqrt(g * g * N - ((kappa - Gamma) / 4) ** 2))
