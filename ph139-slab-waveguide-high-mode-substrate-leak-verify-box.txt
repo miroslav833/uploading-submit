@@ -1,0 +1,24 @@
+The answer is not in a paper. It follows from the mode order, which only the figure gives, and from the theory of planar waveguides (citations above). The uploaded notes contain the scripts and their output.
+
+What the figure shows. 57 bright horizontal bands, evenly spaced by 5.3 px. Their centres on the middle of the frame, in px from the top: 23.9 29.1 34.4 39.8 45.1 50.3 55.7 61.0 66.2 71.5 76.9 82.1 87.4 92.8 98.0 103.3 108.7 114.0 119.2 124.5 129.8 135.1 140.4 145.8 151.0 156.3 161.7 166.9 172.2 177.6 182.9 188.1 193.4 198.8 204.0 209.3 214.7 220.0 225.2 230.6 235.9 241.1 246.4 251.8 257.1 262.3 267.7 273.0 278.2 283.6 288.9 294.1 299.4 304.8 310.1 315.3 320.9. A TE mode of order m has m + 1 intensity maxima, so m = 56.
+
+Key by hand. k = 2 pi/0.8500 um = 7.39198 /um. Transverse resonance kx d = 56 pi + arctan(gc/kx) + arctan(gb/kx) gives kx = 4.03287 /um, beta = 10.88217 /um, N = 1.472158, gc = 7.9862 /um, gb = 1.77242 /um, ks = 24.6888 /um in the silicon. Loss per reflection at the oxide T = 4 sin(2 Phi_b) sin(2 psi) exp(-2 gb t) = 4 x 0.73669 x 0.14284 x 1.4464e-2 = 6.088e-3, with Phi_b = arctan(gb/kx) and psi = arctan(gb/ks). Effective thickness 44.00 + 1/gc + 1/gb = 44.689 um, 41.46 reflections per cm, alpha = 0.2524 per cm = 1.096 dB/cm. The complex root of the four-layer round-trip condition gives 1.120 dB/cm and a finite-difference calculation 1.119 dB/cm. Answer 1.1 dB/cm.
+
+Most tempting wrong answer. Setting the mode order equal to the number of bands (m = 57) gives 1.4 dB/cm. One band fewer or more in the count gives 0.88 or 1.4 dB/cm, the highest guided mode (m = 61) gives 4.5 dB/cm, and T = exp(-2 gb t) without the prefactor gives 2.6 dB/cm.
+
+Check program (Python 3, standard library, prints N = 1.472158, T = 6.0883e-03 and an attenuation of 1.0963 dB/cm):
+
+import math
+lam, nf, nb, ns, d, t, m = 0.8500, 1.5700, 1.4525, 3.650, 44.00, 1.195, 56
+k = 2 * math.pi / lam
+f = lambda kx: (kx * d - m * math.pi - math.atan2(math.sqrt(k * k * (nf * nf - 1) - kx * kx), kx)
+                - math.atan2(math.sqrt(max(k * k * (nf * nf - nb * nb) - kx * kx, 0)), kx))
+lo, hi = 1e-9, k * math.sqrt(nf * nf - nb * nb)
+for _ in range(200):
+    mid = (lo + hi) / 2
+    lo, hi = (lo, mid) if f(mid) > 0 else (mid, hi)
+kx = lo
+b = math.sqrt(k * k * nf * nf - kx * kx)
+gc, gb, ks = math.sqrt(b * b - k * k), math.sqrt(b * b - k * k * nb * nb), math.sqrt(k * k * ns * ns - b * b)
+T = 4 * math.sin(2 * math.atan2(gb, kx)) * math.sin(2 * math.atan2(gb, ks)) * math.exp(-2 * gb * t)
+print(b / k, T, 10 / math.log(10) * 1e4 * T * kx / (2 * b * (d + 1 / gc + 1 / gb)))
