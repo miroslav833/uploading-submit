@@ -1,0 +1,17 @@
+The figure is the only source of the size of the cube, so the data are given here as text.
+
+Data read from the image (464 x 464 px). Atomic columns found: 3785, which is (n + 1)^2 + n^2 for n = 43 cells. Outermost row along the bottom edge, x in px: 27, 37, 47, 56, 66, 76, 85, 94, 103, 112, 121, 130, 139, 148, 157, 166, 174, 183, 191, 200, 208, 216, 224, 231, 239, 247, 255, 263, 272, 280, 289, 298, 307, 318, 328, 338, 348, 359, 370, 380, 391, 402, 412, 422. That is 44 corner columns, so N = 43 cells per edge. The left edge also has 44. The spacing runs from 7 to 11 px because the specimen drifted during the scan, so a division by one spacing does not replace the count.
+
+Key by hand. V = (43 x 0.2866 nm)^3 = 1.8717e-24 m^3. For K1 > 0 the minima are the six <100> directions; the minimum at [00-1] has four equivalent saddles toward the in-plane minima, at the <110>-type directions such as (1, 0, -1)/sqrt 2, where the anisotropy energy is K1 V/4. To first order in the field the barrier is K1 V/4 - mu0 Ms H V (1 - 1/sqrt 2) = 2.2460e-20 - 0.2796e-20 = 1.9664e-20 J, so Delta E/kB = 1424.3 K. The dwell time is exp(Delta E/kB T)/(4 f0) = 5.0 ns, so Delta E/kB T = ln 200 = 5.298 and T = 268.8 K, which is 270 K to two figures. The exact saddle changes this by 0.6 per cent (270.5 K).
+
+Most tempting wrong answer: 360 K, from one saddle instead of four (ln 50 = 3.912). One cell more or fewer gives 290 or 250 K.
+
+Check program (Python, standard library):
+
+import math
+kB = 1.380649e-23
+V = (43 * 0.2866e-9) ** 3
+dE = 4.80e4 * V / 4 - 1.70e6 * 3.0e-3 * V * (1 - 1 / math.sqrt(2))
+print(dE / (kB * math.log(4 * 1.00e10 * 5.0e-9)))   # 268.8
+
+The attached notes also contain the exact saddle search and a script that recovers the atomic columns from the PNG.
