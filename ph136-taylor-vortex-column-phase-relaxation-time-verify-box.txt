@@ -1,0 +1,17 @@
+The figure carries one value, the number of vortices. It is a simulated photograph (200 x 1072 px) of an upright column between two dark end plates: bands separated by thin dark horizontal lines, one band per vortex, all of the same mean height with a scatter of a few per cent, alternately a little brighter and darker. On the axis of the column the upper plate ends at y = 38 px and the lower plate begins at y = 1034 px, and the dark lines lie at y =
+45 53 61 68 77 84 92 100 108 115 / 123 131 139 146 155 163 171 178 186 193 / 201 209 216 224 232 240 248 255 264 271 / 279 286 294 302 310 318 326 333 341 349 / 357 365 373 380 388 396 404 411 419 427 / 435 442 451 458 466 474 482 490 497 505 / 513 521 528 536 544 552 560 567 575 583 / 590 598 606 614 622 629 637 644 652 660 / 668 676 683 691 699 707 715 722 730 738 / 746 754 762 769 777 785 793 801 809 816 / 824 831 839 847 855 863 871 878 886 894 / 902 909 918 925 933 941 948 956 964 971 / 979 987 995 1002 1010 1018 1026.
+That is 127 lines, 7 to 9 px apart (the column of 996 px over 128 vortices is 7.78 px each), so the column holds N = 128 vortices.
+
+Key by hand. k = pi N/L = 128 pi/120.00 = 3.3510/d, q = k - k_c = 3.3510 - 3.134 = 0.2170/d. xi_0^2 q^2 = 0.07182 x 0.04709 = 0.003383. Phase diffusion from the envelope equation: D = (xi_0^2/tau_0)(eps - 3 xi_0^2 q^2)/(eps - xi_0^2 q^2) = (0.07182/0.0379) x (0.0182 - 0.010148)/(0.0182 - 0.003383) = 1.8951 x 0.5433 = 1.0297 nu. Phase fixed at both ends: slowest mode sin(pi z/L), tau = L^2/(pi^2 D) = 14400/(9.8696 x 1.0297) = 1417.0 d^2/nu. With d^2/nu = 36.0 s: tau = 51011 s = 14.17 h, that is 14 h.
+
+The most tempting wrong answer is 7.7 h. It follows from 120 vortices (square cells of height d, k = pi/d, almost on k_c): q = 0.0076/d, factor 0.9995, tau = 14400/(9.8696 x 1.8942) = 770.3 d^2/nu = 7.70 h. The same value follows at 128 vortices when the factor (eps - 3 xi_0^2 q^2)/(eps - xi_0^2 q^2) is left out. Other vortex numbers: 126 gives 10.1 h, 127 gives 11.6 h, 129 gives 19.7 h, 130 gives 39.0 h; fewer than 109 or more than 130 vortices lie outside the Eckhaus band. At 128 vortices: the factor eps/(eps - xi_0^2 q^2) alone on the time constant 9.5 h, the Eckhaus factor inverted 4.2 h, a slowest mode of wavelength L 3.5 h.
+
+Check in a second (Python 3, standard library):
+import math
+kc, xi0, tau0, L, eps = 3.134, 0.268, 0.0379, 120.00, 0.0182   # units of d and d^2/nu
+for N in (128, 120, 127, 129):
+    q = math.pi*N/L - kc
+    D = xi0**2/tau0*(eps - 3*xi0**2*q**2)/(eps - xi0**2*q**2)
+    print(L**2/(math.pi**2*D)*36.0/3600)                      # hours: 14.17, 7.70, 11.59, 19.69
+
+Citations: Dominguez-Lerma, Cannell and Ahlers, Phys. Rev. A 34, 4956 (1986); Dominguez-Lerma, Ahlers and Cannell, Phys. Fluids 27, 856 (1984); Pomeau and Manneville, J. Physique Lett. 40, L609 (1979); Riecke and Paap, Phys. Rev. A 33, 547 (1986). The uploaded notes hold the key script with every vortex number of the stable band and the wrong routes, a direct numerical integration of the envelope equation with A held fixed at both ends, which gives 13.7 h (the difference is the boundary layers at the plates), the program that draws the figure and the read-back of the 128 vortices from the image file.
