@@ -1,0 +1,22 @@
+The figure (640 x 168 px) is a simulated atomic force micrograph of the grating, and one integer is read from it: the number of ridges, 67. The ridges are the bright lines. At mid height their centres lie at these pixel columns (ten per line):
+21.1 27.9 34.7 41.6 48.4 55.5 62.6 69.8 77.0 84.2
+91.7 99.1 106.8 114.5 122.4 130.3 138.4 146.5 154.7 163.1
+171.5 180.0 188.5 197.2 205.7 214.4 223.0 231.7 240.4 249.0
+257.6 266.2 274.7 283.2 291.6 299.9 308.4 316.6 325.0 333.2
+341.6 349.7 358.1 366.4 374.7 383.2 391.5 400.1 408.7 417.4
+426.3 435.3 444.3 453.5 462.9 472.5 482.4 492.5 502.7 513.2
+523.8 534.8 545.9 557.1 568.5 580.0 591.5
+The spacing on the image grows from 6.9 px at the left to 11.3 px at the right, because the scanner is open loop, so the count cannot be had by division.
+
+Key by hand: 67 ridges have 66 spacings, so the spacing is 64.16/66 = 0.97212 um and K = 6.4634 /um. The electron has gamma = 1 + 80/511 = 1.15656 and beta = 0.50240, so omega/v = 2 pi/(beta lambda) = 6.1007 /um. The energy change in one passage is -e times the integral of E_x along the path, taken at the time at which the electron is at each point. This picks out the Fourier component of the field with wavenumber omega/v along x. In vacuum this component decays with height with the constant sqrt((omega/v)^2 - (omega/c)^2) = omega/(v gamma) = 5.2749 /um, so 500 nm above the ridge tops it is smaller by exp(-2.6374) = 0.07154. In the plane of the ridge tops the m = 1 term with its Gaussian envelope gives E1 sqrt(pi) w exp(-(K - omega/v)^2 w^2/4) = 1047.5 V x exp(-1.1840) = 1047.5 V x 0.3061. All other terms have exponents of 335 or more. The largest gain is 1047.5 eV x 0.3061 x 0.07154 = 22.9 eV, that is 23 eV.
+
+The most tempting wrong answer is 19 eV. It uses the decay constant of an unbounded grating wave, sqrt(K^2 - (omega/c)^2) = 5.690 /um, for the height factor: 1047.5 eV x 0.3061 x exp(-2.845) = 18.6 eV. Other wrong routes: no mismatch at all 75 eV, 67 spacings for 67 ridges 11 eV, no height factor 320 eV. Other counts: 66 ridges 40 eV, 68 ridges 11 eV, 65 ridges 58 eV.
+
+Check in a second (Python 3, standard library). It prints the key and the value of the most tempting wrong route in eV:
+import math
+g = 1 + 80.00/511.0; b = math.sqrt(1 - 1/g**2)
+K = 2*math.pi*66/64.16; k0 = 2*math.pi/2.050; kv = k0/b
+A = 98.5*math.sqrt(math.pi)*6.00*math.exp(-((K - kv)*6.00/2)**2)
+print(round(A*math.exp(-0.500*kv/g), 2), round(A*math.exp(-0.500*math.sqrt(K*K - k0*k0)), 2))   # 22.94 18.63
+
+Citations: Breuer and Hommelhoff, Phys. Rev. Lett. 111, 134803 (2013); Peralta et al., Nature 503, 91 (2013); England et al., Rev. Mod. Phys. 86, 1337 (2014); Park, Lin and Zewail, New J. Phys. 12, 123028 (2010); Garcia de Abajo, Rev. Mod. Phys. 82, 209 (2010). The uploaded notes hold the key script with every other ridge count and every wrong route, a numerical check that carries the stated field up to the electron path with the wave equation and integrates the work in the time domain (22.94 eV, with eight further terms of random amplitude and phase added), the program that draws the figure and the read-back of 67 ridges from the image file.
