@@ -1,0 +1,17 @@
+What the figure carries, as text. One row of 66 atoms, one per lattice site, slightly curved, spacing in the image 5.2 to 9.6 px and changing along the row. A is the 14th atom from the left edge, at x = 120 px; B is the 48th, at x = 348 px. Counting from A, atoms number 0, 5, 10, 15, 20, 25 and 30 lie at x = 120, 160, 192, 221, 252, 285 and 319 px; numbers 31, 32 and 33 at 326, 333 and 341 px; B is number 34. So B is 34 sites from A, with 33 atoms strictly between them.
+
+Key by hand. d = lambda/2 = 532.0 nm. Delta = m g d sin(theta), Delta/h = 2.7763 Hz. From one Wannier state the amplitude n sites away has modulus |J_n(x)| with x = (4J/Delta)|sin(Delta t/2 hbar)| (each quasimomentum drifts under the force; Jacobi-Anger expansion); it is the same uphill and downhill. 4J/Delta = 35.803, Delta t/2 hbar = pi x 2.7763 x 0.1171 = 1.0213 rad, sin = 0.85281, x = 30.533. J_34(30.533) = 0.03291 (uniform Airy approximation 0.03292), P = 1.1e-3. The second- and third-neighbour tunnelling of the 12-recoil lattice change it by 0.3 per cent.
+
+The most tempting wrong answer. The tilt left out, so the free walk J_34(2Jt/hbar) with 2Jt/hbar = 36.57: P = 4.2e-2. One site fewer or more in the count: 3.0e-3 or 3.5e-4. The leading Debye term in place of an accurate J_34: 1.2e-3; Debye with its first correction: 1.0e-3.
+
+Check program (Python 3, standard library):
+
+import math
+m = 86.909180*1.66053907e-27; h = 6.62607015e-34
+D = m*9.806*532.0e-9*math.sin(math.radians(0.14))/h
+x = 4*24.85/D*abs(math.sin(math.pi*D*0.1171))
+N = 4000
+J = sum(math.cos(34*t - x*math.sin(t)) for t in [(i + 0.5)*math.pi/N for i in range(N)])/N
+print(round(D, 4), round(x, 3), J*J)     # 2.7763 30.533 0.001083
+
+Sources: Wannier, Phys. Rev. 117, 432 (1960); Ben Dahan et al., Phys. Rev. Lett. 76, 4508 (1996); Hartmann et al., New J. Phys. 6, 2 (2004); Bakr et al., Nature 462, 74 (2009); Preiss et al., Science 347, 1229 (2015).
