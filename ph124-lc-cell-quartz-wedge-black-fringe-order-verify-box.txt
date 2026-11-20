@@ -1,0 +1,24 @@
+What the figure carries, as text. A band of white-light fringes over a scale of quartz thickness from 140 to 660 um (1.5 px per um, long ticks every 50 um from 150 to 650, short ticks every 10 um). Dark fringes, read back from the pixels: 285.6 um (blue-violet, luminance 0.15), 345.6 um (deep blue, 0.06), 409.6 um (dark violet, 0.03, the darkest), 467.5 um (dark red, 0.10), 526.9 um (magenta, 0.24). The luminance stays below twice its minimum from 406 to 411 um. The solution uses t = 409 um.
+
+Key by hand. Net order p = (dn_LC d - dn_Q t)/lambda, transmitted fraction sin^2(pi p). The fringe is dark for the whole visible only where p is a whole number m and is stationary in the wavelength, which means equal group retardations, G_LC d = G_Q t with G = dn - lambda d(dn)/d(lambda): G_LC = 0.1608 + 0.0096/lambda^2 + 0.0080/lambda^4, G_Q = 0.008722 + 0.0003975/lambda^2 (lambda in um). For t = 409 um the order of a fringe stationary at lambda0 is (t/lambda0)(dn_LC G_Q/G_LC - dn_Q): -2.43 at 500 nm, -1.89 at 540 nm, -1.30 at 600 nm. It is whole for m = -2 at 531.1 nm, where G_Q/G_LC = 0.010131/0.29535 = 0.03430 and d = 409 x 0.03430 = 14.03 um. Check with the whole-order condition at 550 nm: d = (0.009160 x 409 - 1.100)/0.18886 = 14.01 um. The other whole orders are m = -1 at 644 nm (17.17 um), which would leave the fringe bright blue (transmitted fractions 0.63, 0.58, 0.07, 0, 0 at 450 to 650 nm), and m = -3 at 467 nm (11.55 um), which would leave it bright red (0, 0.01, 0.22, 0.68, 0.99). For m = -2 the fractions are 0.35, 0, 0, 0.04, 0.19: dark with a violet tint, as drawn. Answer 14 um. A reading anywhere from 405 to 413 um gives 13.84 to 14.22 um.
+
+The most tempting wrong answer. The darkest fringe taken as the place of zero net retardation, dn_LC d = dn_Q t: d = 409 x 0.009160/0.18886 = 19.8 um at 550 nm (19.0 um at 500 nm, 20.3 um at 589 nm), so 20 um. With that gap the order at t = 409 um would run from +0.98 at 450 nm to -0.27 at 650 nm, a brightly coloured fringe. A full-spectrum calculation puts the darkest fringe of a 19.8 um cell at 530 um, not at 409 um. A second wrong route sets the group retardations equal at 550 nm or 589 nm and forgets the whole order: 14.7 um or 15.8 um.
+
+Check program (Python 3, standard library):
+
+dl = lambda l: 0.1608 + 0.0032/l**2 + 0.0016/l**4
+dq = lambda l: 0.008722 + 1.325e-4/l**2
+gl = lambda l: 0.1608 + 0.0096/l**2 + 0.0080/l**4
+gq = lambda l: 0.008722 + 3.975e-4/l**2
+t, m = 409.0, -2
+f = lambda l: (t/l)*(dl(l)*gq(l)/gl(l) - dq(l)) - m
+lo, hi = 0.45, 0.65
+for _ in range(60):
+    mid = (lo + hi)/2
+    lo, hi = (mid, hi) if f(lo)*f(mid) > 0 else (lo, mid)
+print(round(lo*1000), round(t*gq(lo)/gl(lo), 2))     # 531 14.03
+print(round(t*dq(0.55)/dl(0.55), 1))                 # 19.8, the zero-retardation reading
+
+Independent check in the attached notes: the transmitted spectrum integrated over 380 to 780 nm with the luminous response of the eye, for 3200 K, 5500 K and 6500 K sources, puts the darkest fringe at 408 um for a gap of 13.87 to 13.89 um.
+
+Sources: Li and Wu, J. Appl. Phys. 95, 896 (2004), form of the dispersion formula of the nematic; Ghosh, Opt. Commun. 163, 95 (1999), birefringence of quartz; Wu, Efron and Hess, Appl. Opt. 23, 3911 (1984), retardation of a nematic cell between polarisers; Hlubina, Ciprian and Knyblova, Opt. Commun. 269, 8 (2007), and Pfortner and Schwider, Appl. Opt. 40, 6223 (2001), white-light fringes and group path difference.
