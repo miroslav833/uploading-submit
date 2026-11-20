@@ -1,0 +1,9 @@
+The number of fingers is only in the figure. Directions of the 57 finger tips seen from the centre of the drop, in degrees counter-clockwise on the screen from the direction pointing right: 2.8 9.8 16.4 22.6 28.3 33.9 39.3 44.4 49.8 55.1 60.7 66.5 72.3 79.0 86.0 93.7 101.8 110.2 118.0 125.5 132.4 138.7 144.7 150.3 155.4 160.7 165.8 170.9 176.0 181.1 186.6 192.2 198.4 204.9 211.6 219.2 226.8 234.4 241.7 248.6 255.1 261.1 266.8 272.3 277.6 282.9 288.2 293.3 298.7 304.3 310.2 316.5 323.5 330.8 338.7 346.9 355.1. The gaps between them run from 5.1 to 8.4 degrees, so one local spacing gives anything from 45 to 70.
+
+By hand: Darcy flow u = -(b^2/(12 mu)) grad(p - rho Omega^2 r^2/2), rim r = R + zeta e^(i n theta + sigma t), Laplace pressure from the in-plane curvature. sigma_n = (b^2 n/(12 mu R)) [rho Omega^2 R - gamma (n^2 - 1)/R^2]. The fastest mode has rho Omega^2 R^3 = gamma (3n^2 - 1), so sigma_max = b^2 gamma n^3/(6 mu R^3) and the rotation rate drops out. With n = 57: 6 mu R^3 = 6.644e-4, b^2 gamma = 1.890e-9, n^3 = 185193, sigma_max = 0.5268 1/s, e-folding time 1.898 s, so 1.9 s.
+
+The natural wrong answer is 2.0 s, from 56 fingers (2.0016 s); 58 fingers give 1.8 s.
+
+Check in Python: print(6*6.30*0.026**3/((3e-4)**2*0.021*57**3)) prints 1.8981...
+
+Method: Saffman and Taylor, Proc. R. Soc. A 245, 312 (1958); Paterson, J. Fluid Mech. 113, 513 (1981); Carrillo, Magdaleno, Casademunt and Ortin, Phys. Rev. E 54, 6260 (1996).
