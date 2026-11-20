@@ -1,0 +1,28 @@
+What the figure carries. It is a simulated record (230 x 446 px inside a 290 x 512 px image) of the rms pressure of one normal mode against depth, depth downwards, the upper edge being the sea surface, with no depth scale. Under it the words 'depth of receiver R below the sea surface: 233.90 m' are printed. The record ends about 220 m below the surface, so R is below its lower edge. The record shows 47 bright bands (pressure antinodes) with 46 dark lines (nodes) between them. Depths of the nodes in px below the upper edge, deepest first:
+392.6 372.5 356.0 341.4 328.1 315.7 304.0 292.9 282.2 271.9 / 262.0 252.4 243.1 233.9 225.1 216.4 207.9 199.5 191.3 183.3 / 175.4 167.6 159.9 152.4 144.9 137.6 130.4 123.2 116.1 109.1 / 102.2 95.4 88.6 81.9 75.3 68.7 62.2 55.7 49.3 43.0 / 36.7 30.5 24.3 18.2 12.1 6.0.
+The deepest antinode is at 407.9 px. The spacing of the nodes falls from 20.1 px at the bottom to 6.1 px under the surface.
+
+Mode number without a tally. The depth function is Ai(z/H - a_n) with Ai(-a_n) = 0 at the surface, so the nodes lie at (a_n - a_j) H below the surface, j = 1 for the deepest. Zeros: a_1 = 2.3381, a_10 = 12.8288. First to tenth node: 392.6 - 271.9 = 120.7 px = 10.4907 H, so H is 11.505 px. Surface to deepest node: 392.6 px = (a_n - a_1) H, so a_n = 2.338 + 34.12 = 36.46. Zeros nearby: a_46 = 35.955, a_47 = 36.477, a_48 = 36.995. Mode 47, as the count of the bands says.
+
+Key by hand. k0 = 2 pi x 3500.0/1440.0 = 15.2716 1/m. H = [c0/(2 g k0^2)]^(1/3) = [1440.0/(2 x 0.01680 x 233.22)]^(1/3) = 5.6853 m. Turning depth a_47 H = 207.38 m. Receiver: xi = 233.90/5.6853 - 36.4767 = 4.6647. Ai(4.6647) = 2.3017e-4 (asymptotic series with zeta = 6.7165: 2.3241e-4 x 0.9905 = 2.302e-4). Deepest antinode: Ai(-1.0188) = 0.5357. Ratio 2327, level difference 20 log10(2327) = 67.3 dB, so 67 dB.
+
+Most tempting wrong answers. A mode number that is off by one: mode 46 gives xi = 5.187 and 78 dB, mode 48 gives xi = 4.146 and 58 dB. The exponential exp(-zeta) alone against an antinode of amplitude 1 also gives 58 dB.
+
+Check program (Python, standard library; Maclaurin series of Ai for the receiver, two-term asymptotic formula for the zero):
+import math
+def ai(x):
+    f = g = 0.0; tf, tg = 1.0, x
+    for k in range(80):
+        f += tf; g += tg
+        tf *= x**3/((3*k + 2)*(3*k + 3)); tg *= x**3/((3*k + 3)*(3*k + 4))
+    return 0.3550280538878172*f - 0.2588194037928068*g
+for n in (46, 47, 48):
+    t = 3*math.pi*(4*n - 1)/8
+    a = t**(2/3)*(1 + 5/(48*t*t))
+    k0 = 2*math.pi*3500.0/1440.0
+    H = (1440.0/(2*0.01680*k0*k0))**(1/3)
+    xi = 233.90/H - a
+    print(n, round(a, 4), round(H, 4), round(xi, 4), round(20*math.log10(0.5356566/ai(xi)), 2))
+It prints 46 35.9547 5.6853 5.1867 77.62, then 47 36.4767 5.6853 4.6647 67.34, then 48 36.9951 5.6853 4.1464 57.65.
+
+Sources: Pedersen and Gordon, J. Acoust. Soc. Am. 37, 105 (1965) and Labianca, J. Acoust. Soc. Am. 53, 1137 (1973) for the Airy modes of a layer with a linear squared index under a free surface; Fabijonas and Olver, SIAM Review 41, 762 (1999) for the zeros. The attached notes hold the scripts with their output.
