@@ -1,0 +1,12 @@
+The figure (300 x 300 px) is a simulated photograph of a ring-core transformer from above, and two integers are read from it. The core is a dark ring between 63 and 124 px from the image centre. The thin wire crosses it 73 times, over 292 degrees of the ring, unevenly spaced: along a circle 115 px from the centre the neighbouring thin wires are between 5 and 12 px apart, 8 px on average. The thick wire crosses it 5 times, at the bottom of the image. So Np = 73 and Ns = 5.
+
+Key by hand: far below the roll-off the resistor drives the current noise 4 kB T/R in the primary loop. The secondary and the input coil form a closed superconducting circuit, so its flux is conserved: M i_p + (L_s + L_i) i_s = 0 with M = A_L Np Ns = 10950 nH, L_s = A_L Ns^2 = 750 nH and L_i = 1800 nH, so the input-coil current is 10950/2550 = 4.2941 times the primary current. The measured 146.9 uPhi0/rtHz times 0.2500 uA/Phi0 is 36.73 pA/rtHz in the input coil and 8.552 pA/rtHz in the primary loop. Then T = R S_I/(4 kB) = 0.05000 x (8.552e-12)^2/(4 x 1.380649e-23) = 0.0662 K, that is 66 mK. The roll-off is at R/(2 pi (L_p - M^2/(L_s + L_i))) = 70 Hz.
+
+The most tempting wrong answers come from the count: 72 turns give 68 mK, 74 give 64 mK, 71 give 70 mK. Other wrong routes: the ideal-transformer ratio Np/Ns = 14.6 gives 5.7 mK, M/L_i without the secondary inductance gives 33 mK, a two-sided density 2 kB T/R gives 130 mK, and 4 or 6 secondary turns give 83 or 59 mK.
+
+Check in a second (Python 3, standard library). It prints T in mK for 73, 72 and 74 primary turns:
+kB, R, AL, Li, c, S, Ns = 1.380649e-23, 50.00e-3, 30.00e-9, 1.800e-6, 0.2500e-6, 146.9e-6, 5
+T = lambda Np: R*(c*S*(AL*Ns**2 + Li)/(AL*Np*Ns))**2/(4*kB)*1e3
+print(round(T(73), 2), round(T(72), 2), round(T(74), 2))   # 66.22 68.07 64.44
+
+Citations: Nyquist, Phys. Rev. 32, 110 (1928); Giffard, Webb and Wheatley, J. Low Temp. Phys. 6, 533 (1972); Lusher et al., Meas. Sci. Technol. 12, 1 (2001); Casey et al., J. Low Temp. Phys. 175, 764 (2014). The uploaded notes hold the key script with every primary turn number from 67 to 79 and every wrong route; a solution of the two coupled circuit equations from 0.01 Hz to 1 MHz, which gives 66.22 mK from the plateau, the roll-off at 70 Hz and an integrated noise that agrees with equipartition; the program that draws the figure; and the read-back of 73 and 5 turns from the image file.
