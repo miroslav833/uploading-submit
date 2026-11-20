@@ -1,0 +1,17 @@
+The figure is a simulated record (980 x 340 px) of the phase lag of the ball behind the reference, modulo one turn, sampled ten times a second from t = 2000.0 s to 2500.0 s after the switch-off. The time axis has a tick every 100 s (2000 s at column 99, 2500 s at column 935); the phase axis runs from 0 (row 282) to 1 turn (row 24). The record starts at 0.69 turn and ends at 0.41 turn, and in between it wraps from 1 back to 0 exactly 145 times; the lines are 6.5 px apart at the start and 5.2 px at the end. A horizontal line at 0.40 turn is crossed 145 times, at t = 2002.2, 2040.7, 2078.4, 2115.5, 2151.9, 2187.8, 2223.1, 2257.8, 2291.9, 2325.6, 2358.8, 2391.7, 2424.0, 2455.7, 2487.4 and 2499.9 s for crossings 1, 11, 21, ..., 141 and 145. The model curve is Phi(t) = Phi(0) + 405.00 t - (405.00/gamma)(1 - exp(-gamma t)) turns with gamma = 3.17744e-7 per second.
+
+Key by hand. Free molecular flow with full accommodation: shear stress 2 p v_t/(pi cbar), torque 16 p omega a^4/(3 cbar), moment of inertia (8 pi/15) rho a^5, so -omega_dot/omega = 10 p/(pi rho a cbar). cbar = sqrt(8 R T/(pi M)) = 473.02 m/s; 10/(pi x 7700 x 0.002250 x 473.02) = 3.8842e-4 per second per pascal. Lag behind a reference at nu0, t from the switch-off: Phi(t) ~ Phi(0) + nu0 gamma t^2/2 - nu0 gamma^2 t^3/6, so the lag gained in the record is nu0 gamma (t_r^2 - t_a^2)/2 - nu0 gamma^2 (t_r^3 - t_a^3)/6 to this order. Lag gained: 145 + 0.41 - 0.69 = 144.72 turns; leading order gamma = 2 x 144.72/(405.00 x (2500.0^2 - 2000.0^2)) = 3.17630e-7 per second, 3.17744e-7 with the cubic term; gas part 3.17744e-7 - 2.6690e-7 = 5.0844e-8 per second; p = 5.0844e-8/3.8842e-4 = 1.309e-4 Pa (1.306e-4 Pa from the leading order alone). Answer 1.31e-4 Pa. The residual rate alone would give 121.6 turns.
+
+The most tempting wrong answer is 8.18e-4 Pa: the residual rate not subtracted, 3.17744e-7/3.8842e-4. Other values: 144 or 146 wraps 1.25e-4 or 1.37e-4 Pa; 143 or 147 wraps 1.20e-4 or 1.42e-4 Pa; slip rate taken as constant at its value at the start of the record 2.33e-4 Pa; record treated as beginning at the switch-off, negative; root-mean-square speed in place of the mean speed 1.42e-4 Pa; diameter in place of the radius 2.62e-4 Pa; whole wraps without the two end fractions 1.32e-4 Pa; only the 144 complete lines counted, end pieces left out, 1.27e-4 Pa.
+
+Check in a second (Python 3, standard library):
+import math
+cbar = math.sqrt(8*8.314462618*296.0/(math.pi*28.01e-3))
+K = 10/(math.pi*7.70e3*2.250e-3*cbar)                     # 3.884e-4 per s per Pa
+ta, tr, nu0, Phi = 2000.0, 2500.0, 405.00, 145 + 0.41 - 0.69
+g = 2*Phi/(nu0*(tr**2 - ta**2))
+for _ in range(6): g = 2*(Phi + nu0*g*g*(tr**3 - ta**3)/6)/(nu0*(tr**2 - ta**2))
+print(cbar, K, g, (g - 2.6690e-7)/K)                        # 473.0 3.884e-4 3.1774e-7 1.309e-4
+print(g/K)                                                  # 8.18e-4, residual rate not subtracted
+
+Citations: Beams, Spitzer and Wade, Rev. Sci. Instrum. 33, 151 (1962); Fremerey, J. Vac. Sci. Technol. 9, 108 (1972); Fremerey, J. Vac. Sci. Technol. A 3, 1715 (1985). The uploaded notes hold the key script, the program that draws the figure and the read-back of the 145 crossings and the two end phases from the image file.
