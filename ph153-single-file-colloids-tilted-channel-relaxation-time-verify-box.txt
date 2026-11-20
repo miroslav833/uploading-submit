@@ -1,0 +1,17 @@
+The figure is the only source of the number of spheres, so the data are given here as text.
+
+Data read from the image (638 x 60 px). There are 98 bright spots in a row. Their x positions in px, from the lower end on the left: 29, 35, 41, 47, 53, 59, 64, 70, 75, 81, 87, 93, 98, 104, 110, 116, 121, 127, 132, 138, 143, 149, 154, 160, 167, 173, 179, 184, 189, 195, 200, 206, 214, 219, 224, 231, 236, 242, 248, 254, 259, 266, 272, 277, 283, 290, 295, 302, 308, 313, 319, 325, 331, 336, 342, 348, 354, 360, 366, 372, 378, 383, 389, 395, 401, 406, 413, 418, 424, 430, 435, 441, 448, 453, 459, 464, 470, 476, 483, 489, 495, 501, 508, 514, 521, 526, 532, 538, 545, 550, 557, 566, 572, 581, 587, 592, 599, 604. The spacing lies between 5 and 9 px.
+
+Key by hand. Free length Lf = 315.9 - 98 x 2.93 = 28.76 um. Hard rods of length sigma between two walls move like points on the free length (subtract (i - 1/2) sigma from the i-th centre), and points that cannot pass behave as independent points with exchanged labels, so the slowest decay is that of one point with diffusion coefficient D0 and drift D0 F/kT between two reflecting walls: 1/tau = D0 [ (pi/Lf)^2 + (F/2kT)^2 ]. F = 0.127 pN x sin 0.115 deg = 2.549e-16 N, kT = 4.0729e-21 J, (F/2kT)^2 = 9.792e8 m^-2, (pi/Lf)^2 = 1.1932e10 m^-2, sum 1.2911e10 m^-2, times D0 = 5.85e-14 m^2/s gives 7.553e-4 s^-1, tau = 1324 s, which is 1300 s to two figures.
+
+Most tempting wrong answer: 1400 s, from Lf^2/(pi^2 D0) without the drift term. 97 or 99 spheres give 1600 or 1100 s.
+
+Check program (Python, standard library):
+
+import math
+kT = 1.380649e-23 * 295.0
+Lf = 315.9e-6 - 98 * 2.93e-6
+F = 0.127e-12 * math.sin(math.radians(0.115))
+print(1 / (0.0585e-12 * ((math.pi / Lf) ** 2 + (F / (2 * kT)) ** 2)))   # 1323.9
+
+The attached notes confirm the rate in three more ways: a diagonalisation of the one-particle operator, a diagonalisation of the full generator of extended rods on a lattice (its slowest rate equals that of one walker on the shortened row), and a direct Monte Carlo simulation of hard rods, which gives the predicted decay time within 3 per cent.
