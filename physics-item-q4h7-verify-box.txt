@@ -1,0 +1,17 @@
+The figure has two panels. Panel (a) is a cross-section of the cell: the film lies 1.00 mm below the upper glass plate and 2.50 mm above the lower one. Panel (b) is a record of the displacement, divided by its local amplitude, against distance from the wire (0 to 120 mm) and time (0 to 18.1 ms): straight slanted stripes of a single travelling wave. The wave itself decays over 78 mm, which the normalised record does not show. Along the bottom edge (t = 0) the crests are at x = 10.1, 21.4, 32.7, 44.0, 55.3, 66.6, 77.8, 89.1, 100.4 and 111.7 mm, so the wavelength is (111.7 - 10.1)/9 = 11.29 mm (11.30 mm in the program that draws the figure), 10.6 wavelengths in 120 mm. The record lasts 2.9 periods of 6.25 ms, and a crest advances 32.8 mm from the bottom edge to the top edge. Because the stripes are slanted, 2.9 further stripes enter the frame through its left edge, so 13.5 stripes touch the frame; that number is not the number of wavelengths in 120 mm.
+
+Key by hand. Film: mass per area rho h, tension 2 sigma; balance w^2 [rho h + M1 + M2] = 2 sigma k^2. Air in a gap of height g: without viscosity it adds rho_a coth(k g)/k. The Stokes layers on film and glass (delta = sqrt(2 eta/(rho_a w)) = 0.174 mm) add rho_a (delta/2)(1 + i)[coth^2(k g) + 1/sinh^2(k g)]; the real part is inertia, the imaginary part damping. With k = 556.5 per m and w = 1005.3 per s: 2 sigma k^2/w^2 = 0.01961 kg/m^2; air without viscosity (1.20/556.5)(1.979 + 1.132) = 0.00671; layers 1.042e-4 x (6.830 + 1.562) = 0.00087; film 0.01203 kg/m^2, thickness 12 um. The exact linear theory (complex wavenumber) gives 12.006 um for 11.30 mm. Wavelengths from 11.20 to 11.41 mm give 12 to two figures.
+
+The most tempting wrong answer is 13 um (12.9): air without viscosity in the two gaps, viscosity taken to cause damping only. Other values: air left out 20; unbounded air without viscosity 15; layers on the film but not on the glass 12.3, which still rounds to 12, so the rubric asks for the layers on film and glass; layer mass rho_a delta instead of rho_a delta/2 gives 11; twelve wavelengths taken in 120 mm 19; eleven 14; ten 9.0; tension sigma instead of 2 sigma 2.2.
+
+Check in a few seconds (Python 3, standard library). The first number is the key, the second the most tempting wrong answer:
+import math
+k = 2*math.pi/11.30e-3; w = 2*math.pi*160
+d = math.sqrt(2*1.82e-5/(1.20*w))
+total = 2*32.0e-3*k*k/(w*w)
+inv = sum(1.20/(k*math.tanh(k*g)) for g in (1.00e-3, 2.50e-3))
+lay = sum(1.20*d/2*(1/math.tanh(k*g)**2 + 1/math.sinh(k*g)**2) for g in (1.00e-3, 2.50e-3))
+print((total - inv - lay)/1000*1e6)   # 11.99
+print((total - inv)/1000*1e6)         # 12.86
+
+Citations: Taylor, Proc. R. Soc. Lond. A 253, 296 (1959); Couder, Chomaz and Rabaud, Physica D 37, 384 (1989); Kosgodagan Acharige, Elias and Derec, Soft Matter 10, 8341 (2014). The uploaded notes hold the key script at three levels of theory with the other routes and the room for rounding, two further independent solutions of the viscous problem, the program that draws the figure and the read-back of the crests from the image file.
