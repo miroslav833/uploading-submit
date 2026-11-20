@@ -1,0 +1,17 @@
+The answer is not in a paper. It follows from the number of vortices and antivortices inside the junction ring, which only the figure shows, and from the electrodynamics of Josephson transmission lines (citations above). The uploaded notes contain the scripts and their output.
+
+What the figure shows. A light circle of radius 150 px about the centre of the 380 x 380 px image (the junction). Inside it 52 bright spots (vortices) and 45 dark spots (antivortices); outside it 16 bright and 12 dark. All spot positions are listed in the data file at the end of the notes.
+
+Key by hand. Fluxons trapped = winding of the base-electrode phase around the ring minus that of the top electrode (zero) = vortices minus antivortices inside the ring = 7. lambda(4.20 K) = 90/sqrt(1 - (4.20/9.20)^4) = 92.02 nm. d_m = 1.60 + 92.02 coth(100/92.02) + 92.02 coth(150/92.02) = 1.60 + 115.65 + 99.37 = 216.62 nm. c_bar = c sqrt(1.60/(9.0 x 216.62)) = 0.02865 c = 8.588e6 m/s. V = n Phi0 c_bar/(2 pi R) = 7 x 2.0678e-15 x 8.588e6/289.03e-6 = 430.1 uV. Answer 430 uV.
+
+Most tempting wrong answer. Counting the net vortices over the whole image (68 - 57 = 11) gives 680 uV. One spot more or fewer inside the ring gives 370 or 490 uV. Thick electrodes with lambda(0) give 470 uV; coth factors with lambda(0) give 437, which rounds to 440.
+
+Check program (Python 3, standard library; prints n = 7, lambda = 92.02 nm, d_m = 216.62 nm, c_bar/c = 0.02865, V = 430.1 uV):
+
+import math
+n = 52 - 45
+lam = 90e-9 / math.sqrt(1 - (4.20 / 9.20) ** 4)
+dm = 1.60e-9 + lam / math.tanh(100e-9 / lam) + lam / math.tanh(150e-9 / lam)
+cbar = 299792458.0 * math.sqrt(1.60e-9 / (9.0 * dm))
+V = n * 2.067833848e-15 * cbar / (2 * math.pi * 46.0e-6)
+print(n, lam * 1e9, dm * 1e9, cbar / 299792458.0, V * 1e6)
