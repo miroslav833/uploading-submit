@@ -1,0 +1,15 @@
+The figure carries one thing: where the fingers of the comb lie against the first dots. It is a simulated micrograph of 592 x 114 px (a pixel with the index i reaches from i to i + 1): the bright bus bar in rows 18 to 34, its fingers down to row 68, a plain grey strip in rows 73 to 101, the grey dot gates in rows 106 to 118. Dot gates: pitch 18.0 px, width 9.0 px; dot 1 from 36.5 to 45.5 px (centre 41.0), dot 2 centred at 59.0, dot 3 at 77.0, dot 4 at 95.0 px, 31 dots in view. Fingers: period 54.0 px (three pitches), width 27.0 px; a cut finger at the left side, then whole fingers from 43.25 to 70.25 px (centre 56.75), from 97.25 to 124.25 px (centre 110.75) and so on. One eighth of the pitch is 2.25 px. The centre of the first whole finger lies 15.75 px = 7/8 of the pitch to the right of the centre of dot 1, and 2.25 px = 1/8 of the pitch to the left of the centre of dot 2. So x_1 - x_s = -7a/8.
+
+Key by hand. Level of dot j: V cos[2 pi (x_j - x_s)/(3a)], phases -105, +15, +135 degrees: eps_1 = 60.0 cos(105 deg) = -15.53, eps_2 = 60.0 cos(15 deg) = +57.96, eps_3 = -42.43 micro-eV. A state bound to the end is multiplied by a fixed factor per three dots; with no dot at j = 0 it vanishes on dots 3, 6, 9, ..., so its energy is an eigenvalue of dots 1 and 2 alone: (eps_1 + eps_2)/2 +- sqrt(((eps_1 - eps_2)/2)^2 + t^2) = 21.21 +- sqrt(36.74^2 + 40.0^2) = 21.21 +- 54.31, that is -33.10 or +75.53 micro-eV. The factor per three dots is -(eps_1 - E)/t: -0.44 for -33.10 (bound) and +2.28 for +75.53 (grows). The end state lies at -33.1 micro-eV, that is -33 micro-eV.
+
+The most tempting wrong answer is +76 micro-eV, the other eigenvalue of dots 1 and 2, whose solution grows into the row. Other values: finger centred on dot 2, -45; an eighth of the pitch to the right of dot 2, -56; a quarter of the pitch to the left of dot 2, -22; two dots at +-V, -72; displacement of the other sign, +13; comb lowering the level under a finger, +33; level of dot 1 alone, -16; larger of the two levels, +58; finger centred on dot 1, +75.
+
+Check in a second (Python 3, standard library):
+import math
+V, t, k = 60.0, 40.0, -7                      # k = 8 (x_1 - x_s)/a
+e1 = V*math.cos(2*math.pi*k/24); e2 = V*math.cos(2*math.pi*k/24 + 2*math.pi/3)
+d = (e1 - e2)/2; r = math.sqrt(d*d + t*t)
+for E in ((e1 + e2)/2 - r, (e1 + e2)/2 + r):
+    print(E, -(e1 - E)/t)                     # -33.10 with factor -0.44 (bound), +75.53 with factor 2.28
+
+Citations: Shockley, Phys. Rev. 56, 317 (1939); Hatsugai, Phys. Rev. Lett. 71, 3697 (1993); Martinez Alvarez and Coutinho-Filho, Phys. Rev. A 99, 013833 (2019); Hensgens et al., Nature 548, 70 (2017); Mills et al., Nat. Commun. 10, 1063 (2019). The uploaded notes hold the key script with all 24 positions of the comb on the grid, the band edges and the other routes, a diagonalisation of a row of 900 dots that gives -33.101 micro-eV and the amplitudes 1, 0.44, 0, -0.44, ..., the program that draws the figure and the read-back of the comb position (-7.00 eighths) from the image file.
