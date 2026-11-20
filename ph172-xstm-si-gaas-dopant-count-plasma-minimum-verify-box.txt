@@ -1,0 +1,20 @@
+The answer is not in a paper. It follows from the numbers of Si donors and acceptors in the frame, which only the figure shows, and from the infrared optics of a degenerate n-type semiconductor (citations above). The uploaded notes contain the scripts and their output.
+
+What the figure shows. A 460 x 460 px image (68.8 nm square). 68 bright hillocks (Si_Ga donors) and 50 dark depressions (Si_As acceptors), at least 20 px apart; the faintest are the atoms two layers below the surface. By quarters (cut at x = 230 and y = 230 px from the top left): top left 19 hillocks and 11 depressions, top right 24 and 11, bottom left 9 and 15, bottom right 16 and 13. All positions are listed in the data file at the end of the notes, and the read-back script recovers all 118 from the image.
+
+Key by hand. n = (68 - 50)/(68.8 x 68.8 x 0.600 nm^3) = 18/2840.1 nm^-3 = 6.338e18 cm^-3. k_F = (3 pi^2 n)^(1/3) = 5.725e8 1/m; hbar^2 k_F^2/2m* = 0.18779 eV; E_F(1 + E_F/E_g) = 0.18779 eV gives E_F = 0.16899 eV. Optical mass hbar k_F/v_F = m*(1 + 2E_F/E_g) = 0.08130 m_e. Plasma wavenumber with eps_inf: 800.97 cm^-1. eps(nu) = eps_inf (nu_L^2 - nu^2)/(nu_T^2 - nu^2) - eps_inf nu_p^2/nu^2 = 1 has roots 265.7 and 849.9 cm^-1. Answer 850 cm^-1.
+
+Most tempting wrong answer. The band-edge mass 0.0665 m_e in place of the optical mass gives 937.6, so 940 cm^-1. A net count of 17 or 19 gives 829 or 870. Four faint hillocks passed over (net 14) give 762, so 760. eps = 0 instead of eps = 1 gives 810; the phonon term left out gives 840.
+
+Check program (Python 3, standard library; prints n in cm^-3, E_F in eV, m_opt/m_e, nu_p and the higher zero in cm^-1: 6.338e18, 0.1690, 0.08130, 800.97, 849.86):
+
+import math
+n = (68 - 50) / (68.8e-9 ** 2 * 0.600e-9)
+hb, me, e, e0 = 1.054571817e-34, 9.1093837e-31, 1.602176634e-19, 8.8541878128e-12
+g = hb ** 2 * (3 * math.pi ** 2 * n) ** (2 / 3) / (2 * 0.0665 * me) / e
+EF = 1.519 * (math.sqrt(1 + 4 * g / 1.519) - 1) / 2
+m = 0.0665 * (1 + 2 * EF / 1.519)
+wp2 = (n * e ** 2 / (e0 * 10.9 * m * me)) / (2 * math.pi * 2.99792458e10) ** 2
+A, B, C = 1 - 10.9, 10.9 * (291.9 ** 2 + wp2) - 268.7 ** 2, -10.9 * wp2 * 268.7 ** 2
+x = max((-B - math.sqrt(B * B - 4 * A * C)) / (2 * A), (-B + math.sqrt(B * B - 4 * A * C)) / (2 * A))
+print(n / 1e6, EF, m, math.sqrt(wp2), math.sqrt(x))
