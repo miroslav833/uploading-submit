@@ -1,0 +1,18 @@
+The image is the only source of the wavelength. It is a simulated radar amplitude image, 500 x 190 px, made for this question. With pixel columns and rows numbered from 0, A is at (35.5, 94.5) px and B at (459.5, 94.5) px. Along that row the crests (bright maxima) lie at x = 35.5 + 8.0 j px for j = 0 to 53, so A and B are 53 wavelengths apart: every fifth crest from A is at 35.5, 75.5, 115.5, 155.5, 195.5, 235.5, 275.5, 315.5, 355.5, 395.5 and 435.5 px, and B is three crests further on.
+
+Key by hand. lambda = 7089 m/53 = 133.755 m, k = 0.046975 1/m, omega = 2 pi/9.000 s = 0.698132 1/s. Deep-water flexural-gravity relation with the inertia of the ice: rho_w omega^2 = k (D k^4 + rho_w g - rho_i h omega^2), D = E h^3/(12 (1 - nu^2)). As a cubic in h: 117.655 h^3 - 20.9949 h - 27.2229 = 0 (SI units), that is h^3 - 0.178446 h - 0.231380 = 0. One real root (Cardano): h = cbrt(0.230467) + cbrt(0.000913) = 0.61311 + 0.09702 = 0.7101 m, which rounds to 0.71 m.
+
+The most tempting wrong answer is 0.61 m, from leaving out the inertia of the ice (117.655 h^3 = 27.2229). Other crest counts: 52 wavelengths give 0.79 m, 54 give 0.63 m, 51 give 0.86 m, 50 give 0.94 m, 49 give 1.01 m, 56 give 0.39 m, and 57 or more give no positive thickness. Without 1 - nu^2 in D the answer would be 0.74 m.
+
+Check program (Python 3, standard library):
+import math
+g, rw, ri, E, nu, T, AB, N = 9.810, 1025.0, 917.0, 5.50e9, 0.330, 9.000, 7089.0, 53
+w2, k = (2*math.pi/T)**2, 2*math.pi*N/AB
+f = lambda h: k*(E*h**3/(12*(1 - nu*nu))*k**4 + rw*g - ri*h*w2) - rw*w2
+lo, hi = 0.01, 5.0
+for _ in range(100):
+    m = (lo + hi)/2
+    lo, hi = (lo, m) if f(lo)*f(m) <= 0 else (m, hi)
+print(lo)   # 0.7101 (m)
+
+The uploaded notes add Newton's method, a table over the counts 40 to 60 with every positive root, other routes, the effect of rounding every given (0.708 to 0.713 m), a numerical integration of the potential from a sea bed 50 to 1000 m deep, and a script that counts the crests from the image file. Sources for the model: Fox and Squire, Phil. Trans. R. Soc. Lond. A 347, 185 (1994); Squire et al., Annu. Rev. Fluid Mech. 27, 115 (1995); for the kind of image Ardhuin et al., Remote Sens. Environ. 189, 211 (2017).
