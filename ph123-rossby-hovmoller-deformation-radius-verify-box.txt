@@ -1,0 +1,23 @@
+The answer is derived from the question and its figure. The papers in the Citations box support the method. The numbers below are what the figure carries.
+
+Data read from the figure. The crests move west. On day 175 they lie at 156.2, 165.4, 174.6, 183.8, 193.0, 202.3, 211.5 and 220.7 degrees east: seven wavelengths in 64.5 degrees, wavelength 9.21 degrees. At 189.9 degrees east the crests come on days 28.3, 83.5, 138.6, 193.8, 248.9 and 304.1: five periods in 275.8 days. At 165.9 degrees east they come on days 7.5, 62.2, 117.3, 172.4, 227.6, 282.7 and 337.9: six periods in 330.4 days. Period 55.1 days.
+
+Key by hand. In the model the layer with the current U has the mean potential-vorticity gradient beta + U/Ld^2, so the crest speed over the ground is c = U - (beta + U/Ld^2)/(k^2 + Ld^-2) = (U k^2 - beta)/(k^2 + Ld^-2), and for a westward speed cw: Ld^-2 = (beta - U k^2)/cw - k^2.
+beta = 2 x 7.292e-5 x cos(12 deg)/6.371e6 = 2.239e-11 1/(m s). One degree of longitude = 108.77 km, wavelength 1001.7 km, k = 6.272e-6 1/m, k^2 = 3.934e-11 1/m^2, cw = 1001.7 km/55.1 days = 0.2104 m/s.
+U k^2 = 5.90e-12, beta - U k^2 = 1.649e-11, divided by cw 7.837e-11, minus k^2 3.902e-11 1/m^2, Ld = 160.1 km. Answer 160 km.
+Readings that are off by 1.5 per cent either way still give 160 km.
+
+Most tempting wrong answer. A plain Doppler shift with beta kept as the mean gradient, c - U = -beta/(k^2 + Ld^-2), gives Ld^-2 = beta/(cw + U) - k^2 = 2.278e-11 1/m^2 and 210 km. Other routes: current left out 120 km, long-wave speed beta Ld^2 97 km, period taken as 50 days from the tick marks 180 km, period taken as 45 days 200 km.
+
+Check program (Python, standard library):
+import math
+a, Om, lat, U = 6371e3, 7.292e-5, 12.0, 0.150
+lam_deg, T = 9.21, 55.1
+beta = 2*Om*math.cos(math.radians(lat))/a
+lam = lam_deg*math.pi/180*a*math.cos(math.radians(lat))
+k = 2*math.pi/lam
+cw = lam/(T*86400)
+print(1e-3/math.sqrt((beta - U*k*k)/cw - k*k))      # 160.1 km, the key
+print(1e-3/math.sqrt(beta/(cw + U) - k*k))          # 209.5 km, plain Doppler shift
+
+The attached notes hold the run of the model that the figure shows (it returns 160.0 km from its own crest speed), the other routes, and a read-back of the wavelength and the period from the pixels of the figure (9.20 degrees and 55.1 days, which give 160 km as well).
