@@ -1,0 +1,25 @@
+The figure is a simulated image (406 x 482 px with the strip for the scale bar) of about two thousand spheres on a triangular lattice of 10 px (12.0 um), rows along 0, 60 and 120 degrees, with two dislocations. Its readings, all recovered from the image file by the read-back script in the notes (pixels from the left, from the top; angles counter-clockwise from the horizontal axis pointing right):
+circle A centred at (87, 357), circle B at (322, 87), scale bar 100 px for 120 um;
+A: a sphere with five neighbours at (82, 355) and one with seven at (90, 358), so the line from the five to the seven points along -22 degrees and the Burgers vector is the lattice vector closest to its perpendicular, along the rows at 60 degrees; one horizontal row and one row along 120 degrees end at the core, no row along 60 degrees; extra half-rows on the side towards 150 degrees; a circuit of six steps each along 0, 60, 180 and 240 degrees from the sphere at (39, 380), corners (100, 376), (132, 323), (73, 320), ends at (44, 371), one lattice constant from its start, closing step along 242 degrees;
+B: five neighbours at (326, 86), seven at (318, 89), line from the five to the seven along -158 degrees, Burgers vector along the rows at 120 degrees; one horizontal row and one row along 60 degrees end, no row along 120 degrees; extra half-rows on the side towards 30 degrees; the same circuit from (273, 113), corners (332, 118), (365, 68), (306, 71), ends at (277, 124), closing step along 110 degrees.
+With one convention for both (the line from the five to the seven turned counter-clockwise by 90 degrees, which is opposite to the closing step) the Burgers vector of A points along 60 degrees and that of B along 300 degrees.
+
+Key by hand. B is 235 px right of A and 270 px above it: 357.95 px = 429.53 um, line at 48.96 degrees. K = 4 mu B/(mu + B) = 4 x 1.47 x 14.7/16.17 = 5.3455 nN/m. K a^2/(4 pi R) = 5.3455e-9 x 1.44e-10/(4 pi x 4.2953e-4) = 0.1426 fN. Angles of the Burgers vectors from the line: 11.04 and 251.04 degrees. Glide force on B from A = 0.1426 x cos(11.04) x cos(502.08) = 0.1426 x 0.9815 x (-0.7888) = -0.1104 fN along the Burgers vector of B. Glide force from the applied stress = tau a cos(2 x 300) = 3.50e-12 x 12.0e-6 x (-0.5) N = -0.0210 fN along the same vector (for a Burgers vector along +x with the extra half-rows above it is +tau a, the dislocation is driven to the right). Sum -0.1314 fN along the Burgers vector of B. That vector has the projection cos(251.04) = -0.325 on the line from A to B, so the force points along the glide line in the sense that leads away from A: +0.13 fN.
+
+The most tempting wrong answer is +0.029 fN. It comes from taking both Burgers vectors, without reading them, along the horizontal rows with equal senses and the extra half-rows above: 0.1426 x cos(-48.96) x cos(-97.92) + 0.0420 = -0.0129 + 0.0420 = +0.0291 fN along a vector that has a positive part along the line. Opposite horizontal vectors give +0.055 or -0.029 fN, depending on which of the two is reversed. The part from dislocation A alone, with the applied stress left out, is +0.11 fN. With the right glide lines the four choices of the two senses give +0.13, -0.13, -0.089 and +0.089 fN. Right readings with other slips: applied part taken as tau a without cos(2 beta), 0.15 or 0.068; no factor 1/(1 - nu), 0.082; the two-dimensional Poisson ratio 0.82 in place of 0.45, 0.36; B in place of K, 0.32.
+
+Check in a second (Python 3, standard library):
+import math
+mu, B, a, tau = 1.47e-9, 14.7e-9, 12.0e-6, 3.50e-12
+dx, dy = 235, 270                                 # px, B minus A, y upwards
+R, th = math.hypot(dx, dy)*120e-6/100, math.degrees(math.atan2(dy, dx))
+K = 4*mu*B/(mu + B)
+def F(bA, bB, t=tau):                             # directions of the two Burgers vectors, degrees
+    pA, pB = math.radians(bA - th), math.radians(bB - th)
+    g = K*a*a/(4*math.pi*R)*math.cos(pA)*math.cos(2*pB) + t*a*math.cos(math.radians(2*bB))
+    return g*math.copysign(1, math.cos(pB))*1e15  # fN, positive away from A
+print(F(60, 300), F(60, 300, 0), F(60, 120), F(240, 300), F(0, 0))
+
+It prints 0.1314, 0.1104, -0.1314, -0.0894 and 0.0291.
+
+Citations: Zahn, Lenke and Maret, Phys. Rev. Lett. 82, 2721 (1999); von Gruenberg, Keim, Zahn and Maret, Phys. Rev. Lett. 93, 255703 (2004); Nelson and Halperin, Phys. Rev. B 19, 2457 (1979); Peach and Koehler, Phys. Rev. 80, 436 (1950); Eisenmann, Gasser, Keim, Maret and von Gruenberg, Phys. Rev. Lett. 95, 185502 (2005). The uploaded notes hold the key script with all 36 readings of the two Burgers vectors and every wrong route, a numerical check that differentiates the displacement field of A and resolves the stress on the glide system of B (agreement to ten figures over 2000 random pairs) and finds the sense of the force from the applied stress from the slip a dislocation leaves behind, the lattice sums behind the two moduli, the program that draws the figure and the read-back from the image file.
