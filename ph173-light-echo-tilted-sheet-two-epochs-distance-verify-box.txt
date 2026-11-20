@@ -1,0 +1,17 @@
+The figure has two panels of the same field around the star, on different scales: A at 180 days after the peak (8.1 px per arcsec) and B at 540 days (4.4 px per arcsec), with offsets from the star in arcsec on both axes. Each shows one broken arc of the echo, lit on the side away from the star.
+
+Crest of ring A, positions in arcsec from the star: (28.6, 2.2), (25.4, 13.9), (16.8, 22.6), (17.3, -18.2), (25.4, -9.7). A circle through the crest has its centre at (4.78, 2.07), offset 5.21, and radius 23.79.
+Crest of ring B: (62.9, 6.2), (56.5, 30.5), (38.4, 48.6), (38.4, -35.8), (56.3, -18.1). Centre (14.32, 6.37), offset 15.67, radius 48.64.
+
+Key by hand: a flat sheet z = z0 + s tan(alpha) cuts the paraboloid of equal delay, x^2 + y^2 = c^2 t^2 + 2 c t z, in a circle whose centre sits c t tan(alpha) from the star, and radius^2 - offset^2 = (c^2 t^2 + 2 c t z0)/D^2 whatever the tilt. Q_A = 23.79^2 - 5.21^2 = 538.9 and Q_B = 48.64^2 - 15.67^2 = 2120.3 arcsec^2. Since t_B = 3 t_A, Q_B - 3 Q_A = 6 u^2 with u = c t_A/D, so u = sqrt(503.8/6) = 9.164 arcsec. c t_A = 0.4928 ly, D = 0.4928/(9.164 x 4.848e-6) = 1.109e4 ly = 3.40 kpc, which rounds to 3.4.
+
+The most tempting wrong answer is 3.0 kpc (2.95): the ring radii are used without the offsets of the centres, R_B^2 - 3 R_A^2 = 668.0, u = 10.55 arcsec. Taking the outer edge of the band in panel A (radius near 24.1 arcsec, the band is 1.9 arcsec wide and its crest crosses the x axis at 28.5) with the crest in panel B gives about 4.0 kpc. Radii measured from the star on the far side give 1.9 kpc, and rho^2 + delta^2 gives 2.6 kpc. The geometry used to draw the figure has D = 3.39 kpc, the sheet 1.33 ly in front of the star and tan(alpha) = 0.57.
+
+Check in a second (Python 3, standard library). It prints D in kpc, then the value with the offsets left out:
+import math
+AS, ctA = math.pi/648000, 180/365.25
+rA, dA, rB, dB = 23.79, 5.21, 48.64, 15.67
+D = lambda q: ctA/(math.sqrt(q/6)*AS)/3.2616/1000
+print(round(D((rB**2 - dB**2) - 3*(rA**2 - dA**2)), 2), round(D(rB**2 - 3*rA**2), 2))   # 3.4 2.95
+
+Citations: Couderc 1939, Sugerman 2003, Bond et al. 2003, Tylenda 2004.
