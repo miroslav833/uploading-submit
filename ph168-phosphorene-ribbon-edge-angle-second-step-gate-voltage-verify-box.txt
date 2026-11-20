@@ -1,0 +1,15 @@
+The figure is the only source of the edge direction. It is a simulated STEM image, 600 x 460 px, made for this question, at 3.00 px per angstrom (not printed). The spots form a centred rectangular lattice: the shortest spot-to-spot vectors are 8.24 px long at 38.9 and -66.9 degrees above the horizontal, and the rows with a spacing of 9.93 px (a_ZZ) run at -14.0 degrees, which is the zigzag direction; along the armchair direction, at 76.0 degrees, the spots repeat every 13.14 px (a_AC), and 13.14/9.93 = 1.323 = 4.38/3.31. The ribbon, about 321 px (107 angstrom) wide, crosses the frame from lower left to upper right; both edges are staircases that rise at 27.4 degrees above the horizontal, 41.4 degrees from the zigzag direction. Of the vectors m a_ZZ + n a_AC with m, n <= 3 this is 3 a_ZZ + 2 a_AC (tan = 2 x 4.38/(3 x 3.31) = 0.882, 41.42 degrees); 2 a_ZZ + a_AC is at 33.5 and a_ZZ + a_AC at 52.9 degrees. The step pattern of the edges repeats every 39.7 px (13.24 angstrom).
+
+Key by hand. Across the ribbon the direction makes 41.42 degrees with the armchair axis: w_yy = cos^2/0.170 + sin^2/1.12 = 3.6987 per m_e. Completing the square gives E_n(k) = n^2 hbar^2 pi^2 w_yy/(2 W^2) + hbar^2 k^2/(2 m_t) with m_t = 0.170 x 1.12 x w_yy m_e = 0.7042 m_e (not 1/w_xx = 0.325 m_e). E2 - E1 = 3 x 3.2540 meV x 3.6987 = 36.11 meV for W = 10.75 nm. The second subband starts to fill at k* = sqrt(2 m_t (E2 - E1))/hbar = 8.169e8 per m, linear density n* = 2 k*/pi = 5.201e8 per m (spin 2). The leads hold the ribbon's electrochemical potential at zero, so Delta V = e n*/C + (E2 - E1)/e = 1.0822 + 0.0361 = 1.1183 V, which is 1.1 V; without the second term, 1.08 V, also 1.1 V.
+
+The most tempting wrong answer is 0.58 V: the lattice taken as lined up with the frame, zigzag vertical, so that the edges at 27.4 degrees look like 2 a_ZZ + 3 a_AC. The lattice is turned by 14 degrees. Other routes: 0.77 V (mass along the ribbon taken as 1/w_xx), 0.93 V (zigzag and armchair interchanged), 1.3 V (E2 in place of E2 - E1 in the density), 0.58 V also from leaving out the spin degeneracy, 0.69 V (isotropic mass 0.436 m_e), 1.0 V (edge at 45 degrees). Other edge directions: 2 a_ZZ + a_AC 1.32 V, a_ZZ + a_AC 0.82 V, 3 a_ZZ + a_AC 1.53 V, zigzag edge 1.78 V, armchair edge 0.27 V.
+
+Check program (Python 3, standard library):
+import math
+hb, me, e = 1.054571817e-34, 9.1093837015e-31, 1.602176634e-19
+a = math.atan2(2*4.38, 3*3.31); wyy = math.cos(a)**2/0.170 + math.sin(a)**2/1.12
+dE = 3*hb**2*math.pi**2*wyy/(2*me*(10.75e-9)**2); mt = 0.170*1.12*wyy*me
+n = 2*math.sqrt(2*mt*dE)/hb/math.pi
+print(e*n/77.0e-12 + dE/e)   # 1.1183 (V)
+
+The verification notes give the same number from a numerical solution across the ribbon with the full mass tensor, a table over all edge directions and a script that reads the lattice and the edge direction from the image file. Sources: Qiao et al., Nat. Commun. 5, 4475 (2014); Stern and Howard, Phys. Rev. 163, 816 (1967); Luryi, Appl. Phys. Lett. 52, 501 (1988).
