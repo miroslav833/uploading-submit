@@ -1,0 +1,26 @@
+The answer is not in a paper. It follows from the image made for this question and the model in the text; the cited papers give the model (chiral sine-Gordon soliton lattice).
+
+Data the image carries. The frame is 936 px wide (5.680 um) and shows 107 narrow dark lines, leaning 0.6 degrees. Their positions on the middle row, in px: 3.8 12.6 21.3 30.1 38.8 47.6 56.3 65.1 73.9 82.6 91.3 100.1 108.8 117.6 126.3 135.1 143.8 152.6 161.3 170.1 178.8 187.6 196.3 205.0 213.8 222.6 231.3 240.0 248.8 257.6 266.3 275.0 283.8 292.5 301.3 310.0 318.8 327.5 336.2 345.0 353.8 362.5 371.3 380.0 388.8 397.5 406.2 415.0 423.8 432.5 441.2 450.0 458.8 467.5 476.2 485.0 493.8 502.5 511.2 520.0 528.7 537.5 546.2 555.0 563.8 572.5 581.2 590.0 598.8 607.5 616.2 625.0 633.8 642.5 651.2 660.0 668.7 677.5 686.2 695.0 703.7 712.5 721.1 730.0 738.7 747.4 756.2 764.9 773.7 782.4 791.1 799.9 808.7 817.4 826.2 834.9 843.7 852.4 861.2 869.9 878.7 887.4 896.1 905.0 913.7 922.4 931.2. Line 10 to line 100 is 787.3 px, 8.748 px per spacing, so the frame holds 936/8.748 = 107.0 periods and L = 5680 nm/107 = 53.08 nm.
+
+Key by hand. With m = (cos phi, sin phi, 0), w = A phi'^2 - D phi' - mu0 Ms H cos phi. Zero field: pitch L0 = 4 pi A/D. In a field: soliton lattice with modulus kappa, period L = 4 kappa K sqrt(A/(2 mu0 Ms H)); lowest energy at kappa/E(kappa) = sqrt(H/Hc), with mu0 Ms Hc = pi^2 D^2/(32 A); so L/L0 = 4 K E/pi^2. H/Hc = 157.4/184.6 = 0.8527, sqrt = 0.9234, kappa = 0.9763, K = 2.940, E = 1.057, L/L0 = 1.260, L0 = 42.13 nm. D = 8 mu0 Ms Hc L0/pi^3 = 8 x 30274 J/m^3 x 42.13e-9 m/31.006 = 3.291e-4 J/m^2 = 0.33 mJ/m^2 (A = 1.10 pJ/m). With 106 or 108 lines: 0.332 or 0.326.
+
+Most tempting wrong answer: 0.41 mJ/m^2, from taking the 53.08 nm spacing at 157.4 mT for the zero-field pitch (8 x 30274 x 53.08e-9/31.006). Assuming the 48 nm pitch of CrNb3S6 instead of reading the image gives 0.37 (that pitch would put 94 lines in the frame).
+
+Check program (Python, standard library):
+import math
+def KE(k):
+    a, b, c, s, p = 1.0, math.sqrt(1-k*k), k, 0.5*k*k, 1.0
+    while abs(c) > 1e-16:
+        a, b, c = (a+b)/2, math.sqrt(a*b), (a-b)/2
+        s += p*c*c; p *= 2
+    K = math.pi/(2*a); return K, K*(1-s)
+lo, hi = 0.0, 1 - 1e-15
+for _ in range(200):
+    k = (lo+hi)/2
+    if k/KE(k)[1] < math.sqrt(157.4/184.6): lo = k
+    else: hi = k
+K, E = KE(k)
+L0 = 5680e-9/107/(4*K*E/math.pi**2)
+print(k, 4*K*E/math.pi**2, L0*1e9, 8*164.0e3*0.1846*L0/math.pi**3*1e3)   # 0.97633 1.2600 42.13 0.3291
+
+Citations: Dzyaloshinskii, Sov. Phys. JETP 19, 960 (1964) and 20, 665 (1965); de Gennes, Solid State Commun. 6, 163 (1968); Togawa et al., Phys. Rev. Lett. 108, 107202 (2012); Togawa, Kousaka, Inoue and Kishine, J. Phys. Soc. Jpn. 85, 112001 (2016).
