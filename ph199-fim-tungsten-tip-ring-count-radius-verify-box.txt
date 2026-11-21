@@ -1,0 +1,16 @@
+What the figure carries, as text. A field-ion pattern of a [011] tungsten tip on a round screen, 1070 x 1070 px, centre of the pattern at (535, 535) px (x from the left edge, y from the top). [100] points to the right, 8 degrees below the horizontal. Pole B, marked by the open triangle, is the (121) pole, 30.0 degrees from [011]; its centre, from the circle of spots at the edge of its facet, is at (911, 341) px, 423 px from the centre. The (011) rings are circles about the centre. Their radii in px, ring 1 (edge of the dark central facet) outward: 42, 80, 105, 127, 145, 161, 175, 188, 201, 213, 225, 236, 246, 257, 267, 276, 286, 295, 303, 312, 321, 329, 337, 345, 353, 361, 369, 376, 384, 391, 398, 406, 413, 420 (ring 34), then 427 (ring 35), 434, 441. So 34 rings lie between the central pole and B.
+
+Key by hand. bcc tungsten, (011) layers d = a/sqrt2 = 0.31652/1.41421 = 0.22381 nm apart. Ring counting: n d = R (1 - cos 30 deg), 1 - cos 30 deg = 0.13397. R = 34 x 0.22381/0.13397 = 56.8 nm, which is 57 nm. 33 rings give 55 nm, 35 rings 58 nm.
+
+The most tempting wrong answer, 65 nm. Without counting the outer rings: take the screen radius proportional to the angle, so that radius squared grows in step with depth, and divide (423^2 - 42^2) by (105^2 - 80^2); that gives about 39 rings and 65 nm. The microscope's projection opens out toward the edge of the screen, so this overestimates the count. Other routes: B taken as a {111} pole (35.3 deg), 41 nm; layer spacing a, 80 nm; a/(2 sqrt2), 28 nm.
+
+Check program (Python 3, standard library):
+
+import math
+a = 0.31652; d = a/math.sqrt(2)
+th = math.acos(3/math.sqrt(12))          # angle between [011] and [121]
+print(round(math.degrees(th), 3))        # 30.0
+for n in (33, 34, 35):
+    print(n, round(n*d/(1 - math.cos(th)), 2))    # 34 -> 56.8 nm
+
+Sources: Mueller and Bahadur, Phys. Rev. 102, 624 (1956); Moore, J. Phys. Chem. Solids 23, 907 (1962); Newman, Sanwald and Hren, J. Sci. Instrum. 44, 828 (1967); Gault et al., Microsc. Microanal. 14, 296 (2008).
