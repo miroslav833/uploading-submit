@@ -1,0 +1,17 @@
+The figure is 821 x 108 px and shows 132 islands between two contact pads (left pad up to x = 32 px, right pad from x = 787 px). The x positions of the islands in pixels, left to right, twelve to a group, are 34, 41, 46, 53, 58, 65, 70, 77, 83, 89, 94, 100; then 106, 112, 118, 123, 129, 136, 142, 147, 154, 159, 165, 171; then 177, 183, 188, 194, 200, 207, 212, 218, 224, 229, 235, 241; then 248, 254, 259, 265, 271, 277, 283, 289, 295, 300, 306, 312; then 319, 324, 330, 337, 343, 349, 354, 361, 366, 371, 378, 383; then 389, 395, 401, 407, 412, 418, 424, 430, 435, 441, 447, 452; then 458, 463, 469, 474, 480, 485, 491, 497, 502, 507, 513, 518; then 524, 529, 534, 540, 545, 551, 556, 562, 567, 572, 578, 583; then 589, 594, 600, 605, 611, 616, 622, 627, 633, 638, 644, 649; then 655, 661, 666, 672, 677, 682, 688, 694, 699, 705, 711, 716; then 721, 727, 733, 738, 744, 749, 755, 761, 766, 772, 777, 783. That is 132 islands, and with one junction between neighbours and one at each pad, 133 junctions.
+
+By hand. A junction of a uniform chain of N junctions sees the capacitance N C/(N - 1) between its electrodes, so one tunnelling event costs E = (N - 1) e^2/(2 N C) on top of the work of the source. At high bias every event goes forward at a rate linear in the voltage across the junction, which gives I R = <v> - E/e for each junction and V = N R I + (N - 1) e/(2C) for the chain: the offset 0.8052 mV equals (N - 1) e/(2C) at any temperature. At zero bias the cost of an event in units of kT is Gaussian with mean u/2 and variance u, u = (N - 1) e^2/(N C k T), and the conductance is the average of x/(e^x - 1), which is 1 - u/6 + u^2/60 - u^3/630. With u = a/T and a = 2 e V_off/(N k) = 0.14051 K, the dip 0.0517 = u/6 - u^2/60 + u^3/630 gives u = 0.3201 and T = 0.14051/0.3201 = 0.439 K, so 0.44 K. With 132 or 134 junctions T is 0.442 or 0.436 K, the same answer.
+
+The most tempting wrong answer is 0.45 K. It keeps only the first-order depth u/6 of the dip, so that T = e V_off/(3 N k x 0.0517) = 0.453 K. The second-order term lowers the result by 3 per cent.
+
+A check in Python, standard library only.
+
+import math
+k, e, Voff, dip, N = 1.380649e-23, 1.602177e-19, 0.8052e-3, 0.0517, 133
+a = 2*e*Voff/(N*k)
+u = 6*dip
+for _ in range(30): u = 6*(dip + u*u/60 - u**3/630)
+print(a, u, a/u)                      # 0.14051 K, 0.3201, 0.4389 K
+print(e*Voff/(3*N*k*dip))             # 0.4530 K, first order only
+
+Sources: Pekola et al., Phys. Rev. Lett. 73, 2903 (1994); Farhangfar et al., J. Low Temp. Phys. 108, 191 (1997).
