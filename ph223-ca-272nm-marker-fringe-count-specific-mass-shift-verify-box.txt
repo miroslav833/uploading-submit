@@ -1,0 +1,19 @@
+The chart was made for this question, so the answer is not printed in a paper; it lies within the uncertainty of the published constant of this line, 243(3)(9) GHz amu (Mortensen et al. 2004, cited above). It follows from the number of interferometer fringes between the two resonances, which only the chart shows. The uploaded notes contain the scripts and their output.
+
+What the chart shows. An 820 x 430 px image with two traces over a common sweep axis without scale. Upper trace: the ion signal with the 40Ca resonance at column 74 and the 48Ca resonance at column 688, each with a thin grey line through its centre. Lower trace: the interferometer output, a sinusoid whose period on the chart wanders between 5 and 9 px (5.2 to 5.7 px from column 206 to column 481) and whose depth sags twice (near columns 290 and 610). Between the two grey lines it has 97 maxima, at columns 79, 87, 95, 103, 111, 118, 126, 133, 140, 146, 153, 160, 166, 172, 178, 184, 190, 195, 201, 206, 212, 217, 222, 228, 233, 238, 243, 248, 254, 259, 264, 269, 274, 280, 285, 290, 296, 301, 306, 312, 317, 323, 328, 334, 340, 345, 351, 356, 362, 368, 373, 379, 385, 390, 396, 402, 407, 413, 419, 424, 430, 435, 441, 447, 452, 458, 463, 469, 475, 481, 487, 493, 499, 505, 511, 517, 524, 531, 537, 544, 552, 559, 566, 574, 582, 590, 598, 607, 615, 624, 632, 641, 650, 658, 667, 675, 684. The left line lies 0.6 of a period before the first maximum and the right line 0.55 of a period after the last, which gives 97.15 periods.
+
+Key by hand. Group index 1.4601 + 0.544490 x 0.0434 = 1.48373. One fringe: c/(1.48373 x 11.00 m) = 18.368 MHz at the dye laser, 36.737 MHz in the ultraviolet after doubling. Shift: 97.15 x 36.737 = 3569.0 MHz. Normal mass shift: K_N = (c/272.245 nm) x 5.4858e-4 u = 604.09 GHz u, times the mass factor 4.16944e-3 per u = 2518.7 MHz. Field shift: (-179) x (-0.004) = +0.7 MHz. Specific mass shift: 3569.0 - 2518.7 - 0.7 = 1049.6 MHz, so K_S = 1049.6/4.16944e-3 = 251.7 GHz u. Answer +250 GHz u. Readings from 96.4 to 97.5 periods give the same two digits.
+
+Most tempting wrong answer. With the index 1.4601 in place of the group index one fringe seems to be 37.33 MHz in the ultraviolet, the shift 3627 MHz and K_S = +266 GHz u. Without the factor of two of the doubling K_S = -176 GHz u. A count of about 73 periods, made without enlarging the dense middle stretch, gives about +40 GHz u.
+
+Ladder for checking the count: maxima number 10, 20, 30, 40, 50, 60, 70, 80, 90 and 97 after the left line lie at columns 146, 206, 259, 312, 368, 424, 481, 544, 624 and 684.
+
+Check program (Python 3, standard library; prints 1.48373 18.368 3569.0 604.09 251.7):
+
+c, lam = 299792458.0, 272.245e-9
+ng = 1.4601 + 2 * lam * 1e6 * 0.0434
+fringe = c / (ng * 11.00) / 1e6
+shift = 2 * 97.15 * fringe
+mu = (47.95252 - 39.96259) / (47.95252 * 39.96259)
+kn = c / lam * 5.4858e-4 / 1e9
+print(round(ng, 5), round(fringe, 3), round(shift, 1), round(kn, 2), round((shift - 0.716) / (mu * 1e3) - kn, 1))
