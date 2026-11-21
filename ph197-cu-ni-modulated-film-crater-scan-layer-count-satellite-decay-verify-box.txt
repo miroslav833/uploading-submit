@@ -1,0 +1,14 @@
+What the figure carries. An Auger line scan, Ni LMM signal against position from 0 to 420 um, with 109 separate maxima between a low signal on the film surface and on the substrate, 5.7 to 12.9 px apart. Their positions in um: 18.1 24.1 29.6 35.0 40.4 45.9 51.3 56.5 61.4 66.0 70.6 75.1 79.7 84.6 89.8 95.1 100.3 105.2 109.9 114.3 (20) 118.7 123.2 127.6 132.1 136.5 140.7 144.6 148.3 151.8 155.1 158.3 161.5 164.7 167.8 171.1 174.4 177.7 181.0 184.3 187.5 (40) 190.6 193.7 196.7 199.7 202.8 205.9 209.1 212.4 215.8 219.4 223.0 226.6 230.1 233.5 236.8 239.9 243.0 246.1 249.2 252.3 (60) 255.5 258.7 261.9 265.1 268.2 271.2 274.2 277.0 279.8 282.5 285.2 287.8 290.5 293.2 296.1 298.9 301.9 305.0 308.2 311.4 (80) 314.6 317.8 321.0 324.1 327.3 330.5 333.7 337.1 340.7 344.5 348.5 352.5 356.5 360.2 363.8 367.2 370.4 373.6 376.8 379.9 (100) 383.1 386.4 389.7 393.0 396.3 399.4 402.5 405.4 408.3 (109). So the film has 109 bilayers and the period is 257.3/109 = 2.3606 nm, 11.46 planes of 0.2060 nm.
+
+Key by hand. Composition on planes, c_j - c0 = A cos(beta j d), beta = 2 pi/Lambda. Diffusion potential of plane j: (f'' + 2 eta^2 Y)(c_j - c0) - 2 kappa (c_{j+1} - 2 c_j + c_{j-1})/d^2; rate of change M times its second difference over d^2. Each second difference gives -B^2 d^2 with B^2 = 2(1 - cos(beta d))/d^2, so dA/dt = R A, R = -D B^2 [1 + (2 eta^2 Y + 2 kappa B^2)/f'']. Numbers: beta d = 0.54832 rad, B^2 = 6.909e18 m^-2 (continuum 7.085e18), 2 eta^2 Y = 3.771e8, 2 kappa B^2 = 3.593e8, bracket 11.264e8 J/m^3 = 2.888 f'', effective interdiffusion coefficient 1.386e-22 m^2/s, R = -9.579e-4 per s. Intensity goes as A^2: I/I0 = exp(2 R t) = exp(-4.023) = 0.0179 after 2100 s, so 0.018. A time integration of the plane equations from a square wave gives 0.0179 as well.
+
+Other values. 108 bilayers: 0.020. 110 bilayers: 0.016. The most tempting wrong answer is 0.016, from beta^2 in place of B^2. Coherency strain left out: 0.069. Gradient energy left out: 0.065. Both left out: 0.25. Amplitude ratio given for the intensity: 0.13.
+
+Short check (Python 3, standard library):
+from math import *
+d, lam = 0.2060e-9, 257.3e-9/109
+B2 = 2*(1 - cos(2*pi*d/lam))/d**2
+R = -4.800e-23*B2*(1 + (2*0.02550**2*2.900e11 + 2*2.600e-11*B2)/3.900e8)
+print(B2, R, exp(2*R*35.00*60))      # 6.909e18, -9.579e-4, 0.0179
+
+Citations: Cahn, Acta Metall. 9, 795 (1961) and 10, 179 (1962); Cook, de Fontaine and Hilliard, Acta Metall. 17, 765 (1969); Cook and Hilliard, J. Appl. Phys. 40, 2191 (1969); DuMond and Youtz, J. Appl. Phys. 11, 357 (1940). The uploaded notes hold the key script, the time integration, the program that draws the figure and the count of the maxima from the image file.
