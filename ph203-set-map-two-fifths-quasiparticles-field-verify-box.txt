@@ -1,0 +1,16 @@
+The answer is not in a paper. It follows from the numbers of red and blue spots inside the dashed square, which only the map shows, and from the quasiparticle charge of the 2/5 state in the citations above. The uploaded notes contain the scripts and their output.
+
+What the map shows. A 460 x 460 px colour map (1.400 um wide) with a colour key on the right, red positive. The dashed square spans about 66 to 394 px in x and y. Red spots (quasiholes) and blue spots (quasielectrons), each about 10 px across, on faint broad patches. Inside the square: 77 red and 64 blue spots; by rows of the spot centres, 66 to 125 px 14 red 8 blue, 125 to 206 px 21 red 15 blue, 206 to 263 px 18 red 9 blue, 263 to 310 px 10 red 14 blue, 310 to 394 px 14 red 18 blue. Outside: 58 red and 66 blue. Positions inside the square (x y colour, px from the top left; R red, B blue):
+203 75 B; 85 100 B; 115 95 B; 136 79 R; 136 94 R; 152 101 B; 154 83 R; 175 97 R; 197 94 R; 229 87 R; 251 99 R; 278 80 B; 289 87 R; 334 90 R; 344 80 B; 352 100 R; 95 114 R; 116 111 B; 170 133 B; 185 118 R; 239 132 B; 263 128 R; 297 122 R; 315 134 R; 360 119 R; 370 107 B; 82 159 R; 103 145 B; 121 137 B; 125 156 R; 154 155 R; 171 148 B; 188 153 R; 191 140 B; 236 156 B; 249 164 B; 277 140 R; 299 164 B; 324 145 B; 330 160 R; 340 140 R; 118 189 B; 138 168 R; 175 176 R; 192 171 R; 278 185 B; 307 177 R; 323 193 R; 334 183 R; 349 179 R; 352 195 R; 371 181 R; 78 196 R; 95 197 R; 123 213 B; 145 211 R; 156 202 B; 165 214 B; 191 196 B; 201 223 B; 212 209 R; 249 199 B; 286 202 R; 306 223 R; 334 217 R; 359 220 B; 378 213 B; 75 232 R; 82 254 B; 101 227 R; 115 242 R; 132 228 R; 151 237 R; 152 255 R; 177 228 R; 177 243 R; 255 246 B; 258 233 B; 269 254 R; 290 240 R; 314 243 B; 97 280 R; 125 277 R; 137 268 B; 171 257 R; 184 278 R; 195 258 R; 249 273 B; 267 274 B; 293 258 R; 308 270 R; 342 271 R; 357 282 R; 370 258 R; 104 297 B; 121 303 R; 142 304 B; 149 291 B; 181 305 R; 200 299 B; 221 288 B; 235 300 B; 253 301 R; 285 286 B; 316 289 B; 331 299 R; 338 287 B; 374 305 B; 374 286 B; 75 324 B; 83 344 R; 107 332 B; 129 334 R; 147 343 R; 147 319 B; 181 334 R; 200 318 R; 231 327 B; 251 333 B; 278 344 B; 278 318 B; 285 331 R; 306 316 B; 314 338 B; 336 331 B; 362 325 R; 378 342 B; 84 363 B; 109 354 R; 169 369 R; 191 350 R; 194 366 B; 262 375 B; 269 355 B; 314 359 R; 350 358 B; 384 355 B; 84 381 R; 167 384 R; 221 379 R; 247 384 B
+
+Key by hand. At 2/5 the quasiparticles carry e/5, so N_e = (2/5) N_phi + (N_qe - N_qh)/5 and B = (5/2) n h/e + (N_qh - N_qe) h/(2eA). (5/2) x 7.96443e14 x 4.135668e-15 = 8.23456 T; 13 x 4.135668e-15/(2 x 1.000e-12) = 0.02688 T; B = 8.26144 T. Answer 8.261 T.
+
+Most tempting wrong answer. One flux quantum per excess quasihole, as at 1/3, gives 8.23456 + 13 x 4.1357e-3 = 8.288 T. Leaving out the quasiparticles gives 8.235 T.
+
+Check program (Python 3, standard library; prints 13, 8.23456, 8.26144):
+
+phi0 = 6.62607015e-34 / 1.602176634e-19
+n, side = 7.96443e14, 1.000e-6
+qh, qe = 77, 64
+B = 2.5 * n * phi0 + (qh - qe) * phi0 / (2 * side ** 2)
+print(qh - qe, 2.5 * n * phi0, B)
