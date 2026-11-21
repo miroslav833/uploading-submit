@@ -1,0 +1,9 @@
+The number of periods is only in the image. Going up from the lower bright waveguide layer to the upper one there are 71 thin dark injection-barrier lines. Image rows (at mid-width) of every fifth line counted from the bottom: 5th 526, 10th 486, 15th 448, 20th 408, 25th 368, 30th 327, 35th 289, 40th 256, 45th 228, 50th 202, 55th 174, 60th 144, 65th 114, 70th 83; the 1st is at row 559 and the 71st at row 77. The spacing is about 8.3 px at the bottom, about 5.2 px near the 46th line and about 6 px at the top, so one local spacing gives anything from 59 to 94. The grey band just under the upper waveguide layer is the injector of the last period.
+
+By hand: U = (18.23 - 1.10)/71 = 0.24127 V per period, 42.73 mV below alignment. Field change 42.73 mV/54.0 nm = 7.913 kV/cm; detuning hbar Delta = e x 7.913 kV/cm x 11.5 nm = 9.100 meV. hbar Omega = 3.40/2 = 1.70 meV, Omega = 2.583 /ps; T2 = 0.250 ps, tau3 = 1.30 ps. Delta T2 = 3.457, (Delta T2)^2 = 11.95; 2 Omega^2 T2 = 3.335 /ps; 4 Omega^2 T2 tau3 = 8.672. Rate R = 3.335/(1 + 11.95 + 8.672) = 0.1543 /ps; J = e n_s R = 1.602e-19 x 1.50e15 x 1.543e11 = 3.71e7 A/m^2 = 3.7 kA/cm^2.
+
+The most tempting wrong answer is 8.3 kA/cm^2: the number of periods that would put the laser at alignment, 17.13/0.2840 = 60.3, so 60, taken in place of the count (detuning 0.32 meV). The golden-rule rate without the term 4 Omega^2 T2 tau3 gives 6.2; taking 3.40 meV as hbar Omega gives 6.7; the full 42.73 meV as detuning gives 0.29.
+
+Check in Python: hb=0.6582119569; x=(17.13/71-0.284)*1e3*11.5/54*0.25/hb; O=1.7/hb; print(1.602176634e-19*1.5e15*2*O**2*0.25/(1+x*x+4*O**2*0.25*1.3)*1e12/1e7) prints 3.7077
+
+Method: Kazarinov and Suris, Sov. Phys. Semicond. 5, 707 (1971) and 6, 120 (1972); Faist et al., Science 264, 553 (1994); Sirtori et al., IEEE J. Quantum Electron. 34, 1722 (1998); Kumar and Hu, Phys. Rev. B 80, 245316 (2009).
