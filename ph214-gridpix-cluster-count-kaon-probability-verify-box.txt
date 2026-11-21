@@ -1,0 +1,9 @@
+The cluster count is only in the image. The track has 188 hit pixels in 97 groups of touching pixels (clusters); seven isolated hits away from the track are noise. Sensor columns (0 to 511 from the left, 2 image pixels each) of all 97 clusters: 4.5, 16.5, 25, 30, 36, 41, 47, 50, 54, 58, 62.5, 67, 73, 75.5, 81, 87, 91, 94, 102, 105, 110, 114, 116.5, 120, 126.5, 133, 137, 145, 151.5, 161, 172.5, 175, 181, 184, 188, 196, 200.5, 203, 207, 212.5, 216, 220.5, 226, 229, 235.5, 238, 242, 249, 252, 257, 267, 273, 283, 287.5, 292, 298, 305, 310, 313.5, 324.5, 328.5, 332, 337, 340, 342, 345.5, 350.5, 359, 364.5, 375, 377, 381.5, 385, 399.5, 402.5, 407, 411, 415, 418.5, 425, 430, 436.5, 439, 441, 443, 449.5, 453, 455, 462, 465, 471, 481.5, 486, 494, 497.5, 504, 509.5.
+
+By hand: pion beta gamma = 465/139.57 = 3.3317, beta^2 = 0.9174; kaon 465/493.68 = 0.9419, beta^2 = 0.4701. Clusters per cm: 2.090 x (2.4069 - 0.9174 + 9.50)/0.9174 = 25.04 and 2.090 x (-0.1197 - 0.4701 + 9.50)/0.4701 = 39.61. Over L = 512 x 55.00 um = 2.816 cm: mu_pi = 70.51, mu_K = 111.55. ln LR = 97 ln(111.55/70.51) - (111.55 - 70.51) = 44.501 - 41.044 = 3.458, LR = 31.7; prior odds 1/7, posterior odds 4.534, P(K) = 4.534/5.534 = 0.8193, so 0.82. Counts of 96 and 98 give 0.74 and 0.88.
+
+The most tempting wrong answer is 0.97, from equal priors in place of the seven-to-one beam composition. Without the -beta^2 term 0.22; without the factor exp(-(mu_K - mu_pi)), with one chip as the track length, or with the 188 hit pixels taken as clusters, 1.0.
+
+Check in Python: import math; f=lambda bg: 2.090*(1+bg*bg)/bg**2*(math.log(bg*bg)-bg*bg/(1+bg*bg)+9.50)*2.816; a=f(465/139.57); b=f(465/493.68); o=math.exp(97*math.log(b/a)-(b-a))/7; print(o/(1+o)) prints 0.8193
+
+Method: Fano, Annu. Rev. Nucl. Sci. 13, 1 (1963); Rieke and Prepejchal, Phys. Rev. A 6, 1507 (1972); Cataldi, Grancagnolo and Spagnolo, Nucl. Instrum. Methods A 386, 458 (1997).
