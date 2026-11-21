@@ -1,0 +1,16 @@
+The answer is not in a paper. It follows from the number of plates in the pile, which only the photograph shows, and from the Jones calculus of the folded Solc filter in the citations above. The uploaded notes contain the scripts and their output.
+
+What the photograph shows. A 684 x 236 px side view of the pile: brass rings from about column 48 to 74 and from column 620 to 638, and between them 77 plates separated by thin dark seams of uneven darkness, 78 seams with the two at the rings. The plate width is about 7.8 px at the left ring, 8.6 px a quarter of the way along and 4.2 px at the right ring. Columns of the 78 seams, from the left: 74, 82, 90, 98, 106, 114, 123, 131, 139, 148, 156, 164, 173, 181, 189, 198, 206, 214, 223, 231, 240, 248, 256, 264, 272, 280, 289, 297, 305, 313, 321, 329, 337, 345, 353, 361, 369, 376, 384, 392, 399, 407, 414, 421, 429, 436, 443, 450, 457, 464, 471, 478, 485, 491, 498, 504, 511, 517, 523, 529, 535, 541, 546, 552, 558, 563, 568, 573, 578, 583, 588, 593, 598, 603, 607, 611, 615, 620 (rounded; the exact values are in the data file at the end of the notes).
+
+Key by hand. T = [tan(2 rho) cos(chi) sin(N chi)/sin(chi)]^2 with cos(chi) = cos(2 rho) |sin(Gamma/2)|. At D2: Gamma = 2 pi x 3466.65/766.701 = 9.04303 pi, |sin(Gamma/2)| = 0.997717, cos(2 rho) = 0.999770, cos(chi) = 0.997487, chi = 0.070903 rad. N chi = 77 x 0.070903 = 5.45952 rad, sin = -0.73364. T = (0.021436 x 0.997487 x 0.73364/0.070843)^2 = 0.0490. Answer 0.049.
+
+Most tempting wrong answer. The matched plate number 45 deg/0.614 deg = 73.3, taken as 73 plates, gives 0.073. 76 or 78 plates give 0.055 or 0.043.
+
+Check program (Python 3, standard library; prints 9.04303, 0.070903, 5.45952, 0.04903):
+
+import math
+N, rho = 77, math.radians(0.614)
+G = 2 * math.pi * 3466.65 / 766.701
+chi = math.acos(math.cos(2 * rho) * abs(math.sin(G / 2)))
+T = (math.tan(2 * rho) * math.cos(chi) * math.sin(N * chi) / math.sin(chi)) ** 2
+print(G / math.pi, chi, N * chi, T)
