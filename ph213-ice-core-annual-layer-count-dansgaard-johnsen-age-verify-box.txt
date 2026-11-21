@@ -1,0 +1,14 @@
+The image is the only source of the annual layer thickness. It is a simulated dark-field line scan, 1100 x 156 px, made for this question, of a 1.100 m core section; the strip under it gives the depths of the cut ends, 1596.00 m and 1597.10 m (1.000 mm per pixel along the core). It holds 89 bright cloudy bands, one per year, with both cut ends in clear ice; along the mid-height row (columns from 0) the first band is at 12 px, every tenth after it at about 143, 272, 369, 494, 609, 741, 864 and 1004 px, the last at 1099 px. The thin oblique lines at about 372 and 811 px are fractures.
+
+Key by hand. Mean layer 1.100 m/89 = 12.36 mm at y1 = 2760.0 - 1596.55 = 1163.45 m above the bed. Vertical velocity (horizontal velocity uniform above h = 1050.0 m, linear below, incompressible, w(H) = -a): w = -a(2y - h)/(2H - h) above h, -a y^2/(h(2H - h)) below. Accumulation a = 12.36 mm x 4470/1276.9 = 43.27 mm per year. Age at y2 = 520.0 m: 4470/(2a) ln(4470/1050) = 74 830 years down to the kink, plus 1050 x 4470/a (1/520 - 1/1050) = 105 300 years below it, total 180 100 years, which rounds to 1.8e5 years.
+
+The most tempting wrong answer is 1.6e5 years, from Nye's uniform strain. 86 bands give 1.7e5 years and 92 give 1.9e5; any count from 87 to 91 gives the key.
+
+Check program (Python 3, standard library):
+import math
+H, h, y1, y2 = 2760.0, 1050.0, 2760.0 - 1596.55, 520.0
+a = (1.100/89)*(2*H - h)/(2*y1 - h)
+t = (2*H - h)/(2*a)*math.log((2*H - h)/h) + h*(2*H - h)/a*(1/y2 - 1/h)
+print(a, t)   # 0.04327 m per year, 180129 years
+
+The uploaded notes add a table over 80 to 98 bands, other routes, the effect of rounding every given (179 300 to 181 000 years), an age from following the ice down through a numerically built velocity field, and a script that counts the bands from the image file. Sources: Dansgaard and Johnsen, J. Glaciol. 8, 215 (1969); Nye, J. Glaciol. 4, 785 (1963); Svensson et al., J. Geophys. Res. 110, D02108 (2005).
