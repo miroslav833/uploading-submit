@@ -1,0 +1,19 @@
+The answer is not taken from a paper. It follows from the givens and from the number of glass plates in the photograph, so the photograph's content is listed here as text.
+
+What the photograph shows: the cut edge of the stack seen from below, 38 bright glass edges with dark gaps between them, a dark foil and a grey circuit board beyond the first and the last plate, and a pin on either side. The pitch of the plates on the picture grows smoothly from about 4.5 px at the top to about 10 px at the bottom. Rows of the plates on the middle column in px from the top edge, every fifth from the 5th to the 35th: 80, 106, 135, 167, 203, 243, 288. The first is at 62 px and the 38th at 317 px. The verification notes list all 38 rows as recovered from the image file.
+
+The key by hand. 38 plates of 0.2100 mm take 7.980 mm of the 13.04 mm, which leaves 5.060 mm of gas. In the steady state the weakly conducting glass carries no field, so the 62.50 kV lies across the gas: E = 62.50/0.5060 = 123.52 kV/cm. Then alpha_eff = 3.300 x (123.52 - 66.00) = 189.8 per mm, v = 0.2100 x 1.2352 = 0.2594 mm/ns, and the growth rate is 49.23 per ns. The firing time is (ln N_th - ln A)/S with A exponentially distributed, and the standard deviation of ln A is pi/sqrt(6) = 1.2825, so the spread is 1.2825/49.23 ns = 26.05 ps.
+
+Wrong answers that come up easily. A count of 37 plates gives 30 ps, the most tempting one, and a count of 39 gives 23 ps. Capacitive division of the voltage between glass and gas gives about 48 ps. A spread of ln A taken as 1 gives 20 ps.
+
+A short check in Python (standard library):
+
+import math
+H, t, V, n = 13.04, 0.2100, 62.50, 38
+E = V/((H - n*t)/10)
+S = 3.300*(E - 66.00)*0.2100*E/100
+print(round(H - n*t, 3), round(E, 2), round(S, 2), round(math.pi/math.sqrt(6)/S*1000, 2))
+
+It prints 5.06 123.52 49.23 26.05.
+
+Sources for the method: Riegler, Lippmann and Veenhof, Nucl. Instrum. Methods A 500, 144 (2003); Cerron Zeballos et al., Nucl. Instrum. Methods A 374, 132 (1996).
