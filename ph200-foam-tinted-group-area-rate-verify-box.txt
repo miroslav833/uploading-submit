@@ -1,0 +1,18 @@
+The answer is not in a paper. It follows from the number of films of each tinted cell, which only the figure shows, and from the coarsening law of the citations above. The uploaded notes contain the scripts and their output.
+
+What the figure shows. A 640 x 640 px photograph of a dry two-dimensional foam; dark lines are films, three meet at each vertex. 34 cells are tinted amber, right of the centre. Their centres (x y in px from the top left) and numbers of sides:
+488 258 6; 512 248 6; 526 229 7; 533 255 7; 560 251 6; 570 222 7; 587 248 7; 420 298 8; 446 295 6; 459 269 8; 467 292 5; 487 281 6; 510 295 7; 511 270 6; 531 279 6; 533 297 5; 548 269 5; 551 289 6; 569 273 6; 571 297 7; 589 278 6; 441 315 6; 457 335 7; 461 312 6; 479 328 6; 484 304 6; 501 319 6; 517 335 6; 524 314 6; 536 329 6; 548 309 7; 478 352 6; 497 344 6; 500 371 8
+So 3 cells with 5 sides, 20 with 6, 8 with 7, 3 with 8, and the sum of (n - 6) is +11. On the boundary of the group, 37 vertices have their third film pointing out of the group and 20 into it: 37 - 20 - 6 = 11.
+
+Key by hand. Film conductance G = 1/(32.0e-9/(1.88e-9 x 6.90e-6) + 2/9.00e-7) = 2.133e-7 mol m^-2 s^-1 Pa^-1. K = 2 gamma G RT/p = 2 x 0.0302 x 2.133e-7 x 0.024061 = 3.099e-10 m^2/s. Per cell dA/dt = (pi/3) K (n - 6); for the group (pi/3) K x 11 = 3.246e-10 x 11 m^2/s = 1.168 x 11 = 12.85 mm^2/h. Answer +13 mm^2 per hour.
+
+Most tempting wrong answer. Judging the group by eye as shrinking, with a sum near -6, gives about -7.0 mm^2/h. Film tension gamma instead of 2 gamma gives +6.4; the monolayers left out give +24.
+
+Check program (Python 3, standard library; prints 11, 2.133e-07, 3.099e-10, 12.85):
+
+import math
+sides = [5] * 3 + [6] * 20 + [7] * 8 + [8] * 3
+q = sum(n - 6 for n in sides)
+G = 1 / (32.0e-9 / (1.88e-9 * 6.90e-6) + 2 / 9.00e-7)
+K = 2 * 30.2e-3 * G * 8.314462618 * 293.15 / 101.3e3
+print(q, G, K, math.pi / 3 * K * q * 1e6 * 3600)
