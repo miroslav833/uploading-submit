@@ -1,0 +1,21 @@
+The answer is not taken from a paper. It follows from the givens and from the number of waveguides in the photograph, so the photograph's content is listed here as text.
+
+What the photograph shows: a copper face with three rows of dark openings, 86 in each row, seen from one side. The spacing of the openings on the picture falls smoothly from about 8 px at the left end to about 5 px at the right end. Distances of the openings from the left edge in px on the line through the middle row, every tenth from the 10th to the 80th: 106, 182, 254, 323, 388, 449, 506, 561. The first is at 34 px and the 86th at 592 px. The verification notes list all 86 positions as recovered from the image file.
+
+The key by hand. 86 waveguides in 0.8014 m give a period of 9.319 mm. A phase step of 90 degrees per period puts the main lobe at N_par = lambda_0/(4 p) = 59.958/(4 x 9.319) = 1.6086. In a cold plasma with W_ci << w << W_ce the slow and the fast root of the dispersion relation coincide where N_par = x + sqrt(1 + (1 - g) x^2), with x = w_pe/W_ce and g = W_ce W_ci/w^2 = (148.36 GHz x 40.42 MHz)/(5 GHz)^2 = 0.2399. Solving, x = [N_par - sqrt(N_par^2 - g (N_par^2 - 1))]/g = 0.5131, and n_e = eps0 B^2 x^2/m_e = 7.19 x 10^19 m^-3. The discriminant of the full cold-plasma quartic vanishes at 7.22 x 10^19 m^-3. Both round to 7.2.
+
+Wrong answers that come up easily. Leaving out the ion term (N_par = x + sqrt(1 + x^2)) gives 6.6, the most tempting one. A count of 85 gives 6.8 and a count of 87 gives 7.6. Protons in place of deuterons give 7.9.
+
+A short check in Python (standard library):
+
+import math
+e, me, eps0, c = 1.602176634e-19, 9.1093837e-31, 8.8541878e-12, 299792458.0
+f, B, width, n, ratio = 5.000e9, 5.30, 0.8014, 86, 3670.5
+N = c/f/(4*width/n)
+g = (e*B/me/(2*math.pi*f))**2/ratio
+x = (N - math.sqrt(N*N - g*(N*N - 1)))/g
+print(round(N, 4), round(x, 4), round(eps0*B*B*x*x/me/1e19, 2))
+
+It prints 1.6086 0.5131 7.19.
+
+Sources for the method: Brambilla, Nucl. Fusion 16, 47 (1976); Bonoli, IEEE Trans. Plasma Sci. 12, 95 (1984).
