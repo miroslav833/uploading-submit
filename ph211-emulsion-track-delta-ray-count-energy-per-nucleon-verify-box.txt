@@ -1,0 +1,22 @@
+The figure is 1380 x 520 px. The track core runs from left to right, about 7 px wide, along y = 291.06 - 0.04542 x (px). Arrowhead A and its orange line across the core are at x = 102 px, B and its line at x = 1292 px. Between them 88 chains of grains leave the core, 39 above and 49 below. Their x positions (px) where each meets the core edge, left to right, a = above, b = below, ten to a group: 129a, 142a, 142b, 158b, 174a, 177b, 195b, 228a, 250b, 258a; then 259b, 284b, 292a, 301a, 315a, 331b, 341b, 351b, 360a, 367b; then 377b, 394b, 402b, 414b, 427a, 452b, 470b, 490a, 497b, 533a; then 538b, 547a, 582a, 590b, 592a, 598b, 622a, 638b, 646a, 655b; then 663a, 688b, 697a, 698b, 708b, 724b, 726a, 739b, 748a, 772b; then 795a, 812b, 826b, 827a, 840b, 854a, 864b, 886a, 891b, 900b; then 917a, 927b, 934a, 950b, 955a, 983b, 996a, 998b, 1018a, 1028b; then 1039b, 1092a, 1106a, 1117b, 1129b, 1137a, 1160b, 1167a, 1188a, 1197b; then 1209a, 1220b, 1235b, 1244a, 1254a, 1263b, 1272a, 1280b.
+
+By hand. The sinking during exposure is 42.0 x 2.40 = 100.8 um, so L = sqrt(262.0^2 + 100.8^2) = 280.72 um and dN/dx = 88/L = 3.1348e5 per m. For a spinless charge, dN/dx = (2 pi r_e^2 m_e c^2 n_e Z^2/beta^2) [1/T_min - 1/T_max - (beta^2/T_max) ln(T_max/T_min)] with T_max = 2 m_e c^2 beta^2 gamma^2; 2 pi r_e^2 m_e c^2 n_e = 2.6617e4 keV/m and Z^2 = 100. The solution is beta = 0.4919, gamma = 1.1486, T_max = 326.2 keV, bracket 0.028498 per keV, so 931.5 (gamma - 1) = 138.4 MeV per nucleon, 140 to two digits. Counts 86 to 89 all give 140.
+
+The most tempting wrong answer is 150 MeV per nucleon, from dropping the -beta^2 T/T_max term (150.8). Only 1/T_min gives 170; no dip correction, or the dip without the factor 2.40, gives 130; a count of 98 gives 120.
+
+A check in Python, standard library only:
+
+import math
+re, me, ne, Z = 2.8179403262e-15, 510.99895, 1.044e30, 10
+L = math.hypot(262.0, 42.0*2.40)*1e-6
+rate = 88/L
+def f(b):
+    Tm = 2*me*b*b/(1-b*b)
+    return 2*math.pi*re**2*me*ne*Z**2/b**2*(1/30.0 - 1/Tm - b*b/Tm*math.log(Tm/30.0)) - rate
+lo, hi = 0.1, 0.99
+for k in range(100):
+    m = (lo+hi)/2
+    lo, hi = (m, hi) if f(m) > 0 else (lo, m)
+print(m, 931.5*(1/math.sqrt(1-m*m) - 1))   # 0.4919, 138.4
+
+Sources: Freier et al., Phys. Rev. 74, 213 (1948); Bradt and Peters, Phys. Rev. 77, 54 (1950); Bethe, Ann. Phys. (Leipzig) 397, 325 (1930).
