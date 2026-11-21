@@ -1,0 +1,18 @@
+What the figure carries, as text. 97 droplets: one unbranched chain of 67, short clusters of 5, 4, 3, 2 and 2, and 14 single droplets, each separated from the chain by a dark gap. Image coordinates in px, x from the left edge, y from the top. The chain runs from the end at (130, 182) through droplets number 11, 21, 31, 41, 51 and 61 at (162, 158), (186, 122), (234, 130), (243, 169), (203, 144) and (193, 176) to the other end, droplet 67, at (219, 158). So M = 67 droplets and 66 bonds, contour length 66 x 2.360 um = 155.76 um.
+
+Key by hand. One end fixed, constant force f on the other: in an ideal planar freely jointed chain each bond angle has weight exp(x cos theta) on the circle, x = f b/(kB T), so <cos theta> = I1(x)/I0(x) and <X> = 66 b I1(x)/I0(x). <X>/(66 b) = 144.8/155.76 = 0.92964 gives x = 7.389. kB T/b = 4.0867e-21 J / 2.360e-6 m = 1.7317 fN, f = 12.80 fN, which is 13 fN. The steric limit on the turning angle of touching droplets changes it by 0.3 per cent.
+
+The most tempting wrong answer. A count one droplet short, 66 droplets and 65 bonds: <X>/(65 b) = 0.94394, x = 9.193, f = 15.9 fN, written 16 fN. With 65 bonds a force of exactly 16 fN gives back <X> = 144.8 um to the stated digits; that is a coincidence of the numbers, not a check of the count. One droplet more: 10.8 fN. The three-dimensional Langevin function coth x - 1/x = 0.92964 at the right count gives x = 14.21 and 24.6 fN, but the bonds stay in the plane of the glass. 67 bonds in place of 66: 10.8 fN. A Gaussian spring: 3.2 fN.
+
+Check program (Python 3, standard library):
+
+import math
+def I(n, x):
+    return sum((x/2)**(2*k+n)/(math.factorial(k)*math.factorial(k+n)) for k in range(80))
+y = 144.8/(66*2.360); lo, hi = 1.0, 50.0
+for _ in range(100):
+    x = (lo+hi)/2
+    lo, hi = (x, hi) if I(1, x)/I(0, x) < y else (lo, x)
+print(round(x, 3), round(x*1.380649e-23*296.0/2.360e-6*1e15, 2))     # 7.389 12.8
+
+Sources: Feng et al., Soft Matter 9, 9816 (2013); McMullen et al., Phys. Rev. Lett. 121, 138002 (2018); Smith, Finzi and Bustamante, Science 258, 1122 (1992).
