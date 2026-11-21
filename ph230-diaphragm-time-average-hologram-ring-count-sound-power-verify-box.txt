@@ -1,0 +1,22 @@
+Data read from the image (radial profile averaged around the midpoint, which lies at pixel x = 486.8, y = 475.8 from the top left; clamp groove at 431 px). Radii of the dark fringes from the midpoint in px, the central spot first: 0.0 43.8 62.2 76.2 88.2 99.2 109.2 118.2 126.8 135.2 143.2 150.8 158.2 165.2 172.8 179.8 186.2 193.2 199.8 206.2 212.8 219.2 225.8 232.2 238.8 245.2 252.2 258.8 265.2 272.2 279.2 286.2 293.2 300.8 308.8 316.2 324.8 333.8 343.2 353.2 364.8 378.8 396.2. That is 43 dark fringes. Fitted to the clamped-plate mode with the diaphragm radius in px free, 43 fringes give an rms misfit of 0.15 px at R = 429.9 px; 42 or 44 give about 5 px.
+
+Key by hand. K = (2 pi/0.6328 um)(1 + cos 35.0 deg) = 18.063 rad/um. The midpoint is the 43rd zero of J0: w0 = 134.304/18.063 = 7.435 um. Clamped-plate mode, beta = 3.19622, J0(beta)/I0(beta) = -0.055713, displaced volume V = 4 J1(beta)/(beta (1 + 0.055713)) pi a^2 w0 = 0.31160 pi a^2 w0 = 1.6377e-9 m^3. Q = omega V = 2 pi 813.0 x 1.6377e-9 = 8.366e-6 m^3/s, k = 14.884 1/m. Baffled simple source: W = rho c k^2 Q^2/(4 pi) = 5.10e-7 W = 0.51 uW.
+
+Most tempting wrong answer: 0.42 uW, from the sensitivity 4 pi/lambda (illumination taken along the normal): w0 = 134.304/19.858 = 6.763 um and W scales as w0 squared. One fringe off gives 0.49 or 0.53 uW; the static profile (1 - r^2/a^2)^2 gives 0.58 uW; full-space radiation 0.25 uW.
+
+Check program (Python standard library, prints vf 0.31161, j0,43 134.3040, w0 7.4354 um, W 0.5098 uW):
+import math
+J = lambda n, x, s: sum(s**k * (x/2)**(2*k+n) / (math.factorial(k) * math.factorial(k+n)) for k in range(40))
+L = 3.19622
+c = J(0, L, -1) / J(0, L, 1)
+vf = 4 * J(1, L, -1) / (L * (1 - c))
+b = (43 - 0.25) * math.pi
+z43 = b + 1/(8*b) - 31/(384*b**3)
+K = 2*math.pi/0.6328 * (1 + math.cos(math.radians(35.0)))
+w0 = z43 / K * 1e-6
+om = 2*math.pi*813.0
+Q = om * vf * math.pi * 0.015**2 * w0
+W = 1.204 * 343.2 * (om/343.2)**2 * Q**2 / (4*math.pi)
+print("vf %.5f  j0,43 %.4f  w0 %.4f um  W %.4f uW" % (vf, z43, w0*1e6, W*1e6))
+
+Citations: Powell and Stetson, J. Opt. Soc. Am. 55, 1593 (1965), the J0 squared fringes of time-average holography; Wallace, J. Acoust. Soc. Am. 51, 946 (1972), sound power of a baffled plate mode at low frequency.
