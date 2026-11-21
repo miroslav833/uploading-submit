@@ -1,0 +1,21 @@
+The answer is not in a paper. It follows from the number of inner electrodes, which only the micrograph shows, and from the Landau free energy given in the question. The uploaded notes contain the scripts and their output.
+
+What the micrograph shows. A 520 x 824 px picture of the cut chip: light ceramic body, dark resin around it, and 117 thin dark electrode lines (116 dielectric layers) that cross the body and climb about one row per 26 columns. Rows of the 117 lines at the middle column (x = 260), from the top: 88, 94, 101, 108, 114, 121, 127, 134, 140, 147, 153, 159, 165, 171, 177, 183, 189, 195, 201, 206, 212, 217, 223, 228, 234, 239, 244, 250, 255, 260, 265, 270, 275, 280, 286, 291, 296, 301, 306, 311, 316, 321, 327, 332, 337, 342, 347, 352, 357, 362, 367, 372, 377, 382, 387, 392, 397, 402, 407, 412, 416, 421, 426, 430, 435, 440, 444, 449, 454, 459, 463, 468, 473, 478, 483, 488, 493, 498, 503, 509, 514, 519, 525, 530, 536, 542, 548, 554, 559, 565, 572, 578, 584, 590, 596, 602, 609, 615, 621, 627, 634, 640, 646, 652, 659, 665, 671, 677, 684, 690, 696, 702, 708, 715, 721, 727, 733. The spacing is 6.5 px at the top, 4.7 to 5.1 px between rows 260 and 510 and about 6.2 px in the lowest third. Every tenth line, for a quick check: 10th at row 147, 20th at 206, 30th at 260, 40th at 311, 50th at 362, 60th at 412, 70th at 459, 80th at 509, 90th at 565, 100th at 627, 110th at 690, 117th at 733.
+
+Key by hand. Entropy per unit volume s = s0(T) - P^2/(2 eps0 C), so the ceramic under field gives off T P^2/(2 eps0 C) and the chip warms by f T P^2/(2 eps0 C c), f = 0.522. Repeat distance 0.4960 mm/116 = 4.2759 um, less 1.10 um of nickel: d = 3.1759 um, E = 8.00 V/d = 2.5190 MV/m. alpha = 32.0/(8.8542e-12 x 1.200e5) = 3.0118e7 V m/C. alpha P + beta P^3 = E gives P = 0.06998 C/m^2 at 320.0 K and 0.06980 C/m^2 at the final temperature. Rise = 0.522 x 320.13 x 0.06980^2/(2.12501e-6 x 2.95e6) = 0.1299 K. Answer 130 mK. Counts from 115 to 119 electrodes give 125.4 to 134.5 mK, the same two digits.
+
+Most tempting wrong answers. The stack height is also 124 x 4.0 um; taking 124 layers (125 electrodes) from that round number in place of the count gives 148.6 mK, that is 150 mK. An estimate from a judged spacing of about 5 px over the whole stack, in place of a count, gives 125 to 130 electrodes and 149 to 161 mK. A linear dielectric (P = E/alpha) gives 184 mK; the voltage divided by the full repeat distance gives 81 mK.
+
+Check program (Python 3, standard library; prints 3.1759 2.519 0.0698 129.9):
+
+eps0, C, T0, beta, c = 8.8541878e-12, 1.200e5, 288.0, 1.200e9, 2.95e6
+N, T, V, f = 117, 320.0, 8.00, 0.522
+d = 0.4960e-3 / (N - 1) - 1.10e-6
+E, x = V / d, 0.0
+for _ in range(50):
+    a = (T + x - T0) / (eps0 * C)
+    P = E / a
+    for _ in range(50):
+        P -= (a * P + beta * P ** 3 - E) / (a + 3 * beta * P * P)
+    x = f * (T + x) * P * P / (2 * eps0 * C * c)
+print(round(d * 1e6, 4), round(E / 1e6, 4), round(P, 5), round(1e3 * x, 1))
