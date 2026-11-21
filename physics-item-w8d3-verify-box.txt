@@ -1,0 +1,14 @@
+The figure is a simulated Mach-Zehnder interferogram (720 x 250 px) of a normal shock in N2 moving to the left; positions are image pixels, x from the left edge, y down from the top, and the shock line is at x = 152 px. Read from it: (1) ahead of the shock the fringes are straight, 14.03 px apart along the vertical, rising to the right by 6.07 px per 100 px (tilt 3.5 degrees); (2) at the shock line the bright fringes behind the front lie 4.0 px lower than those ahead (y = 92.9 and 106.9 px against 88.9 and 102.9 px), 0.284 of a period from a phase fit of each column; (3) behind the front the fringes bend down relative to the carrier by 1.45, 2.27 and 2.67 periods at 200, 400 and 564 px behind the line, still 0.19 period per 100 px at the edge; an exponential fit gives a total of 3.33 periods and a length of 347 px.
+
+Key by hand. S = K L rho1/lambda = 2.380e-4 x 0.1520 x 0.05802/532.0e-9 = 3.945 fringes per unit of rho/rho1 - 1; a1 = 350.1 m/s. The step at the line is the frozen jump (gamma 7/5, vibration frozen), n + 0.284 fringes in the sense of the drift; the drift is the vibrational relaxation. Candidates: n = 16 gives M 5.42 and a predicted drift 2.35 (less than the 2.67 already seen); n = 17 gives M 6.59 and 3.36; n = 18 gives M 8.78 and 4.77, which would need 2.10 more fringes past the edge where at most 0.66 (1.22 if the relaxation length nearly doubled) remain. Only n = 17 fits. x = rho_f/rho1 = 1 + 17.284/3.945 = 5.381, M = sqrt(2x/(2.4 - 0.4x)) = 6.59, u_s = 2308 m/s, so 2300. Fractions 0.18 to 0.36 give the same.
+
+The most tempting wrong answer is 1600 m/s or less: the drift read along a fringe without removing the carrier tilt (it then looks like 0.2 to 1.5 fringes and picks n = 10 to 15, 960 to 1630 m/s). Others: jump taken as exactly 17 fringes 2200; n = 16 1900; n = 18 3100; fraction in the other sense 2600; equilibrium jump conditions for the step 1700; the fraction alone as the whole shift 370.
+
+Check in a few seconds (Python 3, standard library). The first number is the key, the second the most tempting wrong answer:
+import math
+S = 2.380e-4*0.1520*(5080*0.028013/(8.3145*295.0))/532.0e-9; a1 = math.sqrt(1.4*8.3145*295.0/0.028013)
+u = lambda J: math.sqrt(2*(1+J/S)/(2.4-0.4*(1+J/S)))*a1
+print(u(17.284))   # 2308
+print(u(15.284))   # 1629
+
+Citations: Blackman, J. Fluid Mech. 1, 61 (1956); Alpher and White, Phys. Fluids 2, 153 (1959); Millikan and White, J. Chem. Phys. 39, 3209 (1963). The uploaded notes hold the key script, the program that draws the interferogram and the read-back from the image file.
