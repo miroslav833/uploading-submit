@@ -1,0 +1,13 @@
+What the figure carries. A simulated all-sky frame (640 x 640 px) of OH airglow through an equidistant fisheye, flat-fielded, centre (319.5, 319.5) px, 3.333 px per degree of zenith angle (the dashed 60 deg circle has a radius of 200 px), north up and east on the left. A bright opaque cloud covers the sky out to 25 to 33 deg. One monochromatic wave was drawn in a layer at 87.0 km with horizontal wavelength 10.60 km, wave vector at azimuth 52.0 deg and vertical wavelength 11.04 km (energy upward), integrated through a layer of 3.5 km rms thickness along each line of sight, so the bands are crisp in the north-east half of the sky and faint in the south-west half; stars, slow background structure and photon noise. Crossings of the bands with the line from the centre toward the north, from a plane-wave fit to all clear pixels mapped onto the layer: 117.9, 140.7, 159.5, 174.9, 187.6, 198.2 px (zenith angles 35.37 to 59.45 deg; 61.8, 78.9, 96.0, 113.2, 130.3, 147.4 km in the layer, 17.13 km apart). Toward the east: 117.8, 136.0, 151.6, 165.1, 176.6, 186.5, 195.1 px (61.7, 75.1, 88.5, 101.9, 115.3, 128.7, 142.0 km, 13.39 km apart). The bands crowd toward the horizon at azimuths 322 and 142 deg, so the wave vector is at 52 deg (toward the north-east, as stated); the north and east lines are at 52 and 38 deg to it: lambda_h = 17.13 cos 52 = 13.39 cos 38 = (13.39^-2 + 17.13^-2)^-1/2 = 10.55 km. The whole-image Fourier fit gives 10.55 km and 52.0 deg.
+
+Key by hand. c = 10.55 km / 378.6 s = 27.87 m/s. Wind along k: 4.0 cos(12 deg) = 3.91 m/s. c_hat = 23.95 m/s, omega_hat = k c_hat = 0.0143 rad/s < N. m^2 = N^2/c_hat^2 - k^2 - 1/(4H^2) = 6.902e-7 - 3.547e-7 - 0.074e-7 = 3.281e-7 1/m^2, |m| = 5.73e-4 rad/m, lambda_z = 2 pi/|m| = 10.97 km, that is 11 km (11.04 km with the drawn 10.60 km). The key holds for lambda_h from 10.25 to 10.90 km; without the 1/(4H^2) term it is 10.85 km, the same key.
+
+Most tempting wrong answer: the bands read about a sixth too close together, lambda_h about 8.9 km, which gives lambda_z = 8.7 km. Other wrong routes: the crest spacing along the east line (13.4 km) taken as lambda_h, 15 km; along the north line, 21 km; wind left out, 16 km; hydrostatic m = N/c_hat, 7.6 km.
+
+Check program (standard library):
+import math
+lh=(13.39**-2+17.13**-2)**-0.5*1e3; c=lh/(6.31*60); ch=c-4.0*math.cos(math.radians(12)); k=2*math.pi/lh
+m2=0.0199**2/ch**2-k**2-1/(4*5.80e3**2)
+print(lh, c, ch, m2, 2*math.pi/math.sqrt(m2)/1e3)   # 10549, 27.86, 23.95, 3.28e-07, 10.97
+
+Citations: Hines, Can. J. Phys. 38, 1441 (1960); Fritts and Alexander, Rev. Geophys. 41, 1003 (2003); Isler, Taylor and Fritts, JGR 102, 26301 (1997); Garcia, Taylor and Kelley, Appl. Opt. 36, 7374 (1997); Baker and Stair, Phys. Scr. 37, 611 (1988).
