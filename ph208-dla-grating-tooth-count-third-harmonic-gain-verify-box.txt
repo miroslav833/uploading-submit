@@ -1,0 +1,14 @@
+The image is the only source of the grating period. It is a simulated electron micrograph, 860 x 144 px (an 860 x 120 px frame and a strip under it), made for this question; the strip gives the centre spacing of teeth A and B, 150.2 um. The horizontal scale is not uniform (local tooth spacing about 6.8 px at A, 8.1 px at mid-span, 7.8 px at B). Numbering pixel columns from 0, A is at 95.9 px and B at 789.0 px, with 89 periods between them; every tenth tooth from A is at about 96, 164, 240, 320, 396, 475, 558, 634 and 715 px.
+
+Key by hand. Period = 150.2 um/89 = 1.68764 um. Synchronism with the third harmonic: beta = period/(3 x 1.550 um) = 0.36293, gamma = 1.07317 (37.39 keV). k3 = 6 pi/period = 11.1692 1/um, omega/c = 4.0537 1/um, Gamma = sqrt(k3^2 - (omega/c)^2) = k3/gamma = 10.4076 1/um; Gamma y0 = 10.4076 x 0.4100 = 4.2671, exp(-4.2671) = 0.014022. Gain = E3 L exp(-Gamma y0) = 0.2015e9 V/m x 12.00e-6 m x 0.014022 = 33.9 eV, which rounds to 34 eV. Integrating the motion with the best entry phase gives 33.904 eV.
+
+The most tempting wrong answer is 25 eV, from the quasi-static decay Gamma = k3 without the factor gamma. 94 periods (a round 1.60 um period) give 26 eV; an electron energy of 30 or 40 keV assumed without the image gives 20 or 39 eV. Other counts: 88 periods give 36 eV, 90 give 32 eV, 87 give 38 eV, 91 give 30 eV.
+
+Check program (Python 3, standard library):
+import math
+lam, E3, L, y0, P = 1.550e-6, 0.2015e9, 12.00e-6, 0.4100e-6, 150.2e-6/89
+b = P/(3*lam)
+G = math.sqrt((6*math.pi/P)**2 - (2*math.pi/lam)**2)
+print(E3*L*math.exp(-G*y0))   # 33.9 (eV)
+
+The uploaded notes add a table over 76 to 102 periods, other routes, the effect of rounding every given (33.85 to 33.96 eV), an integration of the relativistic motion through the harmonic, and a script that counts the teeth from the image file. Sources: Breuer and Hommelhoff, Phys. Rev. Lett. 111, 134803 (2013); Peralta et al., Nature 503, 91 (2013); Breuer, McNeur and Hommelhoff, J. Phys. B 47, 234004 (2014); England et al., Rev. Mod. Phys. 86, 1337 (2014).
