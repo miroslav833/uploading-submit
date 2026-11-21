@@ -1,0 +1,9 @@
+The number of wells is only in the image. Between the two wide bright bands there are 87 dark grooves (wells). Image columns of every fifth groove from the left: 5th 71, 10th 96, 15th 124, 20th 153, 25th 183, 30th 214, 35th 245, 40th 277, 45th 310, 50th 343, 55th 377, 60th 412, 65th 448, 70th 485, 75th 522, 80th 559, 85th 596; the 1st is at column 53 and the 87th at column 611. The spacing grows from about 4.4 px at the left end to about 7.4 px at the right end, so one local spacing gives anything from 76 to 129 and the mean of the end spacings 96.
+
+By hand: d = 87 x 14.00 + 2 x 50.0 = 1318.0 nm; F = (1.520 + 11.10) V/1318.0 nm = 95.75 kV/cm. Infinite-well second-order shift Delta E = (15 - pi^2)/(24 pi^4) m e^2 F^2 L^4/hbar^2 = 2.1945e-3 x 1.5593 eV x (m/m0) = 3.422 meV x (m/m0); electron 0.228 meV + heavy hole 1.198 meV = 1.425 meV (eFL/E1 = 0.37 and 1.9; exact diagonalisation gives 1.417 meV). Exciton at 1579.50 - 1.425 = 1578.075 meV, laser 1577.44 meV, 0.635 meV below; alpha = 6.0e4/(1 + (0.635/0.400)^2) = 6.0e4/3.518 = 1.71e4 cm^-1, so 1.7e4 cm^-1 (exact shifts: 1.67e4).
+
+The most tempting wrong answer is 6.0e4 cm^-1: the exciton taken to sit on the laser line (about 71 wells) in place of the count. Without the built-in voltage 8.9e3, without the spacers 3.1e4, electron shift only 2.7e3, reduced mass 2.6e3.
+
+Check in Python: import math; F=12.62/1318e-9; u=9.1093837e-31*1.602176634e-19**2*F**2*(6e-9)**4/1.054571817e-34**2/1.602176634e-19*1e3; dE=(15-math.pi**2)/(24*math.pi**4)*u*(0.0665+0.350); print(6e4/(1+((1577.44-(1579.50-dE))/0.4)**2)) prints 17054.8
+
+Method: Miller et al., Phys. Rev. Lett. 53, 2173 (1984); Miller et al., Phys. Rev. B 32, 1043 (1985); Bastard, Mendez, Chang and Esaki, Phys. Rev. B 28, 3241 (1983).
