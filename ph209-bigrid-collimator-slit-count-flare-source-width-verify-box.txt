@@ -1,0 +1,17 @@
+The photograph is the only source of the grid period, so the data are given here as text.
+
+Data read from the image (800 x 250 px). The slits are bright lines, turned 0.7 degrees from the vertical; three dark bridges cross them near y = 54, 121 and 191 px. On the rows between the upper two bridges there are 87 bright lines, centred at x = 39, 47, 56, 64, 72, 80, 89, 97, 106, 114, 122, 131, 139, 148, 156, 164, 173, 181, 189, 198, 206, 214, 223, 231, 240, 248, 256, 265, 273, 281, 290, 298, 306, 315, 323, 332, 340, 348, 357, 365, 374, 382, 390, 399, 407, 415, 424, 432, 441, 449, 457, 466, 474, 482, 491, 499, 507, 516, 524, 533, 541, 549, 558, 566, 574, 583, 591, 600, 608, 616, 625, 633, 642, 650, 658, 666, 675, 683, 692, 700, 709, 717, 725, 734, 742, 750, 759 px. The spacing is 8.37 px throughout and a slit takes 0.40 of it. Ruler check: from the tenth line to the eightieth is 586 px, 8.37 px per spacing, and the first and last line are 720 px apart, 86.0 spacings, so 87 slits.
+
+Key by hand. p = 45.00 mm/87 = 0.5172 mm, p/L = 6.990e-4 rad = 144.2 arcsec. The response of two identical gratings to a point source is the autocorrelation of one slit train, so harmonic k has the amplitude 2 sin^2(pi k a/p)/(pi k)^2; with a/p = 2/5 the third is 0.04244 of the first. A Gaussian source of full width at half maximum s multiplies harmonic k by exp(-pi^2 k^2 s^2 L^2/(4 ln2 p^2)), and a steady background changes only the constant. So 0.0135 = 0.04244 exp(-2 pi^2 s^2 L^2/(ln2 p^2)), s L/p = sqrt(ln2 x 1.1454/(2 pi^2)) = 0.2006 and s = 0.2006 x 144.2 = 28.9 arcsec. Answer 29 arcsec. With 86 or 88 slits the value is 29.3 or 28.6.
+
+Most tempting wrong answer: 39 arcsec, from the point-source ratio 1/9 that holds for slits half a period wide: s L/p = sqrt(ln2 x ln(0.1111/0.0135)/(2 pi^2)) = 0.272. A period of exactly 0.500 mm (90 slits) gives 28 arcsec.
+
+Check program (Python, standard library):
+
+import math
+W, L, N, R, q = 45.00e-3, 0.7400, 87, 0.0135, 0.4
+R0 = math.sin(3 * math.pi * q) ** 2 / (9 * math.sin(math.pi * q) ** 2)
+s = (W / N / L) * math.sqrt(math.log(2) * math.log(R0 / R) / (2 * math.pi ** 2))
+print(R0, s * 180 * 3600 / math.pi)      # 0.042441, 28.915 arcsec
+
+The attached notes also obtain the result without Fourier coefficients: light from a Gaussian source is followed through two slit trains on a fine grid, the transmitted fraction is tabulated against the phase of the source centre, and the cosine amplitudes are taken from the table (point source 0.1833, 0.0175, 0.0078; width for the ratio 0.0135: 28.93 arcsec). A third script counts the bright lines in the PNG on four bands of rows (87 on each).
