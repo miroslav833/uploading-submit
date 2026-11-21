@@ -1,0 +1,16 @@
+The image is the only source of the wavelength. It is a simulated shadowgraph, 900 x 134 px (a 900 x 110 px frame and a strip under it), made for this question; the strip gives the centre-to-centre distance from drop A to drop B, 184.6 mm. With pixel columns numbered from 0, the main drops along the stream lie at x = 81.2 + 7.60 j px (to within about 0.2 px); A is j = 0 and B is j = 97 (818.3 px), so there are 97 spacings. Every tenth drop from A is at 81.2, 157.3, 233.0, 309.1, 385.3, 461.1, 537.3, 613.1, 689.2 and 765.1 px. The fainter dots on the left part of the frame are satellites and are not counted.
+
+Key by hand. lambda = 184.6 mm/97 = 1.90309 mm; v = lambda f = 6.3754 m/s. Volume and momentum flux conserved as the Poiseuille profile (momentum flux 4/3 rho ubar^2 pi Rn^2) becomes uniform: Rj = (sqrt 3/2) x 0.1500 mm = 0.12990 mm. x = 2 pi Rj/lambda = 0.42889, I1/I0 = 0.20966, sqrt(gamma/(rho Rj^3)) = 5768.0 1/s, sigma = 5768.0 x sqrt(0.42889 x (1 - 0.42889^2) x 0.20966) = 1562.5 1/s. Length for growth by e: v/sigma = 4.080 mm, which rounds to 4.1 mm. The complex-wavenumber solution in the laboratory frame gives 4.084 mm.
+
+The most tempting wrong answer is 4.6 mm, from taking the bore radius 0.1500 mm as the jet radius. The long-wave form I1/I0 = x/2 gives 4.0 mm; a 2.0 mm wavelength (92 spacings) gives 4.5 mm; the drive taken at the fastest mode x = 0.697 without the image gives 2.0 mm. Other counts: 96 spacings give 4.2 mm, 98 give 4.0 mm.
+
+Check program (Python 3, standard library):
+import math
+def I(n, x): return sum((x/2)**(2*j + n)/(math.factorial(j)*math.factorial(j + n)) for j in range(30))
+gam, rho, f, lam = 0.0728, 998.2, 3350.0, 184.6e-3/97
+R = math.sqrt(3)/2*0.1500e-3
+x = 2*math.pi*R/lam
+s = math.sqrt(gam/(rho*R**3)*x*(1 - x*x)*I(1, x)/I(0, x))
+print(lam*f/s*1e3)   # 4.080 (mm)
+
+The uploaded notes add a table over 80 to 114 spacings, other routes, the effect of rounding every given (4.078 to 4.082 mm), the laboratory-frame solution with and without surface tension in the momentum balance, and a script that counts the drops from the image file. Sources: Rayleigh, Proc. London Math. Soc. s1-10, 4 (1878); Harmon, J. Franklin Inst. 259, 519 (1955); Middleman and Gavis, Phys. Fluids 4, 355 (1961); Goedde and Yuen, J. Fluid Mech. 40, 495 (1970); Eggers and Villermaux, Rep. Prog. Phys. 71, 036601 (2008).
