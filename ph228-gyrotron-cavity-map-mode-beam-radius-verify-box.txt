@@ -1,0 +1,28 @@
+What the map carries. A simulated cold-test map, 371 x 371 px, 0.10 mm per pixel, centred on pixel (185, 185) (column, row, from 0); the wall is 161 px from the centre and the dashed circle 5 px outside it. Grey level rises with H_z^2 of a TE(31,13) mode standing in azimuth, H_z ~ J_31(81.179 r/R) cos(31 phi + 0.37), smoothed by a probe response of 0.1 mm rms, with receiver noise. Lobes around the azimuth: 62, counter-clockwise from the right-hand side at 5.1 deg + k x 5.81 deg (lobe 11 at 63.2, 21 at 121.3, 31 at 179.3, 41 at 237.4, 51 at 295.4, 61 at 353.5 deg); 16 px apart near the wall, 6.7 px on the first ring. Radial maxima along a lobe: 66.6, 78.8, 88.1, 96.4, 104.3, 111.9, 119.3, 126.5, 133.5, 140.5, 147.4, 154.2, 161.0 px, the last a half lobe on the wall. So m = 31, n = 13. A read-back of the image file alone finds the 62nd azimuthal harmonic strongest on every circle from 70 to 154 px and the same 13 maxima.
+
+Key by hand. H_z^2 peaks at the extrema of J_m, r_k = R j'_{m,k}/chi'_{m,n}, with the last one on the wall, so the rings count n. chi'_{31,13} = 81.179 (13th zero of J'_31). The co-rotating wave at harmonic s = 2 couples to guiding centres at R_b through J_{m-2}^2(chi' R_b/R) = J_29^2, largest at its first maximum, chi' R_b/R = j'_{29,1} = 31.506. R_b = 16.10 x 31.506/81.179 = 6.2485 mm, that is 6.25 mm (6.247 to 6.251 mm for R from 16.095 to 16.105 mm).
+
+Most tempting wrong answer: the half lobes on the wall missed, mode taken as TE(31,12): R_b = 16.10 x 31.506/77.767 = 6.52 mm. Other wrong routes: TE(30,13) 6.14 mm, TE(24,11) 5.98 mm, first harmonic (J_30) 6.45 mm, counter-rotating wave (J_33) 7.06 mm, J_31 6.66 mm, beam on the caustic 6.15 mm.
+
+Check program (standard library, about two seconds):
+import math
+def J(m,x,k=600):
+    h=math.pi/k
+    return sum((1 if i in(0,k) else 4 if i%2 else 2)*math.cos(m*i*h-x*math.sin(i*h)) for i in range(k+1))*h/3/math.pi
+def Jp(m,x): return (J(m-1,x)-J(m+1,x))/2
+def zeros(m,n):
+    z=[]; x=float(m); d=0.05
+    while len(z)<n:
+        if Jp(m,x)*Jp(m,x+d)<0:
+            a,b=x,x+d
+            for _ in range(40):
+                c=(a+b)/2
+                if Jp(m,a)*Jp(m,c)<=0: b=c
+                else: a=c
+            z.append(a)
+        x+=d
+    return z
+chi=zeros(31,13)[-1]; j=zeros(29,1)[0]
+print(round(chi,3), round(j,3), round(16.10*j/chi,4))   # 81.179 31.506 6.2485
+
+Citations: Flyagin et al., IEEE Trans. MTT 25, 514 (1977); Nusinovich, Int. J. Electron. 51, 457 (1981); Chu, Rev. Mod. Phys. 76, 489 (2004); Torrezan et al., IEEE Trans. Plasma Sci. 38, 1150 (2010).
