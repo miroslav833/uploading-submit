@@ -1,0 +1,15 @@
+The record carries two things: by how much coil B is later than coil A, and by how much coil C is earlier. It is a simulated record of 760 x 430 px with three panels on one time axis (0 ms at x = 64.6 px, 5 ms at x = 745 px, 136 px per ms). Each trace has 50 samples per ms, 2.72 px apart, joined by straight lines. The oscillation runs from 13.4 kHz at the left to 15.0 kHz at the right, 3.3 to 3.7 samples or about 9.6 px per period, so the drawn peaks are sample points and do not mark the crests; the lags are taken from the digitised traces (phase of the band around 14 kHz, or a sine fitted to the samples), not from peak positions. Result of the read-back from the image file: coil B later than coil A by 0.186 period = 2.98 sixteenths; coil C earlier than coil A by 0.390 period = 7.02 eighteenths. With cos(m theta - n phi + omega t), coil B (22.5 deg on in phi) is later by n/16 of a period and coil C (20.0 deg on in theta) earlier by m/18: n = 3, m = 7. The mode frequency is below half the sampling rate, so its oscillation is not folded by the sampling (the record also holds noise and a weak second harmonic, which do not move the lags).
+
+Key by hand. q = 7/3: 3 - 3x + x^2 = 4.100 x 3/7 = 1.7571, x = 0.4964, r_s = 0.3523 m; shear r q'/q = 2x(3 - 2x)/(3 - 3x + x^2) = 1.134; B_theta(r_s) = r_s B_phi/(R q) = 0.1830 T. Vacuum flux vanishing at the wall: psi_s = (b B_wall/2m)[(b/r_s)^m - (r_s/b)^m] = (0.600 x 4.70e-6/14) x 41.54 = 8.37e-6 T m (radial field on the surface 166 micro-T). W = 4 sqrt(psi_s r_s/(B_theta s)) = 4 sqrt(1.420e-5) m = 1.507 cm, that is 1.5 cm. Checks: separatrix of the full helical flux 1.46 cm; Bessel-function vacuum field 1.53 cm; givens moved by half their last digit 1.495 to 1.520 cm.
+
+Other values: 0.93 cm for the mode 2/1 (the usual guess without the record); 1.2 cm for 8/3; 2.2 cm for 6/3; 0.55 cm for 7/2; 7.0 cm for 7/4; 0.88 cm for 5/2; 5.5 cm for 3/2; 0.66 cm for 11/3; 2.7 cm for 9/4 (B taken as a quarter period late, C as half a period early); 2.1 cm for 7/3 without the wall; 0.75 cm for the half width.
+
+Check in a second (Python 3, standard library):
+import math
+R, a, b, B, qa, Bw, m, n = 1.650, 0.500, 0.600, 2.000, 4.100, 4.70e-6, 7, 3
+x = (3 - math.sqrt(9 - 4*(3 - qa*n/m)))/2; rs = a*math.sqrt(x)
+s = 2*x*(3 - 2*x)/(3 - 3*x + x*x); Bt = rs*B*n/(R*m)
+psi = b*Bw/(2*m)*((b/rs)**m - (rs/b)**m)
+print(rs, s, Bt, psi, 400*math.sqrt(psi*rs/(Bt*s)))      # 0.3523 1.134 0.1830 8.37e-06 1.507
+
+Citations: Wesson, Tokamaks, 4th ed. (2011), sections 7.2, 7.3 and 10.3; Fitzpatrick, Nucl. Fusion 33, 1049 (1993); Strait, Rev. Sci. Instrum. 77, 023502 (2006); La Haye, Phys. Plasmas 13, 055501 (2006). The uploaded notes hold the key script with every resonant pair of mode numbers, the two checks of the width, the program that draws the record and the read-back of the lags from the image file.
