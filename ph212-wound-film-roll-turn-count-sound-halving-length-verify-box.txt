@@ -1,0 +1,17 @@
+The answer is not taken from a paper. It follows from the givens and from one count on the photograph, so the content of the photograph is listed here as text.
+
+What the photograph shows. The image is 836 x 236 px. The rod is the grey block at the left (its edge is at x = 52 on pixel row y = 131), the tube wall is the grey block at the right (edge at x = 800 on that row). Between them the film layers are thin bright arcs, 5.71 px apart on row 131. On that row the bright lines sit at x = 54, 60, 66, 71, 77, 83, 89, 94, 100, 106, 111 and so on in steps of 5.71 px; the 11th, 21st, 31st, ... 121st are at 111, 169, 226, 283, 340, 397, 454, 511, 568, 625, 682, 740, and the last one, the 131st, is at x = 797. Rows 108, 120, 142 and 154 also give 131 lines. The film makes 131 turns.
+
+The key by hand. Radial space (75.4 - 6.4)/2 = 34.5 mm; pitch 34.5/131 = 0.2634 mm; gap 0.2634 - 0.036 = 0.2274 mm; half gap y0 = 0.1137 mm. At 300 Hz the viscous depth is sqrt(2 x 1.51e-5/1885) = 0.1266 mm and the thermal depth is 0.1266/sqrt(0.71) = 0.1502 mm, so y0 is 0.898 and 0.757 of them. For a slit with rigid isothermal walls, k^2 = (w/c)^2 [1 + (gamma - 1) f_k]/(1 - f_v), f = tanh[(1+i) y0/delta]/[(1+i) y0/delta]. Here f_v = 0.7568 - 0.3790i, f_k = 0.8560 - 0.3151i, k = 8.12 - 4.95i per metre. The amplitude is halved over ln 2/4.95 = 0.140 m = 14 cm. Counts of 129, 130, 132 and 133 turns give 14.4, 14.2, 13.8 and 13.7 cm, the same two figures.
+
+Wrong answers that come up easily. 11 cm: isothermal Poiseuille flow in a narrow gap, k^2 = -3i gamma nu w/(c^2 y0^2), decay constant 6.27 per metre, 11.0 cm; this is the most tempting wrong answer. 31 cm: the thin-layer limit for a slit, alpha = (w/c)(delta_v + (gamma - 1) delta_k)/(4 y0) = 2.26 per metre. 15 cm: the thin-layer formula of a round tube with y0 put in as the radius. 17 cm: heat exchange left out, or the film thickness not taken off the pitch. 20 cm: the 1/e length. 13 cm and 16 cm: the line spacing taken as 5.5 px or 6 px instead of 5.71 px, which makes 136 or 125 turns. 27 cm: the spacing judged near 8.4 px, about 88 turns.
+
+Check (Python, standard library):
+import cmath, math
+h = (75.4e-3 - 6.4e-3)/2/131 - 36e-6
+w = 2*math.pi*300; dv = math.sqrt(2*1.51e-5/w); dk = dv/math.sqrt(0.71)
+F = lambda d: cmath.tanh((1+1j)*h/2/d)/((1+1j)*h/2/d)
+k = (w/343.0)*cmath.sqrt((1 + 0.40*F(dk))/(1 - F(dv)))
+print(100*math.log(2)/abs(k.imag))    # 14.0
+
+Sources for the method: Rott, Z. Angew. Math. Phys. 20, 230 (1969); Tijdeman, J. Sound Vib. 39, 1 (1975); Swift, J. Acoust. Soc. Am. 84, 1145 (1988); Stinson, J. Acoust. Soc. Am. 89, 550 (1991).
