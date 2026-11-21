@@ -1,0 +1,21 @@
+The figure is 760 x 300 px and shows 93 straight sections of the meander as thin bright lines. Their x positions in pixels on the middle row (y = 150 px), left to right, ten to a group, are 60.4, 65.2, 70.1, 75.1, 80.1, 85.2, 90.3, 95.5, 100.8, 106.1; then 111.5, 116.9, 122.4, 128.0, 133.6, 139.3, 145.0, 150.8, 156.7, 162.6; then 168.6, 174.7, 180.8, 186.9, 193.2, 199.4, 205.8, 212.2, 218.7, 225.2; then 231.8, 238.5, 245.2, 251.9, 258.8, 265.6, 272.6, 279.6, 286.6, 293.7; then 300.9, 308.1, 315.4, 322.7, 330.1, 337.5, 345.0, 352.5, 360.1, 367.7; then 375.4, 383.1, 390.9, 398.7, 406.6, 414.4, 422.4, 430.4, 438.4, 446.4; then 454.5, 462.6, 470.7, 478.9, 487.1, 495.3, 503.6, 511.8, 520.1, 528.4; then 536.7, 545.0, 553.3, 561.6, 569.9, 578.3, 586.6, 594.9, 603.2, 611.4; then 619.7, 627.9, 636.1, 644.3, 652.4, 660.5, 668.5, 676.5, 684.5, 692.3; then 700.1, 707.9, 715.5.
+
+By hand. L = 93 x 9.000 mm + 92 x pi x 0.0300 mm + 3.0 mm = 848.67 mm. Peak pump power 60.0 mW/(2.000 ns x 5.000 MHz) = 6.000 W, gamma P = 5.274 1/m. Omega = 2 pi c (1/1537.00 nm - 1/1559.00 nm) = 1.7294e13 rad/s; Delta beta = beta2 Omega^2 = -17.347 1/m (beta3 cancels between signal and idler); kappa = Delta beta + 2 gamma P = -6.799 1/m; g = sqrt(5.274^2 - 3.400^2) = 4.032 1/m, gL = 3.422. |mu|^2 = 1 + (gamma P sinh(gL)/g)^2 = 401.34 (26.0 dB), |nu|^2 = 400.34. With equal signal and idler powers at the best phase the signal gain is (|mu| + |nu|)^2 = 1603, 32.05 dB, so 32 dB.
+
+The most tempting wrong answer is 26 dB, the gain of the signal alone, |mu|^2, without the in-phase idler. Adding signal and idler output powers, 2|mu|^2 - 1, gives 29 dB; perfect phase matching, g = gamma P, gives 39 dB; dropping 2 gamma P from kappa gives about 3 dB; the average pump power gives almost none.
+
+A check in Python, standard library only:
+
+import math
+c = 299792458.0
+N, l, R, extra = 93, 9.000e-3, 30.0e-6, 3.0e-3
+lp, ls, b2, gam = 1559.00e-9, 1537.00e-9, -58.0e-27, 0.879
+P = 60.0e-3/(2.000e-9*5.000e6)
+L = N*l + (N - 1)*math.pi*R + extra
+Om = 2*math.pi*c*(1/ls - 1/lp)
+kap = b2*Om**2 + 2*gam*P
+g = math.sqrt((gam*P)**2 - (kap/2)**2)
+G = 1 + (gam*P*math.sinh(g*L)/g)**2
+print(L, g, 10*math.log10(G), 10*math.log10((math.sqrt(G) + math.sqrt(G - 1))**2))   # 0.8487 m, 4.032, 26.0 dB, 32.05 dB
+
+Sources: Stolen and Bjorkholm, IEEE J. Quantum Electron. 18, 1062 (1982); Hansryd et al., IEEE J. Sel. Top. Quantum Electron. 8, 506 (2002); McKinstrie and Radic, Opt. Express 12, 4973 (2004); Ye et al., Sci. Adv. 7, eabi8150 (2021).
