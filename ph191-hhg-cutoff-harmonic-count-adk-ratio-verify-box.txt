@@ -1,0 +1,18 @@
+Data read from the figure: line centres (CCD column) from the line marked cutoff to the line marked H129:
+182.0 186.7 191.6 196.5 201.4 206.5 211.6 216.9 222.1 227.5 233.0 238.5 244.1 249.9 255.7 261.6 267.6 273.7 279.9 286.2 292.7 299.2 305.9 312.6 319.5 326.6 333.7 341.0 348.4 356.0 363.7 371.6 379.6 387.8 396.1 404.7 413.4 422.3 431.4 440.7 450.2 459.9 469.8 480.0 490.3 501.0
+That is 46 lines and 45 spacings (10 lines in columns 182 to 230, 10 in 230 to 290, 11 in 290 to 365, 9 in 365 to 450, 6 in 450 to 501); the spacing falls from 10.7 px at H129 to under 5 px at the cutoff.
+
+Key by hand. Odd harmonics only, so q_c = 129 + 2 x 45 = 219. Photon energy 1239.842/1810 = 0.68500 eV; 219 x 0.68500 = 150.014 eV. U_p = (150.014 - 21.5645)/3.17 = 40.520 eV = 1.48910 hartree. U_p = F^2/(4 w^2) with w = 0.025173 hartree gives F = 0.06144 a.u. kappa = 1.25895, 2/kappa = 1.58862. Prefactor 2.10^2 x 1.5 x kappa^(1 - 1.58862) = 5.7765; (2 kappa^3/F)^0.58862 = 11.6669; exp(-21.6525). Rate 2.6610e-8 a.u. = 1.1001e-6 per fs. Answer 1.1e-6 fs^-1.
+
+Most tempting wrong answer: a count one spacing short (44 spacings, cutoff 217) gives 9.8e-7 fs^-1; one spacing long gives 1.2e-6 fs^-1. Taking every line as one order (cutoff 174) gives 4.9e-8 fs^-1.
+
+Check program (Python 3, standard library; prints the rate for 42 to 48 spacings):
+import math
+HA = 27.211386; w = 1239.841984 / 1810 / HA; ip = 21.5645 / HA; k = math.sqrt(2 * ip)
+def rate(n):                     # n = line spacings from H129 to the cutoff line
+    q = 129 + 2 * n; up = (q * w - ip) / 3.17; F = 2 * w * math.sqrt(up)
+    return 2.10 ** 2 * 1.5 * k ** (1 - 2 / k) * (2 * k ** 3 / F) ** (2 / k - 1) * math.exp(-2 * k ** 3 / (3 * F)) / 0.024188843
+print(" ".join(f"{n}:{rate(n):.2g}" for n in range(42, 49)))
+Output: 42:7.8e-07 43:8.8e-07 44:9.8e-07 45:1.1e-06 46:1.2e-06 47:1.4e-06 48:1.5e-06
+
+Citations: Krause, Schafer and Kulander, Phys. Rev. Lett. 68, 3535 (1992); Corkum, Phys. Rev. Lett. 71, 1994 (1993); Lewenstein et al., Phys. Rev. A 49, 2117 (1994); Tong, Zhao and Lin, Phys. Rev. A 66, 033402 (2002); Tong and Lin, J. Phys. B 38, 2593 (2005); Kita et al., Appl. Opt. 22, 512 (1983).
