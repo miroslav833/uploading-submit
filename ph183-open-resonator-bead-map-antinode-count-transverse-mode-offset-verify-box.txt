@@ -1,0 +1,20 @@
+The map is the only source of the axial mode number, so the data are given here as text.
+
+Data read from the image (600 x 190 px). The axis of the beam is the row y = 97 px. On it the map has 73 bright bands (antinodes of the standing wave) at x = 31, 38, 45, 53, 60, 68, 75, 83, 90, 98, 105, 112, 120, 127, 135, 142, 150, 157, 164, 172, 179, 187, 194, 202, 209, 217, 224, 232, 239, 247, 254, 262, 269, 276, 284, 291, 299, 306, 314, 321, 329, 336, 344, 351, 359, 366, 374, 381, 389, 396, 403, 411, 418, 426, 433, 441, 448, 456, 463, 471, 478, 485, 493, 500, 508, 515, 523, 530, 538, 545, 552, 560, 567 px. The spacing is 7.45 px throughout; 37 bands lie left of x = 300 px and 36 right of it. The mirror surfaces are at x = 27 and 571 px, a quarter of a wavelength outside the first and the last band.
+
+Key by hand. The field vanishes on both mirrors, so the axial mode number is q = 73. For two mirrors of radius of curvature R at a distance L the paraxial resonances are f = (c/2L)[q + (m + n + 1) psi] with psi = arccos(1 - L/R)/pi. For the mode in the map, L = (q + psi) lambda/2 with lambda = 3.78717 mm: psi = 0.5 gives L = 139.18 mm, then psi = 0.5362 and L = 139.247 mm, which no longer changes; psi = 0.53636 and c/2L = 1076.47 MHz. A mode with m + n = 2 and axial number q - 1 lies (2 psi - 1) c/2L = 0.072719 x 1076.47 MHz = 78.3 MHz above the TEM00 resonance; the modes of order two with other axial numbers are 0.93 or 1.07 free spectral ranges away. Answer 78 MHz.
+
+Most tempting wrong answer: 73 MHz, from L = q lambda/2 = 138.23 mm, that is, with the Gouy phase left out of the resonance condition that fixes the distance. With 72 or 74 antinodes the answer would be 69 or 88 MHz.
+
+Check program (Python, standard library):
+
+import math
+c, R, f, q = 299792458.0, 125.00e-3, 79.16e9, 73
+lam = c / f
+L = (q + 0.5) * lam / 2
+for _ in range(50):
+    L = (q + math.acos(1 - L / R) / math.pi) * lam / 2
+psi = math.acos(1 - L / R) / math.pi
+print(L * 1e3, (2 * psi - 1) * c / (2 * L) / 1e6)      # 139.2474 mm, 78.28 MHz
+
+The attached notes also obtain the phase step between successive transverse modes without the closed form, from the numerical eigenvalues of the Fresnel operator for one transit between the mirrors (0.536360 pi, the same as arccos(1 - L/R)), solve the resonance for the distance with that operator (139.2474 mm), and count the maxima of the energy density on the axis of the Gaussian-beam field (73).
