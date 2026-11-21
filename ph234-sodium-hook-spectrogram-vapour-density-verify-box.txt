@@ -1,0 +1,21 @@
+The answer is 1.6, i.e. N = 1.6 x 10^20 sodium atoms per m^3. The frame was made for this question (image_source.py in the notes), with N = 1.590 x 10^20 m^-3, l = 0.350 m and a plate of group order K = 34300.
+
+Data read on the frame. Hooks (places where the fringes run horizontally): 588.773, 589.238, 589.410 and 589.753 nm. Middle row, 587.80 to 588.40 nm: 33 dark fringes, every fifth at 587.874, 587.965, 588.056, 588.148, 588.242, 588.339 nm, with 0.13 of an order before the first and 0.06 after the last, so Delta M = 32.19. Middle row, 590.20 to 590.80 nm: 33 dark fringes, every fifth at 590.289, 590.382, 590.473, 590.563, 590.653, 590.742 nm, plus 0.75 and 0.27 of an order, Delta M = 33.02.
+
+Key by hand. In the line wings n - 1 = (r0 N/4 pi) sum f_i lam_i^3/(lam - lam_i). Along a row the order is M = const + K lam/lam_r + (r0 N l/(4 pi lam_r)) T(lam), with T = sum f_i lam_i^3/(lam - lam_i). At a hook dM/dlam = 0, so K = (r0 N l/4 pi) S(lam_h), S = sum f_i lam_i^3/(lam_h - lam_i)^2; the four hooks give S = 2.749 x 10^9 nm on average (both lines enter each hook). The count between lam_a and lam_b then gives Delta M = (r0 N l/(4 pi lam_r)) [S (lam_b - lam_a) + T(lam_b) - T(lam_a)] = (r0 N l/(4 pi lam_r)) (1.649 x 10^9 - 1.290 x 10^8) nm^2, so N = 4 pi (589.3e-9 m)(32.19)/((2.818e-15 m)(0.350 m)(1.520e-9 m^2)) = 1.59 x 10^20 m^-3. The red wing gives the same.
+
+Most tempting wrong answer: leaving the vapour out of the fringe count (K = Delta M lam_r/(lam_b - lam_a) = 31600) gives 1.47 x 10^20, quoted as 1.5. The single-line formula N f l = pi K Delta^2/(r0 lam^3) with each line's own hook separation gives 1.8 (D2) and 2.0 (D1).
+
+Check program (standard library):
+import math
+r0, l, lr = 2.8179403e-15, 0.350, 589.30
+lines = [(588.995, 0.641), (589.592, 0.320)]
+S = lambda x: sum(f * L ** 3 / (x - L) ** 2 for L, f in lines)
+T = lambda x: sum(f * L ** 3 / (x - L) for L, f in lines)
+hooks = [588.773, 589.238, 589.410, 589.753]
+Sm = sum(S(h) for h in hooks) / 4
+la, lb, dM = 587.80, 588.40, 32.19
+N = 4 * math.pi * lr * 1e-9 * dM / (r0 * l * (Sm * (lb - la) + T(lb) - T(la)) * 1e-18)
+print(N)   # 1.59e20
+
+Citations: Roschdestwensky, Ann. Phys. 344, 307 (1912); Marlow, Appl. Opt. 6, 1715 (1967); Huber and Sandeman, Rep. Prog. Phys. 49, 397 (1986); Parkinson, Reeves and Tomkins, J. Phys. B 9, 157 (1976); Volz and Schmoranzer, Phys. Scr. T65, 48 (1996).
