@@ -1,0 +1,19 @@
+The figure is 1000 x 270 px and shows the tube lying across the frame, the ground flange at the left (x about 114 px) and the terminal flange at the right (x about 933 px). Between them are 116 electrode rims, each a thin bright arc. Their x positions in pixels along the tube axis (row y = 128 px), left to right, ten to a group, are 118.5, 123.2, 127.9, 132.7, 137.6, 142.4, 147.3, 152.3, 157.3, 162.4; then 167.4, 172.6, 177.8, 183.0, 188.2, 193.6, 198.9, 204.3, 209.8, 215.2; then 220.8, 226.4, 232.0, 237.7, 243.4, 249.1, 254.9, 260.8, 266.7, 272.6; then 278.6, 284.6, 290.7, 296.8, 303.0, 309.2, 315.5, 321.8, 328.1, 334.5; then 341.0, 347.4, 354.0, 360.6, 367.2, 373.9, 380.6, 387.3, 394.1, 401.0; then 407.9, 414.8, 421.8, 428.8, 435.9, 443.0, 450.2, 457.4, 464.6, 471.9; then 479.3, 486.6, 494.1, 501.5, 509.0, 516.5, 524.1, 531.7, 539.4, 547.1; then 554.8, 562.6, 570.4, 578.2, 586.1, 594.0, 602.0, 609.9, 617.9, 626.0; then 634.0, 642.1, 650.3, 658.4, 666.6, 674.8, 683.1, 691.3, 699.6, 707.9; then 716.2, 724.5, 732.9, 741.3, 749.6, 758.0, 766.4, 774.9, 783.3, 791.7; then 800.1, 808.5, 817.0, 825.4, 833.8, 842.2, 850.6, 859.0, 867.4, 875.7; then 884.1, 892.4, 900.6, 908.9, 917.1, 925.3.
+
+By hand. 116 electrodes and two flanges make n = 117 gaps of 19.05 mm, 2.2289 m in all. The site needs J = 1.0 nA / 1.0e-13 m^2 = 1.0e4 A/m^2. Murphy-Good: J = (a/phi) F^2/t^2 exp(-v b phi^1.5/F), a = 1.541434e-6 A eV/V^2, b = 6.830890 eV^-1.5 V/nm, f = 1.439965 F/phi^2 (F in V/nm), v = 1 - f + (f/6) ln f, t = 1 + f/9 - (f/18) ln f. With phi = 4.33 eV, b phi^1.5 = 61.547 V/nm and the solution is F = 2.4475 V/nm (f = 0.188, v = 0.760, t = 1.038, exponent 19.10, prefactor 1.978e12 A/m^2); the exact barrier functions give 2.4415 V/nm. V_T = F x 117 x 19.05 mm / 1515 = 3.592 MV (3.601 MV with the approximate functions), so 3.6 MV. Counts of 116 to 118 gaps all give 3.6 MV.
+
+The most tempting wrong answer is 4.6 MV, from the elementary Fowler-Nordheim equation without the image potential (v = t = 1), which needs F = 3.13 V/nm. 100 gaps give 3.1 MV, 120 gaps 3.7 MV.
+
+A check in Python, standard library only:
+
+import math
+a, b, c, phi = 1.541434e-6, 6.830890, 1.439965, 4.33
+J = 1.0e-9/1.0e-13
+F = 2.5
+for k in range(60):
+    f = c*F/phi**2
+    v, t = 1 - f + f/6*math.log(f), 1 + f/9 - f/18*math.log(f)
+    F = v*b*phi**1.5/math.log(a/phi*(F*1e9)**2/t**2/J)
+print(F, F*1e9*117*19.05e-3/1515/1e6)   # 2.4475 V/nm, 3.601 MV
+
+Sources: Fowler and Nordheim, Proc. R. Soc. Lond. A 119, 173 (1928); Murphy and Good, Phys. Rev. 102, 1464 (1956); Forbes, Appl. Phys. Lett. 89, 113122 (2006); Forbes and Deane, Proc. R. Soc. A 463, 2907 (2007).
