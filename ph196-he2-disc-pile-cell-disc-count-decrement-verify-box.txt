@@ -1,0 +1,18 @@
+The figure is 798 x 120 px and shows 113 thin discs between two end plates. Their x positions in pixels, left to right, ten to a group, are 44.3, 48.2, 52.2, 56.2, 60.3, 64.5, 68.8, 73.0, 77.0, 81.2; then 85.6, 90.0, 94.3, 98.8, 103.3, 107.8, 112.3, 117.0, 121.5, 126.3; then 130.9, 135.6, 140.5, 145.4, 150.3, 155.2, 160.2, 165.2, 170.4, 175.4; then 180.5, 185.6, 191.0, 196.4, 201.6, 207.0, 212.5, 217.9, 223.5, 229.0; then 234.5, 240.4, 245.9, 251.6, 257.5, 263.5, 269.4, 275.2, 281.2, 287.3; then 293.4, 299.4, 305.5, 311.5, 317.9, 324.3, 330.5, 337.0, 343.5, 349.9; then 356.5, 362.9, 369.5, 376.2, 382.9, 389.5, 396.4, 403.2, 410.0, 416.9; then 423.8, 430.8, 437.8, 444.8, 451.9, 459.0, 466.1, 473.3, 480.5, 487.8; then 495.0, 502.3, 509.6, 517.0, 524.3, 531.8, 539.1, 546.6, 554.1, 561.6; then 569.0, 576.6, 584.1, 591.7, 599.1, 606.8, 614.2, 621.8, 629.3, 636.9; then 644.4, 651.9, 659.5, 666.9, 674.5, 681.9, 689.3, 696.7, 704.1, 711.3; and last 718.6, 725.8, 733.0. Neighbouring discs are 3.9 to 7.7 px apart: the spacing grows from the left, is largest about three quarters of the way along and falls off a little at the right edge because of the lens. A ruler check without counting: the span from first to last disc is 689 px, the spacing is 4.1 px at the left end, 6.75 px at mid-span and 7.3 px at the right end, and Simpson's rule gives 689 (1/4.1 + 4/6.75 + 1/7.3)/6 = 112 spacings, so about 113 discs, a rough check good to a few discs.
+
+By hand. 113 discs and two end plates make 114 gaps, each d = (44.60 - 113 x 0.050)/114 = 0.3417 mm. Only the normal component is dragged; the superfluid stays at rest. In a gap the normal liquid turns with the local angular velocity Omega cosh(kz)/cosh(kd/2), k = (1+i)/delta, delta = sqrt(2 eta/(rho_n omega)), so the liquid acts as a complex moment of inertia J f with J = (pi/2) R^4 rho_n (H - n t) and f = tanh(x)/x, x = (1+i) d/(2 delta). The periods give J Re f = I0 ((T1/T0)^2 - 1) = 6.10e-6 x 0.07234 = 4.413e-7 kg m^2, and (pi/2) R^4 (H - n t) = 9.789e-9 m^5, so rho_n = 45.2 kg/m^3 (after one round for Re f = 0.9964). Then omega = 0.16311 /s, delta = 0.5936 mm, d/delta = 0.576, f = 0.9964 - 0.0550 i. The decrement is pi (1 - T0^2/T1^2) |Im f|/Re f = pi x 0.06746 x 0.05518 = 0.01169, which is 0.012 to two figures. The thin-gap form pi (1 - T0^2/T1^2) d^2/(6 delta^2) gives 0.0117. Any disc number from 110 to 113 gives 0.012.
+
+The most tempting wrong answer is 0.013. It ignores the thickness of the discs altogether: the gap is taken as H/114 = 0.391 mm and the liquid as filling the full 44.60 mm, although the discs fill 5.65 mm of the bore. With the density of the whole liquid, 145 kg/m^3, in the penetration depth one gets 0.038.
+
+A check in Python, standard library only.
+
+import math, cmath
+R, H, t, I0, T0, T1, eta, n = 20.00e-3, 44.60e-3, 0.050e-3, 6.10e-6, 37.200, 38.522, 1.30e-6, 113
+d = (H - n*t)/(n + 1); w = 2*math.pi/T1; ref = 1.0
+for _ in range(20):
+    rho = I0*((T1/T0)**2 - 1)/ref/(math.pi/2*R**4*(H - n*t))
+    delta = math.sqrt(2*eta/(rho*w)); x = (1 + 1j)*d/(2*delta); f = cmath.tanh(x)/x; ref = f.real
+print(rho, delta, f)                                   # 45.24 kg/m3, 5.936e-4 m, 0.99636 - 0.05497j
+print(math.pi*(1 - (T0/T1)**2)*abs(f.imag)/f.real)     # 0.011693
+
+Sources: Andronikashvili, J. Phys. (USSR) 10, 201 (1946); Landau and Lifshitz, Fluid Mechanics, section 24.
