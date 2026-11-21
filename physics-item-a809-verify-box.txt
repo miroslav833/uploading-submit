@@ -1,0 +1,22 @@
+The frame is the only source of the singularity density, so the data are given here as text.
+
+Data read from the image (700 x 700 px of 7.40 um, frame 5.180 mm wide). Places where a carrier fringe splits in two (phase singularities of the speckle field), (x, y) in px from the top-left corner with y downwards, and the sign of the phase winding, by quarter (split at x = 350 and y = 350):
+upper left (32): (216, 18, +); (346, 30, +); (314, 34, -); (208, 56, -); (184, 58, -); (308, 60, +); (106, 68, -); (108, 68, +); (196, 68, +); (346, 84, -); (146, 86, -); (170, 98, +); (98, 100, +); (326, 106, +); (194, 114, -); (240, 114, -); (128, 136, +); (100, 148, -); (28, 150, -); (168, 198, -); (130, 206, +); (206, 208, +); (326, 222, +); (124, 230, -); (106, 242, +); (198, 266, -); (110, 276, -); (160, 296, +); (188, 308, +); (316, 316, -); (266, 330, +); (22, 344, +).
+upper right (27): (644, 8, +); (450, 20, +); (392, 20, -); (558, 60, -); (484, 78, +); (518, 92, -); (390, 116, +); (452, 118, -); (540, 124, +); (460, 126, +); (590, 134, -); (370, 158, -); (614, 174, +); (454, 182, +); (516, 184, -); (622, 202, -); (542, 218, +); (636, 232, +); (480, 244, +); (652, 248, -); (528, 262, -); (610, 262, -); (354, 264, -); (450, 280, -); (470, 306, +); (506, 338, -); (664, 340, +).
+lower left (23): (266, 350, -); (176, 356, -); (178, 384, +); (32, 396, -); (316, 396, +); (156, 428, -); (132, 428, +); (306, 442, -); (238, 446, +); (338, 448, +); (220, 486, -); (116, 508, +); (62, 550, -); (310, 564, +); (340, 568, -); (46, 580, +); (308, 604, -); (254, 616, -); (336, 662, +); (238, 668, +); (94, 676, -); (106, 676, +); (14, 678, +).
+lower right (35): (384, 352, +); (522, 370, +); (392, 386, -); (596, 402, -); (640, 412, +); (402, 416, -); (474, 474, +); (408, 484, +); (614, 490, +); (506, 500, -); (662, 502, -); (542, 510, +); (448, 518, -); (582, 528, -); (492, 536, +); (652, 548, +); (438, 556, -); (512, 562, -); (508, 570, +); (640, 574, -); (454, 584, +); (556, 592, +); (520, 594, -); (356, 610, +); (650, 632, +); (418, 636, -); (560, 646, -); (608, 656, +); (540, 658, +); (460, 664, +); (512, 668, -); (654, 680, -); (570, 686, -); (686, 690, +); (364, 696, -).
+Total 117 (60 +, 57 -). The pair at (106, 68) and (108, 68) is 3 px apart and shows only as a kink; any count from 111 to 127 gives the same rounded answer.
+
+Key by hand. n = 117 / (5.180 mm)^2 = 117 / 26.83 mm^2 = 4.360 mm^-2. The lens makes the speckle spectrum the intensity on the glass mapped by kappa = k xi / f, so <kappa^2> = k^2 w^2 / (2 f^2) for a Gaussian spot of 1/e^2 radius w. Singularity density of a circular Gaussian field: n = <kappa^2> / (4 pi) = pi w^2 / (2 lambda^2 f^2). w = lambda f sqrt(2 n / pi) = 0.41765 mm^2 x 1.6660 mm^-1 = 0.6958 mm; diameter 1.392 mm, which is 1.4 mm.
+
+Most tempting wrong answer: 0.98 mm, from one singularity per speckle correlation area (n = 1/A_c with A_c = lambda^2 f^2 / (pi w^2)); counting forks of one orientation only, or weighting the spectrum by the amplitude instead of the intensity, gives the same. The radius is 0.70 mm.
+
+Check program (Python, standard library):
+
+import math
+n = 117 / (700 * 7.40e-3) ** 2                     # per mm^2
+w = 632.8e-6 * 660 * math.sqrt(2 * n / math.pi)    # mm
+print(2 * w)                                       # 1.392
+print(2 * w / math.sqrt(2))                        # 0.984, one singularity per correlation area
+
+The attached notes also recover the singularities from the PNG alone by Fourier demodulation of the carrier (117 to 121 found, depending on the filter width) and check n = <kappa^2>/(4 pi) by Monte Carlo.
