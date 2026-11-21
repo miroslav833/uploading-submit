@@ -1,0 +1,21 @@
+The map is the only source of the vortex density of the second piece, so the data are given here as text.
+
+Data read from the image (700 x 700 px, frame 30.0 um wide). Points where three bright and three dark sectors meet, (x, y) in px with y downwards, by quadrant (split at x = 350 and y = 350):
+upper left (19): (24, 61); (266, 78); (337, 80); (108, 95); (143, 116); (336, 124); (239, 149); (75, 175); (287, 194); (102, 215); (216, 226); (19, 244); (338, 246); (250, 249); (54, 263); (276, 271); (198, 272); (312, 277); (80, 306).
+upper right (23): (487, 52); (601, 86); (405, 87); (506, 93); (682, 113); (456, 125); (583, 130); (425, 149); (386, 150); (630, 155); (498, 163); (674, 175); (563, 186); (596, 201); (480, 212); (469, 263); (622, 279); (532, 279); (582, 280); (391, 283); (556, 306); (508, 318); (540, 337).
+lower left (30): (130, 358); (278, 361); (31, 368); (337, 374); (160, 380); (192, 398); (304, 408); (53, 409); (107, 433); (156, 436); (207, 449); (252, 451); (341, 456); (287, 460); (175, 462); (38, 487); (293, 492); (255, 495); (216, 511); (138, 514); (265, 526); (331, 531); (294, 581); (345, 582); (26, 584); (160, 588); (70, 593); (204, 607); (306, 631); (19, 664).
+lower right (25): (462, 365); (641, 375); (381, 391); (517, 394); (550, 405); (610, 407); (462, 426); (658, 432); (569, 455); (442, 462); (410, 463); (600, 472); (529, 474); (659, 488); (392, 512); (541, 543); (512, 558); (471, 563); (647, 577); (617, 604); (381, 630); (457, 636); (508, 653); (600, 657); (421, 662).
+Total 97 (48 vortices and 49 antivortices by construction; the out-of-plane contrast does not tell them apart and the question counts both). No core lies closer than 18 px to an edge.
+
+Key by hand. n = 97/900 um^2 = 0.1078 um^-2, n_ref = 127/10^4 um^2 = 0.0127 um^-2, ratio 8.486. Critical region of the trimerization transition: three-dimensional XY (six-fold anisotropy irrelevant), nu = 0.6717, z = 2 from the stem. Line defects: areal density proportional to xi_hat^-2 and so to the cooling rate to the power 2 nu/(1 + z nu) = 0.5733. Rate = 0.265 K/h x 8.486^1.7444 = 0.265 x 41.69 = 11.0 K/h, which is 11 K/h. Any density from 95 to 99 points in the frame gives the same rounded rate.
+
+Most tempting wrong answer: 19 K/h, from mean-field exponents (nu = 1/2, z = 2, rate going as the density squared), which hold only outside the critical region. Ising exponents give 12 K/h; point-defect scaling (xi_hat^-3) gives 3.2 K/h.
+
+Check program (Python, standard library):
+
+nu, z = 0.6717, 2.0
+ratio = (97 / 30.0**2) / (127 / 100.0**2)
+print(0.265 * ratio ** ((1 + z * nu) / (2 * nu)))   # 11.05
+print(0.265 * ratio ** 2.0)                         # 19.09, mean-field
+
+The attached notes also find the 97 cores in the PNG alone by counting domain-boundary crossings on circles around every pixel.
