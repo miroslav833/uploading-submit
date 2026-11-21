@@ -1,0 +1,18 @@
+The answer is not taken from a paper. It follows from the givens and from one reading of the image, so the content of the image is listed here as text.
+
+What the image shows. Strip A (top, pixel rows 16 to 216): bright stripes 36 px apart. Strip B (bottom, rows 276 to 476): bright stripes 72 px apart. All stripes lean by 2.6 degrees against the pixel columns, so a stripe moves 1.6 px to the left for every 36 px downwards. Along the row y = 116 px the stripes of A are at x = 21, 57, 93, 129, 166, 201, 238, 274, 310, 346, 382, 418, 454, 490, 526, 562, 598, 634, 670, 706, 742 px (at y = 36 they are at 25, 61, 97 and so on, at y = 196 at 18, 54, 90 and so on). Along the row y = 376 px the stripes of B are at x = 40, 112, 184, 256, 328, 400, 472, 544, 616, 688 px. Continued along their own direction to y = 376, the stripes of A have moved 11.8 px to the left (298, 334, 370 px and so on), so the stripes of B lie 6 px to the left of lines of wells and 12 px (0.34 a) from the midpoints. The image was drawn with 0.338 a; a fit to all pixels of the file gives 0.344 a.
+
+The key by hand. The second wave gives the two wells beside a midpoint the energies -V cos^2(pi d/2a +- pi/4), which differ by Delta = V sin(pi d/a) = 3.40 x sin(0.34 pi) = 2.98 kHz (times h). The states with one atom per well are coupled through the two doubly occupied states at U - Delta and U + Delta, each reached with matrix element J, so J_ex = J^2/(U - Delta) + J^2/(U + Delta) = 2 J^2 U/(U^2 - Delta^2). The pair swings between (up, down) and (down, up) with the frequency 2 J_ex/h = 4 x 0.0100 x 4.60/(21.16 - 8.88) kHz = 15.0 Hz. Offsets from 0.328 a to 0.353 a all give 15 Hz. Exact diagonalisation of the four states gives 14.8 Hz.
+
+Wrong answers that come up easily. 8.7 Hz: level wells, 4 J^2/(U h), from not using the image or from comparing the stripes of A and B straight down the pixel columns, where the lean of the stripes hides the offset (0.02 a is left). 12 Hz: an assumed quarter period, or the stripes compared only across the dark band. 13 Hz: the mean over all positions of the second wave, 4 J^2/sqrt(U^2 - V^2). 10 Hz: the 0.16 a from a line of wells put into the sine instead of the 0.34 a from the midpoint. 7.5 Hz: J_ex/h, half the oscillation frequency. 19 Hz: Delta taken as the full depth V.
+
+A short check in Python (standard library):
+
+import math
+J, U, V, d = 0.100, 4.60, 3.40, 0.338
+D = V*math.sin(math.pi*d)
+print(round(D, 3), round(4*J*J*U/(U*U - D*D)*1e3, 2), round(4*J*J/U*1e3, 2))
+
+It prints 2.969 14.91 8.7.
+
+Sources for the method: Trotzky et al., Science 319, 295 (2008); Foelling et al., Nature 448, 1029 (2007); Duan, Demler and Lukin, Phys. Rev. Lett. 91, 090402 (2003).
