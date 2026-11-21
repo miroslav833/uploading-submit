@@ -1,0 +1,19 @@
+The answer is not taken from a paper. It follows from the givens and from the number of teeth of the inner wall in the micrograph, so the content of the micrograph is listed here as text.
+
+What the micrograph shows: a ring seen at a tilt, with a straight waveguide beside it. On the rim of the dark opening of the ring there are 118 small bright spots, one per tooth of the inner wall, 5.8 to 8.0 px apart. Starting with the spot nearest the right-hand end of the opening and going round over the top, the 1st, 11th, 21st, ... 111th spots lie at these places (x, y in px from the top left corner): (352, 147), (330, 91), (272, 50), (194, 41), (123, 66), (81, 116), (78, 174), (110, 224), (168, 254), (236, 258), (298, 236), (341, 192). Seven more spots lead from the 111th back to the first.
+
+The key by hand. A wall with N teeth couples a wave of azimuthal number m to the waves m - N and m + N, so only the resonance m_s = N/2 = 59 has its two directions coupled, and it is 59 - 48 = 11 free spectral ranges above the pump. Its unsplit frequency is 192.00 + 11 x 2.650 - 0.5 x 0.00370 x 121 = 220.926 THz. The index amplitude is 2.52e-4 x 40.0 = 0.01008. The two standing waves have the intensities 1 +- cos(N phi), the average of the index change over them is +-0.00504, and each moves by g = 220926 GHz x 0.01008/(2 x 4.30) = 258.95 GHz, the one with its light in the narrow parts upward. The dispersion alone gives 2 nu_p - nu_59 - nu_37 = -D2 x 11^2 = 447.70 GHz. With the upper member of the pair, 2 nu_p - nu_plus - nu_i = 447.70 - 258.95 = 188.75 GHz, which is +190 GHz.
+
+Wrong answers that come up easily. The most tempting one is -13 GHz: the teeth are not counted and N is taken as 112, the tooth number for which the splitting would best cancel the dispersion (mu = 8, 3.70 x 64 - 249.75 = -12.95 GHz). The micrograph shows 118 teeth, not 112. Next is -70 GHz: the resonance is moved by the full index amplitude, 518 GHz, without the factor 1/2 of the standing-wave average, and 447.70 - 517.90 = -70.2 GHz. The lower member of the pair gives 447.70 + 258.95 = 706.65 GHz, that is 710 GHz. Leaving the splitting out gives 450 GHz.
+
+A short check in Python (standard library):
+
+nu_p, m_p, D1, D2, dndw, A, n_g, N = 192.00e3, 48, 2650.0, -3.70, 2.52e-4, 40.0, 4.30, 118
+nu = lambda m: nu_p + D1*(m - m_p) + 0.5*D2*(m - m_p)**2
+m_s = N//2
+g = nu(m_s)*dndw*A/(2*n_g)
+print(m_s, round(nu(m_s)/1e3, 3), round(g, 2), round(2*nu_p - (nu(m_s) + g) - nu(2*m_p - m_s), 2))
+
+It prints 59 220.926 258.95 188.75.
+
+Sources for the method: Lu, Rogers, Jiang and Lin, Appl. Phys. Lett. 105, 151104 (2014); Lu, Rao, Moille, Westly and Srinivasan, Photonics Res. 8, 1676 (2020); Black et al., Optica 9, 1183 (2022).
