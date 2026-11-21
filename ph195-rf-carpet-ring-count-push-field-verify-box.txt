@@ -1,0 +1,18 @@
+The figure is 780 x 420 px. The rings are counted along the straight line from the centre of the exit hole, about (604, 229) px, toward the left rim of the ring area. Their centres along that line, from the hole outward, at x = 578, 573, 568, 562, 557, 552, 547, 542, 536, 531 (10th); 525, 519, 514, 508, 503, 497, 491, 485, 480, 474 (20th); 468, 462, 456, 450, 444, 438, 431, 425, 419, 412 (30th); 407, 400, 394, 387, 381, 374, 367, 360, 353, 347 (40th); 341, 333, 327, 320, 312, 305, 299, 291, 284, 277 (50th); 270, 262, 255, 247, 240, 232, 226, 217, 210, 203 (60th); 195, 187, 179, 172, 164, 156, 148 (67th, the last, next to the bare board); y falls from 226 to 168 along the line. Neighbouring rings are about 5.1 px apart near the hole and 8.1 px at the rim because of the slant and the lens.
+
+By hand. Pitch d = 13.71 mm/66 = 0.20773 mm, k = pi/d = 15124 1/m, kh = 4.537. Field magnitude of the fundamental (4 V0/pi) k exp(-kz) = 2.407e6 V/m x exp(-4.537) = 2.577e4 V/m at h (the third harmonic is down by exp(-2kh) = 1.2e-4). Mobility K = 18.2 x (1013.25/110)(297/273.15) = 182.28 cm2/(V s), gamma = q/(mK) = 3.983e7 1/s, Omega = 3.770e7 1/s. Effective potential with damping U* = q^2 E^2/[4m(Omega^2 + gamma^2)], so U*(h)/q = 0.04006 V. Balance 2k U*(h) = q E_push gives E_push = 1212 V/m = 12.1 V/cm, which is 12 V/cm to two figures. The givens moved by half a unit of their last digit keep it between 11.9 and 12.3 V/cm.
+
+The most tempting wrong answer is 1.5e2 V/cm: since 13.71 = 30 x 0.457, it takes a pitch of exactly 0.457 mm (31 rings) instead of counting the 67 rings. Each ring more or less moves the answer by about 10 per cent (66 rings 13 V/cm, 68 rings 11 V/cm). Leaving out the damping gives 26 V/cm; the reduced mobility without the scaling to 110 hPa and 297 K gives 0.23 V/cm; a field period of one pitch instead of two gives 0.011 V/cm; a pitch rounded to 0.200 mm gives 9.6 V/cm.
+
+A check in Python, standard library only.
+
+import math
+q, m = 1.602176634e-19, 132.905*1.66053906660e-27
+N, span, V0, f, h = 67, 13.71e-3, 125.0, 6.00e6, 0.300e-3
+k = math.pi/(span/(N - 1))
+K = 18.2e-4*(1013.25/110)*(297/273.15)
+g, W = q/(m*K), 2*math.pi*f
+E = 4*V0/math.pi*k*math.exp(-k*h)
+print(2*k*q*E**2/(4*m*(W*W + g*g))/100)   # 12.1 V/cm
+
+Sources: Wada et al., Nucl. Instrum. Methods B 204, 570 (2003); Schwarz, Int. J. Mass Spectrom. 299, 71 (2011); Dehmelt, Adv. At. Mol. Phys. 3, 53 (1967).
