@@ -1,0 +1,22 @@
+The answer is derived from the question and its pulse stack; no paper states it. The stack carries one fact that the text does not: the number of drift bands that pass the longitude of closest approach (the column under the tick on the upper edge) between pulse 27 (arrow A) and pulse 963 (arrow B). There are 167. The pulse numbers at which they pass, from the drawing data, are:
+29.9 35.7 41.5 47.3 53.1 58.8 64.6 70.4 76.2 82.0 87.8 93.6 99.4 105.3 111.1 116.9 122.7 128.6 134.3 140.1 145.9 151.6 157.3 163.0 168.7 174.2 179.8 185.3 190.8 196.2 201.6 207.0 212.3 217.6 222.8 228.0 233.2 238.4 243.5 248.7 253.8 258.9 264.0 269.1 274.2 279.3 284.4 289.6 294.7 299.9 305.1 310.4 315.6 320.9 326.3 331.6 337.1 342.5 348.0 353.5 359.1 364.6 370.3 375.9 381.6 387.2 392.9 398.7 404.4 410.1 415.8 421.6 427.3 433.0 438.7 444.4 450.1 455.8 461.5 467.2 472.9 478.6 484.3 490.1 495.8 501.6 507.3 513.1 519.0 524.9 530.8 536.8 542.8 548.8 554.9 561.1 567.2 573.5 579.8 586.0 592.4 598.7 605.0 611.4 617.7 624.0 630.3 636.5 642.7 648.8 654.9 661.0 666.9 672.8 678.7 684.5 690.3 696.0 701.6 707.2 712.8 718.3 723.9 729.3 734.8 740.2 745.7 751.1 756.5 762.0 767.4 772.8 778.2 783.6 789.1 794.5 800.0 805.5 810.9 816.4 821.9 827.4 832.9 838.4 843.9 849.3 854.8 860.2 865.7 871.1 876.5 881.8 887.2 892.5 897.8 903.1 908.4 913.6 918.8 924.0 929.2 934.4 939.6 944.8 950.0 955.2 960.4
+At both arrows the column is midway between two subpulses (pulse 27 is 2.9 pulses before the first band, pulse 963 is 2.6 after the last), so 167 whole band periods fill 936 pulses.
+
+Key by hand. P3 = 936/167 = 5.6048 rotations. Number of subbeams: with alpha = 33.40 deg and zeta = 33.40 + 5.50 = 38.90 deg, the line of sight at longitude 1.20 deg (half of 2.40 deg) is at the magnetic colatitude Gamma with cos Gamma = cos(alpha) cos(zeta) + sin(alpha) sin(zeta) cos(1.20 deg), Gamma = 5.545 deg, and at the magnetic azimuth theta with sin theta = sin(zeta) sin(1.20 deg)/sin(Gamma), theta = 7.82 deg. Neighbouring subbeams are 15.64 deg of azimuth apart, 360/15.64 = 23.01, so 23 subbeams. Circulation time P4 = 23 x 5.6048 = 128.91 rotations = 107.56 s, turning rate w = 2 pi/P4 = 0.05841 rad/s. In the rotating frame div E' = (rho - rho_GJ)/eps0 with rho_GJ = -2 eps0 Omega B cos(alpha); a uniform shortfall f in a long column with the wall at the corotation potential gives E'_r = f Omega B cos(alpha) r, a drift speed E'_r/B proportional to r, that is a rigid turning at w = f Omega cos(alpha) (f = 9.29 x 10^-3). So E'_r = w B r, and the axis lies at V0 = (1/2) w B a^2 = 0.5 x 0.05841 x 2.400e8 x 158.5^2 = 1.761 x 10^11 V above the surface. Lorentz factor 1.761e11/0.5110e6 = 3.446 x 10^5. Energy radiated per metre e^2 gamma^4/(6 pi eps0 rho_c^2) with rho_c = 57.5 km: 4.09 x 10^3 eV/m, that is 4.1 keV per metre.
+
+The most tempting wrong answer is 5.5 keV per metre: the band spacing judged as 5.2 pulses, which makes 180 bands in 936 pulses. A spacing judged as 5.5 pulses makes 170 bands and 4.4 keV per metre, one judged as 6 pulses makes 156 bands and 3.1 keV per metre, and 200 bands give 8.4 keV per metre. The spacing wanders between 5.1 and 6.3 pulses, so no single judged spacing gives the count, and the result goes as the fourth power of the count: 168 or 166 bands give 4.2 or 4.0 keV per metre. Other wrong values: 4.9 or 3.5 keV per metre with 22 or 24 subbeams, 8.4 keV per metre with the potential divided by cos(alpha).
+
+Check program (Python, standard library); it prints 23.01 23 107.56 1.761e+11 3.446e+05 4.09:
+import math
+N, kA, kB, alpha, beta, P2 = 167, 27, 963, 33.40, 5.50, 2.40
+P, B, a_col, rc, e, eps0, mc2 = 0.8344, 2.400e8, 158.5, 57.5e3, 1.602e-19, 8.854e-12, 0.5110e6
+a, z, p = (math.radians(v) for v in (alpha, alpha + beta, P2 / 2))
+gam = math.acos(math.cos(a) * math.cos(z) + math.sin(a) * math.sin(z) * math.cos(p))
+step = 2 * math.asin(math.sin(z) * math.sin(p) / math.sin(gam))
+n = round(2 * math.pi / step)
+P4 = n * (kB - kA) / N * P
+V = 0.5 * (2 * math.pi / P4) * B * a_col ** 2
+g = V / mc2
+print(round(2 * math.pi / step, 2), n, round(P4, 2), "%.3e" % V, "%.3e" % g, round(e * g ** 4 / (6 * math.pi * eps0 * rc ** 2) / 1e3, 2))
+
+Sources for the method: Ruderman and Sutherland, Astrophys. J. 196, 51 (1975); Goldreich and Julian, Astrophys. J. 157, 869 (1969); Deshpande and Rankin, Mon. Not. R. Astron. Soc. 322, 438 (2001); van Leeuwen and Timokhin, Astrophys. J. 752, 155 (2012).
