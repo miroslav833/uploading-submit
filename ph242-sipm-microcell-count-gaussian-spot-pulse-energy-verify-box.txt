@@ -1,0 +1,22 @@
+What the figure carries, as text. The micrograph is 1040 x 1040 px. The active square sits inside a bright metal ring, turned 0.42 degrees from the image rows, and holds a regular grid of 109 x 109 microcells at 8.85 px. Cell boundaries in tens, boundary number and x position in px along the middle row: 0 at 44, 10 at 132, 20 at 221, 30 at 309, 40 at 398, 50 at 486, 60 at 575, 70 at 663, 80 at 752, 90 at 840, 100 at 929, 109 at 1008. The same down the middle column, y positions: 0 at 44, 10 at 132, 20 at 221, 30 at 309, 40 at 398, 50 at 486, 60 at 575, 70 at 663, 80 at 752, 90 at 840, 100 at 929, 109 at 1008.
+
+Key by hand. Cells 109^2 = 11881 on 9.000 mm^2, rho = 1320.1 per mm^2. Fired cells N_f = Q/(G e) = 0.7962e-9/(1.70e6 x 1.6022e-19) = 2923.2. A cell fires with probability 1 - exp(-mu), mu(r) = mu0 exp(-2 r^2/w^2), so N_f = (pi w^2 rho/2) Ein(mu0), Ein(x) = ln x + 0.5772 + E1(x). pi w^2 rho/2 = 1016.1, Ein(mu0) = 2.877, mu0 = 9.97. Triggers without saturation N_pe = 1016.1 x 9.97 = 10132, photons 10132/0.410 = 24712, energy 24712 x 4.905e-19 J = 1.212e-14 J, 12 fJ. Cells 109 or 110 per side give 12 fJ; 108 gives 13 and 111 gives 11.
+
+Most tempting wrong answer. 120 cells per side (the common 25 um pitch) gives pi w^2 rho/2 = 1231.5, Ein = 2.374, mu0 = 6.03, energy 8.9 fJ. Light spread evenly over all cells gives 4.0 fJ.
+
+Check program (Python, standard library):
+import math
+def Ein(x):
+    s, t, k = 0.0, 1.0, 0
+    while k < 120:
+        k += 1; t *= x / k; s += (-1) ** (k + 1) * t / k
+    return s
+Nf = 0.7962e-9 / (1.70e6 * 1.602176634e-19)
+for n in (108, 109, 110, 120):
+    S = math.pi * 0.700 ** 2 * (n * n / 9.0) / 2
+    lo, hi = 0.0, 30.0
+    for _ in range(100):
+        m = (lo + hi) / 2
+        lo, hi = (m, hi) if Ein(m) < Nf / S else (lo, m)
+    print(n, round(S * m / 0.410 * 6.62607015e-34 * 2.99792458e8 / 405e-9 * 1e15, 3), 'fJ')
+
