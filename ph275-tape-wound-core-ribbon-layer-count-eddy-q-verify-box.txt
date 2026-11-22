@@ -1,0 +1,16 @@
+The figure is 770 x 76 px: a striped ribbon pack between dark resin at the left and right. Bright bands are ribbon layers, thin dark lines are the coating between them. On the middle line of the frame the pack runs from x = 24 to x = 745 px, and a dip finder on the brightness averaged along the bands gives 126 dark lines at x (px):
+28 34 40 46 51 57 62 68 74 80 86 92 98 105 110 116 122 127 133 139 144 150 156 161 167 173 179 185 190 196 201 207 213 219 224 230 236 241 247 252 257 263 269 274 280 286 291 297 303 309 314 320 326 332 338 343 349 355 361 365 371 377 383 388 394 400 405 411 417 423 428 434 440 445 451 458 463 469 475 481 486 492 498 504 509 515 520 526 532 537 543 548 554 560 565 571 577 583 589 594 600 605 611 617 623 628 634 640 646 651 657 662 668 674 679 685 691 696 702 708 713 719 724 730 736 740
+126 lines separate N = 127 ribbon layers.
+
+By hand. Ribbon thickness t = 0.720 x 2.775 mm / 127 = 15.73 um. In a wide sheet with the alternating field H0 along it on both faces, d2H/dz2 = (i omega mu0 mur / rho) H, so H = H0 cosh(kz)/cosh(kt/2) with k = (1+i)/delta and delta = sqrt(2 rho/(omega mu0 mur)) = sqrt(1.200e-6/(pi x 1.000e5 x 4 pi e-7 x 3.000e4)) = 10.07 um. The mean field gives the complex permeability mu tanh(u)/u, u = (1+i) x/2, x = t/delta = 1.563. Reactance over resistance of a loss-free, leakage-free winding is mu'/mu'' = (sinh x + sin x)/(sinh x - sin x) = (2.2815 + 1.0000)/(2.2815 - 1.0000) = 2.56.
+
+The most tempting wrong answer is 2.46, from the thin-sheet formula 6/x^2 = 6/1.5629^2. Forgetting the metal share (t = 2.775 mm/127 = 21.85 um) gives 1.47. 126 layers give 2.52 and 128 give 2.60.
+
+Check (Python, standard library):
+import math
+t = 0.720*2.775e-3/127
+d = math.sqrt(1.200e-6/(math.pi*100.0e3*4e-7*math.pi*3.000e4))
+x = t/d
+print(round((math.sinh(x) + math.sin(x))/(math.sinh(x) - math.sin(x)), 3))    # 2.56
+
+Sources: Herzer, Acta Mater. 61, 718 (2013); Bertotti, IEEE Trans. Magn. 24, 621 (1988).
