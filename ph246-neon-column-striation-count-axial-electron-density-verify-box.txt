@@ -1,0 +1,8 @@
+Data in the image: a neon tube photographed at a slant from the cathode end; negative glow, dark Faraday space, then a striated column from u = 174 px to the anode face at u = 811 px. Striation heads, counted in tens: 1st 174, 11th 321, 21st 423, 31st 523, 41st 607, 51st 689, 61st 763, 67th (last) 804 px. Projected striation length about 19 px at the head of the column, 10 px in the middle, 6.5 to 7 px near the anode. N_s = 67.
+Key by hand: E = 67 x 18.7 V / 1.012 m = 1238.0 V/m; N = p/kT = 426.63 Pa/(1.380649e-23 x 320) = 9.6565e22 m^-3; E/N = 12.82 Td; w = 6.0e24 x 1.2821e-20 = 7.6925e4 m/s. Schottky profile n0 J0(2.4048 r/R): I = e w n0 pi R^2 x 2 J1(2.4048)/2.4048 = e w n0 pi R^2 x 0.43176. n0 = 0.013/(1.60218e-19 x 7.6925e4 x 1.13097e-4 x 0.43176) = 2.160e16 m^-3.
+Most tempting wrong answer: a uniform profile gives the mean density, 0.93e16 m^-3. 66, 68 and 69 striations give 2.19, 2.13 and 2.10.
+Check (Python 3):
+import math
+N=3.20*101325/760/(1.380649e-23*320); w=6.0e24*(67*18.7/1.012)/N
+print(0.013/(1.602176634e-19*w*math.pi*0.006**2*0.431755)/1e16)  # 2.160
+Citations: Novak 1960 (Czech. J. Phys. 10, 954) and Kolobov 2006 (J. Phys. D 39, R487) for the striations; Schottky 1924 (Phys. Z. 25, 635) for the radial profile.
