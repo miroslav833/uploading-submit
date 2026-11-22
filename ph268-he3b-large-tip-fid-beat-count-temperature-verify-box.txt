@@ -1,0 +1,13 @@
+The record carries one value, the number of beat cycles between the marks A (0.4180 ms) and B (10.3880 ms), both on upward zero crossings. The cycles are 0.0728 ms (7.1 image columns) long; every tenth upward zero crossing after A falls near 1.146, 1.873, 2.601, 3.329, 4.057, 4.784, 5.512, 6.240, 6.968, 7.695, 8.423, 9.151 and 9.879 ms, and B is the 137th: beat frequency 137/9.9700 ms = 13741.2 Hz.
+
+Key by hand. The receiver reference is at f_L, so the beat is the shift f - f_L. For n parallel to the field and small tips the B phase precesses at f_L; above the Leggett angle arccos(-1/4) = 104.48 deg the precession-averaged dipole energy is (8/15)(chi Omega_B^2/gamma^2)(cos beta + 1/4)^2, and its derivative with respect to S_z gives f - f_L = -(4/15)(F_B^2/f_L)(1 + 4 cos beta) (Brinkman and Smith). (4/15)(240.0 kHz)^2/3.0000 MHz = 5120.0 Hz, 1 + 4 cos beta = -13741.2/5120.0 = -2.6838, cos beta = -0.92096, beta = 157.07 deg, that is 157 deg.
+
+The most tempting wrong answer is 126 deg, from writing the shift with 8/15 instead of 4/15. Other values: the sign of 1 + 4 cos beta taken positive gives 65 deg (below the Leggett angle, where there is no shift); the beat taken as an angular frequency gives 111 deg.
+
+Check in a second (Python 3, standard library):
+import math
+df = 137/(10.3880e-3 - 0.4180e-3)
+x = -df*3.0000e6/((4/15)*240.0e3**2)          # 1 + 4 cos beta
+print(df, x, math.degrees(math.acos((x - 1)/4)))   # 13741.2, -2.6838, 157.07
+
+Citations: Leggett, Rev. Mod. Phys. 47, 331 (1975); Osheroff and Brinkman, Phys. Rev. Lett. 32, 584 (1974); Brinkman and Smith, Phys. Lett. A 53, 43 (1975); Osheroff and Corruccini, Phys. Lett. A 51, 447 (1975); Corruccini and Osheroff, Phys. Rev. B 17, 126 (1978); Leggett and Takagi, Ann. Phys. 106, 79 (1977).
