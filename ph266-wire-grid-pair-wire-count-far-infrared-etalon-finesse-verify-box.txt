@@ -1,0 +1,17 @@
+The answer is not taken from a paper. It follows from the givens, one count on the micrograph and a short derivation, so the content of the picture is listed here as text.
+
+What the picture shows. The image is 866 x 196 px; the micrograph fills rows 26 to 169. Dark wires on a bright ground cross it from top to bottom, leaning 3.5 degrees from the vertical, and continue beyond both marked wires to the edges of the picture. Four arrowheads mark two wires: apexes at x = 39 (top) and x = 30 (bottom) for the first, x = 839 and x = 830 for the second. Adding the rows along the lean gives a profile at mid height with the first marked wire at x = 35 and the second at x = 834. From one to the other there are 139 spacings (140 wires with both marked ones); every tenth wire is at x = 35, 92, 150, 207, 265, 322, 380, 437, 495, 552, 610, 667, 725, 782, and the 140th at 834. The mean spacing along a row is 5.751 px, and the Fourier transform of the profile between the marks has its strongest period at 5.751 px (139.0 periods).
+
+The key by hand. Pitch d = 4545 um / 139 = 32.698 um, radius a = 2.50 um, wavelength 513.0 um. The incident wave is split into a part even and a part odd about the grid plane. Even part: net wire currents, shunt reactance x = (d/lambda) ln(d/(2 pi a)) = 0.04673 in units of the wave impedance, phase factor -(1 - 2ix)/(1 + 2ix). Odd part: no net current, but the wire keeps the flux out of its cross-section and acts as a line dipole; phase factor exp(2i atan(beta)) with beta = 2 pi^2 a^2/(lambda d) = 0.00735. Transmittance T = sin^2(atan 2x + atan beta) = 1.0075e-2, the same as a shunt reactance (d/lambda)[ln(d/(2 pi a)) + (pi a/d)^2] = 0.0504. R = 1 - T = 0.98993 and the finesse is pi sqrt(R)/(1 - R) = 310.3, that is 310. The forms pi/(1 - R) and pi/(2 asin((1 - R)/(2 sqrt R))) give 311.8 and 310.3. Moving span, diameter or wavelength by half a unit of the last digit gives 309.6 to 310.9.
+
+Full-wave check. The notes solve the grid of round perfectly conducting wires with line currents inside each wire and zero field enforced on its surface, the periodic Green function summed over Floquet orders: T = 1.0098e-2, R + T = 1 to eight digits, finesse 309.5. The closed form with the next term of the Floquet sum, 0.601 (d/lambda)^2 inside the bracket, gives 308.8.
+
+Wrong answers that come up easily. 360: the wires taken as filaments, logarithm alone (T = 0.866e-2, finesse 361). 620: amplitude reflection used in place of the power reflectance. About 1000: a pitch of 25 um assumed without the picture. 270 to 300 and 320 to 400: the spacing of the wires judged by eye instead of counted.
+
+Check (Python, standard library):
+from math import *
+d, a, lam = 4545/139, 2.5, 513.0
+T = sin(atan(2*(d/lam)*log(d/(2*pi*a))) + atan(2*pi*pi*a*a/(lam*d)))**2
+print(pi*sqrt(1 - T)/T)    # 310.3
+
+Sources for the method: Marcuvitz, Waveguide Handbook (1951); Wait, Appl. Sci. Res. B 4, 393 (1955); Renk and Genzel, Appl. Opt. 1, 643 (1962); Ulrich, Renk and Genzel, IEEE Trans. Microwave Theory Tech. 11, 363 (1963); Mok, Chambers, Parker and Costley, Infrared Phys. 19, 437 (1979).
