@@ -1,0 +1,14 @@
+The answer is not taken from a paper. It follows from the givens and from one count on the record, so the content of the record is listed here as text.
+
+What the record shows. The image is 866 x 230 px. The curve starts at x = 46 (pulse length 0) and ends at x = 831 (1.50 microseconds). It is a damped oscillation of the upper-state probability between about 0 and 1 at the start and about 0.2 and 0.8 at the end. There are 137 maxima: the first at x = 49, then one every 5.71 px (x = 49, 55, 60, 66, 72, 78, 83, 89, 95, 100, 106, ...); the 11th, 21st, 31st, ... 131st are at x = 106, 163, 220, 277, 334, 391, 449, 506, 563, 620, 677, 734, 791, and the 137th is at x = 825. The Fourier transform of the upper envelope has its strongest component at a period of 5.710 px. The sweep of 785 px holds 137.4 cycles.
+
+The key by hand. Rabi frequency 137.4/1.50 us = 91.6 MHz, on resonance because the drive was set to the centre. H = (hbar w0/2) sigma_z + hbar W cos(wt) sigma_x; the co-rotating half of the field gives the Rabi frequency W; the counter-rotating half, detuned by about 2 w0, shifts the two levels apart by (W/2)^2/(2 w0) each, so the resonance moves up by W^2/(4 w0). In frequency units: 91.6^2/(4 x 1502) = 1.397 MHz, that is 1.4 MHz. In terms of the count the displacement is N^2 x 7.398e-5 MHz: 136, 137, 138, 139 cycles give 1.37, 1.39, 1.41, 1.43 MHz; 135 gives 1.35 and 141 gives 1.47.
+
+Wrong answers that come up easily. 2.8 MHz: W^2/(2 w0). 0.70 or 0.35 MHz: the Rabi frequency and the field amplitude confused by a factor 2. 5.6 MHz: W^2/w0. 1.3 or 1.5 MHz: 130 to 135 or 141 to 144 cycles. 0.7 to 1.2 MHz and 1.6 MHz: the spacing of the maxima judged by eye as 6.5 to 8 px or as 5.4 px instead of 5.71 px.
+
+Check (Python, standard library):
+print((137.4/1.50)**2/(4*1502.0))    # 1.3966 MHz
+
+A second check in the notes integrates the propagator over one drive period for the full Hamiltonian, takes the Rabi frequency from the quasi-energy splitting and finds the drive frequency at which it is smallest: with the drive strength set so that the Rabi frequency at the centre is 91.60 MHz, the centre lies 1.395 MHz above 1502 MHz.
+
+Sources for the method: Bloch and Siegert, Phys. Rev. 57, 522 (1940); Shirley, Phys. Rev. 138, B979 (1965); Cohen-Tannoudji, Dupont-Roc and Fabre, J. Phys. B 6, L214 (1973); Forn-Diaz et al., Phys. Rev. Lett. 105, 237001 (2010).
