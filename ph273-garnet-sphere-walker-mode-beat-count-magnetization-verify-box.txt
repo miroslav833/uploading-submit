@@ -1,0 +1,11 @@
+The screen carries one value, the number of beat cycles between the cursors X1 (37.4 ns) and X2 (808.0 ns), both on beat maxima. The cycles are 4.79 ns (5.2 screen pixels) long; every tenth crest after X1 falls near 85.3, 133.1, 181.0, 228.9, 276.7, 324.6, 372.4, 420.3, 468.2, 516.0, 563.9, 611.8, 659.6, 707.5, 755.4 and 803.2 ns, and X2 is the 161st: beat frequency 161/770.6 ns = 208.93 MHz.
+
+Key by hand. The diode output beats at the spacing of the two mode frequencies. The mode with interior potential (x+iy)^n rings at gamma(mu0 H_i + n mu0 Ms/(2n+1)) with mu0 H_i = B0 - mu0 Ms/3 (from continuity of psi and of the normal component of b at the surface): n = 1 gives gamma B0, n = 2 lies gamma mu0 Ms/15 higher, whatever the field. mu0 Ms = 15 x 208.93 MHz / 27.99 GHz/T = 111.97 mT, that is 112 mT (internal field 82.7 mT, modes at 3.359 and 3.568 GHz).
+
+The most tempting wrong answer is 18.7 mT, from taking the uniform mode at gamma mu0 H_i without its own M/3 (spacing 2M/5). Other values: the beat read as an angular frequency 17.8 mT; the (x+iy)^3 mode 78.4 mT; undoped garnet from tables about 176 mT.
+
+Check in a second (Python 3, standard library):
+df = 161/(808.0e-9 - 37.4e-9)
+print(df/1e6, 15*df/27.99e9*1e3)   # 208.93 MHz, 111.97 mT
+
+Citations: Kittel, Phys. Rev. 73, 155 (1948); White and Solt, Phys. Rev. 104, 56 (1956); Walker, Phys. Rev. 105, 390 (1957); Fletcher and Bell, J. Appl. Phys. 30, 687 (1959); Fletcher, Solt and Bell, Phys. Rev. 114, 739 (1959).
