@@ -1,0 +1,17 @@
+The answer is not taken from a paper; the star is not a named one. It follows from the givens and from one reading of the figure, so that reading is listed here as text.
+
+What the figure shows. The map is the logarithm of the averaged power spectrum. In the image file (527 x 517 px) the plot frame runs from x = 70 to 507 and y = 20 to 457; the tick marks u = -60, -40, ..., 60 are at x = 121, 177, 233, 289, 345, 401, 457 and v = 60, 40, ..., -60 at y = 71, 127, ..., 407, so the scale is 2.80 px per cycle/arcsec and the origin is at pixel (289, 239). Straight cosine fringes cross the disc from upper left to lower right. Along the row v = 0 (y = 239) the maxima are at u = 3.813 k cycles/arcsec, x = 289 + 10.68 k px; the 5th, 10th, 15th and 18th on the right are at u = 19.07, 38.13, 57.20, 68.64 (x = 342.4, 395.8, 449.2, 481.2), the same on the left. Along the column u = 0 they are 5.872 apart (5th and 10th at v = 29.36 and 58.72). The disc edge is the cutoff 8.1 m/562 nm = 69.9 cycles/arcsec.
+
+The key by hand. rho_u = 1/3.813 = 0.2623", rho_v = 1/5.872 = 0.1703", rho = 0.3127" (period across the fringes 3.198 cycles/arcsec, 43.7 periods across the disc). Circular orbit and the brighter star at its largest receding speed: the stars lie on the line of nodes and the projected separation is the full a. a = 0.3127/0.01948 = 16.05 AU. M1 + M2 = 16.05^3/34.90^2 = 3.396 solar masses. M1 = 3.396 x 6.21/11.07 = 1.905, i.e. 1.9. Check: a sin i = (K1+K2)P/2pi = 12.97 AU, sin i = 0.808, M1 sin^3 i = 1.005. Two figures hold for rho from 0.3097" to 0.3151".
+
+The most tempting wrong answer. Taking the fringe spacing along the u axis (3.813) as the period gives rho = 0.2623", a = 13.46 AU, M1 + M2 = 2.004 and M1 = 1.12, i.e. 1.1. Other wrong answers: 2.2 from reading about 45 periods across the disc; 1.0 for an edge-on orbit (M1 sin^3 i); 1.5 with the mass ratio inverted; 3.4, the total mass.
+
+Check (Python, standard library):
+import math
+rho = math.hypot(1/3.813, 1/5.872)
+a = rho/0.01948
+print(rho, a, a**3/34.90**2*6.21/11.07)   # 0.3127 16.05 1.905
+
+The notes also hold a program that reads the tick marks and the fringes from the image file alone and returns rho = 0.3127" at 33.0 deg from the u axis.
+
+Sources for the method: Labeyrie, A&A 6, 85 (1970); Korff, JOSA 63, 971 (1973); Horch et al., AJ 150, 151 (2015); Pourbaix, A&AS 131, 377 (1998).
