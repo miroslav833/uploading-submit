@@ -1,0 +1,20 @@
+The figure is the only source of the number of passes, so the data are given here as text.
+
+Data read from the figure (two panels, 0 to 180 and 180 to 360 degrees east, 30 S to 30 N). Every descending track crosses the equator once; the crossings lie at (degrees east): 1.65, 3.88, 6.12, 8.36, 10.59, 12.83, 15.06, 17.30, 19.54, 21.77, 24.01, 26.24, 28.48, 30.72, 32.95, 35.19, 37.42, 39.66, 41.90, 44.13, 46.37, 48.60, 50.84, 53.08, 55.31, 57.55, 59.78, 62.02, 64.26, 66.49, 68.73, 70.96, 73.20, 75.44, 77.67, 79.91, 82.14, 84.38, 86.62, 88.85, 91.09, 93.32, 95.56, 97.80, 100.03, 102.27, 104.50, 106.74, 108.98, 111.21, 113.45, 115.69, 117.92, 120.16, 122.39, 124.63, 126.87, 129.10, 131.34, 133.57, 135.81, 138.05, 140.28, 142.52, 144.75, 146.99, 149.23, 151.46, 153.70, 155.93, 158.17, 160.41, 162.64, 164.88, 167.11, 169.35, 171.59, 173.82, 176.06, 178.29, 180.53, 182.77, 185.00, 187.24, 189.47, 191.71, 193.95, 196.18, 198.42, 200.65, 202.89, 205.13, 207.36, 209.60, 211.83, 214.07, 216.31, 218.54, 220.78, 223.01, 225.25, 227.49, 229.72, 231.96, 234.19, 236.43, 238.67, 240.90, 243.14, 245.37, 247.61, 249.85, 252.08, 254.32, 256.55, 258.79, 261.03, 263.26, 265.50, 267.73, 269.97, 272.21, 274.44, 276.68, 278.91, 281.15, 283.39, 285.62, 287.86, 290.10, 292.33, 294.57, 296.80, 299.04, 301.28, 303.51, 305.75, 307.98, 310.22, 312.46, 314.69, 316.93, 319.16, 321.40, 323.64, 325.87, 328.11, 330.34, 332.58, 334.82, 337.05, 339.29, 341.52, 343.76, 346.00, 348.23, 350.47, 352.70, 354.94, 357.18, 359.41
+That is 161 crossings, 2.236 degrees apart; per 30 degree interval from 0 E: 13, 14, 13, 13, 14, 13, 14, 13, 14, 13, 13, 14.
+
+Key by hand. Sun-synchronous node rate 2 pi/(686.980 x 86400 s) = 1.058576e-7 rad/s; Mars turns at 2 pi/88642.66 s = 7.088218e-5 rad/s; nodal day 2 pi/(7.088218e-5 - 1.058576e-7) = 88775.24 s, the sol. Nodal period T_N = 13 x 88775.24/161 = 7168.187 s. Secular J2 rates (Kozai 1959): Omega' = -(3/2) n J2 (R/a)^2 cos i, u' = omega' + M' = n [1 + (3/2) J2 (R/a)^2 (4 cos^2 i - 1)]. Iterating from the Keplerian a = 3820.00 km: cos i = -0.05209, factor 1 - 2.293e-3, a = 3814.16 km; again cos i = -0.05181, factor 1 - 2.3007e-3, a = 3814.14 km, i = 92.97 deg. Height a - R = 417.9 km, which is 418 km.
+
+Most tempting wrong answer: 311 km, from 168 passes, taken as fourteen tracks in every 30 degree interval (the intervals hold 13 or 14). With the right count, a nodal period equal to the Keplerian period gives 424 km and a repeat in sidereal days gives 414 km.
+
+Check program (Python, standard library):
+
+import math
+GM, R, J2 = 4.282837e13, 3396.2e3, 1.9555e-3
+Os = 2 * math.pi / (686.980 * 86400); w = 2 * math.pi / 88642.66
+TN = 13 * 2 * math.pi / (w - Os) / 161
+a = (GM * (TN / (2 * math.pi))**2)**(1 / 3)
+for _ in range(20):
+    n = math.sqrt(GM / a**3); k = 1.5 * J2 * (R / a)**2; c = -Os / (n * k)
+    a = (GM / ((2 * math.pi / TN) / (1 + k * (4 * c * c - 1)))**2)**(1 / 3)
+print((a - R) / 1e3, math.degrees(math.acos(c)))   # 417.94 km, 92.97 deg
