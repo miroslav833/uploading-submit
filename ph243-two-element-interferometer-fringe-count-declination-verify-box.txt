@@ -1,0 +1,9 @@
+The fringe count is only in the image. Between mark A (21:14:07 UTC, maximum 0) and mark B (23:14:03 UTC) the chart holds 110 fringes. Every tenth maximum (UTC): 10: 21:24:31, 20: 21:34:57, 30: 21:45:25, 40: 21:55:58, 50: 22:06:36, 60: 22:17:21, 70: 22:28:15, 80: 22:39:20, 90: 22:50:38, 100: 23:02:11, 110: 23:14:03 (mark B). Maxima per 20 minutes of the time axis, A included: 6 (to 21:20), 19, 19, 19, 18, 18, 12 (23:00 to B), total 111 maxima. The fringe period grows from 63.4 s at A to 72.2 s at B.
+
+By hand: 7196 s of UTC x 1.0027379 = 7215.70 s sidereal = 30.0654 deg, so H runs from -5.2500 to +24.8154 deg. Baseline: X = -7.93 sin 52.17 = -6.2634 m, Y = 65.14 m, Z = 7.93 cos 52.17 = 4.8636 m (Z drops out). Change of path difference = cos(dec) [X(cos HB - cos HA) - Y(sin HB - sin HA)] = cos(dec) [-6.2634 x (-0.088140) - 65.14 x 0.511198] = -32.7474 m x cos(dec). With lambda = c/1415.00 MHz = 0.211867 m: cos(dec) = 110 x 0.211867/32.7474 = 0.711673, dec = +44.63 deg, so 44.6 deg. With 109 and 111 fringes 45.2 and 44.1 deg.
+
+The most tempting wrong answer is 45.6 deg, from leaving out the north component of the baseline. With that component of the wrong sign 46.5 deg; with the hour angle advanced at the UTC rate 44.5 deg.
+
+Check in Python: import math; r=math.radians; HA=r(-5.25); HB=HA+r(7196*1.0027379*15/3600); X=-7.93*math.sin(r(52.17)); b=X*(math.cos(HB)-math.cos(HA))-65.14*(math.sin(HB)-math.sin(HA)); print(math.degrees(math.acos(110*299792458/1415e6/abs(b)))) prints 44.6288
+
+Method: Ryle, Proc. R. Soc. A 211, 351 (1952); Smith, Nature 168, 555 (1951); Ryle and Hewish, MNRAS 120, 220 (1960).
