@@ -1,0 +1,17 @@
+The answer is not taken from a paper; the telescope and the frame are invented. It follows from the givens and from one reading of the figure, so that reading is listed here as text.
+
+What the figure shows. The frame is 600 x 600 px. Spots sit on a square grid with a pitch of 8.80 px, turned 0.79 deg; the lit pupil is 57 lenslets (501.6 px) across, centred near (302.8, 297.4). There are 57 rows and 57 columns that carry spots. The rows through the middle hold 50 spots each, because the central obstruction (1.12/8.20 of the diameter, about 7.8 lenslets) hides 7 of them; the rows 4 to 6 pitches above and below the middle hold 57 spots, the outer ones faint because they are only partly lit. Every row near the middle spans 57 lenslets from its first spot to its last. Along the full row five pitches below the middle (y near 340 px) the 1st, 10th, 20th, 30th, 40th, 50th and 57th spots are at x = 55.4, 135.2, 223.0, 311.3, 399.2, 486.9 and 548.2 px.
+
+The key by hand. r0(500 nm, zenith) = 0.98 x 500e-9/(1.09 x 4.848e-6) = 0.0927 m. At 35.0 deg: x cos(35)^(3/5) = x 0.8872, 0.0823 m. At 600 nm: x 1.2^(6/5) = x 1.2446, r0 = 0.1024 m. d = 8.20/57 = 0.1439 m, d/r0 = 1.405. sigma^2 = 0.280 x 1.405^(5/3) = 0.494 rad^2. Strehl = exp(-0.494) = 0.6105, i.e. 0.61. Counts of 56 and 58 give 0.60 and 0.62.
+
+The most tempting wrong answer. Leaving out the two faint end spots of the rows that span the pupil gives 55 lenslets, d = 8.20/55 and a Strehl of 0.59. Other wrong answers: 0.54 from the 50 spots of a middle row; 0.49 with r0 left at 500 nm; 0.67 without the zenith-angle scaling.
+
+Check (Python, standard library):
+import math
+r0 = 0.98*500e-9/(1.09*math.pi/648000)*math.cos(math.radians(35.0))**0.6*1.2**1.2
+s2 = 0.280*(8.20/57/r0)**(5/3)
+print(r0, s2, math.exp(-s2))   # 0.1024 0.494 0.6105
+
+The notes also hold a program that finds every spot in the image file, fits the grid and finds 57 lenslets from end to end along the rows and columns through the middle.
+
+Sources for the method: Fried, JOSA 56, 1372 (1966); Sarazin and Roddier, A&A 227, 294 (1990); Hudgin, JOSA 67, 375 (1977); Noll, JOSA 66, 207 (1976); Platt and Shack, J. Refract. Surg. 17, S573 (2001).
