@@ -1,0 +1,16 @@
+The answer is not taken from a paper. It follows from the planet mass, one count on the image and Maxwell's stability limit, which is derived below, so the content of the image is listed here as text.
+
+What the image shows. The image is 260 x 260 px, bright dots on a dark ground. The planet is a disc of 13 px radius centred at (129.8, 129.5) px. The moonlets are dots on a circle of radius 98.0 px about it, evenly spaced. Sampling the brightness along that circle gives 106 maxima, 3.396 degrees apart (360/106), which is 5.81 px along the arc; the smallest spacing found is 3.30 and the largest 3.50 degrees. Counted anticlockwise from the +x direction, every tenth moonlet is at 1.3, 35.3, 69.3, 103.3, 137.2, 171.1, 204.9, 238.8, 272.8, 306.8, 340.8 degrees, and five more follow before the first one. The strongest harmonic of the brightness around the ring is the 106th.
+
+The key by hand. For many light moonlets the ring is locally a straight chain of spacing b = 2 pi a / N in Hill's equations (x radial, y along the orbit, w^2 = G M / a^3). In the shortest wave neighbours move oppositely; summing the changes of the mutual attraction over odd neighbours (sum of 1/k^3 over odd k = 7 zeta(3)/8) gives a force per unit mass +A y along the orbit and -(A/2) x across it, A = 7 zeta(3) G m N^3 / (8 pi^3 a^3). The characteristic equation is s^4 + (w^2 - A/2) s^2 + 3 w^2 A - A^2/2 = 0, and both roots s^2 are real and negative as long as (9/4) A^2 - 13 w^2 A + w^4 >= 0, that is A <= (2/9)(13 - 4 sqrt 10) w^2 = 0.07798 w^2. This gives m <= 2.2987 M / N^3 (Maxwell). With M = 3.900e26 kg and N = 106: 7.527e20 kg, that is 7.5e20 kg. Half a unit in the last digit of the planet mass gives 7.526e20 to 7.528e20.
+
+Numerical check. The notes linearise the planar equations of motion of the planet (free to move) and 106 moonlets about the rotating equilibrium and find by bisection the largest mass for which no eigenvalue of the 428 x 428 system has a positive real part: 2.2998 M / N^3, which gives 7.531e20 kg.
+
+Wrong answers that come up easily. 7.9e20: nearest neighbours only. 1.9e22 or 5.8e22: only the sign conditions on the sum or the product of the roots, without the discriminant. 2.9e21: a spacing argument with mutual Hill radii. Values a few per cent or more away from the key: the moonlets estimated from their spacing instead of counted.
+
+Check (Python, standard library):
+from math import *
+C = 8*pi**3*(2/9)*(13 - 4*sqrt(10))/(7*1.2020569)
+print(C, C*3.900e26/106**3)    # 2.2987, 7.527e20
+
+Sources for the method: Maxwell, On the Stability of the Motion of Saturn's Rings (1859); Scheeres and Vinh, Celest. Mech. Dyn. Astron. 51, 83 (1991); Moeckel, J. Dyn. Differ. Equ. 6, 37 (1994); Roberts, in Hamiltonian Systems and Celestial Mechanics (2000), p. 303.
