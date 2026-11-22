@@ -1,0 +1,20 @@
+The figure is 829 x 124 px: one trace with a level baseline and 138 equal narrow spikes standing on it, one per half-turn pulse. The x positions of the spikes in pixels, left to right, 23 to a group, are 24, 29, 35, 40, 46, 52, 57, 63, 68, 74, 80, 85, 91, 97, 102, 108, 114, 119, 125, 130, 136, 142, 147; 153, 158, 164, 170, 175, 181, 186, 192, 198, 203, 209, 214, 220, 225, 231, 236, 242, 247, 253, 258, 264, 270, 275; 281, 286, 292, 297, 303, 308, 314, 319, 325, 331, 336, 342, 347, 353, 358, 364, 370, 376, 381, 387, 392, 398, 404; 410, 415, 421, 427, 432, 438, 444, 450, 456, 461, 467, 473, 479, 484, 490, 496, 502, 508, 514, 520, 525, 531, 537; 543, 549, 555, 561, 567, 572, 578, 584, 590, 596, 602, 607, 613, 619, 625, 631, 637, 642, 648, 654, 660, 666, 672; 677, 683, 689, 695, 700, 706, 712, 718, 724, 729, 735, 741, 747, 752, 758, 764, 770, 776, 781, 787, 793, 799, 804. Every tenth spike: 1st at 24, 11th at 80, 21st at 136, 31st at 192, 41st at 247, 51st at 303, 61st at 358, 71st at 415, 81st at 473, 91st at 531, 101st at 590, 111th at 648, 121st at 706, 131st at 764, and the 138th and last at 804. So N = 138.
+
+By hand. After the first quarter-turn pulse the spin collects the phase gamma B1 times the integral of s(t) cos(w t + alpha), where w = 2 pi f and s changes sign at each half-turn pulse, at t = (k - 1/2) tau. The integral of s(t) exp(i w t) over the whole train is a geometric sum. With w tau = pi + delta, delta = pi (2 f tau - 1) = 0.056438 rad, its modulus is (2/w) [1 + sin(delta/2)] |sin(N delta/2)|/sin(delta/2). The phase is then Phi cos(alpha + beta) with Phi = (2 gamma B1/w) [1 + sin(delta/2)] |sin(N delta/2)|/sin(delta/2) = 0.083829 x 1.028215 x 24.227 = 2.088 rad, where N delta/2 = 3.8942 rad, |sin| = 0.68356 and sin(delta/2) = 0.028215. One shot ends in m_s = 0 with probability (1 + cos phase)/2, and the average over a uniform alpha is (1 + J0(Phi))/2 = (1 + 0.1733)/2 = 0.587, so 0.59. With 137 pulses the result is 0.60 and with 139 it is 0.57.
+
+The most tempting wrong answer is 0.50. It takes the tone as resonant with the train, because 2 f tau = 1.018 is close to 1, and uses Phi = 2 gamma B1 N tau/pi = 11.78 rad, for which J0 is nearly zero. The mistuning of 0.0564 rad per pulse adds up to 7.8 rad over 138 pulses and cuts the phase to 2.088 rad.
+
+A check in Python, standard library only.
+
+import math, cmath
+g, B1, f, tau, N = 28.03e9, 2.95e-6, 1.97280e6, 258.000e-9, 138
+w = 2*math.pi*f
+t = [0.0] + [(k + 0.5)*tau for k in range(N)] + [N*tau]
+I, s = 0, 1
+for a, b in zip(t[:-1], t[1:]):
+    I += s*(cmath.exp(1j*w*b) - cmath.exp(1j*w*a))/(1j*w); s = -s
+Phi = 2*math.pi*g*B1*abs(I)
+J0 = sum((-1)**k*(Phi/2)**(2*k)/math.factorial(k)**2 for k in range(30))
+print(Phi, J0, (1 + J0)/2)            # 2.0882 rad, 0.1733, 0.5867
+
+Sources: Taylor et al., Nature Physics 4, 810 (2008); de Lange et al., Phys. Rev. Lett. 106, 080802 (2011).
