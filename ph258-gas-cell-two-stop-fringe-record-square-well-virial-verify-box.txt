@@ -1,0 +1,21 @@
+Data the chart carries (pixel columns of the 1380 px wide image). The trace has three flat stretches at the maximum level: the start up to x = 95, the first stop from x = 741 to 840, and the end from x = 1286. Between start and first stop there are 63 sharp maxima, the first at x = 111, the 10th, 20th, ... 60th at x = 203, 316, 410, 485, 570, 685 and the 63rd at 722; the stop is the 64th maximum. After it come 48 sharp maxima, the 65th at 857, the 70th, 80th, ... 110th at x = 904, 977, 1051, 1153, 1251 and the 112th at 1271; the flat end is the 113th. The maxima are 7 to 14 px apart. N1 = 64, N2 = 113.
+
+Key by hand. n - 1 = N lambda/L = 1.3926e-3 and 2.4587e-3; Lorentz-Lorenz r = (n^2-1)/(n^2+2) = A rho: r1 = 9.2815e-4, r2 = 1.63847e-3. p_i = (r_i/A) R T (1 + beta r_i), beta = B/A. Ratio of the stops: (1 + beta r2)/(1 + beta r1) = (p2/p1)/(r2/r1) = 1.72935/1.76531 = 0.97963, beta = -0.02037/(r2 - 0.97963 r1) = -27.93. Z1 = 0.9741, A = r1 R T Z1/p1 = 16.24 cm^3/mol, B(300 K) = beta A = -453.5 cm^3/mol. Square well: B = b0[1 - (1.5^3-1)(exp(eps/kT)-1)], b0 = 2 pi N_A sigma^3/3 = 196.4 cm^3/mol, B/b0 = -2.309, exp(eps/kT) = 1 + 3.309/2.375 = 2.393, eps/k = 300 K * ln 2.393 = 261.8 K. At 265.0 K: eps/kT = 0.9879, exp = 2.686, B = 196.4 * (1 - 2.375 * 1.686) = -590 cm^3/mol, key -5.9e2 cm^3/mol.
+
+Most tempting wrong answer. Taking the vapour as ideal at the first stop gives A = r1 R T/p1 = 16.67 cm^3/mol, then B(300 K) = -207 cm^3/mol from the second stop and -2.8e2 cm^3/mol at 265 K. Scaling the attractive part as 1/T (B = b0 - a/RT) gives 196.4 - 649.9 * 300/265 = -5.4e2 cm^3/mol.
+
+Check program (Python, standard library):
+import math
+R, NA, T = 8.3145, 6.0221e23, 300.00
+r = []
+for N in (64, 113):
+    n = 1 + N*1523.1e-9/70.00e-3
+    r.append((n*n-1)/(n*n+2))
+p1, p2 = 0.13889e6, 0.24019e6
+beta = (p1*r[1] - p2*r[0])/(p2*r[0]**2 - p1*r[1]**2)
+A = r[0]*R*T/p1*(1 + beta*r[0]); B = beta*A
+b0 = 2*math.pi*NA*(0.5380e-9)**3/3
+epsk = T*math.log(1 + (1 - B/b0)/(1.5**3 - 1))
+print(A*1e6, B*1e6, epsk, b0*(1 - (1.5**3 - 1)*(math.exp(epsk/265.0) - 1))*1e6)   # 16.24, -453.5, 261.8 K, -590
+
+Citations: Achtermann, Bose, Roegener, St-Arnaud, Int. J. Thermophys. 7, 709 (1986); Buckingham and Graham, Proc. R. Soc. Lond. A 337, 275 (1974); Kihara, Rev. Mod. Phys. 25, 831 (1953); Sherwood and Prausnitz, J. Chem. Phys. 41, 429 (1964).
