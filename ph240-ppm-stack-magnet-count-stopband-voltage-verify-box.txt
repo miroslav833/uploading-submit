@@ -1,0 +1,21 @@
+The answer is not taken from a paper. It follows from the givens and from the number of magnets in the photograph, so the photograph's content is listed here as text.
+
+What the photograph shows: the column seen along its length from beside one end, 74 bright pole-piece rims with 73 dark magnet bands between them, and the bare tube beyond both ends. The rims are about 10 px apart at the left end and about 5 px at the right end. Columns of the rims on the row through the middle of the column, in px from the left edge: the 1st at 40, the 10th at 131, the 20th at 224, the 30th at 307, the 40th at 383, the 50th at 452, the 60th at 514, the 70th at 571 and the 74th at 593. The verification notes list all 74 as recovered from the image file.
+
+The key by hand. One magnet with one pole piece takes 447.3/73 = 6.127 mm and the field reverses from magnet to magnet, so L = 12.255 mm. With a flux-free cathode the paraxial equation in the Larmor frame is r'' + (e B/2mu)^2 r = 0, and with B^2 = (B0^2/2)(1 + cos 4 pi z/L) and T = 2 pi z/L it becomes r'' + alpha (1 + cos 2T) r = 0 with alpha = e B0^2 L^2/(64 pi^2 m V). The first unstable band of this Mathieu equation starts at alpha = 0.658: the trial r = cos T + c cos 3T gives 3 alpha/2 + alpha^2/(4(9 - alpha)) = 1. The numerator is 1.7588e11 x 0.2095^2 x 0.012255^2/631.65 = 1835 V, so V = 1835/0.658 = 2789 V = 2.8 kV.
+
+Wrong answers that come up easily. A count of 74, the pole pieces taken for the magnets, gives 2.7 kV, the most tempting one, and a count of 72 gives 2.9 kV. Taking 447.3/73 for the whole period gives 0.70 kV. Putting alpha = 1 gives 1.8 kV.
+
+A short check in Python (standard library):
+
+import math
+L = 2*0.4473/73
+a = 2/3
+for i in range(40):
+    a = (1 - a*a/(4*(9 - a)))/1.5
+K = 1.7588e11*0.2095**2*L**2/(64*math.pi**2)
+print(round(L*1000, 3), round(a, 4), round(K, 1), round(K/a, 1))
+
+It prints 12.255 0.658 1835.3 2789.2.
+
+Sources for the method: Mendel, Quate and Yocom, Proc. IRE 42, 800 (1954); Clogston and Heffner, J. Appl. Phys. 25, 436 (1954).
