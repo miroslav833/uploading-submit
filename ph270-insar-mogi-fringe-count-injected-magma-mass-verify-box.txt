@@ -1,0 +1,17 @@
+The answer is not taken from a paper; the volcano is not a named one. It follows from the givens and from one reading of the figure, so that reading is listed here as text.
+
+What the figure shows. The image file is 1102 x 956 px. The map frame runs from x = 72 to 952 and y = 18 to 898, 55.0 px per km; V, the vent at (0, 0) km, is at pixel (512, 458), and G, the GNSS station at (6.43, -5.00) km, at pixel (866, 733). Colours are the motion toward the satellite relative to G, wrapped every 27.735 mm (half of 55.47 mm); G is red, the start of the colour bar. On the straight line from G to V the 5th, 10th, 15th, 20th and 25th red bands after G are crossed at (3.34, -2.59), (2.31, -1.80), (1.68, -1.31), (1.15, -0.90) and (0.57, -0.44) km. V lies after the 28th red band, in cyan, at 13.8 mm on the bar: 28.5 cycles. The centre of the bull's-eye of rings is at (-0.97, -0.21) km, about 31.2 cycles from G.
+
+The key by hand. G did not move along the line of sight, so V moved 28.5 x 27.735 = 790.4 mm toward the satellite. At V only vertical motion projects, so the uplift is 790.4/0.781 = 1012.0 mm. Point source in a half-space: uz = (1 - nu) dVc/(pi d^2), so dVc = pi x 4200^2 x 1.0120/0.75 = 7.48e7 m^3. The magma is compressible: dVm = dVc (1 + 4 mu/3K) = 7.48e7 x (1 + 96.0/26.1) = 7.48e7 x 4.678 = 3.50e8 m^3, i.e. 3.5e8 m^3. Two figures hold for 28.11 to 28.92 cycles between G and V.
+
+The most tempting wrong answer. Leaving out the compression of the magma gives the cavity volume change 7.5e7 m^3. Other wrong answers: 3.8e8 m^3 from counting the rings to the centre of the bull's-eye (31.2 cycles); 2.7e8 m^3 from taking the line-of-sight motion as the uplift; 3.4e8 or 3.6e8 m^3 from one cycle fewer or more.
+
+Check (Python, standard library):
+import math
+uz = 28.5*27.735/0.781/1000
+dvc = math.pi*4200**2*uz/0.75
+print(dvc, dvc*(1 + 4*24.0/(3*8.70)))   # 7.48e7 3.50e8
+
+The notes also hold a program that reads the axes, the colour bar and the colours from the image file alone and finds 28.47 cycles between G and V on three different paths.
+
+Sources for the method: Mogi, Bull. ERI 36, 99 (1958); Delaney and McTigue, Bull. Volcanol. 56, 417 (1994); Johnson, Sigmundsson and Delaney, Bull. Volcanol. 61, 491 (2000); Rivalta and Segall, GRL 35, L04306 (2008); Massonnet and Feigl, Rev. Geophys. 36, 441 (1998).
