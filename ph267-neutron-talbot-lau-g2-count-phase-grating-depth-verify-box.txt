@@ -1,0 +1,13 @@
+The micrograph is the only source of the period of G2. It is a simulated backscattered-electron image, 1100 x 300 px, made for this question; the red markers A and B stand at columns 42 and 1057 (columns from 0), 426.8 um apart, 2.378 px per um. On the middle row both markers fall on the middle of a dark silicon gap. The bright gadolinium lines between them lie at 46 px, then every tenth at about 132, 218, 304, 390, 476, 562, 648, 734, 820, 906 and 992 px, and the 118th at 1053 px: 118 periods of 8.60 px, p2 = 426.8 um/118 = 3.6169 um.
+
+Key by hand. Each G0 slit is a line source at l = 5.270 m, so the pattern at d = 22.40 mm is the plane-wave pattern at d_eff = l d/(l + d) = 22.305 mm magnified by M = (l + d)/l = 1.00425. A pi grating with equal lines and grooves first gives a full-contrast pattern at p1^2/(8 lambda), with period p1/2, so p2 = M p1/2, p1 = 7.2033 um and lambda = p1^2/(8 d_eff) = l p2^2/(2 d (l + d)) = 2.9078 angstrom. The phase step of a silicon line of height h is lambda N b h with N b = 4.9939e28 x 4.1491e-15 = 2.0720e14 m^-2, so h = pi/(lambda N b) = 52.14 um, which rounds to 52 um.
+
+The most tempting wrong answer is 2.1e2 um, from taking p2 = M p1 (the period of G1 itself) with the distance p1^2/(8 lambda), which makes the wavelength four times too small.
+
+Check program (Python 3, standard library):
+import math
+p2, l, d = 426.8e-6/118, 5.270, 22.40e-3
+lam = l*p2**2/(2*d*(l + d))
+print(math.pi/(lam*4.9939e28*4.1491e-15)*1e6)   # 52.14 um
+
+The uploaded notes add a table over 100 to 140 lines, other routes, the effect of rounding every given (52.13 to 52.16 um), a direct propagation of the cylindrical wave through the pi grating that puts the full-contrast pattern at 22.40 mm with period 3.6169 um, and a script that counts the lines from the image file. Sources: Pfeiffer et al., Phys. Rev. Lett. 96, 215505 (2006); Weitkamp et al., Opt. Express 13, 6296 (2005); Grünzweig et al., Rev. Sci. Instrum. 79, 053703 (2008); Klein and Werner, Rep. Prog. Phys. 46, 259 (1983).
