@@ -1,0 +1,14 @@
+What the figure carries. A micrograph with dark grooves leaning 11 degrees from the vertical, 5.0 to 6.6 px apart in the picture, and two bright straight marks P and Q parallel to them. On the middle row (image row 185, marked by the border ticks) P crosses at column 59 and Q at column 890. Between them there are 143 grooves, which cross the middle row at the columns 62, 68, 74, 79, 85, 91, 96, 102, 108, 113, 119, 125, 131, 137, 144, 150, 156, 162, 169, 175, 181, 187, 193, 199, 205, 212, 218, 224, 231, 237, 243, 250, 257, 263, 269, 276, 282, 288, 294, 300, 306, 311, 317, 322, 328, 333, 339, 344, 349, 355, 360, 366, 371, 377, 382, 388, 393, 399, 404, 409, 415, 420, 425, 430, 435, 440, 445, 451, 456, 461, 466, 472, 477, 483, 489, 494, 500, 506, 511, 517, 523, 528, 533, 539, 544, 549, 554, 560, 565, 570, 576, 581, 586, 592, 597, 603, 609, 615, 620, 626, 632, 637, 643, 649, 654, 660, 666, 671, 677, 683, 689, 694, 701, 707, 713, 720, 726, 733, 740, 746, 753, 759, 766, 772, 778, 785, 791, 797, 803, 809, 815, 822, 828, 834, 840, 846, 852, 858, 864, 870, 876, 881, 887. Each mark lies midway between two grooves, so the 106.9 micrometres, a perpendicular distance, hold 143 groove spacings.
+
+Key by hand. d = 106.9 um/143 = 747.55 nm (1337.7 per mm), lambda/d = 1.3778. First order: sin(theta_d) = 1.3778 - sin(32.50 deg) = 0.8405, theta_d = 57.2 deg, cos^2 = 0.2935. Grating pair (Treacy): phi2 = -lambda^3 G/(2 pi c^2 d^2 cos^3 theta_d) per pass and phi3 = -phi2 (3 lambda/(2 pi c)) [1 + (lambda/d) sin(theta_d)/cos^2(theta_d)], bracket = 4.946, 3 lambda/(2 pi c) = 1.6404 fs. Fibre: phi2 = 0.0236 x 150.0 = 3.540 ps^2, phi3 = 4.10e-5 x 150.0 = 0.00615 ps^3. Pair set to phi2 = -3.540 ps^2 (G = 81 mm in double pass): phi3 = 3.540 x 1.6404e-3 x 4.946 = 0.02872 ps^3, same sign as the fibre's. Left: 0.00615 + 0.02872 = 0.0349 ps^3, so 0.035.
+
+Other values. Pair alone: 0.029. Pair's cubic term subtracted from the fibre's: 0.023. Littrow angle assumed: 0.022. Fibre alone: 0.0062. cos instead of cos^2 in the bracket: 0.024. A count of 139 grooves (1300 per mm): 0.029.
+
+Short check (Python 3, standard library):
+from math import *
+d = 106.9e-6/143; lam = 1030.0e-9; c = 299792458.0
+s = lam/d - sin(radians(32.50))
+B = 1 + (lam/d)*s/(1 - s*s)
+print(d, s, B, 150.0*(4.10e-5 + 0.0236*3*lam/(2*pi*c)*1e12*B))      # 7.4755e-07, 0.8405, 4.946, 0.03487
+
+Citations: Treacy, IEEE J. Quantum Electron. 5, 454 (1969); Fork, Brito Cruz, Becker and Shank, Opt. Lett. 12, 483 (1987); Backus, Durfee, Murnane and Kapteyn, Rev. Sci. Instrum. 69, 1207 (1998); Weiner, Ultrafast Optics (Wiley, 2009), chapter 4; Agrawal, Nonlinear Fiber Optics, chapter 1. The uploaded notes hold the key script with its numerical checks, the program that draws the figure and the count of the grooves from the image file.
