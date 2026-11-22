@@ -1,0 +1,18 @@
+The answer is 27 G. The record was made for this question (image_source.py in the notes): stripes of the double plasma resonance f_s = C s (s^2 - 1)^(-b/2) with b = 1.2440 (from T = 1.10 MK and L_B = 26.0 Mm), drifting and wiggling by a common factor, with stripe M the harmonic s = 35 at 2682 MHz where the record ends (t = 3.0 s).
+
+Data on the right edge of the record (t = 3.0 s), stripe centres in MHz, from M upward: 2682.0 (M), 2701.1, 2721.0, 2741.6, 2763.0, 2785.3 (5th above M), 2808.6, 2832.9, 2858.3, 2884.9, 2912.9 (10th), 2942.3, 2973.3, 3006.1, 3040.8, 3077.6 (15th), 3116.9, 3158.9, 3204.0, 3252.7, 3305.4 (20th), 3364.5. Below M: 2663.6, 2645.7, 2628.5, 2611.9, 2595.7, then closer and closer until the stripes merge.
+
+Key by hand. L_n = 2 k_B T/(m_p g) = 66.28 Mm; the plasma frequency falls with 2 L_n, the gyrofrequency with L_B, and f_p^2/f_B^2 = s^2 - 1 at stripe s gives f_s = C s (s^2 - 1)^(-b/2), b = 2 L_n/(2 L_n - L_B) = 1.2440. The 18th stripe above M sits on the 3200 MHz tick (3204.0) and the 20th at 3305.4. The 20th stripe above M has harmonic s_M - 20, and 3305.4/2682.0 = 1.2325 = [s/(s - 20)]^0.244 (large-s form) gives s_M = 34.8; the exact law gives 35 (s_M = 34 would put that stripe at 3339 MHz, s_M = 36 at 3275 MHz). B = f_M/(2.799 s_M) = 2682/(2.799 x 35) = 27.4 G, quoted as 27 G (s_M = 36 gives 26.6 G, also 27).
+
+Most tempting wrong answer: the spacing between neighbouring stripes near M (about 19 MHz) taken as the gyrofrequency gives 19/2.799 = 6.8 G. A density scale height of k_B T/(m_p g) gives b = 1.646, s_M = 72 and 13 G. Fitting the ladder to the wide top stripes alone and taking the stripe on the 3200 MHz tick as ten intervals above M gives s_M = 20 and 48 G.
+
+Check program (standard library):
+k, mp, g, T, LB = 1.381e-23, 1.673e-27, 274.0, 1.10e6, 26.0
+Ln = 2 * k * T / (mp * g) / 1e6                  # Mm
+b = 2 * Ln / (2 * Ln - LB)
+shape = lambda s: s * (s * s - 1) ** (-b / 2)
+fM, f20 = 2682.0, 3305.0                         # M, and the stripe 20 intervals above it
+s = min(range(22, 500), key=lambda q: abs(shape(q - 20) / shape(q) - f20 / fM))
+print(Ln, b, s, fM / (2.799 * s))                # 66.28, 1.244, 35, 27.38
+
+Citations: Zheleznyakov and Zlotnik, Sol. Phys. 44, 461 (1975); Chernov, Space Sci. Rev. 127, 195 (2007); Chen, Bastian, Gary and Jing, ApJ 736, 64 (2011); Yasnov and Karlicky, Sol. Phys. 219, 289 (2004); Karlicky and Yasnov, A&A 581, A115 (2015).
