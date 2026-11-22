@@ -1,0 +1,21 @@
+What the figure carries, as text. The micrograph is 1069 x 1035 px. The lit cores fill a regular hexagon on a triangular lattice turned 11.3 degrees from the image rows, pitch 8.50 px, 61 cores along every edge and 10981 in all. Corner cores (x, y) in px from the top left: (1037, 614), (701, 997), (201, 897), (37, 414), (374, 31), (874, 131); opposite corners are 1020 px apart. Along the top edge from its left corner: core 1 at (374, 31), 11 at (457, 48), 21 at (541, 64), 31 at (624, 81), 41 at (707, 98), 51 at (791, 114), 61 at (874, 131).
+
+Key by hand. Pitch d = 806.0 um/(2 x 60) = 6.7167 um, d/a = 8.3958. NA = 0.27696, V = 2.2000, Delta = 0.017437. LP01: U J1(U)/J0(U) = W K1(W)/K0(W), U^2 + W^2 = V^2, gives U = 1.5911, W = 1.5194. kappa = sqrt(2 Delta)/a x U^2/V^3 x K0(W d/a)/K1(W)^2 = 0.18674/0.800 um x 0.23774 x 1.0023e-6/0.072781 = 7.642e-7 per um = 7.642e-4 per mm. kappa L = 0.04662 for L = 61.0 mm. Six nearest cores hold 6 (kappa L)^2 = 0.01304, so 1.3 per cent. The next lattice term gives 1.30 per cent.
+
+Most tempting wrong answer. 806.0 = 2 x 62 x 6.500, so taking 62 pitches from the centre to a corner gives the round pitch 6.500 um, W d/a = 12.345, kappa L = 0.0715 and 3.1 per cent; the micrograph shows 60 pitches of 8.50 px. Dividing 806.0 um by the 121 cores of the long diagonal gives d = 6.661 um and 1.6 per cent.
+
+Check program (Python, standard library):
+import math
+def J(n, x, m=400): return sum(math.cos(n*k*2*math.pi/m - x*math.sin(k*2*math.pi/m)) for k in range(m))/m
+def K(n, x, h=0.005): return h*(0.5*math.exp(-x) + sum(math.exp(-x*math.cosh(k*h))*math.cosh(n*k*h) for k in range(1, 2400)))
+lam, n1, n2, a, D, L = 0.6328, 1.48311, 1.45702, 0.800, 806.0, 61.0e3
+V = 2*math.pi*a*math.sqrt(n1*n1 - n2*n2)/lam; Delta = (n1*n1 - n2*n2)/(2*n1*n1)
+lo, hi = 0.5, 2.19
+for _ in range(60):
+    U = (lo + hi)/2; W = math.sqrt(V*V - U*U)
+    lo, hi = (U, hi) if U*J(1, U)/J(0, U) < W*K(1, W)/K(0, W) else (lo, U)
+for n in (61, 63):
+    d = D/(2*(n - 1))
+    kap = math.sqrt(2*Delta)/a*U*U/V**3*K(0, W*d/a)/K(1, W)**2
+    print(n, round(U, 4), round(W, 4), round(600*(kap*L)**2, 3), 'per cent')
+
