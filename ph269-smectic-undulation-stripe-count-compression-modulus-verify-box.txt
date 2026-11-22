@@ -1,0 +1,18 @@
+Data read from the figure (1080 x 640 px, crossed-polariser micrograph, x horizontal). Along the middle row the centres of the two opaque chromium bars lie at x = 58.0 px and x = 1017.0 px. Between them 109 bright lines are visible (the bars hide one more line each): the 1st at 66.8 px, 10th at 145.2, 20th at 232.4, 30th at 319.3, 40th at 406.4, 50th at 493.5, 60th at 580.6, 70th at 667.6, 80th at 754.8, 90th at 841.8, 100th at 928.9 and the 109th at 1007.2 px. Sampling every fourth row, the read-back script finds 109 lines on 140 of 150 rows; on the other 10 it misses the faint line beside one bar.
+
+Key by hand. The bright lines sit where the layer tilt is largest in either sense, so their spacing s is half the undulation wavelength and q = pi/s. Pitch (1007.2 - 66.8)/108 = 8.707 px, spacings between the bar centres 959.0/8.707 = 110.14, s = 185.2 um/110.14 = 1.682 um, q = 1.868e6 1/m. The onset mode of the slab with u = 0 at both windows has q^2 = pi/(lambda d), lambda = (K/B)^(1/2), so lambda = s^2/(pi d) = (1.682e-6)^2/(pi x 7.500e-4) = 1.200e-9 m and B = K/lambda^2 = 6.60e-12/(1.200e-9)^2 = 4.58e6 Pa. Answer: 4.6 MPa.
+
+Most tempting wrong answer, worked the same way: taking the bright-line spacing as the full undulation wavelength (q = 2 pi/s) gives lambda = s^2/(4 pi d) = 0.300 nm and B = 73 MPa, sixteen times the key. Writing the onset as q^2 = 1/(lambda d) makes lambda = s^2/(pi^2 d) = 0.382 nm and gives 45 MPa.
+
+Check program (standard library):
+import math
+bar_l, bar_r, first, last, lines = 58.0, 1017.0, 66.8, 1007.2, 109
+K, d, L = 6.60e-12, 750.0e-6, 185.2e-6
+pitch = (last - first) / (lines - 1)
+n = (bar_r - bar_l) / pitch
+s = L / n
+q = math.pi / s
+lam = math.pi / (q * q * d)
+print("B = %.3f MPa" % (K / lam ** 2 / 1e6))   # 4.583
+
+Citations: Clark and Meyer, Appl. Phys. Lett. 22, 493 (1973); Delaye, Ribotta and Durand, Phys. Lett. A 44, 139 (1973); Hurault, J. Chem. Phys. 59, 2068 (1973).
