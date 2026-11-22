@@ -1,0 +1,20 @@
+The answer is not taken from a paper. It follows from the givens and from the number of antennas in the photograph, so the photograph's content is listed here as text.
+
+What the photograph shows: a level plain under a strip of sky, seen from high ground, with a straight line of 67 small bright dishes running from the left to the right and receding. The dishes are about 11 px apart at the left end and about 5.5 px at the right end. Columns in px from the left edge: the 1st dish at 27, the 10th at 126, the 20th at 228, the 30th at 320, the 40th at 401, the 50th at 473, the 60th at 537 and the 67th at 576. The verification notes list all 67 as recovered from the image file.
+
+The key by hand. 67 antennas leave 66 intervals, so d = 1012.0/66 = 15.333 m. The detector output for a point source is the squared sum of N phasors, N + 2 sum (N - k) cos(k psi) with psi = 2 pi d theta/lambda. An incoherent extended source multiplies the k-th term by its visibility V(kd). For a Gaussian of FWHM w = 12.64 arcmin = 3.677e-3 rad, V(kd) = exp(-(pi w k d/lambda)^2/(4 ln 2)); pi w d/lambda = 2.954, the exponent is 3.147 and V(d) = 0.0430, while V(2d) is 3e-6. The record is N + 2 (N - 1) V(d) cos(psi), so crest minus trough over the mean is 4 x (66/67) x 0.0430 = 0.169, or 17 per cent.
+
+Wrong answers that come up easily. Dividing the length by 67, or counting 68 antennas, gives 19 per cent, the most tempting one. A count of 66 gives 15 per cent. Twice the visibility in place of four times gives 8.6 per cent.
+
+A short check in Python (standard library):
+
+import math
+n = 67
+d = 1012.0/(n - 1)
+w = math.radians(12.64/60)
+E = (math.pi*w*d/0.05996)**2/(4*math.log(2))
+print(round(d, 3), round(E, 3), round(math.exp(-E), 4), round(400*(n - 1)/n*math.exp(-E), 2))
+
+It prints 15.333 3.147 0.043 16.93.
+
+Sources for the method: Christiansen and Warburton, Aust. J. Phys. 6, 190 (1953); Bracewell and Roberts, Aust. J. Phys. 7, 615 (1954).
