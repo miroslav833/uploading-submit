@@ -1,0 +1,14 @@
+The map carries two things: the fringe period along x and the way the fringes lean. It is a simulated map of 920 x 790 px; the frame spans x = -7.6 to 7.6 mm and z = -6.4 to 6.4 mm at 50 px per mm (x = 0 at column 458, z = 0 at row 403), with camera pixels of 0.1 mm. The fringes are straight, parallel and of even contrast. Bright fringe centres on the line z = 0, read back from the image file: x = -6.36, -5.01, -3.65, -2.30, -0.95, 0.40, 1.76, 3.11, 4.46, 5.81, 7.16 mm. Ten periods span 13.52 mm, so the period along x is 1.352 mm (11.2 periods across the 15.2 mm). The period along z is 0.793 mm, and the fringes fall towards +x at 60 degrees from the vertical, so about 27 fringes cross the frame in all, 16 of them through its left and right sides.
+
+Key by hand. k = 4 pi/780.241 nm = 1.6106e7 rad/m. Phase of the three pulses with a wave vector turning at Omega about the line of sight, last pulse late by dT: Phi = (k/t_d)(2 Omega T^2 x + dT z) for a point source imaged at t_d after release. 2 k T^2/t_d = 1.4048e7 rad s/m; 2 pi/1.352 mm = 4647 rad/m; Omega = 330.8 micro-rad/s. Lines of constant phase have slope -2 Omega T^2/dT; dT > 0 and the fringes fall towards +x, so Omega is clockwise for the camera (top of the vertical towards east). The Earth turns the laboratory about the north-pointing horizontal at 7.2921e-5 cos(34.20 deg) = 60.3 micro-rad/s, clockwise for a camera looking north (east side sinks), the same sense. Mirror in the laboratory: 330.8 - 60.3 = 270.5, that is 270 micro-rad/s. The answer stays 270 for a period from 1.334 to 1.375 mm, and for every given moved by half its last digit (270.1 to 270.9).
+
+Other values: 230 for a period along x of 1.52 mm, ten periods across the map (the most tempting wrong answer; it comes from judging the slope and the spacing along z by eye instead of marking fringe centres along a horizontal line, which meets 11.2 periods); 330 with the Earth left out; 390 with the Earth's part added; 140 if the wave vector is taken to turn at twice the mirror rate; 220 with 2T as the expansion time; 260 with the full Earth rate and no cosine; 290 with the sine of the latitude; 60 for a mirror that only cancels the Earth; 320 and 350 for 13 and 14 periods across the map.
+
+Check in a second (Python 3, standard library):
+import math
+lam, T, td, lat, OmE, period = 780.241e-9, 1.040, 2.480, 34.20, 7.2921e-5, 1.352e-3
+A = 2*(4*math.pi/lam)*T*T/td
+tot = 2*math.pi/period/A; earth = OmE*math.cos(math.radians(lat))
+print(A, tot*1e6, earth*1e6, (tot - earth)*1e6)      # 1.4048e7 330.8 60.3 270.5
+
+Citations: Dickerson et al., Phys. Rev. Lett. 111, 083001 (2013); Sugarbaker et al., Phys. Rev. Lett. 111, 113002 (2013); Lan et al., Phys. Rev. Lett. 108, 090402 (2012). The uploaded notes hold the key script with the other routes and the rounding, the program that draws the map and the read-back from the image file.
