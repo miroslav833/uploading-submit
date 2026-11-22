@@ -1,0 +1,9 @@
+The bead count is only in the image. The fibre bends on the card, so the beads are followed along the curve. From arrow A (bead 0, image position (43, 246)) to arrow B (bead 117, (953, 149)) the fibre shows 118 beads, so 117 refocusing periods, about 8.62 px of arc apart. Every tenth bead from A (image x, y): 10: (119, 225), 20: (183, 169), 30: (268, 162), 40: (352, 141), 50: (437, 135), 60: (516, 99), 70: (587, 140), 80: (646, 202), 90: (728, 196), 100: (812, 179), 110: (893, 151).
+
+By hand: a beam launched on the axis of a parabolic core is narrowest twice per ray period, so the beads repeat every z_s = pi a/sqrt(2 Delta). z_s = 57.63 mm/117 = 492.564 um; sqrt(2 Delta) = pi x 25.00/492.564 = 0.159451; Delta = 0.012712. Mode groups: delay per length (n1/c)(1 - x)/sqrt(1 - 2x) = (n1/c)(1 + x^2/2 + ...), x from 0 to Delta, so the spread is L n1 Delta^2/(2c) = 2000 x 1.4648 x 0.012712^2/(2 x 299792458) s = 0.7896 ns, which is 0.79 ns.
+
+The most tempting wrong answer is about 13 ns, from taking the bead spacing as the full ray period 2 pi a/sqrt(2 Delta). The optimum-profile spread Delta^2/8 gives 0.20 ns; keeping the third-order term gives 0.81 ns.
+
+Check in Python: import math; d=(math.pi*25.00e-6/(57.63e-3/117))**2/2; print(2000*1.4648*d*d/(2*299792458)*1e9) prints 0.7896
+
+Method: Gloge and Marcatili, Bell Syst. Tech. J. 52, 1563 (1973); Olshansky and Keck, Appl. Opt. 15, 483 (1976); Krupa et al., Phys. Rev. Lett. 116, 183901 (2016); Mangini et al., Phys. Rev. Applied 14, 054063 (2020); Hansson et al., Opt. Express 28, 24005 (2020).
