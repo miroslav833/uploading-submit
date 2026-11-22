@@ -1,0 +1,17 @@
+The figure is 324 x 162 px: three rows of warm stripes on a dark plate, one stripe per heater, about 5.7 px apart. The x positions of the stripes in px, read from the image file by a peak finder, are:
+top row (47): 25 30 36 42 48 54 59 65 71 77 82 88 94 99 105 110 116 122 127 133 138 144 149 155 161 166 172 177 183 189 195 200 206 212 218 224 230 236 241 247 253 259 265 270 276 282 287
+middle row (45): 34 40 45 51 57 62 68 74 79 85 90 96 101 107 112 118 124 129 135 140 146 152 158 163 169 175 181 187 192 198 204 210 216 222 228 233 239 245 250 256 262 267 273 279 284
+bottom row (41): 31 36 42 47 53 58 64 69 75 80 86 91 97 103 108 114 120 126 132 138 143 149 155 161 167 173 178 184 190 196 201 207 213 218 224 229 235 240 246 251 257
+That is N = 47 + 45 + 41 = 133 stages.
+
+By hand. In the pores molecules meet only walls, so the chance of crossing a membrane does not depend on speed or wall temperature, and the net molecule flow is proportional to p_c/sqrt(T_c) - p_w/sqrt(T_w). Calibrated with the conductance C at 295.0 K, the throughput measured at 295.0 K is Q = C (p_c - p_w/r), r = sqrt(325.0/295.0) = 1.04962. The ducts have uniform pressure, so p_(i+1) = r (p_i - Q/C) with Q/C = 2.34e-6/6.50e-7 = 3.600 Pa. Fixed point p* = r (Q/C)/(r - 1) = 76.16 Pa, and p_0 = p* + (p_N - p*) r^(-N). With r^133 = 626.7 and p_N = 101300 Pa: p_0 = 76.16 + 161.51 = 237.7 Pa = 0.24 kPa.
+
+The most tempting wrong answer is 0.16 kPa: the zero-flow value 101300/626.7 = 161.6 Pa, which leaves the leak out. Subtracting Q/C after the compression instead of before it (p_w = r p_c - Q/C) gives 234.1 Pa, 0.23 kPa. 132 stages give 245.7 Pa and 134 give 230.0 Pa; 100 stages, a count taken from the row lengths with too wide a spacing, give 0.87 kPa.
+
+Check (Python, standard library):
+import math
+r = math.sqrt(325.0/295.0); d = 2.34e-6/6.50e-7; p = 101300.0
+for i in range(133): p = p/r + d
+print(round(p, 1))    # 237.7 Pa, 0.24 kPa
+
+Sources: Knudsen, Ann. Phys. 336, 205 (1909); Vargo et al., J. Vac. Sci. Technol. A 17, 2308 (1999).
