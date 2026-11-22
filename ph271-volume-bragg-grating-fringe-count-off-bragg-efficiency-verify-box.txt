@@ -1,0 +1,18 @@
+The answer is not taken from a paper. It follows from the givens, one count on the picture and Kogelnik's two-wave formulas, so the content of the picture is listed here as text.
+
+What the picture shows. The image is 866 x 208 px; the micrograph fills rows 8 to 155. Upright grey fringes of sinusoidal profile cross it and continue past both ends of the scale. The scale below has two graduations, at x = 31 px (printed reading 0) and x = 829 px (printed reading 449.80 um). Adding the rows gives a profile with bright fringes at 31.0 px and 829.0 px under the graduations and 157 periods from one to the other. Every tenth bright fringe is at x = 31, 82, 133, 183, 234, 285, 336, 387, 438, 488, 539, 590, 641, 692, 743, 793, and the last at 829. The mean spacing is 5.083 px, and the Fourier transform of the profile between the graduations has its strongest period at 5.083 px (157.0 periods).
+
+The key by hand. Period 449.80 um / 157 = 2.8650 um. In the glass the beam travels at asin(sin 10.487 deg / 1.4900) = 7.017 deg; the Bragg angle is asin(1.0640/(2 x 1.4900 x 2.8650)) = 7.159 deg (10.701 deg in air). Coupling strength nu = pi n1 d/(lambda cos theta) = 1.9337 with d = 1250 um. Dephasing xi = pi d (sin theta - sin theta_B)/(period x cos theta) = -3.410. Efficiency = sin^2(sqrt(nu^2 + xi^2))/(1 + xi^2/nu^2) = sin^2(3.920)/4.110 = 0.1200, that is 12 %. Moving any one given by half a unit of its last digit leaves 11.87 to 12.12 %.
+
+Rigorous check. The notes solve the slab with index n + n1 cos(2 pi x/period) for all eight propagating orders, reflected waves included: 12.03 % in the first diffracted order, 87.97 % in the undiffracted beam, 0.001 % in all other orders, power conserved to eight digits.
+
+Wrong answers that come up easily. 87 %: the beam taken to be on the Bragg angle (sin^2 nu). 18 %: the top of the first side lobe assumed. 2.3 %: weak-coupling formula nu^2 sin^2(xi)/xi^2. 6.5 %: no refraction at the face. Other values between 0 and 100 %: the fringe spacing judged by eye instead of counted.
+
+Check (Python, standard library):
+from math import *
+per, n, lam, d, n1 = 449.80/157, 1.4900, 1.0640, 1250.0, 5.200e-4
+s = sin(radians(10.487))/n; c = sqrt(1 - s*s)
+nu = pi*n1*d/(lam*c); xi = pi*d*(s - lam/(2*n*per))/(per*c)
+print(sin(sqrt(nu*nu + xi*xi))**2/(1 + xi*xi/(nu*nu)))    # 0.1200
+
+Sources for the method: Kogelnik, Bell Syst. Tech. J. 48, 2909 (1969); Moharam and Gaylord, J. Opt. Soc. Am. 71, 811 (1981); Efimov et al., Appl. Opt. 38, 619 (1999); Ciapurin, Glebov and Smirnov, Opt. Eng. 45, 015802 (2006).
