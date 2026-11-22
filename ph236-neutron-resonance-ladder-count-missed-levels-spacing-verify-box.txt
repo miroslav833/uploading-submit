@@ -1,0 +1,18 @@
+The answer is not taken from a paper or a data table; the nucleus is not a named one. It follows from the givens and from one count on the level diagram, so the content of the diagram is listed here as text.
+
+What the diagram shows. The image is 866 x 160 px. The base line is the pixel row y = 128 and runs from x = 46 (0 keV) to x = 846 (13.05 keV). Each resonance found is a dark stick one pixel wide that rises from the base line; the shortest is 6 px long. There are 193 sticks. Their x positions are: 51 53 56 58 65 70 77 79 81 83 88 91 96 99 104 106 108 111 114 118 122 129 131 134 137 139 142 148 150 167 169 171 175 177 180 185 188 202 205 207 209 211 217 221 225 227 234 241 243 245 250 252 254 265 267 270 272 275 286 288 293 295 298 301 305 308 310 313 315 318 326 332 338 340 342 350 357 362 364 366 371 373 378 386 388 390 396 398 400 404 418 422 424 428 432 435 444 446 448 453 456 459 463 467 470 477 485 490 496 498 501 504 510 513 515 522 524 526 528 535 537 539 553 558 562 566 568 570 574 580 582 587 591 594 597 601 606 611 613 615 617 622 633 637 641 643 645 651 657 662 666 670 673 678 681 683 686 690 700 712 714 717 720 726 738 742 745 747 753 759 761 764 766 770 773 775 780 787 789 791 793 795 798 801 803 814 819 826 830 832 834 836 842. The 1st, 11th, 21st, ... 191st are at x = 51, 88, 122, 169, 209, 250, 293, 326, 371, 418, 456, 501, 537, 582, 617, 666, 714, 761, 793, 834, and the 193rd is at x = 842. The eight stretches of 100 px that start at x = 46 hold 27, 23, 25, 22, 25, 25, 20 and 26 sticks. Sixty-eight neighbouring pairs are 2 px apart (one lighter column between them) and thirty-seven are 3 px apart; these are the places where a quick count comes out wrong.
+
+The key by hand. Uncorrected spacing 13050/193 = 67.62 eV. Spin-zero target, s waves: one channel, so x = Gn0/<Gn0> follows the chi-square law with one degree of freedom and the share above a limit x_t is erfc(sqrt(x_t/2)). The mean is <Gn0> = S0 D0, so x_t = 0.350e-3/(1.90e-4 D0) = 1.842 eV/D0 and 193 = (13050/D0) erfc(sqrt(0.9211/D0)). Iteration from 67.62 eV: 58.75, 58.11, 58.06, 58.06 eV. At the end x_t = 0.0317, missed share 0.1414, 224.8 levels in the interval, 31.8 missed. D0 = 58 eV. Counts of 192 and 194 sticks give 58.4 and 57.7 eV; 191 gives 58.7 and 195 gives 57.4.
+
+Wrong answers that come up easily. 68 eV: no correction. 66 eV: an exponential width law (two degrees of freedom) in place of the one-channel law. 54 eV: erfc(sqrt(x_t)) with the factor 1/2 left out. 59 eV: one pass only, with the limit referred to the uncorrected mean width (58.75 eV), or the missed share added to the found number instead of dividing by the found share, or 189 to 191 sticks counted. 57 eV: 195 to 197 sticks. 60 and 61 eV: 184 to 188 sticks, close pairs taken as single sticks.
+
+Check (Python, standard library):
+import math
+n = 193.0
+for _ in range(60):
+    n = 193/math.erfc(math.sqrt(0.350e-3*n/(2*1.90e-4*13050)))
+print(13050/n)    # 58.06
+
+A second check in the notes draws 600 level sequences with a true spacing of 58.0 eV (levels from random real symmetric matrices, widths from the one-channel law, limit 0.350 meV applied): on average 192.8 resonances survive and the estimate above returns 58.2 eV.
+
+Sources for the method: Porter and Thomas, Phys. Rev. 104, 483 (1956); Fuketa and Harvey, Nucl. Instrum. Methods 33, 107 (1965); Lynn, The Theory of Neutron Resonance Reactions (1968); Mughabghab, Atlas of Neutron Resonances (2006).
