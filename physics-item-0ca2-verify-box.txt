@@ -1,0 +1,20 @@
+The figure is the only source of the time between the two dates, so the data are given here as text.
+
+Data read from the figure (790 x 790 px; planet centre at the middle; polar angle measured from the larger moon, counterclockwise; drawn radius of the larger moon's orbit 300 px). The red dots lie at about 271.2 and 91.4 degrees; they mark dates when the guiding centre was at 270 and 90 degrees, at the same point of the loop. Innermost points of the loops between the dots, one per orbit, from the dot near 270 degrees (degrees): 268.69, 266.80, 264.92, 263.05, 261.19, 259.34, 257.50, 255.67, 253.85, 252.04, 250.24, 248.45, 246.67, 244.90, 243.14, 241.39, 239.65, 237.92, 236.20, 234.49, 232.79, 231.10, 229.42, 227.75, 226.08, 224.43, 222.78, 221.14, 219.51, 217.88, 216.27, 214.66, 213.05, 211.46, 209.87, 208.29, 206.71, 205.14, 203.57, 202.01, 200.45, 198.89, 197.35, 195.80, 194.26, 192.72, 191.18, 189.65, 188.11, 186.58, 185.06, 183.53, 182.00, 180.47, 178.95, 177.42, 175.89, 174.36, 172.83, 171.30, 169.77, 168.24, 166.70, 165.16, 163.61, 162.07, 160.52, 158.96, 157.40, 155.84, 154.27, 152.69, 151.11, 149.53, 147.94, 146.34, 144.73, 143.12, 141.50, 139.87, 138.24, 136.60, 134.95, 133.29, 131.62, 129.94, 128.26, 126.56, 124.86, 123.14, 121.42, 119.69, 117.95, 116.19, 114.43, 112.66, 110.87, 109.08, 107.28, 105.46, 103.64, 101.80, 99.96, 98.10, 96.24, 94.37, 92.48, 90.59
+That is 108 loops, so the dates are 108 orbital periods apart. Per 30 degree sector from 270 down to 90 degrees: 16, 18, 20, 19, 18, 17.
+
+Key by hand. Guiding-centre equations (Dermott and Murray 1981): d theta/dt = -(3/2) n delta and delta^2 = (8/3) mu [C - f(theta)] with f(theta) = 1/(2 sin(theta/2)) - cos(theta). C = f(14.70 deg) = 3.9084 - 0.9673 = 2.9411. Time from 270 to 90 degrees t = (2/(3n)) sqrt(3/(8 mu)) J with J = integral from 90 to 270 deg of d theta / sqrt(C - f) = 2.3971 (integrand 0.6690, 0.7325, 0.8013, 0.8330 at 90, 120, 150, 180 deg, symmetric about 180). With t = 108 x 2 pi/n: mu = J^2/(24 pi^2 108^2) = 2.080e-6, m = mu x 2.745e27 kg = 5.71e21 kg, which is 5.7e21 kg. 107 loops give 5.8e21 kg and 109 give 5.6e21 kg.
+
+Most tempting wrong answer: 6.2e21 kg, from 104 loops, which is what an estimate of the loop spacing by eye tends to give; leaving out the indirect term -cos(theta) gives 2.9e21 kg.
+
+Check program (Python, standard library):
+
+import math
+f = lambda t: 1 / (2 * math.sin(t / 2)) - math.cos(t)
+C = f(math.radians(14.70))
+n = 20000; h = math.pi / n
+J = sum((1 if i in (0, n) else 4 if i % 2 else 2) / math.sqrt(C - f(math.pi / 2 + i * h)) for i in range(n + 1)) * h / 3
+mu = J**2 / (24 * math.pi**2 * 108**2)
+print(J, mu, mu * 2.745e27)        # 2.39711, 2.080e-06, 5.709e+21 kg
+
+The attached notes also integrate the full restricted three-body problem for this mass ratio: the mean longitude reaches 90 degrees after 108.5 periods instead of 108 (0.5 per cent) and the averaged semi-major axis offset at 180 degrees agrees to 0.3 per cent, so the averaged equations hold to the stated order.
