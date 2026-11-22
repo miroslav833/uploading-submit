@@ -1,0 +1,13 @@
+What the figure carries. A shadowgraph with bright lines leaning 7 degrees from the vertical, 4.7 to 6.5 px apart, and two dark straight wires A and B parallel to them. On the middle row (image row 164, marked by the border ticks) A crosses at column 105 and B at column 915. Between them there are 141 bright lines, which cross the middle row at the columns 108, 113, 119, 124, 129, 134, 139, 145, 150, 155, 160, 165, 170, 175, 180, 185, 191, 197, 202, 208, 214, 220, 226, 232, 238, 244, 250, 256, 262, 268, 274, 279, 285, 291, 297, 303, 309, 315, 321, 327, 333, 338, 344, 350, 355, 361, 367, 373, 378, 384, 391, 397, 403, 410, 416, 423, 429, 436, 442, 448, 454, 460, 466, 472, 478, 484, 490, 496, 502, 508, 513, 519, 525, 530, 535, 540, 545, 550, 555, 560, 565, 570, 575, 580, 585, 591, 596, 601, 607, 613, 618, 624, 629, 635, 640, 646, 651, 657, 662, 668, 674, 679, 685, 691, 697, 703, 708, 714, 720, 726, 731, 737, 742, 747, 753, 758, 764, 769, 775, 781, 787, 793, 799, 805, 812, 818, 824, 830, 837, 843, 849, 855, 862, 868, 874, 881, 887, 893, 900, 906, 912. Each wire lies midway between two bright lines and there is one bright line per wavelength, so the 1876 mm, a perpendicular distance, hold 141 wavelengths.
+
+Key by hand. Wavelength 1876 mm/141 = 13.305 mm, a = 2 pi d/lambda = 14.167. Rotating layer, stress-free surfaces, steady onset: R(a) = ((pi^2 + a^2)^3 + pi^2 T)/a^2 with T = 4 Omega^2 d^4/nu^2; the minimum over a lies where 2 a^6 + 3 pi^2 a^4 = pi^6 + pi^2 T. So T = (2 a^6 + 3 pi^2 a^4 - pi^6)/pi^2 = (1.6172e7 + 1.193e6 - 961)/9.8696 = 1.7593e6, sqrt(T) = 1326.4, and Omega = nu sqrt(T)/(2 d^2) = 5.578e-4 x 1326.4 = 0.740 rad/s (7.1 rev/min), so 0.74. The rate changes by about 2 per cent per line (140 lines 0.725, 142 lines 0.755). The centrifugal acceleration 1 m from the axis is 6 per cent of gravity.
+
+Other values. Rapid-rotation limit a^6 = pi^2 T/2 alone: 0.71. A bright line taken for each roll (wavelength of two spacings): 0.10. Factor 4 dropped in the Taylor number: 1.5. Answer left in revolutions per second: 0.12. A count of 120 lines: 0.46.
+
+Short check (Python 3, standard library):
+from math import *
+a = 2*pi*30.00e-3*141/1.876
+T = (2*a**6 + 3*pi**2*a**4 - pi**6)/pi**2
+print(a, T, 1.004e-6*sqrt(T)/(2*30.00e-3**2))      # 14.167, 1.7593e6, 0.7398
+
+Citations: Chandrasekhar, Proc. R. Soc. Lond. A 217, 306 (1953); Chandrasekhar, Hydrodynamic and Hydromagnetic Stability (Oxford University Press, 1961), chapter III; Nakagawa and Frenzen, Tellus 7, 1 (1955); Rossby, J. Fluid Mech. 36, 309 (1969). The uploaded notes hold the key script with its numerical checks, the program that draws the figure and the count of the bright lines from the image file.
