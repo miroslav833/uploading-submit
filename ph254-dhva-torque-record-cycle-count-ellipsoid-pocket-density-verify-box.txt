@@ -1,0 +1,14 @@
+What the figure carries. A chart record of one oscillation against time during an uneven field sweep, with maxima 4.4 to 7 px apart and an amplitude that falls towards the right. The markers P and Q stand on two maxima at image columns 78 and 860. Counting P as number 0, Q is maximum number 137; the maxima from P to Q lie at the columns 78, 84, 90, 96, 103, 109, 116, 122, 128, 135, 141, 146, 152, 158, 163, 169, 174, 180, 185, 190, 196, 201, 206, 212, 217, 222, 227, 231, 236, 240, 245, 249, 254, 258, 262, 267, 271, 276, 281, 286, 292, 297, 303, 309, 315, 321, 327, 333, 339, 345, 351, 357, 363, 369, 376, 382, 389, 395, 402, 409, 416, 422, 428, 435, 441, 447, 453, 459, 465, 471, 477, 483, 490, 497, 504, 510, 517, 524, 531, 538, 544, 551, 558, 564, 571, 577, 584, 590, 597, 603, 609, 615, 621, 627, 632, 637, 642, 647, 652, 657, 661, 666, 671, 675, 680, 685, 690, 695, 700, 705, 710, 715, 721, 726, 731, 736, 741, 746, 751, 757, 762, 768, 773, 779, 785, 791, 797, 803, 809, 815, 821, 827, 833, 838, 844, 849, 854, 860. So 137 cycles lie between 2.000 T and 0.3500 T.
+
+Key by hand. 1/B_Q - 1/B_P = 2.8571 - 0.5000 = 2.3571 per tesla, F = 137/2.3571 = 58.12 T. Ellipsoid of revolution, field at 39.0 degrees from its axis: m_c = sqrt(mt^2 ml/(ml cos^2 + mt sin^2)) = sqrt(0.045^2 x 0.620/0.3923) m_e = 0.05657 m_e. Onsager with A = 2 pi m_c E_F/hbar^2: E_F = hbar e F/m_c = 118.9 meV. Density with two electrons per orbital state: n = (2 E_F)^(3/2) sqrt(mt^2 ml)/(3 pi^2 hbar^3) = 6.600e24 m^-3 = 6.6e18 cm^-3. The density changes by 1.1 per cent per cycle (136 cycles 6.53e18, 138 cycles 6.67e18).
+
+Other values. Cyclotron mass taken as mt: 9.3e18. Sphere with the measured section: 2.5e18. One electron per orbital state: 3.3e18. Angle taken from the short axis: 5.0e18. A count of 120 cycles: 5.4e18.
+
+Short check (Python 3, standard library):
+from math import *
+hb, e, me = 1.054571817e-34, 1.602176634e-19, 9.1093837015e-31
+mt, ml, th = 0.04500, 0.620, radians(39.0); F = 137/(1/0.3500 - 1/2.000)
+mc = sqrt(mt*mt*ml/(ml*cos(th)**2 + mt*sin(th)**2)); EF = hb*e*F/(mc*me)
+print(F, mc, EF/e, (2*EF*me)**1.5*sqrt(mt*mt*ml)/(3*pi**2*hb**3)*1e-6)   # 58.12, 0.05657, 0.11893, 6.600e18
+
+Citations: Onsager, Philos. Mag. 43, 1006 (1952); Lifshitz and Kosevich, Sov. Phys. JETP 2, 636 (1956); Shoenberg, Magnetic Oscillations in Metals (Cambridge University Press, 1984); Ashcroft and Mermin, Solid State Physics (1976), chapters 12 and 14. The uploaded notes hold the key script with two numerical checks, the program that draws the figure and the count of the cycles from the image file.
