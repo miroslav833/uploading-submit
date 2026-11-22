@@ -1,0 +1,13 @@
+The photograph is the only source of the winding pitch. It is a simulated photograph, 1100 x 203 px, made for this question, of the outer layer of the coil with the axis along the image rows; the red lines A and B stand at columns 64 and 1036 (columns from 0), 931.4 mm apart, 1.0434 px per mm. Both lines fall on the middle of a rib on the middle row. The dark channels that cross that row between A and B lie at 68 px, then every tenth at about 154, 240, 326, 412, 498, 584, 670, 756, 842, 928 and 1014 px, and the 113th at 1032 px: 113 pitches of 8.60 px, w = 931.4 mm/113 = 8.2425 mm.
+
+Key by hand. Each tilted layer is a solenoid plus an axial sheet K_z = (n I cot(alpha)/w) cos(theta), whose field inside is mu0 n I cot(alpha)/(2w); the second layer, tilted the other way and run back, cancels the solenoid and doubles the dipole. The iron bore (R_Y = 86.0 mm, infinite permeability) multiplies each layer by 1 + R^2/R_Y^2: 1.2861 (46.0 mm) and 1.4165 (55.5 mm), sum F = 2.7026. I = 2 B0 w tan(alpha)/(mu0 n F) = 2 x 2.60 x 8.2425e-3 x 0.62487/(4 pi e-7 x 18 x 2.7026) = 438.1 A, which rounds to 4.4e2 A.
+
+The most tempting wrong answer is 5.9e2 A, from leaving out the iron (F = 2). 112 channels give 442.0 A (still 4.4e2 A), 114 give 434.3 A (4.3e2 A), 120 give 412.6 A (4.1e2 A).
+
+Check program (Python 3, standard library):
+import math
+w, a, n, B0 = 0.9314/113, math.radians(32.0), 18, 2.60
+F = 2 + (0.0460**2 + 0.0555**2)/0.0860**2
+print(2*B0*w*math.tan(a)/(4e-7*math.pi*n*F))   # 438.1 A
+
+The uploaded notes add a table over 100 to 130 channels, other routes, the effect of rounding every given (437.3 to 439.0 A), a Biot-Savart sum over the two helices, a finite-difference check of the iron factor, and a script that counts the channels from the image file. Sources: Meyer and Flasck, Nucl. Instrum. Methods 80, 339 (1970); Goodzeit, Ball and Meinke, IEEE Trans. Appl. Supercond. 13, 1365 (2003); Caspi et al., IEEE Trans. Appl. Supercond. 24, 4001804 (2014); Beth, J. Appl. Phys. 37, 2568 (1966).
