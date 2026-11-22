@@ -1,0 +1,13 @@
+What the figure carries. A micrograph of a stained section with dark layers leaning 17 degrees from the vertical, 5 to 7 px apart along a row, and two bright straight cursor lines P and Q parallel to them. On the middle row (image row 180, marked by the border ticks) P crosses at column 131 and Q at column 960. Between them there are 139 dark layers, which cross the middle row at the columns 135, 141, 147, 153, 159, 165, 171, 177, 184, 190, 196, 203, 209, 216, 222, 228, 235, 241, 247, 253, 259, 266, 272, 279, 286, 292, 299, 305, 312, 318, 324, 330, 336, 342, 347, 353, 358, 364, 369, 374, 380, 385, 391, 396, 402, 407, 413, 418, 424, 429, 434, 439, 444, 450, 455, 460, 466, 472, 477, 483, 489, 496, 502, 508, 514, 520, 526, 532, 538, 544, 550, 555, 561, 567, 573, 579, 585, 591, 597, 604, 610, 616, 622, 628, 634, 640, 646, 652, 658, 664, 671, 678, 684, 691, 698, 705, 712, 719, 725, 732, 738, 745, 751, 757, 763, 769, 776, 782, 788, 794, 800, 806, 812, 817, 823, 828, 834, 839, 844, 850, 855, 860, 866, 871, 877, 883, 888, 894, 900, 906, 912, 918, 924, 929, 935, 941, 946, 952, 957. Each cursor runs along the middle of a light layer, so the 6.750 um hold 139 periods.
+
+Key by hand. Period L = 6750 nm/139 = 48.56 nm. Per chain, in units of kT: interfaces 2 N g sqrt(chi/6)/L with the Helfand-Sapse factor g = (2/3)(aA^3 - aB^3)/(aA^2 - aB^2) = 0.6343 nm; brush stretching pi^2 h^2/(8 Nb a^2) for each block with h = L/4 and Nb = N/2, in total pi^2 L^2 (1/aA^2 + 1/aB^2)/(64 N) with 1/aA^2 + 1/aB^2 = 5.3584 nm^-2. Minimum over L: sqrt(chi/6) = pi^2 (1/aA^2 + 1/aB^2) L^3/(64 N^2 g) = 0.1522, chi = 0.139, so 0.14. chi N = 138. For equal segment lengths the expression becomes L = 2 (8 chi N/3 pi^4)^(1/6) a N^(1/2).
+
+Other values. One mean segment length of 0.630 nm in the equal-length formula: 0.12. L = 1.03 a chi^(1/6) N^(2/3) with that mean: 0.18. Gaussian-coil stretching 3 h^2/(2 Nb a^2) instead of the brush value: 0.21. One interface per period: 0.56. A count of 105 layers: 0.75.
+
+Short check (Python 3, standard library):
+from math import *
+aA, aB, N, L = 0.720, 0.540, 990, 6750/139
+g = (2/3)*(aA**3 - aB**3)/(aA**2 - aB**2); S = 1/aA**2 + 1/aB**2
+r = pi**2*S*L**3/(64*N**2*g); print(L, g, r, 6*r*r)      # 48.561, 0.63429, 0.15222, 0.1390
+
+Citations: Helfand and Sapse, J. Chem. Phys. 62, 1327 (1975); Semenov, Sov. Phys. JETP 61, 733 (1985); Milner, Witten and Cates, Macromolecules 21, 2610 (1988); Matsen and Bates, J. Polym. Sci. B Polym. Phys. 35, 945 (1997); Helfand and Wasserman, Macromolecules 9, 879 (1976). The uploaded notes hold the key script with three numerical checks, the program that draws the figure and the count of the layers from the image file.
