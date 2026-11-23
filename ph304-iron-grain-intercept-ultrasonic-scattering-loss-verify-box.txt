@@ -1,0 +1,15 @@
+What the figure carries, as text. The metallograph is 1150 x 760 px. A is the midpoint of the left tick pair at (93.2, 367.4) and B that of the right pair at (1103.2, 372.9), pixel coordinates from the top left, so AB is 1010.0 px long (6.521 mm on the specimen). Walking from A to B, the line crosses 126 grain boundaries, at these distances from A in pixels: 7.1, 15.7, 23.0, 30.6, 37.0, 43.1, 54.8, 65.1, 74.4, 85.3, 94.3, 105.2, 111.4, 119.6, 125.7, 131.7, 138.0, 147.5, 156.4, 162.4, 169.6, 176.1, 183.2, 190.1, 196.3, 205.1, 214.3, 223.7, 235.6, 244.9, 254.7, 267.7, 277.4, 284.5, 290.9, 296.5, 302.6, 308.3, 314.4, 320.8, 327.0, 332.6, 340.4, 346.1, 353.2, 361.0, 367.3, 374.2, 381.6, 388.3, 394.2, 400.4, 407.2, 416.2, 422.3, 430.3, 442.6, 453.6, 462.7, 468.7, 474.7, 482.4, 491.3, 498.4, 504.2, 511.4, 521.1, 528.5, 535.8, 544.3, 553.8, 560.6, 569.4, 584.1, 590.3, 596.4, 602.0, 608.4, 616.5, 625.7, 631.8, 638.0, 644.2, 654.3, 662.1, 670.8, 684.6, 694.7, 701.1, 708.1, 716.5, 726.1, 732.3, 739.7, 748.0, 756.8, 764.4, 770.4, 777.0, 784.8, 790.5, 799.8, 806.6, 812.8, 821.4, 831.4, 843.5, 852.2, 860.1, 869.7, 885.3, 895.3, 904.6, 911.1, 920.6, 932.4, 940.1, 946.0, 952.1, 957.8, 964.4, 973.8, 980.9, 987.0, 994.2, 1004.2. Every tenth crossing: 10th at x = 179, 20th 256, 30th 338, 40th 414, 50th 482, 60th 562, 70th 638, 80th 719, 90th 801, 100th 878, 110th 963, 120th 1051, 126th 1098.
+
+Key by hand. Mean chord 6.521 mm/126 = 51.754 um; equal spheres have mean chord 2D/3, so D = 77.631 um and V = pi D^3/6 = 2.4496e-13 m^3. A = 231.4 - 134.7 - 2(116.4) = -136.1 GPa, A^2 = 1.8523e22 Pa^2; (vL/vT)^5 = 20.682, bracket 64.047; f^4 = 3.1641e27; rho^2 vL^8 = 9.3533e37; 8 pi^3/375 = 0.66147. alpha = 6.503 Np/m. The back-wall echo travels 2H = 0.666 m, alpha 2H = 4.331, factor exp(-4.331) = 0.01316, so 0.013.
+
+Most tempting wrong answer. Dividing AB by the 127 grains it passes through instead of the 126 boundaries it crosses gives a mean chord of 51.35 um and a factor of 0.015. 125 crossings give 0.012.
+
+Check program (Python, standard library):
+import math
+Lab, H, f, rho, vL, vT = 6.521e-3, 0.3330, 7.500e6, 7874.0, 5920.0, 3230.0
+A = 231.4e9 - 134.7e9 - 2*116.4e9
+for n in (126, 127):
+    D = 1.5*Lab/n; V = math.pi/6*D**3
+    a = 8*math.pi**3/375*V*A*A*f**4*(2 + 3*(vL/vT)**5)/(rho**2*vL**8)
+    print(n, round(D*1e6, 3), 'um', round(a, 3), 'Np/m', round(math.exp(-2*a*H), 5))
+
