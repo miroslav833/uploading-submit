@@ -1,0 +1,13 @@
+Key by hand. E1 = hbar^2/(2 m a^2) = 8.300 meV, lambda = V0/E1 = 80.96, hbar omega = sqrt(8 V0/(m a^2)) hbar = 2409.4 cm^-1, S0/hbar = (4/3) sqrt(2 lambda) = 11.997, g = hbar/(6 S0) = 0.013892. Leading instanton splitting 2 hbar omega sqrt(6 S0/(pi hbar)) exp(-S0/hbar) = 0.1421 cm^-1; with the quantum corrections 1 - (71/12) g - (6299/288) g^2 = 0.9136 it is 0.1298 cm^-1. Exact diagonalisation (grid and oscillator basis) gives 0.12969 cm^-1, so 0.13 cm^-1.
+
+The most tempting wrong answer is 0.14 cm^-1, the leading instanton value without its corrections (0.1421); the Landau-Lifshitz WKB formula gives 0.1364, also 0.14.
+
+Check program (Python 3 with NumPy and SciPy):
+import numpy as np; from scipy.sparse import diags; from scipy.sparse.linalg import eigsh
+hb, m, eV = 1.054571817e-34, 1.67262e-27, 1.602176634e-19; a, V0 = 0.5e-10, 0.672*eV
+E1 = hb**2/(m*a*a); v = V0/E1; n = 8000; x = np.linspace(-2.6, 2.6, n); d = x[1]-x[0]
+H = diags([np.full(n-1, -0.5/d**2), 1/d**2 + v*(x*x-1)**2, np.full(n-1, -0.5/d**2)], [-1, 0, 1]).tocsc()
+w = np.sort(eigsh(H, k=2, sigma=0.5*np.sqrt(8*v), which='LM')[0])
+print((w[1]-w[0])*E1/(100*6.62607015e-34*2.99792458e8))   # 0.1297 cm^-1
+
+Sources: Herring, Rev. Mod. Phys. 34, 631 (1962); Garg, Am. J. Phys. 68, 430 (2000); Zinn-Justin and Jentschura, Ann. Phys. 313, 197 (2004).
