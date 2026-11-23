@@ -1,0 +1,18 @@
+Data in the photograph, as text: 131 columns of copper patches between the two aluminium edges, neighbouring columns offset by half a row. Column centres in pixels for every tenth column, counted from 0 at the left: 0: 43.5, 10: 123.8, 20: 203.9, 30: 283.9, 40: 363.5, 50: 443.9, 60: 523.9, 70: 603.4, 80: 683.8, 90: 763.9, 100: 843.6, 110: 923.6, 120: 1003.5, and the last, 130: 1083.3. Pitch 8.00 px; rows repeat every 20.3 px in each column.
+
+Key by hand: p_x = 1.660 m / 130 = 12.769 mm, lambda0 = 31.228 mm, k0 h = 0.61326. TM0 of the grounded slab: u tan u = 2.94 w with u^2 + w^2 = 1.94 (k0 h)^2 gives u = 0.80523, w = 0.28498, beta/k0 = 1.10270. The staggered grid has harmonics (pi m/p_x, 2 pi n/p_y) with m + n even only. The first to reach the TM0 circle is (pi/p_x, 2 pi/p_y): sin(theta) = lambda0/(2 p_x) - sqrt((beta/k0)^2 - (lambda0/p_y)^2) = 1.22280 - 0.54098 = 0.68182, theta = 42.99 deg, so 43 deg. (2 pi/p_x, 0) would need sin(theta) = 1.343; the free-space circle is reached only at 71.1 deg.
+
+Most tempting wrong answer, 33 deg: treating the grid as aligned rows keeps the harmonic (0, 2 pi/p_y), giving sin(theta) = sqrt(1.21594 - 0.92328) = 0.5410, 32.75 deg, with no use of the count. Miscounts: 130 columns give 42.25 deg, 132 give 43.73 deg, 145 give 54.4 deg.
+
+Check in seconds (Python 3, standard library):
+import math
+c=299792458; f=9.6e9; er=2.94; h=3.048e-3; L=1.66; py=32.5e-3; N=131
+k0=2*math.pi*f/c; lam=c/f; V2=(er-1)*(k0*h)**2; lo,hi=1e-9,math.sqrt(V2)
+for _ in range(100):
+    u=(lo+hi)/2
+    if u*math.tan(u)/er>math.sqrt(V2-u*u): hi=u
+    else: lo=u
+b=math.sqrt((k0*h)**2+V2-u*u)/(k0*h); px=L/(N-1)
+print(b, math.degrees(math.asin(lam/(2*px)-math.sqrt(b*b-(lam/py)**2))))
+
+Citations: Pozar and Schaubert, IEEE Trans. Antennas Propag. 32, 602 (1984); Knittel, Hessel and Oliner, Proc. IEEE 56, 1822 (1968); Sharp, IRE Trans. Antennas Propag. 9, 126 (1961).
