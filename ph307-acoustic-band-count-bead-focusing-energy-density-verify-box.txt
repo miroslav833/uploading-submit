@@ -1,0 +1,16 @@
+The figure is 759 x 84 px: a water column between the transducer face (left, x = 30 px) and the reflector face (right, x = 731 px), with thin bright sheets of spheres across it about 5.7 px apart. A peak finder on the brightness averaged along the sheets gives these x positions (px) on the middle line:
+33 38 44 50 55 61 67 73 78 84 90 95 101 107 112 118 124 129 135 141 147 152 158 164 169 175 181 187 192 198 204 209 215 221 226 232 238 244 249 255 261 266 272 278 283 289 295 300 306 312 318 323 329 335 341 346 352 358 363 369 375 380 386 392 397 403 409 414 420 426 432 437 443 449 454 460 466 472 477 483 489 494 500 506 511 517 523 529 534 540 546 551 557 563 568 574 580 586 591 597 603 608 614 620 626 631 637 642 648 654 660 665 671 677 683 688 694 700 705 711 717 722 728
+That is N = 123 sheets.
+
+By hand. Both faces are pressure antinodes and the sheets are the nodes, so L = N lambda/2: lambda = 2 x 45.00 mm/123 = 0.7317 mm, k = 8587 1/m. kappa0 = 1/(997.0 x 1497^2) = 4.476e-10 1/Pa, f1 = 1 - 2.49/4.476 = 0.4437, f2 = 2(1050 - 997.0)/(2 x 1050 + 997.0) = 0.03423, Phi = f1/3 + f2/2 = 0.1650. Gor'kov force F = 4 pi Phi k a^3 E_ac sin(2kz) against Stokes drag 6 pi eta a dz/dt gives tan(kz) growing as exp(4 Phi (ka)^2 E_ac t/(3 eta)). From kz = 0.1 pi to 0.4 pi: ln(3.0777/0.3249) = 2.2484. With a = 2.500 um, ka = 0.02147: E_ac = 3 x 0.890e-3 x 2.2484/(4 x 0.1650 x 0.02147^2 x 2.498) = 7.90 J/m^3, so 7.9.
+
+The most tempting wrong answer is 2.0 J/m^3, from taking the sheet spacing as a whole wavelength (k half as large). Dropping the density term (Phi = f1/3) gives 8.8. 122 sheets give 8.0 and 124 give 7.8; a drive taken as exactly 2 MHz gives 8.3.
+
+Check (Python, standard library):
+import math
+k0 = 1/(997.0*1497**2); f1 = 1 - 2.49e-10/k0; f2 = 2*(1050 - 997.0)/(2*1050 + 997.0); phi = f1/3 + f2/2
+ka = 2*math.pi/(2*45.00e-3/123)*2.500e-6
+lnr = math.log(math.tan(0.4*math.pi)/math.tan(0.1*math.pi))
+print(round(3*0.890e-3*lnr/(4*phi*ka**2*2.498), 2))    # 7.9 J/m^3
+
+Sources: Bruus, Lab Chip 12, 1014 (2012); Barnkob et al., Lab Chip 10, 563 (2010).
