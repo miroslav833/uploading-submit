@@ -1,0 +1,11 @@
+What the figure carries. A grey camera frame (no scale) of light scattered out of a slab guide: smooth near the bottom edge, broken into near-vertical bright filaments higher up, 3.5 to 6.5 px apart, with merges and splits away from the marked row. Arrows A and B point down at two dark gaps on image row 152, at columns 124 and 882. Along that row the gaps from A to B lie at the columns 124, 130, 136, 142, 147, 153, 157, 162, 167, 172, 178, 183, 190, 196, 202, 207, 212, 217, 222, 227, 232, 237, 242, 246, 251, 257, 262, 267, 272, 277, 282, 286, 291, 296, 301, 306, 312, 318, 324, 329, 335, 340, 345, 351, 357, 363, 369, 375, 381, 386, 391, 396, 401, 407, 412, 418, 424, 429, 434, 440, 446, 451, 456, 462, 468, 473, 476, 481, 486, 492, 499, 504, 509, 515, 520, 526, 531, 537, 542, 547, 552, 557, 562, 567, 572, 578, 584, 590, 595, 599, 603, 607, 611, 615, 619, 624, 628, 632, 637, 642, 648, 654, 660, 665, 671, 677, 683, 688, 692, 697, 702, 707, 713, 718, 723, 729, 735, 741, 746, 752, 758, 764, 769, 775, 780, 786, 792, 798, 803, 808, 814, 819, 824, 829, 834, 840, 846, 851, 855, 860, 865, 870, 876, 882, so 143 filaments and 143 periods lie between the arrows, and the period is 5.044 mm/143 = 35.273 um.
+
+Key by hand. Plane-wave modulation instability in a 1D Kerr medium: gain g = (kappa/2k) sqrt(4 k gamma - kappa^2), k = 2 pi n0/lambda, gamma = k n2 I/n0, peak at kappa^2 = 2 k gamma = 8 pi^2 n0 n2 I/lambda^2. So I = lambda^2/(2 n0 n2 Lambda^2) = (1.5500e-6)^2/(2 x 2.437 x 3.453e-18 x (35.273e-6)^2) = 1.1474e14 W/m^2 = 11.5 GW/cm^2.
+
+Other values. Factor 2 dropped in the peak condition: 22.9. Vacuum wavenumber for k: 28.0. Edge of the gain band (kappa^2 = 4 k gamma): 5.74. 142 or 144 periods: 11.3 or 11.6.
+
+Short check (Python 3, standard library):
+lam, n0, n2, Lam = 1.5500e-6, 2.437, 3.453e-18, 5.044e-3/143
+print(Lam, lam**2/(2*n0*n2*Lam**2)/1e13)      # 3.5273e-05, 11.474
+
+Citations: Bespalov and Talanov, JETP Lett. 3, 307 (1966); Malendevich, Jankovic, Stegeman and Aitchison, Opt. Lett. 26, 1879 (2001); Boyd, Nonlinear Optics, 3rd ed. (Academic Press, 2008). The uploaded notes hold the key script with its numerical checks, the program that draws the frame and the count of the filaments from the image file.
