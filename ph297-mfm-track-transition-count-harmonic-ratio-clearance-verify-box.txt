@@ -1,0 +1,17 @@
+The answer is 34 (34.11). The micrograph was made for this question (image_source.py in the notes): a 1T track, transitions skewed by 17.0 deg and alternating bright (head-to-head) and dark (tail-to-tail), 137 recorded wavelengths between A and B, with A and B both on bright lines.
+
+Data in the micrograph (1300 x 440 px): A at x = 57, B at x = 1249 on row 224 (AB = 1192 px for 9.079 um). Bright lines crossing that row between them, every tenth after A, at x = 145, 231, 319, 405, 492, 580, 667, 753, 840, 928, 1015, 1102, 1189 px; 136 bright lines strictly between A and B, so 137 wavelengths. The lines lean 0.30 px in x per row (17 deg).
+
+Key by hand. Recorded wavelength along the track lambda = 9079 nm/137 = 66.27 nm (two bit cells). The pattern's wave vector is normal to the skewed transitions, so its period there is 66.27 cos 17.0 deg = 63.37 nm and harmonic n has k_n = 2 pi n/63.37 nm. Readback V_n = C_n exp(-k_n d) with C_n unchanged by the actuator, so V3/V1 changes by exp((k3 - k1) dd) = exp(4 pi x 17.8/63.37) = exp(3.5295) = 34.11, quoted as 34.
+
+Most tempting wrong answer: the skew left out, exp(4 pi x 17.8/66.27) = 29. The bright-line spacing taken as one bit cell gives 5.8. 136 or 138 wavelengths give 33 or 35.
+
+Check program (standard library):
+import math
+s, dd, N, skew = 9079.0, 17.8, 137, 17.0
+lam = s / N
+lp = lam * math.cos(math.radians(skew))
+x = 4 * math.pi * dd / lp
+print(round(lam, 3), round(lp, 3), round(x, 4), round(math.exp(x), 3))   # 66.27 63.374 3.5295 34.108
+
+Citations: Wallace, Bell Syst. Tech. J. 30, 1145 (1951); Rugar et al., J. Appl. Phys. 68, 1169 (1990); Nikitin et al., IEEE Trans. Magn. 40, 326 (2004).
