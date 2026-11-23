@@ -1,0 +1,18 @@
+The answer is not taken from a paper. It follows from the givens, one count on the image and the Bessel series of the array factor, so the content of the image is listed here as text.
+
+What the image shows. The image is 270 x 270 px: bright round spots on a dark, slightly uneven ground with a few dark specks. The spots lie on a circle centred at (134.8, 134.8) px with radius 110.0 px. Sampling the brightness along that circle gives 122 maxima, 2.951 degrees apart (360/122), 5.7 px along the arc; the smallest spacing found is 2.85 and the largest 3.05 degrees. Counted anticlockwise from the +x direction, every tenth spot is at 0.7, 30.2, 59.7, 89.2, 118.7, 148.2, 177.7, 207.1, 236.7, 266.2, 295.7, 325.2, 354.7 degrees, and the 122nd spot is at 357.7 degrees. The strongest harmonic of the brightness around the circle is the 122nd.
+
+The key by hand. x = k a sin(theta) = 2 pi x 2.5000 mm x sin(7.657 mrad) / 1064.0 nm = 113.040. Jacobi-Anger: the sum over N in-phase sources keeps the Bessel orders that are multiples of N, E ~ J0(x) + 2 (-i)^N J_N(x) cos(N phi) + ..., with (-i)^122 = -1 and J_244 negligible. J0(113.04) = 0.04988 (large-argument form gives 0.04994). J_122(113.04) = 0.005376 (Debye with the first correction: 0.005349; leading term alone 0.005511). Intensity highest over lowest = ((J0 + 2 J_N)/(J0 - 2 J_N))^2 = 2.401, that is 2.4. Moving any one given by half a unit of its last digit gives 2.390 to 2.412.
+
+Direct check. The notes sum the 122 waves exp(-i x cos(phi - phi_n)) on 200001 azimuths: 2.4009, with 122 maxima of intensity around the cone.
+
+Wrong answers that come up easily. 1.0: the ring treated as continuous. 2.5: the leading Debye term without its 1/N correction (2.46). 1.5: the field ratio instead of the intensity ratio, or the factor 2 of the +N and -N terms left out. Other values: a different number of fibres.
+
+Check (Python with SciPy):
+from scipy.special import jv
+from math import pi, sin
+x = 2*pi*2.5e-3*sin(7.657e-3)/1064.0e-9
+j0, jn = jv(0, x), jv(122, x)
+print(((j0 + 2*jn)/(j0 - 2*jn))**2)    # 2.401
+
+Sources for the method: Fan, IEEE J. Sel. Top. Quantum Electron. 11, 567 (2005); Abramowitz and Stegun (1964), 9.1.41, 9.2.1, 9.3.7, 9.3.9; Born and Wolf, Principles of Optics.
