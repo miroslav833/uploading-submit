@@ -1,0 +1,13 @@
+What the figure carries, as text. The frame is 1000 x 720 px. Circle C is centred at pixel (512, 352) from the top left, radius about 91 px. Inside it there are 56 stars, all brighter than R = 19.0, at (x, y) with the R magnitude each was drawn with: (549, 282) R = 17.7; (546, 294) R = 18.2; (458, 298) R = 17.6; (549, 302) R = 17.8; (496, 303) R = 18.4; (527, 315) R = 15.8; (589, 323) R = 17.7; (500, 324) R = 12.6; (452, 327) R = 18.2; (461, 329) R = 18.0; (476, 332) R = 15.0; (518, 332) R = 18.2; (462, 335) R = 18.5; (440, 338) R = 18.4; (450, 338) R = 15.9; (467, 340) R = 17.5; (560, 344) R = 15.7; (470, 345) R = 18.9; (523, 346) R = 16.6; (531, 346) R = 18.2; (457, 347) R = 16.8; (444, 350) R = 18.9; (464, 354) R = 19.0; (566, 357) R = 19.0; (444, 359) R = 18.9; (457, 362) R = 18.3; (531, 364) R = 15.7; (451, 364) R = 17.5; (488, 365) R = 17.6; (576, 365) R = 15.7; (436, 369) R = 18.7; (494, 374) R = 17.7; (487, 374) R = 18.8; (538, 376) R = 17.9; (560, 377) R = 18.8; (503, 380) R = 17.9; (454, 381) R = 14.1; (482, 382) R = 18.0; (522, 389) R = 17.8; (497, 390) R = 18.9; (568, 390) R = 18.9; (512, 393) R = 18.6; (508, 398) R = 17.4; (566, 399) R = 18.3; (524, 399) R = 17.2; (444, 403) R = 18.5; (496, 404) R = 16.5; (482, 404) R = 18.3; (541, 406) R = 18.8; (453, 407) R = 18.3; (504, 414) R = 16.8; (560, 418) R = 18.8; (544, 420) R = 16.2; (531, 425) R = 18.7; (517, 428) R = 14.5; (488, 428) R = 18.3. No star lies within 5 px of the circle line, and no two stars inside C are closer than 6 px.
+
+Key by hand. N0 = 10.70 x pi x 2.50^2 = 210.09. A_R = log10(210.09/56)/0.300 = 0.57423/0.300 = 1.9141 mag; A_V = 1.9141/0.751 = 2.5487 mag along a diameter. At the centre of a uniform sphere the field comes through the radius, A_V = 1.2744 mag. k = 2.60e-10 exp(-3.53 x 1.2744) = 2.893e-12 per second; lifetime 1/k = 3.457e11 s = 1.10e4 yr.
+
+Most tempting wrong answer. Using the full diameter extinction 2.549 mag for the centre gives k = 3.22e-14 per second and a lifetime of 9.8e5 yr. Counting 55 or 57 stars gives 1.2e4 or 1.0e4 yr.
+
+Check program (Python, standard library):
+import math
+for n in (55, 56, 57):
+    AV = math.log10(10.70*math.pi*2.50**2/n)/0.300/0.751
+    k = 2.60e-10*math.exp(-3.53*AV/2)
+    print(n, round(AV, 4), '%.3e' % k, round(1/k/3.15576e7), 'yr')
+
