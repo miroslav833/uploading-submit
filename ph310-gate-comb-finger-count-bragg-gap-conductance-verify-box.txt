@@ -1,0 +1,16 @@
+The answer is not taken from a paper. It follows from the givens, one count on the micrograph and the transfer-matrix result for N identical scatterers, so the content of the micrograph is listed here as text.
+
+What the micrograph shows. The image is 866 x 240 px. A bright bus bar runs along the top (rows about 26 to 43). Narrow bright gate fingers hang from it down to about row 195 and cross a dark horizontal band, the wire (rows about 118 to 167). Averaging the rows between the bus bar and the wire gives one maximum per finger: 137 fingers, the first at x = 47.7 px and the last at x = 811.8 px, pitch 5.619 px on average (5.35 to 5.79 px). Every tenth finger from the left is at x = 48, 104, 160, 216, 272, 329, 385, 441, 497, 554, 609, 666, 722, 778 px.
+
+The key by hand. One gate: |r|^2 = 2.2615e-3, |r|/|t| = 0.047609. For N identical lossless symmetric cells, 1/T_N = 1 + (|r|/|t|)^2 sin^2(N theta)/sin^2(theta) with cos(theta) = Re(e^{ika}/t). In a gap cos(theta) = cosh(kappa); its largest value, at the point of strongest attenuation, is 1/|t|, so sinh(kappa) = |r|/|t| and 1/T_N = cosh^2(N kappa). kappa = asinh(0.047609) = 0.047591, N kappa = 6.5200 for N = 137, T_N = 8.687e-6. G = (2e^2/h) T_N = 77.4809 uS x 8.687e-6 = 0.6731 nS, that is 0.67 nS. Half a unit in the last digit of the reflection probability moves this by less than 0.0002 nS.
+
+Numerical check. The notes model each gate as a delta barrier whose strength gives the stated reflection at the working energy, multiply 137 transfer matrices for wavenumbers across the gap, and find the strongest attenuation 0.0478 rad per period off k a = n pi with G = 0.6732 nS there.
+
+Wrong answers that come up easily. 5.9e4 nS: the gates added as incoherent series resistances. 0.17 nS: exp(-2 N kappa) without the prefactor. 0.34 nS: the spin factor left out. 0.68 nS: kappa set equal to |r| instead of asinh(|r|/|t|). Other values: a different number of gates.
+
+Check (Python, standard library):
+from math import *
+k = asinh(sqrt(2.2615e-3/(1 - 2.2615e-3)))
+print(2*1.602176634e-19**2/6.62607015e-34/cosh(137*k)**2*1e9)    # 0.6731 nS
+
+Sources for the method: Yeh, Optical Waves in Layered Media (1988); Datta, Electronic Transport in Mesoscopic Systems (1995); van Wees et al., Phys. Rev. Lett. 60, 848 (1988); Ismail et al., Appl. Phys. Lett. 52, 1071 (1988).
