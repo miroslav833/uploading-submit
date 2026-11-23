@@ -1,0 +1,11 @@
+The colour map spans 0 to 600 ns across 929 pixel columns (frame at x = 120 and 1050 px) and -300 to +300 MHz in f_q - f_r. On the middle row, f_q = f_r, the excited-state probability starts at a maximum at t = 0. Its maxima then sit at about: 1: 5.6 ns (x = 129 px), 10: 56.0 ns (207), 20: 112.2 ns (294), 30: 168.5 ns (381), 40: 224.8 ns (469), 50: 281.1 ns (556), 60: 337.4 ns (643), 70: 393.7 ns (730), 80: 450.0 ns (817), 90: 506.3 ns (904), 100: 562.4 ns (991), last full maximum 106: 596.4 ns. The mean spacing is 5.629 ns, so the window holds 106.6 swap periods. A least-squares damped-cosine fit to the decoded row gives a swap frequency of 177.66 MHz.
+
+Hand calculation. On resonance P_e = cos^2(g t), so the swap frequency is 2g/2pi = 106.6/600 ns = 177.7 MHz and g/2pi = 88.83 MHz. At the parking point Delta/2pi = 4500.0 - 6300.0 = -1800.0 MHz. With the transmon's second level (coupling sqrt2 g, detuning Delta + alpha) the resonator pulls are chi_g = -g^2/Delta and chi_e = g^2/Delta - 2g^2/(Delta + alpha). Their difference is 2 g^2 alpha/(Delta (Delta + alpha)) = 2 (88.83)^2 (-216.2)/((-1800.0)(-2016.2)) = -0.940 MHz, so the size of the move is 0.94 MHz.
+
+The most tempting wrong answer reads the resonant-row stripes as about twice as far apart as they are (16 px instead of 8.7 px): g/2pi near 49 MHz and 0.29 MHz. Estimating the period instead of counting the swaps also misses: 5.5 ns gives 109 swaps and 0.98 MHz; 5.8 ns gives 103.4 swaps and 0.88 MHz. The two-level formula 2 g^2/|Delta| gives 8.8 MHz.
+
+Check in Python:
+g=106.6/(2*0.600); D=4500.0-6300.0; a=-216.2
+print(abs(2*g*g*a/(D*(D+a))))   # 0.940 MHz
+
+Sources: Blais et al., Phys. Rev. A 69, 062320 (2004); Koch et al., Phys. Rev. A 76, 042319 (2007); Hofheinz et al., Nature 454, 310 (2008); Blais et al., Rev. Mod. Phys. 93, 025005 (2021).
