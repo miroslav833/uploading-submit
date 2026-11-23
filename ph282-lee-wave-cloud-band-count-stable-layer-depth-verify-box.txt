@@ -1,0 +1,9 @@
+Data in the image, as text. The arrow row is y = 300 px (image 780 x 520 px). Crest columns of all bands on that row, from A (crest 0) to B (crest 53), in px: 119.3, 128.0, 136.6, 145.2, 153.7, 162.0, 170.3, 178.6, 186.8, 194.9, 202.9, 210.9, 218.9, 226.8, 234.6, 242.3, 250.0, 257.7, 265.3, 272.9, 280.4, 287.9, 295.3, 302.7, 310.0, 317.3, 324.6, 331.8, 339.0, 346.1, 353.2, 360.3, 367.4, 374.4, 381.4, 388.3, 395.2, 402.1, 408.9, 415.8, 422.6, 429.3, 436.1, 442.8, 449.5, 456.1, 462.8, 469.4, 476.0, 482.5, 489.1, 495.6, 502.1, 508.6. That is 54 crests and 53 wavelengths; the spacing falls from 8.7 px near A to 6.5 px near B.
+Key by hand. lambda = 335.6 km / 53 = 6.332 km, k = 9.923e-4 1/m. l1 = 0.01420/11.40 = 1.2456e-3 1/m, l2 = 0.00580/11.40 = 5.088e-4 1/m. m1 = sqrt(l1^2 - k^2) = 7.530e-4 1/m, m2 = sqrt(k^2 - l2^2) = 8.519e-4 1/m. Matching w = sin(m1 z) below H to exp(-m2 (z - H)) above gives m1 cot(m1 H) = -m2, lowest root m1 H = pi - arctan(m1/m2) = 2.4178, H = 3211 m, so 3.2 km.
+Most tempting wrong answer: an overcount from reading the spacing near B as 5.5 to 6 px. 58 wavelengths give lambda = 5.786 km and H = 4.220 km (4.2 km); 59 give 5.688 km and 4.535 km (4.5 km). Neighbouring counts: 54 give 3.363 km (3.4 km), 52 give 3.075 km (3.1 km).
+Check in seconds (Python, standard library):
+import math
+k=2*math.pi*53/335.6e3; l1=0.01420/11.40; l2=0.00580/11.40
+m1=math.sqrt(l1*l1-k*k); m2=math.sqrt(k*k-l2*l2)
+print((math.pi-math.atan(m1/m2))/m1)   # 3211 m
+Citations: Scorer, QJRMS 75, 41 (1949); Wurtele, Sharman and Datta, Annu. Rev. Fluid Mech. 28, 429 (1996); Vosper, QJRMS 130, 1723 (2004); Gjevik and Marthinsen, QJRMS 104, 947 (1978).
