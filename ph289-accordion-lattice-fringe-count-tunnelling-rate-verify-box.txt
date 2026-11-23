@@ -1,0 +1,12 @@
+What the figure carries. A camera frame with dark fringes leaning 6 degrees from the vertical, 4.9 to 6.4 px apart in the picture, and two white straight guide lines P and Q parallel to them. On the middle row (image row 177, marked by the border ticks) P crosses at column 75 and Q at column 903. Between them there are 147 dark fringes, which cross the middle row at the columns 78, 83, 89, 94, 100, 106, 112, 117, 123, 129, 135, 141, 147, 153, 159, 165, 171, 178, 184, 190, 197, 203, 210, 216, 222, 229, 235, 241, 247, 252, 258, 264, 269, 275, 280, 286, 291, 296, 302, 308, 313, 319, 325, 331, 337, 343, 349, 354, 360, 366, 371, 377, 382, 387, 393, 398, 403, 408, 412, 417, 422, 427, 432, 437, 442, 447, 452, 457, 463, 468, 473, 478, 483, 489, 494, 499, 505, 510, 515, 521, 527, 532, 538, 544, 550, 556, 562, 569, 575, 582, 588, 594, 601, 607, 613, 619, 625, 631, 637, 642, 648, 654, 659, 665, 671, 676, 682, 688, 694, 701, 707, 713, 719, 725, 732, 738, 744, 749, 755, 761, 766, 772, 777, 783, 788, 793, 798, 804, 809, 814, 819, 825, 830, 835, 840, 845, 850, 855, 860, 865, 870, 875, 880, 885, 890, 895, 900. Each guide line lies on the crest of a bright fringe, so the 290.0 micrometres hold 147 periods.
+
+Key by hand. a = 290.0 um/147 = 1.9728 um. The potential V0 sin^2(pi x/a) has the wavenumber pi/a, so E_R/h = h/(8 m a^2) = 1826.7 Hz and s = 31500/1826.7 = 17.244, sqrt(s) = 4.1526. Deep lattice, leading order: width of the lowest band 4J = (16/sqrt(pi)) E_R s^(3/4) exp(-2 sqrt(s)), so J/h = 2.2568 x 1826.7 x 8.462 x 2.472e-4 = 8.62 Hz, so 8.6.
+
+Other values. Recoil energy with the wavenumber 2 pi/a: 780. Band width 4J: 34. J/hbar: 54. Mass of 6Li: 17. Overlap of Gaussian Wannier functions in place of the band width: 1.6. A count of 145 fringes (period 2.000 um): 7.6. The exact band width at this depth gives 7.6 Hz for J; the question asks for the leading term.
+
+Short check (Python 3, standard library):
+from math import *
+a = 290.0e-6/147; ER = 6.62607e-34/(8*7.016003*1.660539e-27*a*a); s = 31.50e3/ER
+print(a, ER, s, 4/sqrt(pi)*ER*s**0.75*exp(-2*sqrt(s)))      # 1.9728e-06, 1826.7, 17.244, 8.624
+
+Citations: Zwerger, J. Opt. B 5, S9 (2003); Bloch, Dalibard and Zwerger, Rev. Mod. Phys. 80, 885 (2008); Abramowitz and Stegun, section 20.2; Li, Kelkar, Medellin and Raizen, Opt. Express 16, 5465 (2008). The uploaded notes hold the key script with its numerical check, the program that draws the figure and the count of the fringes from the image file.
