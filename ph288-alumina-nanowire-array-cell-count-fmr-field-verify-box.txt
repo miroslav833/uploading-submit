@@ -1,0 +1,9 @@
+The dome count is only in the micrograph. The domes of the large domain form a triangular lattice; A and B lie on one close-packed row running about 23.5 degrees above the horizontal. From A (dome 0, image position (205, 545)) to B (dome 61, (739, 314)) the row holds 62 domes, so 61 spacings of about 9.54 px. Every tenth dome from A (image x, y): 10: (293, 507), 20: (380, 469), 30: (467, 431), 40: (555, 392), 50: (644, 355), 60: (730, 317).
+
+By hand: D = 4730 nm/61 = 77.541 nm. P = pi d^2/(2 sqrt3 D^2) = pi x 44.0^2/(2 sqrt3 x 77.541^2) = 0.29201. Mean field of the other wires: -P M along the axis (wide film), +P M/2 across it (cylindrical hole), so N_z = P, N_perp = (1 - P)/2 and N_perp - N_z = (1 - 3P)/2 = 0.06198. Kittel with B along the wires: f = (g mu_B/h)(B + mu0 Ms (1 - 3P)/2), g mu_B/h = 2.09 x 13.996 = 29.2516 GHz/T, so B = 14.00/29.2516 - 0.960 x 0.12396/2 = 0.47861 - 0.05950 = 0.4191 T, which is 0.42 T.
+
+The most tempting wrong answer is about 0.28 T, from keeping only the film field -P M of the other wires (1 - 2P in place of 1 - 3P). A square-lattice porosity pi d^2/(4 D^2) gives 0.36 T; 62 spacings in place of 61 give 0.43 T.
+
+Check in Python: import math; D=4730/61; P=math.pi*44.0**2/(2*math.sqrt(3)*D**2); print(14.00/(2.09*13.996) - 0.960*(1-3*P)/2) prints 0.4191
+
+Method: Masuda and Fukuda, Science 268, 1466 (1995); Nielsch et al., Nano Lett. 2, 677 (2002); Kittel, Phys. Rev. 73, 155 (1948); Encinas-Oropesa et al., Phys. Rev. B 63, 104415 (2001).
