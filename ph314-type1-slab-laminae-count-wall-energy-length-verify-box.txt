@@ -1,0 +1,9 @@
+The lamina count is only in the magneto-optical picture. Along the line from the bright lamina at A (image position (86, 652)) to the bright lamina at B (882, 228), straight across the laminae, there are 98 bright laminae, so 97 periods of 9.30 px on average (single periods about 7.2 to 12.7 px). Every tenth lamina from A (image x, y): 10: (175, 605), 20: (257, 561), 30: (336, 519), 40: (419, 475), 50: (494, 435), 60: (574, 393), 70: (658, 348), 80: (734, 307), 90: (819, 262).
+
+By hand: a = 5.631 mm/97 = 58.052 um, h = Ha/Hc = 7.10/24.6 = 0.28862. Interface energy per slab area mu0 Hc^2 delta d/a; outside field of both faces (mu0 Hc^2 a/pi^3) S(h), S(h) = sum sin^2(n pi h)/n^3 = 0.76284 (terms 0.62013, 0.11778, 0.00620, 0.00340, 0.00775, 0.00258, 0.00001, 0.00133, ...; twenty terms 0.76226). Least energy: a^2 = pi^3 delta d/S, delta = a^2 S/(pi^3 d) = (58.052e-6)^2 x 0.76284/(31.006 x 1.000e-3) m = 82.91 nm, which is 83 nm.
+
+The most tempting wrong answer is 67 nm, from keeping only the first harmonic of the square wave (S = sin^2(pi h) = 0.62013). 96 or 98 periods give 85 or 81 nm.
+
+Check in Python (prints 82.9): import math; h=7.10/24.6; S=sum(math.sin(n*math.pi*h)**2/n**3 for n in range(1,100000)); a=5.631e-3/97; print(round(a*a*S/(math.pi**3*1.000e-3)*1e9, 1))
+
+Method: Goren and Tinkham, J. Low Temp. Phys. 5, 465 (1971); Kittel, Phys. Rev. 70, 965 (1946); Prozorov, Phys. Rev. Lett. 98, 257001 (2007); Prozorov et al., Nature Phys. 4, 327 (2008).
