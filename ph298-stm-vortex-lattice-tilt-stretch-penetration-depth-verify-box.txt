@@ -1,0 +1,14 @@
+The conductance map is the only source of the lattice shape. It is a simulated 880 x 680 px map made for this question (x to the right, y down); the arrow in the inset points 24.4 deg below the x axis. Averaged over the map, the three bond families of the core lattice are (35.44, 9.38), (15.39, 27.67) and (-20.05, 18.29) px, at 14.8, 60.9 and 137.6 deg below the x axis and 36.7, 31.7 and 27.1 px long. Along the arrow u = (0.911, 0.412) and across it, n = (-0.412, 0.911), they measure (36.15, -6.06), (25.43, 18.86) and (-10.72, 24.93) px.
+
+Key by hand. In uniaxial London theory far above Hc1 the lattice in the plane normal to the field is equilateral after the direction in the (c, B) plane is stretched by 1/eps, with eps = (cos^2 theta + sin^2 theta/gamma^2)^(1/2). The face normal to c cuts the lines obliquely and stretches that direction by 1/cos theta, so on the face s = eps/cos theta = (1 + tan^2 theta/gamma^2)^(1/2), along the arrow. For the three bonds, s^2 = sum (b.u)^2/sum (b.n)^2 = 2068.8/1014.0, s = 1.428. Then gamma = tan 78.0 deg/(s^2 - 1)^(1/2) = 4.705/1.020 = 4.61 and lambda_c = 4.61 x 0.115 um = 0.530 um, so 0.53 um.
+
+The most tempting wrong answer is 0.60 um: the ratio of the longest to the shortest bond, 1.35, taken as the stretch as if a bond lay along the arrow (none does), gives gamma = 5.18.
+
+Check program (Python 3, standard library):
+import math
+b = [(36.15, -6.06), (25.43, 18.86), (-10.72, 24.93)]   # along, across the arrow (px)
+s = math.sqrt(sum(p*p for p, q in b)/sum(q*q for p, q in b))
+g = math.tan(math.radians(78.0))/math.sqrt(s*s - 1)
+print(s, g, 0.115*g)   # 1.428, 4.61, 0.530
+
+The uploaded notes add other routes, the effect of rounding the givens (0.5254 to 0.5346 um), a minimisation of the full London energy over lattice shapes (minimum within 0.1 per cent of eps), the oblique cut done with explicit vortex lines, and a script that measures the lattice from the image file. Sources: Kogan, Phys. Rev. B 24, 1572 (1981); Campbell, Doria and Kogan, Phys. Rev. B 38, 2439 (1988); Blatter, Geshkenbein and Larkin, Phys. Rev. Lett. 68, 875 (1992); Dolan et al., Phys. Rev. Lett. 62, 2184 (1989).
