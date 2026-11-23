@@ -1,0 +1,15 @@
+The plotted record is the only source of the axial frequency. It is a simulated image-current transient, 1100 x 340 px, made for this question; cursor A stands on a crest at column 64 and cursor B on a crest at column 1070 (columns from 0), and the question gives t_B - t_A = 645.05 us. Counting crests from A, every twentieth falls at about 158, 252, 346, 440, 534, 628, 722, 816, 910 and 1004 px, and B is the 214th: 214 periods of 4.70 px, f = 214/645.05 us = 331.76 kHz.
+
+Key by hand. The ideal field is Phi = (k/2)(z^2 - r^2/2) + (k/2) Rm^2 ln(r/Rm), and the electrode through (R, 0) is z^2 = (r^2 - R^2)/2 + Rm^2 ln(R/r). The outer electrode passes through (12.400 mm, 0) and (7.270 mm, 11.000 mm), so Rm^2 = [121.000 + 50.4535]/0.533940 mm^2 = 321.110 mm^2 (Rm = 17.920 mm). The voltage gives 3870 V = (k/2)[Rm^2 ln(12.400/4.850) - (12.400^2 - 4.850^2)/2] mm^2 = (k/2)(236.313 mm^2), k = 3.2753e7 V/m^2. The axial motion is m z'' = -q k z at any radius and energy, and the current between the two halves of the outer electrode oscillates at omega_z = sqrt(q k/m). So m/q = k/omega_z^2 = 727.3 Da/e, which rounds to 727.
+
+The most tempting wrong answer is 769, from taking Rm = sqrt(2) x 12.400 mm = 17.536 mm instead of using the second point of the outer electrode.
+
+Check program (Python 3, standard library):
+import math
+R1, R2, L, re, U, dt = 4.850e-3, 12.400e-3, 11.000e-3, 7.270e-3, 3870.0, 645.05e-6
+Rm2 = (L**2 - (re**2 - R2**2)/2)/math.log(R2/re)
+k = 2*U/(Rm2*math.log(R2/R1) - (R2**2 - R1**2)/2)
+w = 2*math.pi*214/dt
+print(1.602176634e-19*k/w**2/1.66053906660e-27)   # 727.3
+
+The uploaded notes add other routes, the effect of rounding every given (727.20 to 727.40), an integration of ion orbits at three radii and energies that gives 331.7575 kHz for each, and a script that counts the periods from the image file. Sources: Makarov, Anal. Chem. 72, 1156 (2000); Hu et al., J. Mass Spectrom. 40, 430 (2005); Perry et al., Mass Spectrom. Rev. 27, 661 (2008); Kingdon, Phys. Rev. 21, 408 (1923); Shockley, J. Appl. Phys. 9, 635 (1938).
