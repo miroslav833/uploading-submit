@@ -1,0 +1,15 @@
+The record carries one value, the number of reversals. Low level about 24 mV = parallel (P), high level about 43 mV = antiparallel (AP). A step between the levels is one reversal; a single full-height stroke is a stay shorter than one column and holds two reversals. P to AP reversals per 250 ms segment: 87, 86, 94, 85, so N = 352; every 25th falls near 87.6, 159.8, 219.8, 297.5, 371.1, 447.4, 503.1, 564.6, 642.7, 696.4, 764.5, 829.5, 922.5 and 993.6 ms. The record opens and closes in P, so each state is left 352 times.
+
+Key by hand. tau_P = 731.6 ms/352 = 2.0784 ms, tau_AP = 268.4 ms/352 = 0.7625 ms. With ln(tau/tau0) = Delta (1 +- h)^2: ln(tau_P/tau0) = 14.5471, ln(tau_AP/tau0) = 13.5444; sum 2 Delta (1 + h^2) = 28.0915, difference 4 Delta h = 1.0028, so h = 0.01785 and Delta = 14.0413. E_b = 14.0413 x 25.852 meV = 363.0 meV, that is 363 meV (any count from 346 to 358 gives it).
+
+The most tempting wrong answer is 366 meV, from one mean dwell 1.000 s/704 = 1.4205 ms for both states, which keeps the stray-field bias. Taking 704 exits per state gives 345 meV.
+
+Check in a second (Python 3, standard library):
+import math
+N, fP = 352, 0.7316
+a, b = math.log(fP/N/1e-9), math.log((1 - fP)/N/1e-9)
+D = (a + b)/2
+for _ in range(20): h = (a - b)/(4*D); D = (a + b)/(2*(1 + h*h))
+print(D, D*8.617333262e-5*300.0*1e3)          # 14.041, 363.0 meV
+
+Citations: Brown, Phys. Rev. 130, 1677 (1963); Stoner and Wohlfarth, Phil. Trans. R. Soc. A 240, 599 (1948); Rippard et al., Phys. Rev. B 84, 064439 (2011); Borders et al., Nature 573, 390 (2019).
