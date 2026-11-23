@@ -1,0 +1,15 @@
+The record carries one value, the number of Brillouin periods between the arrows A (121.4 ps) and B (2026.0 ps), both on crests of the oscillation. Each period lasts 12.61 ps (5.4 image pixels) and the oscillation fades into the noise after about 1100 ps; every tenth crest after A falls near 247.5, 373.7, 499.8, 625.9, 752.1, 878.2, 1004.3, 1130.5, 1256.6, 1382.7, 1508.9, 1635.0, 1761.1, 1887.3 and 2013.4 ps, and B is the 151st: f = 151/1904.6 ps = 79.282 GHz.
+
+Key by hand. f = 2nv/lambda, so v = 79.282 GHz x 800.0 nm/(2 x 3.681) = 8615.2 m/s and rho v^2 = 172.86 GPa. For the normal (s/sqrt2, s/sqrt2, c) the quasi-longitudinal rho v^2 = X is the larger root of (G11 - X)(G33 - X) = G13^2 with G11 = C44 + (C11 + C12)s^2/2, G33 = C11 c^2 + C44 s^2, G13 = (C12 + C44)sc. In u = s^2: 10708 u^2 - 13385 u + 668.1 = 0, u = 0.05209, sin(theta) = 0.22823, theta = 13.19 deg, that is 13 deg.
+
+The most tempting wrong answer is 15 deg, from using the projection n.G.n as rho v^2 (14.84 deg). Treating 8615.2 m/s as the energy velocity gives 9.8 deg.
+
+Check in a second (Python 3, standard library):
+import math
+X = 2329*(151/1904.6e-12*800.0e-9/(2*3.681))**2/1e9          # rho v^2, GPa
+a0, a1, b0, b1, D = 79.6-X, (165.7+63.9)/2, 165.7-X, -(165.7-79.6), (63.9+79.6)**2
+A, B, C = a1*b1+D, a0*b1+a1*b0-D, a0*b0
+u = (-B-math.sqrt(B*B-4*A*C))/(2*A)
+print(X, math.degrees(math.asin(math.sqrt(u))))               # 172.86 GPa, 13.19 deg
+
+Citations: Thomsen et al., Phys. Rev. B 34, 4129 (1986); Gusev and Ruello, Appl. Phys. Rev. 5, 031101 (2018); Wang et al., Nat. Commun. 11, 1597 (2020); Kuriakose et al., Phys. Rev. B 96, 134122 (2017); Hall, Phys. Rev. 161, 756 (1967).
