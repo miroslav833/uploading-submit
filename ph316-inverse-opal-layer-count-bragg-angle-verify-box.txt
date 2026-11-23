@@ -1,0 +1,17 @@
+The answer is 21 degrees (21.29). The micrograph was made for this question (image_source.py in the notes): 137 (111) interlayer spacings between the planes marked A and B, each layer a vertical column of pores shifted by a third of the pore spacing from the one before.
+
+Data in the micrograph (1300 x 400 px): A at x = 56, B at x = 1248 (triangles at the top and bottom edges), 33.92 um apart. Pore layers between them, every tenth after A, at x = 143, 230, 317, 404, 491, 578, 665, 752, 839, 926, 1013, 1100, 1187 px; 136 layers strictly between A and B, so 137 spacings.
+
+Key by hand. Silica fraction 1 - pi/(3 sqrt 2) = 0.2595; n_eff^2 = 0.2595 x 1.450^2 + 0.7405 = 1.28612. d111 = 33920/137 = 247.59 nm. Bragg-Snell: sin^2 theta = n_eff^2 - (lambda/2d)^2 = 1.28612 - (532.0/495.18)^2 = 0.13189, sin theta = 0.36317, theta = 21.29 deg, quoted as 21.
+
+Most tempting wrong answer: refractive indices averaged instead of permittivities (n_eff = 1.1168) gives 17.8, quoted as 18. Silica taken as 74 per cent gives 54; the angle inside the film is 18.7. 136 or 138 spacings give 22.7 or 19.8 deg.
+
+Check program (standard library):
+import math
+S, N, lam, ns = 33920.0, 137, 532.0, 1.450
+f = 1 - math.pi / (3 * math.sqrt(2))
+ne2 = f * ns ** 2 + 1 - f
+d = S / N
+print(round(d, 3), round(ne2, 5), round(math.degrees(math.asin(math.sqrt(ne2 - (lam / (2 * d)) ** 2))), 3))   # 247.591 1.28612 21.295
+
+Citations: Vos et al., Phys. Rev. B 53, 16231 (1996); Schroden et al., Chem. Mater. 14, 3305 (2002); King, Graugnard and Summers, Adv. Mater. 17, 1010 (2005).
