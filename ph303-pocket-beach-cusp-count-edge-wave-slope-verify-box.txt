@@ -1,0 +1,15 @@
+Data read from the picture (1100 x 780 px, sea at the top, dry sand yellow, rocks grey). Along the line between wet and dry sand there are 118 seaward-pointing horns from the left headland to the right one, a horn against the rock at each end, about 9.0 px apart along a shoreline of about 1050 px. Horn positions (number: x, y in px, counted from the left headland): 1: (165, 320), 10: (190, 398), 20: (238, 473), 30: (299, 534), 40: (374, 581), 50: (456, 613), 60: (544, 629), 70: (633, 625), 80: (719, 602), 90: (796, 560), 100: (866, 503), 110: (922, 435), 118: (950, 371).
+
+Key by hand. 118 horns with one at each end make 117 spacings, so the cusp spacing is 2007 m/117 = 17.154 m. A standing edge wave has run-up maxima at every antinode, half an edge wavelength apart, so k_e = pi/17.154 = 0.18314 1/m (edge wavelength 34.31 m). The edge wave runs at half the swell frequency: omega_e = pi x 0.08475 = 0.26625 rad/s, omega_e^2 = 0.070889 1/s^2. The lowest edge-wave mode on a plane beach obeys omega_e^2 = g k_e sin(beta): sin(beta) = 0.070889/(9.81 x 0.18314) = 0.039457, beta = 2.2613 degrees = 2.26 degrees.
+
+Most tempting wrong answer, worked the same way: counting 118 spacings instead of 117 gives a spacing of 17.008 m and beta = 2.24 degrees. A cusp spacing equal to a whole edge wavelength gives 1.13 degrees; an edge wave at the swell frequency gives 9.08 degrees.
+
+Check program (standard library):
+import math
+horns, S, f, g = 118, 2007.0, 0.08475, 9.81
+lam_c = S / (horns - 1)
+k_e = math.pi / lam_c
+w_e = math.pi * f
+print(math.degrees(math.asin(w_e ** 2 / (g * k_e))))   # 2.2613 degrees
+
+Citations: Ursell, Proc. R. Soc. Lond. A 214, 79 (1952); Guza and Davis, J. Geophys. Res. 79, 1285 (1974); Guza and Inman, J. Geophys. Res. 80, 2997 (1975); Inman and Guza, Mar. Geol. 49, 133 (1982).
