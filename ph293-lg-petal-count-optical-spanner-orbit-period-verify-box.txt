@@ -1,0 +1,16 @@
+The frame is 430 x 420 px, with x to the right and y down from the top left corner. The ring is centred at (213.7, 212.2) px and its brightest circle has a radius of 163.8 px. Going anticlockwise on the screen from the petal nearest the right-hand end of the horizontal through the centre, the petals sit at these angles in degrees (0 = towards +x, 90 = towards the top of the frame):
+359.7 2.9 5.7 8.8 12.0 14.9 17.8 21.0 24.2 27.0 30.1 33.1 36.2 39.2 42.3 45.3 48.4 51.4 54.4 57.5 60.6 63.7 66.5 69.8 72.9 75.8 79.0 81.8 85.0 88.2 91.0 94.1 97.3 100.1 103.3 106.2 109.2 112.5 115.4 118.3 121.6 124.5 127.5 130.6 133.8 136.8 139.8 142.9 145.9 149.1 152.0 155.0 158.1 161.1 164.3 167.3 170.4 173.3 176.4 179.6 182.7 185.5 188.7 191.9 194.8 197.7 201.0 204.0 207.1 210.0 213.2 216.2 219.3 222.2 225.4 228.4 231.5 234.6 237.6 240.6 243.6 246.8 249.7 252.7 256.0 258.8 262.0 265.2 268.0 271.1 274.3 277.4 280.3 283.5 286.4 289.5 292.7 295.7 298.7 301.8 304.7 307.8 310.9 314.0 317.0 320.1 323.1 326.2 329.2 332.3 335.2 338.2 341.4 344.5 347.4 350.6 353.8 356.6
+That is 118 petals: 29, 30, 29 and 30 in the upper right, upper left, lower left and lower right quadrants. Every tenth petal: 1 at (378, 213), 10 at (360, 138), 20 at (302, 74), 30 at (219, 48), 40 at (136, 68), 50 at (73, 128), 60 at (50, 211), 70 at (72, 294), 80 at (133, 355), 90 at (217, 376), 100 at (300, 352), 110 at (359, 288).
+
+Hand calculation. A beam interfering with its mirror image gives 2|l| petals, so |l| = 59. The absorbed orbital angular momentum flux is P l/omega with omega = 2 pi c/1064 nm = 1.7703e15 rad/s, so the torque is 31.80 uW x 59/omega = 1.0598e-18 N m. The spin part only spins the sphere about its centre, and there is no refractive-index factor. The force along the circle at r = 24.60 um is torque/r = 4.308e-14 N. The Faxen factor for parallel motion at a/h = 0.625 is 1/(1 - (9/16)x + x^3/8 - (45/256)x^4 - x^5/16) = 1.5476, so the drag coefficient is 6 pi (0.890e-3)(1.000e-6)(1.5476) = 2.596e-8 kg/s. Then v = 1.659 um/s and T = 2 pi r/v = 93.15 s, which rounds to 93 s.
+
+The most tempting wrong answer misjudges the petal spacing instead of counting the petals. A spacing taken as 7.5 px gives 136 petals, l = 68 and 81 s, and 8 px gives 128 petals and 86 s. One petal pair fewer or more gives 95 s or 92 s. Taking l equal to the petal number gives 47 s, adding the spin (l + 1) gives 92 s, and leaving out the wall correction gives 60 s.
+
+Check in Python:
+import math
+c=299792458; w=2*math.pi*c/1064e-9; a=1.0e-6; h=1.6e-6; r=24.6e-6
+x=a/h; g=6*math.pi*0.890e-3*a/(1-9/16*x+x**3/8-45/256*x**4-x**5/16)
+F=31.80e-6*59/(w*r)
+print(2*math.pi*r*g/F)   # 93.15 s
+
+Sources: Allen et al., Phys. Rev. A 45, 8185 (1992); He et al., Phys. Rev. Lett. 75, 826 (1995); O'Neil et al., Phys. Rev. Lett. 88, 053601 (2002); Leach et al., Phys. Rev. Lett. 88, 257901 (2002); Schaeffer et al., Langmuir 23, 3654 (2007).
