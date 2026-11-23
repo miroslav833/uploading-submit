@@ -1,0 +1,17 @@
+What the figure carries, as text. The micrograph is 1000 x 640 px. Round holes on a triangular lattice fill it; the rows of one family run 7.4 degrees below the x axis towards the right, pitch 8.61 px. Holes A and B are ringed in red, at (187, 290) and (819, 372) px from the top left, on one row. Along that row from A: hole 10 at (273, 301), 20 at (359, 312), 30 at (444, 323), 40 at (529, 334), 50 at (614, 345), 60 at (700, 356), 70 at (784, 367), and B is hole 74. A to B is 637 px, 74 pitches.
+
+Key by hand. a = 760.0 um/74 = 10.2703 um, hole radius r = 0.275 a = 2.8243 um, hole area fraction f = pi r^2/(sqrt3 a^2/2) = 0.27434. Shortest reciprocal vector G1 = 4 pi/(sqrt3 a) = 0.70643 per um. G1 r = 1.9952, 2 J1(G1 r)/(G1 r) = 0.57843, 1 - exp(-G1 t) = 0.19098 for t = 0.300 um. |b| = (1.06 T/2) x 0.27434 x 0.57843 x 0.19098 = 0.016062 T. At h = 11.80 um, G1 h = 8.3358 and exp(-G1 h) = 2.3977e-4. B_z = 2 b exp(-G1 h)(cos G1.rho + cos G2.rho + cos G3.rho), bracket from -3/2 to 3, swing 9 |b| exp(-G1 h) = 0.34660 G. 87Rb F = 2: g_F = 1/2, g_F m_F = 1. Spread = 67.171 uK/G x 0.34660 G = 23.28 uK, so 23 uK.
+
+Most tempting wrong answer. 760.0 = 76 x 10.000, so a round pitch of 10.0 um (76 pitches) gives 19 uK; 760.0 = 80 x 9.500 gives 13 uK. The ringed holes are 74 pitches of 8.61 px apart.
+
+Check program (Python, standard library):
+import math
+def J1(x): return sum((-1)**k*(x/2)**(2*k+1)/(math.factorial(k)*math.factorial(k+1)) for k in range(30))
+M, t, q, D, h = 1.06, 0.300, 0.550, 760.0, 11.80
+for n in (74, 76):
+    a = D/n; r = q*a/2; G = 4*math.pi/(math.sqrt(3)*a)
+    f = math.pi*r*r/(math.sqrt(3)/2*a*a)
+    b = M/2*f*2*J1(G*r)/(G*r)*(1 - math.exp(-G*t))
+    dB = 9*b*math.exp(-G*h)
+    print(n, round(a, 4), round(dB*1e4, 5), 'G', round(dB*9.2740100783e-24/1.380649e-23*1e6, 2), 'uK')
+
