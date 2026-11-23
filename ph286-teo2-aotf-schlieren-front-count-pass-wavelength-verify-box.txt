@@ -1,0 +1,17 @@
+The answer is 0.89 um (0.8897 um). The photograph was made for this question (image_source.py in the notes): plane acoustic fronts perpendicular to a wave vector that leans 53.65 deg from the column axis, 113 bright fronts between A and B, with A and B each in the middle of a dark gap.
+
+Data in the photograph (1300 x 520 px): A at x = 59, B at x = 1249 on row 263 (AB = 1190 px for 1.776 mm). Bright fronts crossed on the line AB, every tenth after A, at x = 158, 264, 369, 474, 579, 685, 790, 895, 1001, 1106, 1211 px; the 113th and last at x = 1244. The fronts make 36 deg with the column axis.
+
+Key by hand. Energy flow: tan(theta_g) = (v2/v1)^2 tan(theta_a) = 11.666 x 0.17075 = 1.9920, theta_g = 63.34 deg, walk-off psi = 53.65 deg. Spacing along the axis 1776 um/113 = 15.717 um; acoustic wavelength Lambda = 15.717 cos(53.65 deg) = 9.315 um. First-order parallel-tangent tuning: lambda0 = Lambda dn (sin^4 theta_i + sin^2 2theta_i)^(1/2) = 9.315 x 0.1462 x 0.65335 = 0.8897 um, quoted as 0.89 um.
+
+Most tempting wrong answer: the spacing along the column taken as the acoustic wavelength, 15.717 x 0.1462 x 0.65335 = 1.50 um. Keeping only sin 2theta_i in the tuning relation gives 0.875 um.
+
+Check program (standard library):
+import math
+v1, v2, ta, ti, dn, s, N = 616.0, 2104.0, math.radians(9.69), math.radians(20.0), 0.1462, 1776.0, 113
+psi = math.atan((v2 / v1) ** 2 * math.tan(ta)) - ta
+Lam = s / N * math.cos(psi)
+lam0 = Lam * dn * math.sqrt(math.sin(ti) ** 4 + math.sin(2 * ti) ** 2)
+print(round(math.degrees(psi), 2), round(Lam, 3), round(lam0, 4))   # 53.65, 9.315, 0.8897
+
+Citations: Chang, Appl. Phys. Lett. 25, 370 (1974); Yano and Watanabe, Appl. Opt. 15, 2250 (1976); Uchida and Ohmachi, J. Appl. Phys. 40, 4692 (1969); Ohmachi, Uchida and Niizeki, J. Acoust. Soc. Am. 51, 164 (1972); Uchida, Phys. Rev. B 4, 3736 (1971).
