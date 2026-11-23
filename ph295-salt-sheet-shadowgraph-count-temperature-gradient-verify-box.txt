@@ -1,0 +1,21 @@
+The streak count is only in the shadowgraph. Along the level line through the two arrow tips (image row about 320 of 1000 x 620 px) the dark streaks run from the one at A (image x = 205) to the one at B (x = 778): 62 streaks, so 61 wavelengths of 9.39 px on average (single spacings 7 to 12 px). Every tenth streak from A (image x): 10: 295, 20: 392, 30: 491, 40: 577, 50: 673, 60: 768, and B (61): 778.
+
+By hand: lambda = 748.6 mm/61 = 12.2721 mm, k = 2 pi/lambda = 511.99 1/m. Sheets with no vertical structure obey (s + nu k^2)(s + kT k^2)(s + kS k^2) = g alpha Tz [(s + kT k^2)/R - (s + kS k^2)]. With d = (nu kT/(g alpha Tz))^(1/4), K = k d, sigma = s d^2/kT, Pr = 7.0070, tau = 0.01035, R = 1.600 the largest root is sigma = 0.35831, 0.36294, 0.36376, 0.36356, 0.36080, 0.33769 at K = 0.70, 0.75, 0.7832, 0.80, 0.85, 1.00, so the fastest mode has K_m = 0.7832. Then Tz = nu kT k^4/(g alpha K_m^4) = 12.88 K/m, which is 13 K/m.
+
+The most tempting wrong answer is 4.8 K/m, from the leading-order law K = 1 (k^4 = g alpha Tz/(nu kT)). 60 or 62 wavelengths give 12 or 14 K/m.
+
+Check in Python (prints 0.7832 12.89):
+import math
+nu, kT, kS, al, R, g, S, N = 1.002e-6, 1.430e-7, 1.48e-9, 2.07e-4, 1.600, 9.81, 0.7486, 61
+Pr, tau = nu/kT, kS/kT
+def sig(K):
+    f = lambda s: (s + Pr*K*K)*(s + K*K)*(s + tau*K*K) - Pr*((s + K*K)/R - (s + tau*K*K))
+    lo, hi = -tau*K*K, 10.0
+    for _ in range(100):
+        mid = (lo + hi)/2; lo, hi = (lo, mid) if f(mid) > 0 else (mid, hi)
+    return lo
+Km = max((i/10000 for i in range(3000, 15000)), key=sig)
+k = 2*math.pi*N/S
+print(round(Km, 4), round(nu*kT*k**4/(g*al*Km**4), 2))
+
+Method: Stern, Tellus 12, 172 (1960); Schmitt, Deep-Sea Res. 26A, 23 (1979); Linden, Geophys. Fluid Dyn. 6, 1 (1974); Kunze, Prog. Oceanogr. 56, 399 (2003).
