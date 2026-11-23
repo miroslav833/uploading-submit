@@ -1,0 +1,13 @@
+What the figure carries. An AFM topograph (afmhot colours, height bar in nm, no lateral scale) of ripples whose crests run up and down, 4 to 7 px apart, with forks and ends away from the marked line. Arrows A and B point down at two troughs on image row 335, at columns 130 and 870. Along that row the troughs from A to B lie at the columns 130, 135, 141, 147, 152, 156, 160, 165, 170, 176, 181, 188, 194, 201, 207, 213, 218, 224, 230, 235, 240, 245, 251, 256, 261, 266, 271, 276, 281, 287, 292, 297, 303, 308, 314, 320, 326, 331, 337, 342, 347, 352, 358, 363, 368, 373, 378, 382, 386, 391, 398, 403, 408, 413, 418, 425, 430, 435, 441, 446, 452, 457, 463, 469, 474, 479, 484, 490, 495, 501, 506, 512, 518, 525, 530, 535, 540, 547, 553, 559, 564, 569, 575, 580, 585, 591, 597, 603, 608, 614, 619, 622, 627, 631, 636, 642, 647, 653, 659, 664, 669, 674, 678, 683, 687, 692, 697, 702, 707, 711, 716, 721, 727, 733, 738, 743, 749, 756, 762, 769, 774, 779, 785, 791, 797, 803, 808, 813, 818, 823, 829, 835, 841, 847, 853, 859, 865, 870, so 137 crests and 137 periods lie between the arrows, and the period is 59.25 um/137 = 432.48 nm.
+
+Key by hand. Fastest-growing mode of the Bradley-Harper equation: lambda = 2 pi sqrt(2B/|nu_x|), so B(573 K) = 0.1150 x 432.48^2/(8 pi^2) = 272.4 nm^4/s. Beam off: the mode q = 2 pi/lambda decays at B q^4. Mullins: B is proportional to D_s/T, so B(613 K)/B(573 K) = (573.0/613.0) exp[(1.080 eV/k)(1/573.0 - 1/613.0)] = 0.93475 x 4.1672 = 3.8952. B(573 K) q^4 = 2 pi^2 |nu_x|/lambda^2 = 1.2136e-5 1/s; times 3.8952 and 93600 s gives 4.4249; exp(-4.4249) = 0.0120, so 0.012.
+
+Other values. Marginal wavelength 2 pi sqrt(B/|nu_x|) taken for the observed one: 1.4e-4. Only D_s scaled, no 1/T: 0.0088. B kept at its value during sputtering: 0.32. 136 or 138 periods: 0.013 or 0.011.
+
+Short check (Python 3, standard library):
+from math import *
+lam = 59250/137; r = 573.0/613.0*exp(1.080/8.617333e-5*(1/573.0 - 1/613.0))
+x = r*2*pi**2*0.1150/lam**2*26.00*3600
+print(lam, r, x, exp(-x))      # 432.48, 3.8952, 4.4249, 0.01198
+
+Citations: Bradley and Harper, J. Vac. Sci. Technol. A 6, 2390 (1988); Mullins, J. Appl. Phys. 30, 77 (1959); Chason, Mayer, Kellerman, McIlroy and Howard, Phys. Rev. Lett. 72, 3040 (1994). The uploaded notes hold the key script with its numerical checks, the program that draws the topograph and the count of the ripples from the image file.
