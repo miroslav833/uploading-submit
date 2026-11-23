@@ -1,0 +1,15 @@
+Data read from the figure (1000 x 1000 px, view from above, bright spots are crests of the interface). The inner edges of the dark rim are nearly straight, corners near (41, 30), (969, 41), (30, 958) and (958, 969) px: a square of 928 px turned by 0.7 degrees. Every row of spots and every column of spots holds 98 bright spots, and the outer spots of each touch the rim. Along the row that crosses the middle of the tray: 1st spot at (38, 480), 10th at (123, 481), 20th (218, 482), 30th (313, 483), 40th (409, 484), 50th (504, 485), 60th (600, 487), 70th (695, 488), 80th (791, 489), 90th (886, 490), 98th (962, 491); first to last 923.6 px, 9.52 px per spacing.
+
+Key by hand. Zero slope at the walls makes every wall an antinode, so the pattern is cos(m pi x/L) + cos(m pi y/L) and the crests lie every 2L/m from a wall. With crests on both walls, 98 spots span 97 wavelengths: m = 194, k = 194 pi/0.20000 m = 3047.3 1/m (wavelength 2.062 mm). The interface responds at half the drive: omega = pi x 234.78 Hz = 737.58 rad/s. For two deep inviscid layers (k h = 36.6) omega^2 (rho_l + rho_u) = (rho_l - rho_u) g k + sigma k^3: 5.4403e5 x 2709.0 = 1.4738e9; minus 715.0 x 9.81 x 3047.3 = 2.1375e7 leaves 1.4524e9; divided by k^3 = 2.8299e10 gives sigma = 0.05132 N/m = 51.3 mN/m.
+
+Most tempting wrong answer, worked the same way: taking the 98 spots as 98 wavelengths (m = 196, k = 3078.8 1/m) gives 49.8 mN/m. Taking the waves at the drive frequency gives 208 mN/m; the free-surface relation with the oil alone gives 31.1 mN/m.
+
+Check program (standard library):
+import math
+spots, L, f, rl, ru, g = 98, 0.20000, 234.78, 1712.0, 997.0, 9.81
+m = 2 * (spots - 1)
+k = math.pi * m / L
+w = math.pi * f
+print((w * w * (rl + ru) - (rl - ru) * g * k) / k ** 3 * 1e3)   # 51.324 mN/m
+
+Citations: Faraday, Phil. Trans. R. Soc. Lond. 121, 299 (1831); Benjamin and Ursell, Proc. R. Soc. Lond. A 225, 505 (1954); Kumar and Tuckerman, J. Fluid Mech. 279, 49 (1994); Douady, J. Fluid Mech. 221, 383 (1990).
