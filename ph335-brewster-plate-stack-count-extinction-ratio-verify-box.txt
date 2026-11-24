@@ -1,0 +1,16 @@
+The photograph is 700 x 200 px. Between the rails of the holder (y = 25 and 174 px) the bright glass edges lean 56.5 deg from the vertical, 3.0 px apart across the lines, 5.4 px apart along a horizontal line; the broad grey bars at the two ends are the holder. A peak finder on the brightness averaged along the line direction finds 69 lines; along y = 100 px the 1st, 11th, 21st, 31st, 41st, 51st and 61st cross at x = 166, 220, 274, 328, 383, 437, 492 px, and the 69th at 535 px. So N = 69.
+
+By hand. theta_B = arctan(1.5066) = 56.43 deg, theta_t = 33.57 deg. R_s = ((n^2 - 1)/(n^2 + 1))^2 = 0.15082 per surface, R_p = 0. tau = exp(-0.310 cm^-1 x 0.0150 cm/cos 33.57 deg) = 0.994434. One glass, s light: R1 = R + (1 - R)^2 tau^2 R/(1 - R^2 tau^2) = 0.26084, T1 = (1 - R)^2 tau/(1 - R^2 tau^2) = 0.73360. Adding glasses one at a time, R' = R + T^2 R1/(1 - R R1), T' = T T1/(1 - R R1), gives T_s = 3.805e-3 for 69 glasses. T_p = tau^69 = 0.68039. Ratio 5.59e-3, so 0.0056.
+
+The most tempting wrong answer is 0.020, the loss-free pile (1 - R)/(1 + (4N - 1) R), which misses the extra absorption of the s light on its many internal passes. 68 glasses give 0.0059 and 70 give 0.0053.
+
+Check (Python, standard library):
+import math
+n = 1.5066; R = ((n*n - 1)/(n*n + 1))**2
+tau = math.exp(-0.310*0.0150/math.sin(math.atan(n)))
+r1 = R + (1 - R)**2*tau**2*R/(1 - (R*tau)**2); t1 = (1 - R)**2*tau/(1 - (R*tau)**2)
+r, t = r1, t1
+for _ in range(68): r, t = r + t*t*r1/(1 - r*r1), t*t1/(1 - r*r1)
+print(round(t/tau**69, 5))    # 0.00559
+
+Sources: Stokes, Proc. R. Soc. Lond. 11, 545 (1862); Tuckerman, J. Opt. Soc. Am. 37, 818 (1947).
