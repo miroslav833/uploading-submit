@@ -1,0 +1,16 @@
+Key: 26.1.9.8 P2_1am(0,0,g)0s0. The listed form stands in the attached verification notes in the part "table_excerpts.txt", which quotes the twelve entries of basic space group 26 from the ISO(3+d)D table of Stokes, Campbell and van Smaalen (section d = 1), among them "26.1.9.8 P2_1am(0,0,γ)0s0", and the answer of the program FINDSSG for the four operators found below, which is the same entry.
+
+By hand. u = s U [a cos(2 pi x4) + b sin(2 pi x4)], q = beta b*. An operation (R|v) with R q = eps q is kept when R u_k(x4) = u_j(eps x4 + tau) for all x4, j the image of atom k. eps = +1: the a glide normal to c (x+1/2, y, -z+1/2) leaves u unchanged and sends Sn1 to Sn4 and Sn2 to Sn3 (s changes sign), so tau = 1/2; the 2_1 axis along b and the n glide reverse the a component only and are lost. eps = -1: the mirror normal to b (x, -y+1/2, z) fixes each atom and reverses the b component, which equals u(-x4), kept; the 2_1 axis along a (x+1/2, -y+1/2, -z+1/2) does the same and changes s, kept with tau = 1/2; the inversion and the 2_1 axis along c also reverse the a component and are lost. Group: 1, 2_1 along a, m normal to b, a glide normal to c, which is P2_1ma (Pmc2_1, No. 26) with q along b. With a' = a, b' = -c, c' = b, q lies along c' and the group reads P2_1am; the glide (eps = +1, translation a'/2 normal to q) keeps its shift 1/2, the two eps = -1 elements are written 0: P2_1am(0,0,gamma)0s0, which the table lists under the number 26.1.9.8.
+
+Most tempting wrong answer: the right symbol with a number rebuilt from the numbering scheme, such as 26.1.9.6 or 26.1.9.4. The last part of the number is a running index over all twelve entries of basic group 26, the entries of Bravais classes 10 and 11 included, and P2_1am is listed before P2_1ma, so the index is 8. Second: 26.1.9.10 P2_1ma(0,0,gamma)0s0, from relabelling with glide and mirror exchanged. Third: P2_1ma(0,beta,0)00s on the crystal's own axes, which is not a listed form.
+
+Check program (Python 3, standard library). It prints which operations survive and with which shift:
+from math import cos, sin, pi
+S=[1,1,-1,-1]; P={1:(0,1,2,3),2:(1,0,3,2),3:(2,3,0,1),4:(3,2,1,0)}
+ops=[("2_1 || c",(-1,-1),2),("2_1 || b",(-1,1),3),("2_1 || a",(1,-1),4),("inversion",(-1,-1),3),("a glide",(1,1),4),("mirror",(1,-1),1),("n glide",(-1,1),2)]
+for n,(ra,rb),p in ops:
+    r=[t/4 for t in range(4) if all(abs(ra*S[k]*cos(2*pi*x)-S[P[p][k]]*cos(2*pi*(rb*x+t/4)))+abs(rb*S[k]*sin(2*pi*x)-S[P[p][k]]*sin(2*pi*(rb*x+t/4)))<1e-9 for k in range(4) for x in (0.1,0.37))]
+    print(n,"kept, tau = %s"%r[0] if r else "lost")
+Output: 2_1 || a kept with tau 0.5, a glide kept with tau 0.5, mirror kept with tau 0.0, the other four lost.
+
+Sources: Stokes, Campbell and van Smaalen, Acta Cryst. A67, 45-55 (2011) with the ISO(3+d)D table for the listed entry; van Smaalen, Campbell and Stokes, Acta Cryst. A69, 75-90 (2013) for the equivalence rules; Wiedemeier and von Schnering, Z. Kristallogr. 148, 295-303 (1978) for the structure of SnS.
