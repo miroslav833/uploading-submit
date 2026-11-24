@@ -1,0 +1,17 @@
+The photograph is the only source of the number of plates, so the data are given here as text.
+
+Data read from the photograph: between the top edge of the aluminium holder (row 720 from the top) and the indium foil (row 56), graphite plates repeat every 6.18 px. The centre rows of the plates, from the holder up, are: 717.4, 711.2, 705.0, 698.8, 692.6, 686.5, 680.3, 674.1, 667.9, 661.7, 655.6, 649.4, 643.2, 637.0, 630.8, 624.7, 618.5, 612.3, 606.1, 599.9, 593.8, 587.6, 581.4, 575.2, 569.0, 562.9, 556.7, 550.5, 544.3, 538.1, 532.0, 525.8, 519.6, 513.4, 507.2, 501.1, 494.9, 488.7, 482.5, 476.3, 470.2, 464.0, 457.8, 451.6, 445.4, 439.3, 433.1, 426.9, 420.7, 414.5, 408.4, 402.2, 396.0, 389.8, 383.6, 377.5, 371.3, 365.1, 358.9, 352.7, 346.6, 340.4, 334.2, 328.0, 321.8, 315.7, 309.5, 303.3, 297.1, 290.9, 284.8, 278.6, 272.4, 266.2, 260.0, 253.9, 247.7, 241.5, 235.3, 229.1, 223.0, 216.8, 210.6, 204.4, 198.2, 192.1, 185.9, 179.7, 173.5, 167.3, 161.2, 155.0, 148.8, 142.6, 136.4, 130.3, 124.1, 117.9, 111.7, 105.5, 99.4, 93.2, 87.0, 80.8, 74.6, 68.5, 62.3
+That is 107 plates, so the far foil is 107 x 0.4187 = 44.801 cm from the source plane.
+
+Key by hand. xi = 1 - (121/24) ln(13/11) = 0.15777. n = 1.700 x 6.02214e23/12.011 = 8.5236e22 per cm^3, Sigma_s = 0.40487 per cm, Sigma_tr = 0.40487 x (1 - 2/36) = 0.38238 per cm. tau = ln(2.45e6/1.46)/(3 xi Sigma_s Sigma_tr) = 14.3332/0.073277 = 195.61 cm^2. Ratio exp(-44.801^2/(4 x 195.61)) = exp(-2.5652) = 0.0769, which is 0.077.
+
+Most tempting wrong answer: 0.066, from leaving out the transport correction. Writing the Gaussian as exp(-x^2/(2 tau)) gives 0.0059.
+
+Check program (Python, standard library):
+
+import math
+A = 12.0
+xi = 1 + (A - 1)**2 / (2 * A) * math.log((A - 1) / (A + 1))
+Ss = 1.700 * 6.02214076e23 / 12.011 * 4.750e-24
+tau = math.log(2.45e6 / 1.46) / (3 * xi * Ss * Ss * (1 - 2 / (3 * A)))
+print(math.exp(-(107 * 0.4187)**2 / (4 * tau)))   # 0.0769
