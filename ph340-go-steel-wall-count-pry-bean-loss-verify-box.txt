@@ -1,0 +1,15 @@
+Data read from the Kerr frame (1100 x 720 px, strip axis vertical). The cut edges run at x = 53 + 0.014 y and x = 1041 + 0.014 y px (988 px across). Lighter and darker stripes alternate across the strip, each a domain about 4.5 px wide: 217 walls and 218 domains on every row. Wall positions along y = 350 px (left edge at x = 57.8): wall 1 at x = 62.4, 20 at 147.9, 40 at 235.9, 60 at 326.6, 80 at 416.1, 100 at 505.2, 120 at 597.5, 140 at 692.2, 160 at 782.0, 180 at 875.1, 200 at 964.7, 217 at 1042.5.
+
+Key by hand. Mean domain width w = 60.00 mm/218 = 0.27523 mm, w/d = 1.19665. Wall-model loss ratio (Pry and Bean) R = (48/pi^3)(w/d) sum over odd n of coth(n pi w/2d)/n^3; terms 1.047708 + 0.037038 + 0.008000 + 0.002915 + tail 0.003847 = 1.099508, R = 1.54807 x 1.19665 x 1.099508 = 2.03684. Classical loss pi^2 d^2 Bp^2 f^2/(6 rho_e rho_m) = 2.93682e-3/0.022032 = 0.13330 W/kg. Excess = 0.13330 x (2.03684 - 1) = 0.13821 W/kg = 0.138 W/kg.
+
+Most tempting wrong answer, worked the same way: taking a lighter and darker pair as one domain gives 109 domains, w = 0.5505 mm, and an excess of 0.387 W/kg. Counting the 217 walls as domains gives 0.139 W/kg.
+
+Check program (standard library):
+import math
+N, W, d, Bp, f, rho_e, rho_m = 218, 60.00e-3, 0.2300e-3, 1.500, 50.00, 4.800e-7, 7650.0
+w = W / N
+R = 48 / math.pi ** 3 * (w / d) * sum(1 / math.tanh(n * math.pi * w / (2 * d)) / n ** 3 for n in range(1, 2001, 2))
+p_cl = math.pi ** 2 * d ** 2 * Bp ** 2 * f ** 2 / (6 * rho_e * rho_m)
+print(p_cl * (R - 1))   # 0.13821 W/kg
+
+Citations: Pry and Bean, J. Appl. Phys. 29, 532 (1958); Bertotti, IEEE Trans. Magn. 24, 621 (1988); Iuchi et al., J. Appl. Phys. 53, 2410 (1982).
