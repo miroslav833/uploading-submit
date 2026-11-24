@@ -1,0 +1,14 @@
+The answer is not taken from a paper. It follows from the givens, one count on the micrograph and the Timoshenko cantilever, so the content of the micrograph is listed here as text.
+
+What the micrograph shows. The image is 866 x 220 px. The strip runs from x = 40 to x = 826 px (dark mounting resin outside), filled with small bright fibre ends; thin dark resin-rich lines run from top to bottom, slightly wavy, and divide the strip into 143 plies of 5.50 px on average (lines 5 to 6 px apart). Counted from the left face, every tenth line is at x = 94, 149, 202, 257, 311, 366, 421, 477, 532, 587, 641, 697, 753, 809 px, and two more lines follow before the right face (142 lines, 143 plies). The Fourier transform of the column profile between the faces has its strongest period at 5.500 px.
+
+The key by hand. h = 143 x 30.00 um = 4.290 mm; I = w h^3/12 = 6.580e-11 m^4; A = w h = 4.290e-5 m^2. Tip deflection of a Timoshenko cantilever: P L^3/(3 E1 I) + P L/(kappa G13 A) = P (1.0740e-6 + 1.910e-7) m/N. Stiffness = 7.905e5 N/m = 790 N/mm. Moving any one given by half a unit of its last digit leaves 790.1 to 790.9 N/mm.
+
+Wrong answers that come up easily. 930 N/mm: shear left out (931). 810 or 760 N/mm: shear correction factor 1 or 2/3 instead of 5/6. 920 N/mm: an isotropic shear modulus E1/2.6. Other values: a different number of plies.
+
+Check (Python, standard library):
+h = 143*30.00e-6; w, L = 10.00e-3, 30.05e-3
+c = L**3/(3*128.0e9*w*h**3/12) + L/(5/6*4.40e9*w*h)
+print(1e-3/c)    # 790.5 N/mm
+
+Sources for the method: Timoshenko, Philos. Mag. 41, 744 (1921); Timoshenko and Gere, Mechanics of Materials (1972); Jones, Mechanics of Composite Materials (1999).
