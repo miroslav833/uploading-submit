@@ -1,0 +1,14 @@
+Key: (1->2)-beta-D-glucan:(1->2)-beta-D-glucan 2-beta-D-[(1->2)-beta-D-glucano]-transferase (cyclizing and configuration-retaining)
+
+You can read it in the IUBMB Enzyme List (ExplorEnz, enzyme-database.org), EC 2.4.1.397, cyclic beta-1,2-glucan glucanotransferase, created 2024, field "Systematic name". On the web page the arrows and Greek letters are printed as symbols; the question asks for them as -> and words. The attached notes copy this row from the ExplorEnz database dump (first script, line "KEY").
+
+The name follows its family in the same list. The branching enzyme EC 2.4.1.18 is (1->4)-alpha-D-glucan:(1->4)-alpha-D-glucan 6-alpha-D-[(1->4)-alpha-D-glucano]-transferase, and the cyclizing enzyme of alpha-1,4-glucans, EC 2.4.1.19, is (1->4)-alpha-D-glucan:(1->4)-alpha-D-glucan 4-alpha-D-[(1->4)-alpha-D-glucano]-transferase (cyclizing). Swapping in the beta-(1->2) glucan and a new bond at O-2 in beta form gives the body of the key. The qualifier is set by the entry: the older cyclizing enzyme carries "(cyclizing)" alone, and the 2024 entry states ring closure and retention together as "(cyclizing and configuration-retaining)". The live entry page and the database dump print the same name (both copies are in the notes).
+
+The most tempting wrong answer is the name with "(cyclizing)" alone, often also with the glucan written only once, (1->2)-beta-D-glucan 2-beta-D-[(1->2)-beta-D-glucano]-transferase (cyclizing). It copies the qualifier of the older cyclizing enzyme and leaves out the retention qualifier that this entry carries.
+
+These Python 3 lines build the key from the EC 2.4.1.19 name.
+cgt = '(1->4)-alpha-D-glucan:(1->4)-alpha-D-glucan 4-alpha-D-[(1->4)-alpha-D-glucano]-transferase (cyclizing)'
+s = cgt.replace('(1->4)-alpha', '(1->2)-beta').replace(' 4-alpha', ' 2-beta').replace('(cyclizing)', '(cyclizing and configuration-retaining)')
+print(s)
+
+The sources are the IUBMB Enzyme List, EC 2.4.1.397; Tanaka et al., Appl. Microbiol. Biotechnol. 108, 187 (2024); Guidolin et al., J. Bacteriol. 191, 1230 (2009); McDonald and Tipton, FEBS J. 290, 2214 (2023).
