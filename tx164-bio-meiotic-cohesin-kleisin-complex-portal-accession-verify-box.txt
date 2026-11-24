@@ -1,0 +1,9 @@
+Key: CPX-7441. It stands in section 1 of the attached notes (line KEY). By hand: a kleisin knockout with azoospermic males arrested at zygotene and young fertile females that age early is the RAD21L knockout (Herran et al., EMBO J. 30, 3091, 2011); RAD21L sits on axial elements from leptotene to mid-pachytene and binds SMC3, STAG3 and SMC1 beta (Lee and Hirano, J. Cell Biol. 192, 263, 2011). The human orthologue is RAD21L1, UniProtKB Q9H4I0. In the Complex Portal table for Homo sapiens (ftp.ebi.ac.uk/pub/databases/intact/complex/current/complextab/9606.tsv, read on 2026-11-24) the only entry containing Q9H4I0 has the members Q8NDV3 (SMC1B), Q9H4I0 (RAD21L1), Q9UJ98 (STAG3) and Q9UQE7 (SMC3), the name 'Nuclear meiotic cohesin complex, RAD21L1 variant' and the accession CPX-7441. The page is www.ebi.ac.uk/complexportal/complex/CPX-7441.
+
+Most tempting wrong answer: CPX-7442, the same ring with REC8 (O95072), reached by naming the usual meiotic kleisin; mice without REC8 are sterile in both sexes, which the fertile young females exclude. The ring with RAD21 is CPX-6082.
+
+Check on the copied rows (Python 3, standard library, on the rows printed at the end of the notes, saved as complex_portal_cohesin_rows.tsv):
+rows = [l.split('\t') for l in open('complex_portal_cohesin_rows.tsv') if not l.startswith('#')]
+print([r[0] for r in rows if 'Q9H4I0' in r[4]])   # ['CPX-7441']
+
+Citations: Herran et al., EMBO J. 30, 3091 (2011); Lee and Hirano, J. Cell Biol. 192, 263 (2011); Meldal et al., Nucleic Acids Res. 50, D578 (2022).
