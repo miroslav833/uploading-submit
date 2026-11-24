@@ -1,0 +1,17 @@
+Key: CL:0008032
+
+The Cell Ontology lists "rosehip neuron" under CL:0008032 (release 2026-11-13, file https://purl.obolibrary.org/obo/cl/releases/2026-11-13/cl-basic.obo; the term itself resolves at http://purl.obolibrary.org/obo/CL_0008032). Its definition is "A GABAergic interneuron in human cortical layer 1 that has large rosehip-shaped axonal boutons and compact arborization", and its comment gives the profile GAD1+ CCK+, CNR1- SST- CALB2- PVALB-, citing Boldog et al. 2018. The attached notes scan the whole release: it is the only term that mentions rosehip neurons, and no term has it as parent.
+
+Worked by hand, the neuron is a GABAergic layer I interneuron whose axon is compact and dense with large, crowded varicosities. It carries cholecystokinin without the CB1 receptor, lacks somatostatin, calretinin and parvalbumin, and inhibits layer III pyramidal neurons on their apical dendritic shafts. That is the rosehip neuron of Boldog et al. 2018, and its identifier is CL:0008032.
+
+The most tempting wrong answer is CL:0000693, the neurogliaform cell, the other common layer I interneuron, whose axon is a wide cloud of fine branches with small boutons. The broader parent term CL:0010011 (cerebral cortex GABAergic interneuron) is not the most specific term, and CL:4023159 is the double bouquet cell.
+
+This short Python program (standard library) reads the identifier from the release file.
+
+import re, urllib.request
+obo = urllib.request.urlopen("https://purl.obolibrary.org/obo/cl/releases/2026-11-13/cl-basic.obo").read().decode()
+for st in obo.split("[Term]"):
+    if re.search(r"^name: rosehip neuron$", st, re.M):
+        print(re.search(r"^id: (\S+)", st, re.M).group(1))   # CL:0008032
+
+Sources are Boldog et al., Nat. Neurosci. 21, 1185 (2018); Diehl et al., J. Biomed. Semantics 7, 44 (2016).
