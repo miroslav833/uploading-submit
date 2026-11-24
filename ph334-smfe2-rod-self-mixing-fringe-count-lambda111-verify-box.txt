@@ -1,0 +1,11 @@
+What the figure carries. An oscilloscope screen (no scales) with a green sawtooth trace: flat at the top of a tooth before cursor A (column 80) and after cursor B (column 1060), and 139 fringes in between, about 19 px apart near the cursors and 5 px in the middle. Every tooth falls abruptly and climbs slowly. The fringe minima lie at the columns 88, 108, 123, 136, 148, 160, 171, 182, 191, 200, 208, 217, 225, 233, 240, 247, 254, 261, 268, 276, 283, 291, 298, 305, 311, 318, 325, 331, 338, 344, 350, 356, 361, 367, 372, 378, 383, 389, 395, 400, 406, 412, 417, 423, 429, 434, 440, 446, 452, 458, 463, 469, 474, 479, 484, 489, 494, 499, 504, 509, 514, 519, 524, 529, 534, 539, 544, 550, 555, 561, 567, 572, 578, 583, 589, 594, 599, 605, 610, 615, 621, 626, 631, 636, 641, 646, 651, 657, 662, 667, 673, 679, 685, 691, 697, 703, 709, 715, 721, 728, 734, 740, 746, 752, 758, 763, 769, 775, 781, 787, 794, 800, 807, 814, 820, 827, 834, 842, 850, 857, 865, 872, 879, 887, 894, 902, 910, 918, 926, 934, 943, 952, 962, 974, 985, 996, 1009, 1023, 1039.
+
+Key by hand. Abrupt falls mean a receding face, so the rod shortens. |dL| = 139 x 785.0 nm/2 = 54.557 um; lambda_s = -54.557 um/64.10 mm = -851.1 ppm (strain from the ideal demagnetized state to saturation along the field). Orientation average for grains strained alike: lambda_s = (2 lambda_100 + 3 lambda_111)/5, so lambda_111 = (5 x (-851.1) - 2 x 60.0)/3 = -1458.6 ppm, -1460 ppm.
+
+Other values. Sign read the other way: +1380. One fringe per wavelength: -2880. Measured strain taken as (3/2) lambda_s: -986. Weights swapped: -2220. 138 or 140 fringes: -1450 or -1470.
+
+Short check (Python 3, standard library):
+ls = -139*785.0e-9/2/64.10e-3
+print(ls*1e6, (5*ls - 2*60.0e-6)/3*1e6)      # -851.13, -1458.55
+
+Citations: Callen and Goldberg, J. Appl. Phys. 36, 976 (1965); Clark, in Ferromagnetic Materials, vol. 1 (North-Holland, 1980), chapter 7; Giuliani, Norgia, Donati and Bosch, J. Opt. A 4, S283 (2002). The uploaded notes hold the key script with its numerical checks, the program that draws the screen and the count of the fringes from the image file.
