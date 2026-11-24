@@ -1,0 +1,15 @@
+Key: SL-0542. It stands in the attached verification notes in the first section, line "KEY SL-0542 | Dynein axonemal particle | part of: ['Cytoplasm.'] | GO: ['GO:0120293; dynein axonemal particle']", read from the file subcell.txt of UniProt release 2026_04 (4 November 2026), and in the second section, line "shared by all five: [('SL-0542', 'Dynein axonemal particle')]". It can be checked without the notes by opening the UniProtKB entry of human DNAAF2 (Q9NVR5) and following its subcellular location "Dynein axonemal particle", or by searching SL-0542 on uniprot.org.
+
+By hand. Dnaaf2, Dnaaf5 and Lrrc6 are assembly factors of axonemal dynein arms, Hsp90 their chaperone, Dnai2 an outer-arm subunit. Micrometre-sized foci deep in the cytoplasm of multiciliated cells, away from the basal bodies, that hold all of these, with the assembly factor recovering within seconds after bleaching and the dynein subunit staying put, are the dynein axonemal particles of Huizar et al. (eLife 2018). The UniProtKB vocabulary has the term "Dynein axonemal particle" directly under "Cytoplasm", with nothing below it, and its identifier is SL-0542.
+
+Most tempting wrong answers. A number near the right block for the right term, for example SL-0516, which is "Presynapse". The later terms are not numbered by name (SL-0541 Cortical granule, SL-0543 Cytolytic granule), so the identifier has to be known or looked up. The wrong organelle: SL-0496 "Stress granule" (the foci share G3bp1 and chaperones with stress granules but form without stress, only in multiciliated cells, and hold dynein), SL-0495 "Cytoplasmic ribonucleoprotein granule", SL-0485 "Centriolar satellite", or the parent SL-0086 "Cytoplasm", which is right but not the narrowest.
+
+Check program (Python 3, standard library, needs the network):
+import json, urllib.request
+ids = []
+for acc in ("Q9NVR5", "Q86Y56", "Q86X45", "Q9GZS0", "P08238"):
+    j = json.load(urllib.request.urlopen("https://rest.uniprot.org/uniprotkb/" + acc + ".json"))
+    ids.append({l["location"]["id"] for c in j["comments"] if c["commentType"] == "SUBCELLULAR LOCATION" for l in c["subcellularLocations"]})
+print(set.intersection(*ids))   # {'SL-0542'}
+
+Sources: Huizar et al., eLife 7, e38497 (2018); The UniProt Consortium, Nucleic Acids Res. 45, D158-D169 (2017), with the vocabulary file subcell.txt of release 2026_04.
