@@ -1,0 +1,21 @@
+The answer is not taken from a paper. It follows from the givens and from the number of cells in the photograph, so the photograph's content is listed here as text.
+
+What the photograph shows: one copper half seen from above on a dark cloth, a straight row of 67 dark cell pockets separated by thin bright iris ridges, the aperture groove running along the axis through every iris, a larger coupler pocket with a waveguide slot at each end and a short beam-pipe groove beyond it. The pockets are evenly spaced about 8.9 px apart. Cell centres in px from the left edge: 1st 86, 10th 166, 20th 254, 30th 344, 40th 434, 50th 522, 60th 612, 67th 674. The verification notes list all 67 as recovered from the image file.
+
+The key by hand. d = 747.3/67 = 11.154 mm. Synchronism gives psi = omega d/c = 2.6705 rad (0.8501 pi). The operating point fixes kappa = (f^2/f0^2 - 1)/(1 - cos psi) = 0.03334. The group velocity is d dω/dψ = d (omega^2 - omega0^2)/(2 omega) cot(psi/2) = 5.698e6 m/s = 0.0190 c, and the front crosses the 747.3 mm in 131.1 ns. Answer 131 ns.
+
+Wrong answers that come up easily. Counting the 68 irises as cells gives 122 ns, the most tempting one, and 66 cells give 142 ns. A standard phase advance of 5 pi/6 in place of the count gives 120 ns. The passband written linearly in omega gives 127 ns.
+
+A short check in Python (standard library):
+
+import math
+c = 299792458.0
+f, f0, L, n = 11.4240e9, 11.0800e9, 0.7473, 67
+d = L/n
+psi = 2*math.pi*f*d/c
+vg = d*2*math.pi*(f*f - f0*f0)/(2*f)/math.tan(psi/2)
+print(round(d*1000, 3), round(psi/math.pi, 4), round((f*f/f0**2 - 1)/(1 - math.cos(psi)), 5), round(vg/c, 4), round(L/vg*1e9, 2))
+
+It prints 11.154 0.8501 0.03334 0.019 131.14.
+
+Sources for the method: Nagle, Knapp and Knapp, Rev. Sci. Instrum. 38, 1583 (1967); Neal, J. Appl. Phys. 29, 1019 (1958).
