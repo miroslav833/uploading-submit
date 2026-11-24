@@ -1,0 +1,16 @@
+The answer is not taken from a paper. It follows from the givens, one count on the record and the quantum resonance of the kicked rotor, so the content of the record is listed here as text.
+
+What the record shows. The image is 866 x 230 px, a dark trace on a light screen without graticule or labels. A flat baseline at row 196 carries narrow pulses of equal height (about 155 px), with a small undershoot after each; the time axis is not labelled. There are 131 pulses, the first at x = 47.5 px and the last at x = 814.5 px, spaced 5.90 px (5.6 to 6.0 px). Every tenth pulse from the left is at x = 48, 107, 166, 225, 284, 343, 402, 460, 520, 579, 638, 697, 756, 815 px.
+
+The key by hand. One flash imprints exp(-i kappa cos 2kx) with kappa = U0 tau/(2 hbar) = pi x 19.45 kHz x 1.600 us = 0.09777. Between flashes the order m (momentum 2 hbar k m) gains exp(-i 2 pi m^2 T/T_T) = 1 at T = T_T, so the N flashes act as one of strength N kappa = 131 x 0.09777 = 12.807. Zero order: J0^2(12.807) = 0.0359, that is 3.6 per cent. Half a unit in the last digit of the depth or the pulse length gives 3.575 to 3.608 per cent.
+
+Numerical check. The notes propagate the orders -60 to 60 flash by flash with the exact Bessel couplings and the free phases: 0.03592 at T = T_T (norm kept to 1e-6); at 0.98 T_T the zero order would hold 79 per cent.
+
+Wrong answers that come up easily. 2.3 per cent: kappa = U0 tau/hbar (the full depth instead of the cos 2kx amplitude). 53 per cent: the kicks treated as independent, J0^2(kappa)^N. 50 per cent: diffusive growth, J0^2(kappa sqrt N). Other values: a different number of pulses.
+
+Check (Python with SciPy):
+from scipy.special import jv
+from math import pi
+print(jv(0, 131*pi*19.45e3*1.600e-6)**2)    # 0.0359
+
+Sources for the method: Moore et al., Phys. Rev. Lett. 75, 4598 (1995); Izrailev and Shepelyansky, Theor. Math. Phys. 43, 553 (1980); Sadgrove et al., Phys. Rev. E 70, 036217 (2004); Ryu et al., Phys. Rev. Lett. 96, 160403 (2006).
