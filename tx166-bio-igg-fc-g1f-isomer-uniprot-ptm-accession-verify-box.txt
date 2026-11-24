@@ -1,0 +1,13 @@
+Key: PTM-0762. It stands in the attached verification notes, sections 1 and 2, which select it from the N-linked asparagine rows of UniProtKB ptmlist.txt (release 2026_04 of 04-Nov-2026, which was the current release when it was downloaded on 2026-11-24 from https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/docs/ptmlist.txt; later it is in the release-2026_04 folder under previous_releases). The rows are copied in file order in the data file at the end of the notes, with the SHA-256 of the downloaded file.
+
+Working. Core-fucosylated, non-bisected, non-sialylated glycans with exactly one galactose on human IgG Fc are G1F (FA2G1), present as two positional isomers. In plasma IgG of healthy adults the alpha1-6-arm isomer FA2[6]G1 (peak GP8, medians about 16 to 18 per cent) is about twice the alpha1-3-arm isomer FA2[3]G1 (GP9, about 8 to 9 per cent), Pučić et al. 2011, Tables I and II. In ptmlist.txt two narrow entries have formula C62 H102 N4 O44: PTM-0761 = N-linked (beta-D-Gal-(1->4)-beta-D-GlcNAc-(1->2)-alpha-D-Man-(1->3)-[beta-D-GlcNAc-(1->2)-alpha-D-Man-(1->6)]-beta-D-Man-(1->4)-beta-D-GlcNAc-(1->4)-[alpha-L-Fuc-(1->6)]-beta-D-GlcNAc) (complex) asparagine, galactose on the 3-arm; PTM-0762 = N-linked (beta-D-GlcNAc-(1->2)-alpha-D-Man-(1->3)-[beta-D-Gal-(1->4)-beta-D-GlcNAc-(1->2)-alpha-D-Man-(1->6)]-beta-D-Man-(1->4)-beta-D-GlcNAc-(1->4)-[alpha-L-Fuc-(1->6)]-beta-D-GlcNAc) (complex) asparagine, galactose on the 6-arm. So the key is PTM-0762.
+
+The most tempting wrong answer is PTM-0761, the same composition with the galactose on the alpha1-3 arm. The broad entries PTM-0529 (N-linked (GlcNAc...) (complex) asparagine) and PTM-0528 only name a class; PTM-0747 and PTM-0746 are the same two isomers without core fucose.
+
+Check in Python (after downloading ptmlist.txt):
+t=open('ptmlist.txt').read().split('//\n')
+for e in t:
+    if 'Gal-(1->4)-beta-D-GlcNAc-(1->2)-alpha-D-Man-(1->6)' in e and 'Fuc' in e and 'C62 H102 N4 O44' in e:
+        print([l for l in e.splitlines() if l.startswith('AC')])   # ['AC   PTM-0762']
+
+Sources: Pučić et al., Mol. Cell. Proteomics 10, M111.010090 (2011); Huffman et al., Mol. Cell. Proteomics 13, 1598 (2014); UniProt Consortium, Nucleic Acids Res. 53, D609 (2025).
