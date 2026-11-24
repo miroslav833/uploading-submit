@@ -1,0 +1,24 @@
+The answer is not taken from a paper. It follows from the givens and from the number of wires in the photograph, so the photograph's content is listed here as text.
+
+What the photograph shows: a long laminate board seen from straight above on a dark bench, carrying a grid of small bright copper pads, 6 rows of 71, evenly spaced about 8.9 px apart in both directions; the board is turned by under one degree. Columns of the pads in the first row, in px from the left edge: 1st 48, 10th 128, 20th 217, 30th 306, 40th 395, 50th 484, 60th 573, 71st 671. The verification notes list all 426 pads as recovered from the image file.
+
+The key by hand. a = 788.6/70 = 11.266 mm, ln(a/r) = 3.3381, k_p = sqrt(2 pi/3.3381)/a = 121.78 per m (5.811 GHz). k = 100.601 per m. kappa = sqrt(k_p^2 - k^2) = 68.633 per m. D = 6a = 67.59 mm, kappa D = 4.6392. T = 1/[cosh^2(kappa D) + ((kappa^2 - k^2)/(2 k kappa))^2 sinh^2(kappa D)] with (kappa^2 - k^2)/(2 k kappa) = -0.3918, so 1/T = 2676.5 + 0.1535 x 2675.5 = 3087.2, which is 34.9 dB. Answer 35 dB.
+
+Wrong answers that come up easily. 72 wires, or the period taken as 788.6/71, give 36 dB, the most tempting one, and 70 wires give 33.5 dB. The bare factor exp(-2 kappa D) gives 40 dB.
+
+A short check in Python (standard library):
+
+import math
+c = 299792458.0
+n, m, W, r, f = 71, 6, 0.7886, 0.400e-3, 4.800e9
+a = W/(n - 1)
+kp = math.sqrt(2*math.pi/math.log(a/r))/a
+k = 2*math.pi*f/c
+K = math.sqrt(kp*kp - k*k)
+x = K*m*a
+T = 1/(math.cosh(x)**2 + ((K*K - k*k)/(2*k*K))**2*math.sinh(x)**2)
+print(round(a*1000, 3), round(kp, 2), round(K, 3), round(x, 4), round(-10*math.log10(T), 2))
+
+It prints 11.266 121.78 68.633 4.6392 34.9.
+
+Sources for the method: Pendry, Holden, Stewart and Youngs, Phys. Rev. Lett. 76, 4773 (1996); Belov et al., Phys. Rev. B 67, 113103 (2003).
