@@ -1,0 +1,9 @@
+Key: ABarpapaaap. It stands in section 2 of the attached notes (line KEY). By hand: the four male-only head neurons that die in hermaphrodite embryos and have ciliated endings in the cephalic sensilla are the CEM neurons; gain-of-function alleles of ceh-30 let them survive in hermaphrodites (Schwartz and Horvitz, Genes Dev. 21, 3181, 2007). The dorsal right one is CEMDR. Its lineage name in the embryonic lineage of Sulston et al. (Dev. Biol. 100, 64, 1983) is ABarpapaaap; the anatomy ontology of WormBase gives the same (row WBbt:0004943, CEMDR, synonym 'lineage name: ABarpapaaap', and row WBbt:0005992, ABarpapaaap, 'dies in hermaphrodite, becomes CEMDR in male'). The other three are ABplaaaaaap (CEMDL), ABplpaapapp (CEMVL) and ABprpaapapp (CEMVR).
+
+Most tempting wrong answer: ABpraaaaaap, the name of the dorsal left cell with l changed to r. The ventral pair is related in that way, the dorsal pair is not; ABpraaaaaap is the sheath cell OLQshVR (row WBbt:0004427 of the notes). Two more near misses: ABarpapaapa is a cell that dies in both sexes (row WBbt:0006345), and ABarpapaaaa is URADR.
+
+Check of the mirror relation among the four listed names (Python 3, standard library):
+cem = {'DL': 'ABplaaaaaap', 'DR': 'ABarpapaaap', 'VL': 'ABplpaapapp', 'VR': 'ABprpaapapp'}
+print(cem['VL'].replace('ABpl', 'ABpr') == cem['VR'], cem['DL'].replace('ABpl', 'ABpr') == cem['DR'])   # True False
+
+Citations: Sulston, Schierenberg, White and Thomson, Dev. Biol. 100, 64 (1983); Schwartz and Horvitz, Genes Dev. 21, 3181 (2007); Peden et al., Genes Dev. 21, 3195 (2007). The attached notes hold the ontology rows and the script.
