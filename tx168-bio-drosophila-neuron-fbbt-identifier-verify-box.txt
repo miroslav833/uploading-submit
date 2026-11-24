@@ -1,0 +1,18 @@
+Key: FBbt:00007433
+
+The Drosophila anatomy ontology lists "adult Pdf negative s-LNv neuron" under FBbt:00007433 (release 2026-11-02, file https://purl.obolibrary.org/obo/fbbt/releases/2026-11-02/fbbt-simple.obo; the term resolves at http://purl.obolibrary.org/obo/FBbt_00007433). Its exact synonym is "5th sLNv neuron", and its definition says that there is one such cell in each ventral cluster, that it does not express Pdf, that it expresses ion transport peptide and that it is an evening cell. The attached notes hold the stanzas of the term "LN period neuron" and all its descendants. No term of the release has FBbt:00007433 as a parent, which the page of the term confirms, since it lists no subclass.
+
+Worked by hand, two lateral clock neurons per hemisphere contain ion transport peptide (Johard et al. 2009), one in the dorsal group (LNd) and one among the small ventral lateral neurons near the accessory medulla. Four of the five small ventral cells make pigment-dispersing factor and release it in the dorsal protocerebrum, and the fifth has none. The second cell of the question is this fifth small ventral lateral neuron. Its adult term is a child of both "adult s-LNv neuron" (FBbt:00007428) and "LN ITP neuron" (FBbt:00052724), which is FBbt:00007433.
+
+The most tempting wrong answer is a guessed identifier from the newer blocks of neuron terms, such as FBbt:00110867, which in the release is a larval abdominal interneuron. Among true neighbours, FBbt:00047189 is the other cell with ion transport peptide (the LNd cell), FBbt:00007428 and FBbt:00052724 are parent groups, FBbt:00003764 is the four cells that make the peptide, and FBbt:00100178 and FBbt:00100180 are the same cell in the larva and the pupa.
+
+This short Python program (standard library) reads the identifier from the release file by the parent terms.
+
+import re, urllib.request
+obo = urllib.request.urlopen("https://purl.obolibrary.org/obo/fbbt/releases/2026-11-02/fbbt-simple.obo").read().decode()
+for st in obo.split("[Term]")[1:]:
+    p = set(re.findall(r"^is_a: (\S+)", st, re.M))
+    if {"FBbt:00007428", "FBbt:00052724"} <= p:
+        print(re.search(r"^id: (\S+)", st, re.M).group(1), re.search(r"^name: (.*)", st, re.M).group(1))   # FBbt:00007433
+
+Sources are Johard et al., J. Comp. Neurol. 516, 59 (2009); Schubert et al., J. Comp. Neurol. 526, 1209 (2018); Rieger et al., J. Neurosci. 26, 2531 (2006); Costa et al., J. Biomed. Semantics 4, 32 (2013).
