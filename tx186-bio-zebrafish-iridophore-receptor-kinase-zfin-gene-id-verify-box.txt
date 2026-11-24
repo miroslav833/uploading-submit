@@ -1,0 +1,9 @@
+Key: ZDB-GENE-030616-115. It stands in section 2 of the attached notes (line KEY). By hand: the ALKAL ligands act on two receptor tyrosine kinases, Alk and Ltk. In zebrafish the iridophore-less mutant shady is ltk and Ltk acts inside the iridophore lineage (Lopes et al., PLoS Genet. 4, e1000026, 2008); fish without the three ligand genes lose iridophores, fish deficient in Ltk do the same, and Alk is not involved (Mo et al., PNAS 114, 12027, 2017). In the ZFIN gene list (zfin.org/downloads/gene.txt, read on 2026-11-25) the row with symbol ltk and NCBI Gene 564470 has the identifier ZDB-GENE-030616-115. The gene page is zfin.org/ZDB-GENE-030616-115.
+
+Most tempting wrong answer: ZDB-GENE-031027-1, the gene alk, taken over from mammals, where ALK is the better-known receptor of these ligands. Fish without alk keep their iridophores.
+
+Check on the rows printed at the end of the notes, saved as zfin_gene_rows.tsv (Python 3, standard library):
+rows = [l.split('\t') for l in open('zfin_gene_rows.tsv') if not l.startswith('#')]
+print([r[0] for r in rows if r[2] == 'ltk'])   # ['ZDB-GENE-030616-115']
+
+Citations: Lopes et al., PLoS Genet. 4, e1000026 (2008); Mo et al., Proc. Natl. Acad. Sci. USA 114, 12027 (2017).
