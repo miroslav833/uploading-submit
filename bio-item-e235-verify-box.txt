@@ -1,0 +1,13 @@
+Key: C20145. The answer rests on two papers of 2007 and on three KEGG entries, and the attached notes show it in the output of both programs (first section, the line that begins with Key, and second section, last line).
+
+The key by hand. OsKSL5 of indica rice (isoleucine at the variable position) converts ent-copalyl diphosphate to more than 90 per cent into ent-isokaur-15-ene, also called ent-isokaurene, with atiser-16-ene and kaur-16-ene as minor products of about 10 per cent together; its paralogue OsKSL6 is an isokaurene synthase too (Xu et al., Phytochemistry 68, 312, 2007; Xu, Wilderman and Peters, PNAS 104, 7397, 2007). The japonica allele (threonine) gives ent-pimara-8(14),15-diene, and the single exchange of isoleucine for threonine at position 664 is enough to switch the product. KEGG has this reaction as R09903 under EC 4.2.3.103, whose names include OsKSL5i and OsKSL6 and whose comment states the subspecies difference; the product entry is C20145, ent-isokaurene, kaur-15-ene, C20H32.
+
+The most tempting wrong answer, worked the same way. If the tetracyclic product is taken to be the usual one from ent-copalyl diphosphate, ent-kaur-16-ene, the entry would be C06090 (reaction R05092, EC 4.2.3.19). ent-Kaurene and ent-isokaurene have the same formula and the same four rings and differ in the place of the double bond: an exocyclic methylene in C06090, a double bond inside the five-membered ring in C20145. C18228 is the japonica product named in the question.
+
+Check (Python, standard library, run next to kegg_rows.json from the attached notes):
+import json, re
+d = json.load(open("kegg_rows.json"))
+e = [x for x in d["enzymes"] if "OsKSL5i" in x["names"]][0]
+print(e["ec"], re.findall(r"CPD:(C\d{5})", e["product"])[0])    # 4.2.3.103 C20145
+
+Sources. Xu et al., Phytochemistry 68, 312 (2007); Xu, Wilderman and Peters, Proc. Natl. Acad. Sci. USA 104, 7397 (2007); KEGG entries EC 4.2.3.103, R09903 and C20145.
