@@ -1,0 +1,15 @@
+Key: SL-0553. It stands in the attached verification notes in the output of the first script, line "KEY SL-0553 | U-body | is a: ['Cytoplasmic ribonucleoprotein granule.'] | GO: ['GO:0071254; cytoplasmic U snRNP body']", read from the file subcell.txt of UniProt release 2026_04 (4 November 2026), and in the output of the second script, line "shared, leaving out the general term Cytoplasm: [('SL-0553', 'Cytoplasm, U-body')]". Without the notes it can be checked by opening the UniProtKB entry of Drosophila Smn (Q9VV74) and following its subcellular location "U-body", or by searching SL-0553 on uniprot.org.
+
+By hand. Sm proteins, U snRNAs and Smn together mark snRNPs in the cytoplasmic phase of their assembly. The bodies are cytoplasmic, so Cajal bodies, gems and speckles are out. The foci beside them with mRNA decay components are P-bodies, and the stem says the two do not overlap. Cytoplasmic bodies with the major U snRNPs and SMN that always lie against P-bodies and are disturbed in P-body mutants are the U bodies of Liu and Gall (PNAS 2007). The UniProtKB vocabulary has the term "U-body" under "Cytoplasmic ribonucleoprotein granule", next to "P-body" and "Stress granule", with nothing below it. Its identifier is SL-0553.
+
+Most tempting wrong answers. SL-0495, "Cytoplasmic ribonucleoprotein granule", the parent, right but not the narrowest. SL-0230, "P-body", the neighbouring focus. SL-0031, "Cajal body", and SL-0127, "Gem", which hold the same proteins but in the nucleus. A guessed number near the right block for the right term: the later identifiers do not follow the names (SL-0552 is "Rhabdomere membrane", SL-0554 "Apicoplast membrane").
+
+Check program (Python 3, standard library, needs the network):
+import json, urllib.request
+ids = []
+for acc in ("Q9VV74", "Q9VVX0", "Q9V3C4", "Q86BY9", "B7Z0I7"):
+    j = json.load(urllib.request.urlopen("https://rest.uniprot.org/uniprotkb/" + acc + ".json"))
+    ids.append({l["location"]["id"] for c in j["comments"] if c["commentType"] == "SUBCELLULAR LOCATION" for l in c.get("subcellularLocations", [])})
+print(set.intersection(*ids))   # {'SL-0086', 'SL-0553'}: Cytoplasm and U-body
+
+Sources: Liu and Gall, Proc. Natl. Acad. Sci. USA 104, 11655-11659 (2007); The UniProt Consortium, Nucleic Acids Res. 45, D158-D169 (2017), with the vocabulary file subcell.txt of release 2026_04.
