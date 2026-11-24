@@ -1,0 +1,16 @@
+Key: -100530223. The rule behind it is quoted in the attached verification notes in the part "scheme_excerpts.txt" (rule 14 of Section 45 of the Review of Particle Physics, 2024 edition, with the four tetraquark codes printed in the 2026 table). The first section of the notes writes the rule as a function, reproduces those four codes and ends in the line "KEY -100530223"; the second section decodes every code of the tetraquark form and finds this one alone for the state.
+
+By hand. The uu diquark is antisymmetric in colour and symmetric in space and flavour, so its spin state is symmetric: spin 1. The antidiquark of anti-b and anti-s may have spin 0 or 1; for a colour-triplet pair of antiquarks the colour-magnetic energy goes as +sigma1.sigma2 (lambda1.lambda2 = -8/3), so spin 0 is lower. Total quark spin 1, L = 0, so J = 1 and n_J = 3; no radial excitation, n_r = 0; (L, S) = (J - 1, 1), n_L = 0. Rule 14: code +-1 n_r n_L n_q1 n_q2 0 n_q3 n_q4 n_J, with d 1, u 2, s 3, c 4, b 5. A particle has the diquark first and needs n_q1 >= n_q3; here the diquark digits are 2 2 and the antidiquark digits 5 3, and 2 >= 5 fails. So the state is an antiparticle: negative sign, antidiquark 5 3 first, zero, diquark 2 2, then 3. Code -1 0 0 5 3 0 2 2 3 = -100530223.
+
+Most tempting wrong answer: +100530223, the same digits with the state taken as a particle (as the B+ meson is, whose heaviest constituent is also an antiquark). Rule 14 fixes the sign by the sorting of the flavour digits: the form with the diquark first would need 2 >= 5. Other wrong forms: -100220533 (diquark first), -90053223 or -10053223 (eight digits, no leading 1 or no separating zero), -100530225 (antidiquark with spin 1), -100530221 (diquark with spin 0).
+
+Check program (Python 3, standard library):
+Q = {"d": 1, "u": 2, "s": 3, "c": 4, "b": 5}
+dq = sorted((Q["u"], Q["u"]), reverse=True)        # diquark
+aq = sorted((Q["b"], Q["s"]), reverse=True)        # antidiquark
+J = 1                                              # spin 1 (uu) with spin 0 (anti-b anti-s), L = 0
+particle = dq[0] > aq[0] or (dq[0] == aq[0] and dq[1] >= aq[1])
+a, b = (dq, aq) if particle else (aq, dq)
+print(("" if particle else "-") + "100%d%d0%d%d%d" % (a[0], a[1], b[0], b[1], 2 * J + 1))   # -100530223
+
+Sources: Navas et al. (Particle Data Group), Phys. Rev. D 110, 030001 (2024), Section 45, rule 14; Takahashi et al. (Particle Data Group), Int. J. Mod. Phys. A 41, 2630011 (2026), Section 45, same rule and table; Jaffe, Phys. Rep. 409, 1 (2005); Maiani, Piccinini, Polosa and Riquer, Phys. Rev. D 71, 014028 (2005); De Rujula, Georgi and Glashow, Phys. Rev. D 12, 147 (1975).
