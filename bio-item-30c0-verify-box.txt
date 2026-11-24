@@ -1,0 +1,23 @@
+Key: C5316
+
+Where it stands: in the NCI Thesaurus the concept "Borderline Breast Phyllodes Tumor" has the code C5316 (EVS browser https://evsexplore.semantics.cancer.gov, concept C5316; NCIt version 26.10d). Its parents are C7503 Borderline Phyllodes Tumor and C7575 Breast Phyllodes Tumor, and it has no children. The attached notes reproduce these rows from NCI's EVS REST API and from EBI's OLS4 copy of NCIt (version 26.02d), which agree.
+
+Key by hand: leaf-like stromal fronds with a two-layered epithelial lining and subepithelial stromal condensation make a phyllodes tumour. WHO 5th edition grade: edge focally permeative, moderate cellularity, mild to moderate atypia, 8 mitoses per 10 fields of 0.50 mm = 8/1.963 mm2 = 4.07 per mm2 (borderline band 2.5 to below 5 per mm2), no stromal overgrowth, no malignant heterologous element: borderline. Most specific concept with grade and organ: Borderline Breast Phyllodes Tumor, C5316.
+
+Most tempting wrong answer: C7503 (Borderline Phyllodes Tumor), the right grade without the organ; it is the parent of C5316. C4504 and C5196 are the breast concepts of the malignant and benign grades; C189340 (Childhood Breast Phyllodes Tumor) carries no grade.
+
+Check program (Python, standard library):
+
+import math
+mitoses = 8 / (10 * math.pi * 0.25**2)            # per mm2, field diameter 0.50 mm
+f = {"border": "focally permeative", "cellularity": "moderate", "atypia": "mild to moderate",
+     "overgrowth": False, "heterologous": False}
+malignant = f["heterologous"] or (f["border"] == "permeative" and f["cellularity"] == "marked"
+            and f["atypia"] == "marked" and mitoses >= 5 and f["overgrowth"])
+benign = (f["border"] == "well defined" and f["cellularity"] == "mild" and f["atypia"] in ("none", "mild")
+          and mitoses < 2.5 and not f["overgrowth"])
+grade = "Malignant" if malignant else ("Benign" if benign else "Borderline")
+codes = {"Benign": "C5196", "Borderline": "C5316", "Malignant": "C4504"}   # <grade> Breast Phyllodes Tumor
+print(round(mitoses, 2), grade, codes[grade])      # 4.07 Borderline C5316
+
+Citations: Tan et al., Histopathology 77, 181 (2020); Tan et al., Histopathology 68, 5 (2016); Sioutos et al., J. Biomed. Inform. 40, 30 (2007).
