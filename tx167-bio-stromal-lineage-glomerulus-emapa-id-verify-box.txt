@@ -1,0 +1,16 @@
+Key: EMAPA:27778 (presumptive mesangium of capillary loop renal corpuscle). In the attached notes it is printed under "4. Key" of the first script, and the second script shows the same live record in EBI's Ontology Lookup Service.
+
+Worked by hand: Foxd1 inducible labelling at E11.5 marks the cortical stroma, which gives interstitium, mesangium and pericytes but no nephron epithelium (Kobayashi et al. 2014). Open capillary loops under a columnar podocyte layer with a tubule not yet elongating is the capillary loop stage, stage III (Little et al. 2007), whose corpuscle is EMAPA:27770. That corpuscle has two parts that are also renal interstitium, associated interstitium (EMAPA:27776, outside the capsule) and presumptive mesangium (EMAPA:27778, inside the tuft between the loops). The cells asked about are inside, so the key is EMAPA:27778; its alt_id EMAPA:27931 is obsolete.
+
+Most tempting wrong answer: EMAPA:36562, glomerular mesangium. It is a real term for the same kind of tissue but carries no stage, so it is not the finest term the ontology offers for a capillary loop corpuscle. The maturing-stage mesangium terms EMAPA:27961 and EMAPA:30031 describe the next stage. Extraglomerular mesangium, EMAPA:28278, sits in the juxtaglomerular complex of the mature corpuscle.
+
+Check (Python standard library):
+import urllib.request
+url = "http://purl.obolibrary.org/obo/emapa/releases/2026-10-02/emapa.obo"
+terms = urllib.request.urlopen(url).read().decode().split("\n[Term]\n")
+for b in terms:
+    if "\npart_of EMAPA:27770 " in b.replace("relationship: ", "") and "EMAPA:28518" in b:
+        print(b.split("\n")[0], "|", b.split("\n")[1])
+It prints EMAPA:27776 (associated interstitium) and EMAPA:27778 (presumptive mesangium).
+
+Citations: Kobayashi et al., Stem Cell Reports 3:650-662 (2014); Little et al., Gene Expr Patterns 7:680-699 (2007); Hayamizu et al., J Biomed Semantics 4:15 (2013).
