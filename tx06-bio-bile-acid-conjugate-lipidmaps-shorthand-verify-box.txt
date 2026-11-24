@@ -1,0 +1,13 @@
+Key: BA 24:0;5bH;3aOH,7bOGlcNAc;24COOH
+
+Where it stands: Liebisch et al., J. Lipid Res. 61, 1539-1555 (2020), open access, Table 6B, row "Ursodeoxycholic acid 7beta-N-acetylglucosaminide (UDCA-GlcNac)", column "Full Structure Level". The attached notes reproduce the whole table (first script, output line "Full structure level (key)").
+
+By hand from the paper's rules: bile acid, class BA; cholan-24-oic acid has 24 carbons and no C=C, and the acid is written as a group, so 24:0; 5beta ring fusion, 5bH; ring oxygen functions with a/b, 3aOH and 7bOGlcNAc (sugar on a ring oxygen as in 3bOGlc for cholesteryl glucoside), joined by a comma as the row prints them, the semicolon being kept for a change of group type (testosterone: 17bOH;3oxo); free acid, 24COOH. Sibling rows built the same way: lithocholic acid BA 24:0;5bH;3aOH;24COOH, glycochenodeoxycholic acid BA 24:0;5bH;3aOH,7aOH;24COG.
+
+Most tempting wrong answer: ST 24:1;O4;GlcNAc. It is the Species level entry of the same row (ST 24:1;O4;HexNAc: 24 carbons, one double-bond equivalent for the acid C=O, four oxygens, one N-acetylhexosamine) with the sugar named. It carries no positions and no stereochemistry, so it is not the Full structure level.
+
+Check that the parts above give the printed string (Python 3, standard library):
+ring = [(3, 'a', 'OH'), (7, 'b', 'OGlcNAc')]
+print('BA 24:0;5bH;' + ','.join('%d%s%s' % g for g in ring) + ';24COOH')
+
+Citations: Liebisch et al., J. Lipid Res. 61, 1539 (2020); Marschall et al., J. Clin. Invest. 89, 1981 (1992).
