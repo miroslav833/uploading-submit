@@ -1,0 +1,11 @@
+What the figure carries. A grey BSE-SEM section (no scale) of a lamellar eutectic: bright Al2Cu and dark Al lamellae running up and down, pair spacing 4 to 7 px, with lamella faults away from the marked row. Arrows A and B point down at two Al lamellae on image row 335, at columns 130 and 870. Along that row the Al lamella middles from A to B lie at the columns 130, 135, 139, 144, 149, 154, 159, 163, 167, 172, 176, 181, 186, 191, 196, 201, 206, 212, 217, 221, 226, 232, 237, 241, 247, 253, 258, 263, 268, 273, 278, 284, 289, 295, 301, 307, 313, 318, 324, 329, 336, 342, 348, 354, 360, 366, 372, 377, 383, 390, 396, 401, 407, 413, 418, 422, 427, 432, 437, 443, 449, 455, 462, 468, 474, 480, 486, 492, 498, 503, 508, 512, 517, 523, 529, 534, 540, 544, 548, 552, 557, 561, 566, 572, 577, 583, 588, 594, 600, 606, 611, 616, 622, 627, 632, 638, 644, 650, 656, 661, 667, 673, 679, 686, 693, 699, 705, 711, 718, 724, 730, 735, 741, 746, 752, 758, 764, 770, 775, 780, 786, 791, 795, 800, 805, 811, 816, 822, 827, 831, 836, 842, 847, 852, 856, 860, 864, 870, so 137 lamella pairs lie between the arrows, and lambda = 293.6 um/137 = 2.1431 um.
+
+Key by hand. Jackson-Hunt: Delta T = K1 V lambda + K2/lambda, extremum at lambda^2 V = K2/K1. V = 1.118e-7/(1.073e9 x (2.1431e-6)^2) = 2.2687e-5 m/s = 22.7 um/s (undercooling 2 K2/lambda = 0.104 K).
+
+Other values. Single lamella width taken as lambda: 90.7 um/s. Factor 2 dropped or added in the extremum: 11.3 or 45.4 um/s. 136 or 138 pairs: 22.4 or 23.0 um/s.
+
+Short check (Python 3, standard library):
+lam = 293.6e-6/137
+print(lam, 1.118e-7/(1.073e9*lam**2)*1e6)      # 2.1431e-06, 22.687
+
+Citations: Jackson and Hunt, Trans. Metall. Soc. AIME 236, 1129 (1966); Kurz and Fisher, Fundamentals of Solidification, 4th ed. (Trans Tech, 1998), chapter 5. The uploaded notes hold the key script with its numerical checks, the program that draws the section and the count of the lamellae from the image file.
