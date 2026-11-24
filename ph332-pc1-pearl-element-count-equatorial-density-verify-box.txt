@@ -1,0 +1,15 @@
+Data in the spectrogram, as text: from the element marked A to the one marked B there are 147 elements, both ends included, so 146 intervals. Along a line just above the lower band edge (about 0.27 Hz) the element crossings sit at these x positions (px), every tenth element counted from 0 at A: 0: 155, 10: 231, 20: 307, 30: 384, 40: 460, 50: 538, 60: 613, 70: 690, 80: 767, 90: 844, 100: 918, 110: 995, 120: 1072, 130: 1148, 140: 1225, and B (146) at 1269. Mean spacing 7.63 px.
+
+Key by hand: T = 6405.0 s / 146 = 43.8699 s, one-way time 21.9349 s. L = 1/cos^2(60.75 deg) = 4.18847, s = sin(60.75 deg) = 0.872496. Integral of cos^7 from -60.75 to +60.75 deg = 2(s - s^3 + 3s^5/5 - s^7/7) = 0.913382. Integral of ds/B = L^4 R_E/B_E x 0.913382 = 5.74019e13 m/T. rho = (21.9349/5.74019e13)^2/mu0 = 1.16201e-19 kg/m^3. Mean ion mass rho/(n_e u) = 1.70138 u. He+ share = (1.70138 - 1.0073)/(4.0021 - 1.0073) = 0.2318, so 23 per cent.
+
+Most tempting wrong answer, 22 per cent: taking the 147 elements from A to B as 147 intervals gives T = 43.571 s, mean mass 1.6783 u and 22.41 per cent. 145 intervals give 23.96 per cent (24); 150 give 20.2; 160 give 13.7.
+
+Check in seconds (Python 3, standard library):
+import math
+lat=math.radians(60.75); BE=3.12e-5; RE=6.371e6; ne=41.13e6; u=1.66053907e-27
+L=1/math.cos(lat)**2; s=math.sin(lat)
+K=L**4*RE/BE*2*(s-s**3+0.6*s**5-s**7/7)
+tau=6405.0/146/2; rho=(tau/K)**2/(4e-7*math.pi)
+m=rho/(ne*u); print(m, (m-1.0073)/(4.0021-1.0073))
+
+Citations: Obayashi, J. Geophys. Res. 70, 1069 (1965); Watanabe, J. Geophys. Res. 70, 5839 (1965); Kurth et al., J. Geophys. Res. Space Phys. 120, 904 (2015).
