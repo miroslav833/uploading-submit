@@ -1,0 +1,12 @@
+The map spans 0 to 85.00 ms across the frame from x = 120 to x = 1020 px (900 columns, one run each) and -2.6 to +2.6 hbar k vertically. The bright peak starts at p = 0 at t = 0 and crosses p = 0 going down once per Bloch period, at about: 1: 0.80 ms (x = 129 px), 10: 8.19 ms (207), 20: 16.39 ms (294), 30: 24.59 ms (381), 40: 32.82 ms (468), 50: 41.02 ms (554), 60: 49.24 ms (641), 70: 57.45 ms (728), 80: 65.67 ms (815), 90: 73.86 ms (902), 100: 82.11 ms (989), last 103: 84.55 ms. A line through the crossings gives a period of 0.8213 ms, so 85.00 ms holds 103.5 periods.
+
+Hand calculation. nu_B = 103.5/85.00 ms = 1217.6 Hz. With d = 1064.0 nm/2 = 532.0 nm, F = h nu_B/d = 1.5166e-24 N. m g = 132.905452 u x 9.8070 = 2.1644e-24 N. The magnetic force is m g - F = 6.478e-25 N. For Cs F = 3 (I = 7/2), g_F = -1/4, so m_F = 3 feels (3/4) mu_B dB/dz = 6.9555e-24 J/T x dB/dz. That gives dB/dz = 0.09313 T/m = 9.313 G/cm, so 9.3 G/cm.
+
+The most tempting wrong answer estimates the period from the stripe spacing instead of following the crossings to the end of the window: each period more or fewer moves the answer by 0.21 G/cm (103 periods 9.4, 104 periods 9.2, 106 periods 8.8 G/cm). A moment of one Bohr magneton gives 7.0 G/cm.
+
+Check in Python:
+h=6.62607015e-34; u=1.66053906660e-27; muB=9.2740100783e-24
+F=h*(103.5/85.00e-3)/532.0e-9; mg=132.905452*u*9.8070
+print((mg-F)/(0.75*muB)*100)   # 9.31 G/cm
+
+Sources: Ben Dahan et al., Phys. Rev. Lett. 76, 4508 (1996); Weber et al., Science 299, 232 (2003); Gustavsson et al., Phys. Rev. Lett. 100, 080404 (2008); Ferrari et al., Phys. Rev. Lett. 97, 060402 (2006).
