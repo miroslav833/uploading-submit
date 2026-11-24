@@ -1,0 +1,15 @@
+Key: P2_1/m.1'(a,b,0)0ss. The listed form stands in the attached verification notes in the part "table_excerpts.txt", which quotes the entry "11.1.2.2.m51.2  P2_1/m.1'(a,b,0)0ss" of the ISO(3+d)D list of magnetic superspace groups with its operators. That the arrangement has this group is shown in the first section (line "11.1.2.2.m51.2 P2_1/m.1'(a,b,0)0ss: IDENTICAL", the three neighbouring entries "no"), in the second section, and in the recorded output of FINDSSG at the end ("Magnetic superspace group: 11.1.2.2.m51.2 P2_1/m.1'(a,b,0)0ss").
+
+By hand. q = (1/2, 0, g) and every Ni moment is m0 a cos(2 pi x4) with x4 = q.r + t. An operation of Pnma sends q to eps q + G. The four operations with opposite signs on x and z (2_1 along a, 2_1 along c, n glide, a glide) have G = (+-1, 0, 0) and need a phase +-X on each Ni site; X = 0.2756, 0.2244, 0.7244, 0.7756, four different values (two of them half a period apart for any x), so no single shift serves all sites and they are lost. The other four have G = 0. Inversion: eps = -1, axial vector unchanged, cosine even, kept with shift 0. Mirror (x, -y+1/2, z): eps = +1, reverses a moment along a, kept with shift 1/2. Screw (-x, y+1/2, -z): eps = -1, reverses the moment, kept with shift 1/2, which a move of the origin of t removes. Time reversal: shift 1/2. So the group is grey, basic group P2_1/m, the mirror carries s, the axis 0, time reversal s, and q is a general vector of the plane normal to the unique axis. The list keeps the unique axis along c and writes that vector (a,b,0): with a' = c, b' = a, c' = b the generators are (-x,-y,z+1/2,-t+1/2), (x,y,-z+1/2,t+1/2), (x,y,z,t+1/2)', the operators of 11.1.2.2.m51.2.
+
+Most tempting wrong answer: P2_1/m.1'(a,0,g)0ss. It is the same group written on the axes of Pnma, with b unique; the list has no monoclinic entry in that setting. Second: P2_1/m.1'(1/2,0,g)0ss, which treats the component 1/2 as fixed, although the kept operations send q to +-q exactly. Third: P2_1/m.1'(a,b,0)00s, the neighbouring entry, whose mirror has no phase shift.
+
+Check program (Python 3, standard library). It prints the phase each operation needs on the four Ni sites:
+x=0.2756
+X=[x,0.5-x,1-x,0.5+x]
+for name,eps,G,flip in (("inversion",-1,0,1),("mirror normal to b",1,0,-1),("2_1 along b",-1,0,-1),("2_1 along c",1,-1,-1),("2_1 along a",-1,1,1),("n glide",1,-1,1),("a glide",-1,1,-1)):
+    d=[round(((0 if flip>0 else 0.5)-G*Xj)%1,4) for Xj in X]
+    print(name,d,"kept" if len(set(d))==1 else "lost")
+Output: inversion [0.0]*4 kept; mirror [0.5]*4 kept; 2_1 along b [0.5]*4 kept; the other four give four different phases and are lost.
+
+Sources: Stokes, Campbell and van Smaalen, Acta Cryst. A67, 45-55 (2011); Stokes and Campbell, Acta Cryst. A78, 364-370 (2022); van Smaalen, Campbell and Stokes, Acta Cryst. A69, 75-90 (2013); Perez-Mato, Ribeiro, Petricek and Aroyo, J. Phys.: Condens. Matter 24, 163201 (2012); Abrahams and Easson, Acta Cryst. C49, 925-926 (1993).
