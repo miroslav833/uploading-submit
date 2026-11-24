@@ -1,0 +1,9 @@
+Key: FBgn0034047. It stands in section 2 of the attached notes (line KEY). By hand: a cyclic dinucleotide with G joined to A by a 3'-5' bond and A to G by a 2'-5' bond is 3'2'-cGAMP. The Drosophila cGAS-like receptor that double-stranded RNA activates and that makes it is cGLR1 (Slavik et al., Nature 597, 109, 2021); the enzyme with the mixed product and unknown activator is cGLR2 (Holleufer et al., Nature 597, 114, 2021). The gene of cGLR1 is cGlr1, annotation CG12970. In the FlyBase precomputed file fbgn_annotation_ID.tsv of release FB2026_03 (read on 2026-11-25) the row cGlr1, CG12970 has the primary identifier FBgn0034047. The gene page is flybase.org/reports/FBgn0034047.
+
+Most tempting wrong answer: FBgn0050424, the gene cGlr2 (CG30424), from exchanging the two enzymes. Sting is FBgn0033453.
+
+Check on the rows printed at the end of the notes, saved as flybase_fbgn_rows.tsv (Python 3, standard library):
+rows = [l.split('\t') for l in open('flybase_fbgn_rows.tsv') if not l.startswith('#')]
+print([r[2] for r in rows if r[4] == 'CG12970'])   # ['FBgn0034047']
+
+Citations: Slavik et al., Nature 597, 109 (2021); Holleufer et al., Nature 597, 114 (2021).
