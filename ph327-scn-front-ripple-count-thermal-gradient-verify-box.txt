@@ -1,0 +1,9 @@
+The groove count is only in the micrograph. Following the front from the groove under A (image position about (46, 387)) to the groove under B (948, 355) there are 98 grooves, so 97 wavelengths of 9.31 px on average (single spacings about 7.4 to 12.4 px). Every tenth groove from A (image x): 10: 141, 20: 233, 30: 319, 40: 410, 50: 506, 60: 612, 70: 704, 80: 792, 90: 883, and B (97): 948.
+
+By hand: lambda = 3.325 mm/97 = 34.278 um, k = 2 pi/lambda = 1.83299e5 1/m. Freezing range dT0 = |m| C (1 - k)/k = 2.800 x 0.2500 x 0.9/0.1 = 6.300 K; m G_C = V dT0/D = 2.000e-6 x 6.300/1.270e-9 = 9921.3 K/m. Quasi-static growth rate omega = V k (m G_C - G - Gamma k^2)/(m G_C) - k V^2/D; its maximum over k gives 3 Gamma k^2 = m G_C - G. 3 Gamma k^2 = 3 x 6.480e-8 x (1.83299e5)^2 = 6531.6 K/m, so G = 9921.3 - 6531.6 = 3389.7 K/m, which is 3.4 K/mm.
+
+The most tempting wrong answer is 7.7 K/mm, from the neutral wavenumber Gamma k^2 = m G_C - G in place of the fastest-growing one. 96 or 98 wavelengths give 3.5 or 3.3 K/mm.
+
+Check in Python (prints 3.39): import math; k=2*math.pi*97/3.325e-3; print(round((2.000e-6*2.800*0.2500*0.9/0.1/1.270e-9 - 3*6.480e-8*k*k)/1000, 2))
+
+Method: Mullins and Sekerka, J. Appl. Phys. 35, 444 (1964); Langer, Rev. Mod. Phys. 52, 1 (1980); Losert, Shi and Cummins, PNAS 95, 431 (1998); Trivedi and Somboonsuk, Mater. Sci. Eng. 65, 65 (1984).
