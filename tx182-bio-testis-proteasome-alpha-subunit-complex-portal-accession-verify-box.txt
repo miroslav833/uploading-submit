@@ -1,0 +1,9 @@
+Key: CPX-9021. It stands in section 2 of the attached notes (line KEY). By hand: an alpha-type 20S subunit expressed only in testis, a paralogue of a ubiquitous alpha subunit, whose loss lets spermatocytes finish recombination and then arrests them at metaphase I and II, is alpha4s, gene Psma8 (Gomez-H et al., PLoS Genet. 15, e1008316, 2019; Qian et al., Cell 153, 1012, 2013). The human orthologue is PSMA8, UniProtKB Q8TAA3. In the Complex Portal table for Homo sapiens (ftp.ebi.ac.uk/pub/databases/intact/complex/current/complextab/9606.tsv, read on 2026-11-24) one entry contains Q8TAA3: '20S spermatoproteasome complex', accession CPX-9021; it lacks PSMA7 (O14818). The page is www.ebi.ac.uk/complexportal/complex/CPX-9021.
+
+Most tempting wrong answer: CPX-8841, 'PA200-20S single-capped proteasome'. The stem mentions the PA200 cap, but that entry and the double-capped CPX-9063 are built on the standard core with PSMA7 and do not contain PSMA8. The standard 20S particle is CPX-8806.
+
+Check on the rows printed at the end of the notes, saved as complex_portal_proteasome_rows.tsv (Python 3, standard library):
+rows = [l.split('\t') for l in open('complex_portal_proteasome_rows.tsv') if not l.startswith('#')]
+print([r[0] for r in rows if 'Q8TAA3' in r[4]])   # ['CPX-9021']
+
+Citations: Gomez-H et al., PLoS Genet. 15, e1008316 (2019); Qian et al., Cell 153, 1012 (2013); Meldal et al., Nucleic Acids Res. 50, D578 (2022).
