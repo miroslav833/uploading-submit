@@ -1,0 +1,16 @@
+Key: DY0, the wwPDB Chemical Component Dictionary identifier of ADP-D-glycero-beta-D-manno-heptose. Section 1 of the attached notes prints it on the line "KEY: the identifier of ADP-D-glycero-beta-D-manno-heptose is DY0", and section 2 reaches it again from an outside database.
+
+By hand: the inner-core heptose is activated in a fixed order, sedoheptulose 7-phosphate to D-glycero-D-manno-heptose 7-phosphate (GmhA), then phosphorylation of the anomeric centre to the beta-1,7-bisphosphate (HldE kinase), loss of the 7-phosphate (GmhB), transfer of AMP (HldE adenylyltransferase), and last of all epimerisation at C-6 of the finished nucleotide sugar (HldD). A strain lacking only the epimerase ends its route at ADP-D-glycero-beta-D-manno-heptose, which is what the observations describe: adenosine present, one heptose released, a D-manno ring, and a pool of the compound that the parent strain does not hold, since nothing consumes it. The dictionary holds three definitions of formula C17 H27 N5 O16 P2 and no name among them says heptose, glycero or manno. Their configurations, measured in the deposited coordinates, make DY0 the D-glycero-beta-D-manno compound, AYU its C-6 epimer and AQH a third stereoisomer.
+
+Most tempting wrong answer, AYU: that is ADP-L-glycero-beta-D-manno-heptose, the donor the first heptosyltransferase uses and the compound usually called ADP-heptose. It is the product of the deleted step, so the strain cannot make it, and its absence is why the core carries no heptose.
+
+Check in seconds (Python 3, standard library). The two files are public:
+import urllib.request, re
+want = {"KMSFWBYFWSKGGR-FQBROAFUSA-N": "D-glycero (accumulates)",
+        "KMSFWBYFWSKGGR-DTBZDYEHSA-N": "L-glycero (the donor)"}
+for code in ("DY0", "AYU", "AQH"):
+    t = urllib.request.urlopen("https://files.rcsb.org/ligands/download/%s.cif" % code).read().decode()
+    k = re.search(r"InChIKey\s+InChI\s+\S+\s+(\S+)", t).group(1)
+    print(code, k, want.get(k, "neither epimer"))
+
+Citations: Kneidinger et al., J. Bacteriol. 184, 363 (2002); Deacon et al., Structure 8, 453 (2000); Zhou et al., Nature 561, 122 (2018); Westbrook et al., Bioinformatics 31, 1274 (2015).
