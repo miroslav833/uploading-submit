@@ -1,0 +1,13 @@
+The figure is 1100 x 440 px: displacement (pm) against time (ms) from -1 to 33.5 ms, cursor A at 1.85 ms (column 160) and B at 31.55 ms (column 1021), 29.70 ms apart. The wave is a skewed periodic spike train, 5.78 px per cycle, with slow drift and noise. Cycles between A and B: 149. Start times of every tenth cycle, numbered from A, in ms: 0: 1.85, 10: 3.84, 20: 5.84, 30: 7.83, 40: 9.82, 50: 11.82, 60: 13.81, 70: 15.80, 80: 17.80, 90: 19.79, 100: 21.78, 110: 23.78, 120: 25.77, 130: 27.76, 140: 29.76, 149: 31.55. Josephson frequency f = 149/29.70 ms = 5016.8 Hz.
+
+By hand. h f = m4 (dP/rho - s dT). The frequency fell from its heater-off value without passing through zero, so the pressure term stays larger. h/m4 = 9.96930e-8 m^2/s. dP/rho = 0.07962/145.834 = 5.45964e-4 J/kg, heater-off frequency f0 = 5476.45 Hz. dT = (h/m4)(f0 - f)/s = 9.96930e-8 x 459.6/1262 = 3.631e-8 K, i.e. 36 nK. The rounding of the givens keeps 36.20 to 36.42 nK.
+
+The tempting slips: the other branch gives 830 nK; the pair mass 2 m4 gives 230 nK; one cycle fewer gives 39 nK.
+
+A check in Python, standard library only:
+
+h, m4 = 6.62607015e-34, 4.002602*1.66053907e-27
+dP, rho, s, tau, N = 0.07962, 145.834, 1262.0, 29.70e-3, 149
+print((dP/rho - h/m4*N/tau)/s*1e9)   # 36.31 nK
+
+Sources: Anderson, Rev. Mod. Phys. 38, 298 (1966); Packard, Rev. Mod. Phys. 70, 641 (1998); Sukhatme et al., Nature 411, 280 (2001); Hoskinson, Packard and Haard, Nature 433, 376 (2005); Donnelly and Barenghi, J. Phys. Chem. Ref. Data 27, 1217 (1998).
