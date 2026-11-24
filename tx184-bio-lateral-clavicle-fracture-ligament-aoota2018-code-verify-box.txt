@@ -1,0 +1,8 @@
+Key: 15.3B(b). The key is in the first section of the attached notes (output line KEY) and again in the second section (line code).
+By hand, from the page for bone 15 of the 2018 compendium (J Orthop Trauma 32 Suppl 1, S105). The clavicle is 15. The medial end is 15.1, the diaphysis is 15.2 and the lateral end is 15.3. The line starts 17 mm from the acromial end and leaves through the acromial facet, so the location is 15.3. The lateral end types are 15.3A extraarticular, 15.3B partial articular and 15.3C complete articular. Half of the facet stays on the shaft, so the type is B. The page prints nothing below the type. Each lateral end type has an asterisk for one qualification, a CC ligament complex intact, b partial disruption, c complete disruption. Conoid torn and trapezoid continuous is partial, so the letter is b, in round brackets.
+Wrong answer that tempts most. 15.3B1(b) adds the digit 1 for a simple fracture, as the end of a long bone would have. Blind attempts gave this form, 15.3-B1 and 15.3B2. The clavicle page has no groups, and the list of codes on the page shows it.
+Check in seconds (Python, standard library):
+facet_split, part_on_shaft, torn = True, True, 1   # torn: how many of conoid and trapezoid
+t = 'A' if not facet_split else 'B' if part_on_shaft else 'C'
+print('15.3' + t + '(' + 'abc'[torn] + ')')   # 15.3B(b)
+Citations. Meinberg et al., J Orthop Trauma 32 Suppl 1, S1 and S105 (2018). Neer, Clin Orthop Relat Res 58, 43 (1968).
