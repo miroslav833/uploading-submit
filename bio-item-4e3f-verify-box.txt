@@ -1,0 +1,12 @@
+Key: MOD:01918. The answer rests on two published facts and one line of the ontology file, and the attached notes show it in the output of both programs (first section, the line that begins with Key, and second section, last line).
+
+The key by hand. JMJD6 hydroxylates lysine residues of U2AF65 at C5 of the side chain (Webby et al., Science 2009). Amino acid analysis of hydrolysed product peptides against synthetic standards showed the 5S configuration, the opposite of the 5R residue that the collagen lysyl hydroxylases make (Mantri et al., ChemBioChem 2011). The residue is (2S,5S)-5-hydroxylysine. In PSI-MOD release 1.41.0 the term with exactly this name is MOD:01918; its definition cites PubMed 19574390 and 22238144, the two papers above, and RESID AA0578. Its parent is MOD:00037, 5-hydroxy-L-lysine.
+
+The most tempting wrong answers, worked the same way. If the collagen configuration is assumed, the residue would be (2S,5R)-5-hydroxylysine, and that term is MOD:01925 (it cites RESID AA0028). If the configuration is left out, the term is the parent MOD:00037, defined as one of the diastereomeric 5-hydroxy-L-lysine residues; solvers who remember that old PSI-MOD accessions equal the RESID number plus 9 also arrive at MOD:00037 from AA0028. MOD:01047 is monohydroxylated lysine with the position open.
+
+Check (Python, standard library, run next to PSI-MOD.obo of release 1.41.0):
+for line in open("PSI-MOD.obo"):
+    if line.startswith("id: "): acc = line[4:].strip()
+    if line.strip() == "name: (2S,5S)-5-hydroxylysine": print(acc)    # MOD:01918
+
+Sources. Webby et al., Science 325, 90 (2009); Mantri et al., ChemBioChem 12, 531 (2011); Montecchi-Palazzi et al., Nat. Biotechnol. 26, 864 (2008); PSI-MOD release 1.41.0, github.com/HUPO-PSI/psi-mod-CV.
