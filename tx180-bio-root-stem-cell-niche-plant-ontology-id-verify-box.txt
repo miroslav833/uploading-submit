@@ -1,0 +1,15 @@
+Key: PO:0000061 (lateral root cap epidermal initial cell). In the attached notes it is printed under "3. Key" of the first script; the second section shows the same live record in EBI's Ontology Lookup Service and a scan of the whole release file.
+
+Worked by hand: the clone makes the outermost layer of the root proper (hair-bearing and hairless files, the root epidermis) by divisions perpendicular to the surface and a shed layer on the flank of the cap outside the columella (the lateral root cap) by divisions parallel to it. That is the epidermis/lateral root cap initial at the flank of the quiescent centre (Dolan et al. 1993). Among the children of root initial cell (PO:0000059), the one whose definition says it produces lateral root cap cells and root epidermis is PO:0000061.
+
+Most tempting wrong answer: PO:0000349, plant epidermal initial cell. It is part of the epidermis, is the parent of stomatal and rhizoid initials, is declared disjoint from root initial cell and says nothing of the cap.
+
+Check (Python standard library):
+import urllib.request, re
+url = "http://purl.obolibrary.org/obo/po/releases/2026-01-09/po.obo"
+for b in urllib.request.urlopen(url).read().decode().split("\n[Term]\n"):
+    if re.search(r"^is_a: PO:0000059 ", b, re.M):
+        print(b.split("\n")[0], "|", re.search(r'^def: "(.*?)"', b, re.M).group(1))
+It prints the three root initials with their definitions; only PO:0000061 produces root epidermis and lateral root cap cells.
+
+Citations: Dolan et al., Development 119:71-84 (1993); Kidner et al., Planta 211:191-199 (2000); Cooper et al., Plant Cell Physiol 54:e1 (2013).
