@@ -1,0 +1,17 @@
+The frame carries one value, the number of single-electron events. Dots of any brightness count (a fainter pixel just to the right of a dot is its transfer tail); the three straight streaks are cosmic rays. Events per band of 60 sensor rows (120 picture rows), top to bottom: 72, 57, 60, 60, 64, 64, total 377; per quadrant (top left, top right, bottom left, bottom right): 95, 94, 85, 103.
+
+Key by hand. Electrons per pixel 377/(0.920 x 129600) = 3.162e-3; minus clock-induced charge 1.10e-3 leaves 2.062e-3; D = 2.062e-3/0.250 s = 8.248e-3 per pixel per second = 3.172 x D(233.0 K). Depletion generation goes as n_i ~ T^1.5 exp(-E_g/2kT); with E_g = 1.206 eV - alpha T the alpha term is a constant factor, so (T/233.0)^1.5 exp(-6998 K (1/T - 1/233.0)) = 3.172, T = 241.85 K, that is 242 K (any count from 367 to 398 gives it).
+
+The most tempting wrong answer is 245 K, from keeping the clock-induced charge in the thermal signal. Diffusion current (n_i^2) gives 237 K; ignoring the detection probability gives 241 K.
+
+Check in a second (Python 3, standard library):
+import math
+r = (377/0.920/129600 - 1.10e-3)/0.250/2.60e-3
+lo, hi = 233.0, 300.0
+for _ in range(100):
+    T = (lo + hi)/2
+    if (T/233.0)**1.5*math.exp(-0.603/8.617333e-5*(1/T - 1/233.0)) < r: lo = T
+    else: hi = T
+print(r, T)                          # 3.172, 241.85 K
+
+Citations: Shockley and Read, Phys. Rev. 87, 835 (1952); Sah, Noyce and Shockley, Proc. IRE 45, 1228 (1957); Bludau, Onton and Heinke, J. Appl. Phys. 45, 1846 (1974); Basden, Haniff and Mackay, MNRAS 345, 985 (2003); Daigle et al., PASP 121, 866 (2009).
