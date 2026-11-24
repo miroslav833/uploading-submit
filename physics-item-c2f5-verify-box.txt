@@ -1,0 +1,17 @@
+The image is the only source of the number of quintuple layers, so the data are given here as text.
+
+Data read from the image: between the silicon (face at row 761 from the top) and the amorphous cap (film top near row 66), bright quintuple-layer bands repeat every 6.15 px. The centre rows of the bands, from the silicon up, are: 757.9, 751.7, 745.6, 739.4, 733.3, 727.1, 721.0, 714.8, 708.7, 702.5, 696.4, 690.2, 684.1, 677.9, 671.8, 665.6, 659.5, 653.3, 647.2, 641.0, 634.9, 628.7, 622.6, 616.4, 610.3, 604.1, 598.0, 591.8, 585.7, 579.5, 573.4, 567.2, 561.1, 554.9, 548.8, 542.6, 536.5, 530.3, 524.2, 518.0, 511.9, 505.7, 499.6, 493.4, 487.3, 481.1, 475.0, 468.8, 462.7, 456.5, 450.4, 444.2, 438.1, 431.9, 425.8, 419.6, 413.5, 407.3, 401.2, 395.0, 388.9, 382.7, 376.6, 370.4, 364.3, 358.1, 352.0, 345.8, 339.7, 333.5, 327.4, 321.2, 315.1, 308.9, 302.8, 296.6, 290.5, 284.3, 278.2, 272.0, 265.9, 259.7, 253.6, 247.4, 241.3, 235.1, 229.0, 222.8, 216.7, 210.5, 204.4, 198.2, 192.1, 185.9, 179.8, 173.6, 167.5, 161.3, 155.2, 149.0, 142.9, 136.7, 130.6, 124.4, 118.3, 112.1, 106.0, 99.8, 93.7, 87.5, 81.4, 75.2, 69.1
+That is 113 quintuple layers.
+
+Key by hand. Quintuple layer c/3 = 0.95453 nm, film 107.862 nm. Cell volume (sqrt3/2) a^2 c = 0.42497 nm^3, three formula units of 654.873 g/mol, density 7.6766 g/cm^3, mass thickness 82.801 ug/cm^2. zbar = 4.0 x 4.477^1.6 = 44.019 ug/cm^2, z0 = zbar/Gamma(3/2) = 49.670 ug/cm^2. Share beyond the film exp(-(82.801/49.670)^2) = exp(-2.7790) = 0.0621, which is 6.2 per cent.
+
+Most tempting wrong answer: 2.9 per cent, from taking z0 equal to the mean depth. One formula unit per hexagonal cell gives 73 per cent.
+
+Check program (Python, standard library):
+
+import math
+V = math.sqrt(3) / 2 * 0.41396**2 * 2.8636e-21
+rho = 3 * (2 * 208.980 + 3 * 78.971) / (6.02214076e23 * V)
+M = 113 * 2.8636e-7 / 3 * rho * 1e6
+z0 = 4.0 * 4.477**1.6 / math.gamma(1.5)
+print(100 * math.exp(-(M / z0)**2))   # 6.210 per cent
