@@ -1,0 +1,15 @@
+The figure is 777 x 777 px: a square of dark round holes on bright gold, about 4.4 px apart, grid turned 1.2 deg. A minimum finder on the brightness averaged along the hole columns (middle 60 per cent of the rows) finds 163 columns, the 1st, 11th, ..., 161st at x = 35, 80, 125, 169, 212, 255, 297, 340, 382, 424, 467, 511, 555, 600, 645, 690, 736 px and the 163rd at 745 px; the same along the rows finds 163 rows, at y = 36, 79, 123, 166, 208, 251, 294, 337, 380, 424, 468, 513, 558, 603, 649, 694, 739 px and the last at 748 px. So the grid has 163 holes along each edge and a = 98.47 um/163 = 604.11 nm.
+
+By hand. At normal incidence the (1,0) plasmon on the gold-glass side needs Re k_sp = 2 pi/a, that is lambda = a Re sqrt(eps_m eps_d/(eps_m + eps_d)) with eps_d = 2.25 and eps_m = 9.50 - 81.0/(E(E + 0.0670 i)), E = 1239.842/lambda in eV. Iterating from lambda = 1.5 a = 906 nm: E = 1.3255 eV, eps_m = -36.482 + 2.324 i, n_sp = 1.54830, lambda = 604.11 x 1.54830 = 935.34 nm, so 935 nm.
+
+The most tempting wrong answer is 906 nm, the Rayleigh anomaly 1.5 a that leaves the metal out. The air side gives 632 nm. 162 holes give 941 nm and 164 give 930 nm; 160 holes give 952 nm.
+
+Check (Python, standard library):
+import cmath
+a = 98.47e3/163; lam = 1.5*a
+for _ in range(100):
+    E = 1239.842/lam; em = 9.50 - 9.00**2/(E*(E + 0.0670j))
+    lam = a*cmath.sqrt(em*2.25/(em + 2.25)).real
+print(round(lam, 1))    # 935.3 nm
+
+Sources: Ghaemi et al., Phys. Rev. B 58, 6779 (1998); Garcia-Vidal et al., Rev. Mod. Phys. 82, 729 (2010).
