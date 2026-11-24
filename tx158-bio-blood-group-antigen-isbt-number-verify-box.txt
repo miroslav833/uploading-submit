@@ -1,0 +1,12 @@
+Key: 028004
+
+Where it stands: ISBT Table of blood group antigens within systems, version 13.0 of 31 May 2025, row 028 GLOB. The row reads: column 001 P, column 002 not in use, column 003 not in use, column 004 PX2, column 005 ExtB, three antigens in all. The text extracted from the official PDF and a short program that reads this row are in the attached notes.
+
+By hand. P1-positive cells with much globotriaosylceramide and no globoside, in a B3GALNT1-null homozygote, are the P1k phenotype; the plasma holds anti-P. A4GALT-null donors have the p phenotype (no Pk, no P, no P1), so anti-P cannot react with them. The extra reactivity, strongest on p cells and absent only on other Pk cells, is anti-PX2: the P synthase also converts paragloboside into the x2 glycosphingolipid, so its loss removes PX2, and p cells carry raised amounts of it (Westman et al., J. Biol. Chem. 290, 18505, 2015, who met exactly this incompatibility). PX2 is in the GLOB system, 028, as GLOB4, so its number is 028004 (Ricci Hagman et al., Immunohematology 34, 161, 2018).
+
+The most tempting wrong answer is 028002. The 2015 paper proposed the name GLOB2 for PX2, and PX2 looks like the second antigen of a small system, but the Working Party, which assigns the numbers, made it GLOB4 and the table shows 028002 and 028003 as not in use. 209004 is its old number in the GLOB collection.
+
+Check (Python, standard library), run on the extracted table text:
+import re
+row = next(l for l in open("isbt_antigen_table_v13.txt", encoding="utf-8") if re.match(r"\s*028\s+GLOB", l)).split()
+print("028%03d" % (row[2:-1].index("PX2") + 1))    # 028004
