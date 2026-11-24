@@ -1,0 +1,9 @@
+Key: CPX-6912. The key is in the first section of the attached notes (output line KEY) and again in the second section (line code).
+By hand. Normal anion gap acidosis, low potassium, urine pH above 6.5 with bicarbonate 12 mmol/L and nephrocalcinosis give distal renal tubular acidosis. The large membrane subunit with the two proton half-channels, beside the proteolipid ring, is subunit a of the V0 sector of the vacuolar ATPase. Of the four genes for subunit a, ATP6V0A4 is the one of the type A intercalated cells (Smith et al. 2000). Open www.ebi.ac.uk/complexportal and search ATP6V0A4. One curated human entry comes back, Vacuolar proton translocating ATPase complex, ATP6V0A4 variant, CPX-6912. The rest are predicted entries with numbers above CPX-10000.
+Wrong answers that tempt most. CPX-6905 is the osteoclast pump with a3, and CPX-6904 is the Golgi pump with a2. A solver who knows these two and counts on gives CPX-6906, which is an immunoglobulin entry. CPX-6913 is a guess one past the key and does not exist. CPX-2470 is the a1 pump.
+Check in seconds (Python, standard library, needs the network):
+import json, urllib.request
+u = 'https://www.ebi.ac.uk/intact/complex-ws/search/ATP6V0A4?number=50'
+d = json.load(urllib.request.urlopen(u))
+print([e['complexAC'] for e in d['elements'] if not e['predictedComplex']])   # ['CPX-6912']
+Citations. Smith et al., Nat Genet 26, 71 (2000). Wang et al., Mol Cell 80, 501 (2020). Meldal et al., Nucleic Acids Res 50, D578 (2022).
