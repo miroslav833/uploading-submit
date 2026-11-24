@@ -1,0 +1,16 @@
+Data in the panorama, as text: the marked column (white cable just to its right) appears at both ends; from one appearance to the other there are 158 columns, both ends included, so 157 tubes stand once round the wall. Column centres in pixels for every tenth column, counted from 0 at the left marked column: 0: 5.6, 10: 98.6, 20: 191.6, 30: 284.6, 40: 377.6, 50: 470.6, 60: 563.6, 70: 656.6, 80: 749.6, 90: 842.7, 100: 935.6, 110: 1028.6, 120: 1121.7, 130: 1214.7, 140: 1307.6, 150: 1400.6, and the marked column again at 157: 1465.7. Pitch 9.300 px; rows repeat every 9.30 px.
+
+Key by hand: p = 2 pi (10.000 m)/157 = 0.40020 m; coverage = pi (0.0950)^2/p^2 = 0.177026. cos(theta_c) = 1/1.3330, sin^2 = 0.437219, sin = 0.661225, cot = 1.13454. Frank-Tamm, 300 to 600 nm: 2 pi alpha sin^2 (1/300 nm - 1/600 nm) = 33 411 per metre. Light reaches the side wall only from the upper H - R cot = 18.655 m of the track; its path in water is R/sin = 15.1234 m. N0 = 33 411 x 18.655 x 0.1785 x 0.177026 = 19 695. L = 15.1234 / ln(19 695/12 323) = 15.1234/0.46889 = 32.25 m, so 32 m.
+
+Most tempting wrong answer, 31 m: the 158 columns shown include the marked column twice; taking 158 tubes gives coverage 0.179288, N0 = 19 947 and L = 31.4 m. One tube too few (156) gives 33.2 m, so 33. Each tube moves the answer by close to 3 per cent. All the light sent to the side wall (30 m of track) gives 16 m; the radius instead of the slant path gives 21 m.
+
+Check in seconds (Python 3, standard library):
+import math
+n=1.333; R=10.0; H=30.0; d=0.19; eff=0.1785; Nm=12323; N=157
+s2=1-1/n**2; s=math.sqrt(s2); cot=(1/n)/s
+dNdx=2*math.pi/137.036*s2*(1/300e-9-1/600e-9)
+cov=math.pi*(d/2)**2/(2*math.pi*R/N)**2
+N0=dNdx*(H-R*cot)*eff*cov
+print(N0, (R/s)/math.log(N0/Nm))
+
+Citations: Fukuda et al., Nucl. Instrum. Methods A 501, 418 (2003); Frank and Tamm, Dokl. Akad. Nauk SSSR 14, 109 (1937).
