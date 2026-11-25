@@ -1,0 +1,15 @@
+Key: 2.8 m (2.7715 m). The notes print it in 'Key, wrong forms and half-last-digit table' (line 'KEY') and in 'Independent route' (RK4 march of the bulk temperature, 2.77147 m).
+
+By hand: rho_m = 0.05 x 2500 + 0.95 x 992.2 = 1067.59 kg/m3; solids mass fraction 0.11709, C_m = 3788.05 J/kg K; W = 0.40247 kg/s, Q = W C_m (60.0 - 20.0) = 60983 W. Harada et al. (1985), Eq. (3), p. 35, and nomenclature, p. 37: Nu Pr^-1/3 (mu_f/mu_w)^-0.14 = 1.61e-2 Re^0.88 with Re = D U rho_m/mu_f = 39238 and Pr = C_m mu_f/k_f = 3.9201; Nu = 0.0161 x 11027 x 1.5768 x 1.08907 = 304.86, h = 9618 W/m2K. dT_lm = 40/ln 3 = 36.410 K; L = 60983/(9618 pi 0.02 x 36.410) = 2.771 m.
+
+Most tempting wrong answer, 3.9 m: the single-phase Sieder-Tate equation 0.027 Re^0.8 Pr^1/3 (mu/mu_w)^0.14 on the same groups, a factor 1.39 below Eq. (3) at this Re. Its 0.023 variant (Nu = 186.9, h = 5.90e3 W/m2K) gives 4.5 m. The paper's Fig. 6 shows its suspension data above the Sieder-Tate line.
+
+Check program (standard library):
+from math import pi,log
+rm=.05*2500+.95*992.2;xs=.05*2500/rm;C=xs*840+(1-xs)*4179
+Re=.02*1.2*rm/.653e-3;Pr=C*.653e-3/.631
+h=.0161*Re**.88*Pr**(1/3)*(.653/.355)**.14*.631/.02
+W=rm*1.2*pi*.02**2/4
+print(W*C*40/(h*pi*.02*40/log(3)))  # 2.771
+
+Citations: Harada, Toda, Kuriyama, Konno, J. Chem. Eng. Japan 18 (1985) 33-38, Eq. (3); Sieder and Tate, Ind. Eng. Chem. 28 (1936) 1429.
