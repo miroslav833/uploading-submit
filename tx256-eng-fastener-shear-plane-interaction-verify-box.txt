@@ -1,0 +1,15 @@
+Key: Psu = 14.1 kN, three significant figures. Section 2 of the attached notes prints it on the line "Psu = 0.69421 x 20.336 kN = 14.1174 kN -> 14.1 kN", section 3 reaches it again by bisecting the criterion as written, and section 4 holds the two clauses as they stand in the document.
+
+What decides it: the shear plane sits 12.0 mm below the head while the plain shank ends at 10.0 mm, so it lies 2.0 mm into the thread. NASA-STD-5020B then fixes both halves of the calculation. Section 4.4.3 (Eq. 13, page 28) makes the allowable Fsu Am = 620 MPa x 32.8 mm^2 = 20.336 kN rather than pi D^2 Fsu/4 = 31.165 kN, and section 4.4.4 (Eq. 22, page 33) raises the shear ratio to 1.2 and the tension ratio to 2, where the full-diameter case (Eq. 20, same page) uses 2.5 and 1.5. The standard's reason is that tensile and shear stresses peak at the same cross section when the thread is in the shear plane.
+
+By hand: tension ratio 24.0/40.3 = 0.59553, squared 0.35466, so the shear term may reach 0.64534. Psu/Psu_allow = 0.64534^(1/1.2) = 0.69421, and Psu = 0.69421 x 20.336 = 14.117 kN.
+
+Most tempting wrong answer, 16.3 kN: the thread area taken correctly but both ratios squared, the elliptical interaction, which gives sqrt(1 - 0.35466) x 20.336 = 16.34 kN. Raising both ratios to 1.5 instead gives 13.5 kN, cubing the shear ratio gives 17.6 kN, borrowing the full-diameter exponents gives 15.9 kN, and putting the shear plane in the shank gives 24.4 kN.
+
+Stability: Am at 32.76 or 32.84 mm^2 gives 14.10 or 14.14 kN, and the tension ratio to four figures leaves 14.118 kN, so the answer holds at 14.1 kN.
+
+Check in seconds (Python 3, standard library):
+allow = 620e6 * 32.8e-6
+print(allow * (1 - (24.0/40.3)**2) ** (1/1.2) / 1e3)
+
+Citation: NASA-STD-5020B (Revision B, 6 August 2021), sections 4.4.3 and 4.4.4, Eqs. 12, 13, 20 and 22, pages 28 and 33; https://standards.nasa.gov/standard/NASA/NASA-STD-5020
