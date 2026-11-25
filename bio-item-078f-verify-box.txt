@@ -1,0 +1,14 @@
+Key: cpd45876. The answer rests on published clinical biochemistry and one row of the database files, and the attached notes show it in the output of both programs (the line that begins with Key in the output of the first, and the last line of the output of the second).
+
+The key by hand. Hyperoxaluria with normal glycolate and a missing liver glyoxylate reductase/hydroxypyruvate reductase is primary hyperoxaluria type 2. The enzyme would make D-glycerate; the hydroxypyruvate that accumulates is reduced by lactate dehydrogenase to L-glycerate, and these patients excrete L-glyceric acid (Cramer et al., Hum. Mol. Genet. 1999; Williams and Smith, N. Engl. J. Med. 1968). L-glycerate is (S)-glycerate. In ModelSEED release v2.1.0 the entry with (S) at C2, InChIKey RBNPOMFGQQGHHO-REOHCLBHSA-M, is cpd45876, named L-glycerate.
+
+The most tempting wrong answers, worked the same way. The core entry named Glycerate, cpd00223, has the structure of D-glycerate, (R), InChIKey RBNPOMFGQQGHHO-UWTATZPHSA-M: it is the product of the missing enzyme and the glycerate of most metabolic models. The entry D/L glycerate, cpd43885, leaves the configuration open.
+
+Check (Python, standard library, run in the Biochemistry folder of the release):
+import csv, glob
+csv.field_size_limit(10**9)
+for f in sorted(glob.glob("compound_[0-9][0-9].tsv")):
+    for r in csv.DictReader(open(f, encoding="utf8"), delimiter="\t"):
+        if r["inchikey"].startswith("RBNPOMFGQQGHHO-REOHCLBHSA"): print(r["id"], r["name"])    # cpd45876 L-glycerate
+
+Sources. Cramer et al., Hum. Mol. Genet. 8, 2063 (1999); Williams and Smith, N. Engl. J. Med. 278, 233 (1968); Williams and Smith, Science 171, 390 (1971); Seaver et al., Nucleic Acids Res. 49, D575 (2021); ModelSEED biochemistry release v2.1.0, github.com/ModelSEED/ModelSEEDDatabase.
