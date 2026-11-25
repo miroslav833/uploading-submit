@@ -1,0 +1,9 @@
+Key: 1586167. It stands in section 2 of the attached notes (line KEY). By hand: a recessive Wistar rat mutation with cystic proximal tubules and collecting ducts, hydrocephalus, callosal hypoplasia or agenesis, no liver cysts and a locus on chromosome 5 is wpk (Gattone et al., Anat. Rec. A 277, 384, 2004). Its gene is Tmem67, coding for the seven-span membrane protein meckelin (Smith et al., Nat. Genet. 38, 191, 2006). In the RGD file GENES_RAT.txt (download.rgd.mcw.edu/data_release/, read on 2026-11-25) the row with symbol Tmem67 has GENE_RGD_ID 1586167, and the symbol occurs once in the file. The gene page is rgd.mcw.edu/rgdweb/report/gene/main.html?id=1586167.
+
+Most tempting wrong answer: 3334, the RGD ID of Anks6, the gene of the dominant Han:SPRD Cy rat, which also lies on chromosome 5. Pkhd1 (PCK rat, with liver cysts) is 1308476 and Nek8 (LPK rat) is 1306897.
+
+Check on the rows printed at the end of the notes, saved as rgd_cystic_rows.tsv (Python 3, standard library):
+rows = [l.split('\t') for l in open('rgd_cystic_rows.tsv') if not l.startswith('#')]
+print([r[0] for r in rows if r[1] == 'Tmem67'])   # ['1586167']
+
+Citations: Gattone et al., Anat. Rec. A 277, 384 (2004); Smith et al., Nat. Genet. 38, 191 (2006); Vedi et al., Genetics 224, iyad042 (2023).
