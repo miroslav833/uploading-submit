@@ -1,0 +1,12 @@
+Key: MOD:01999. The answer rests on published biochemistry and one line of the ontology file, and the attached notes show it in the output of both programs (the line that begins with Key in the output of the first, and the last line of the output of the second).
+
+The key by hand. The abundant non-visual opsin of bovine pigment epithelium, also found in Müller cells, is RGR. In the dark its lysine-bound chromophore is all-trans-retinal, and 470 nm light isomerises it stereospecifically to 11-cis-retinal while the protein is native (Hao and Fong, J. Biol. Chem. 1999; Zhang et al., J. Biol. Chem. 2019). The light-made residue is a lysine with 11-cis-retinal on N6. In the systematic name the chain carbon 1 is C15 of retinal, so 11-cis is (2E,4Z,6E,8E). PSI-MOD release 1.41.0 has that structure under the name "N6-(11-cis)-retinylidene-L-lysine", MOD:01999.
+
+The most tempting wrong answers, worked the same way. The long-standing term "N6-retinylidene-L-lysine", MOD:00129, has the systematic name (2E,4E,6E,8E), all-trans: it is the residue this protein holds before the light, and the residue that light makes in rhodopsin. The term with the geometry unspecified is MOD:02000. The vitamin A2 chromophore, with two hydrogens fewer, is MOD:00317.
+
+Check (Python, standard library, run next to PSI-MOD.obo of release 1.41.0):
+for line in open("PSI-MOD.obo", encoding="utf8"):
+    if line.startswith("id: "): acc = line[4:].strip()
+    if line.startswith("synonym: ") and "(2E,4Z,6E,8E)-3,7-dimethyl-9-(2,6,6-trimethylcyclohex-1-en-1-yl)" in line: print(acc)    # MOD:01999
+
+Sources. Hao and Fong, J. Biol. Chem. 274, 6085 (1999); Hao and Fong, Biochemistry 35, 6251 (1996); Zhang et al., J. Biol. Chem. 294, 19137 (2019); Montecchi-Palazzi et al., Nat. Biotechnol. 26, 864 (2008); PSI-MOD release 1.41.0, github.com/HUPO-PSI/psi-mod-CV.
