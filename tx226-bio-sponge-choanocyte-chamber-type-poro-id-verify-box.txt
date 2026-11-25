@@ -1,0 +1,16 @@
+Key: PORO:0000269 (diplodal). In the attached notes it is printed under "4. Key" of the first script; the second script shows the same live record in EBI's Ontology Lookup Service and a scan of the whole release file.
+
+Worked by hand: the slender tube from an inhalant canal to the chamber's single pore is a prosodus, and the short narrow tube that continues the outlet to the exhalant canal is an aphodus (Boury-Esnault and Rutzler 1997). A chamber with both is diplodal; one with an aphodus only is aphodal; one with neither is eurypylous. In the Porifera Ontology the diplodal type is PORO:0000269, the only chamber type whose definition names both a prosodus and an aphodus.
+
+Most tempting wrong answer: PORO:0000133, aphodal. It has the outlet tube, but its prosopyles open straight from the inhalant canal, while here the water reaches the chamber only at the end of a tube.
+
+Check (Python standard library):
+import urllib.request, re
+url = "http://purl.obolibrary.org/obo/poro/releases/2016-10-06/poro.obo"
+for b in urllib.request.urlopen(url).read().decode().split("\n[Term]\n"):
+    if re.search(r"^is_a: PORO:0000025 ", b, re.M) and "is_obsolete: true" not in b:
+        d = re.search(r'^def: "(.*?)"', b, re.M)
+        print(b.split("\n")[0], "|", b.split("\n")[1], "|", d.group(1) if d else "(no definition)")
+It prints aphodal, diplodal and eurypylous with their definitions and the two undefined body-plan subtypes.
+
+Citations: Boury-Esnault and Rutzler, Smithson Contrib Zool 596:1-55 (1997); Thacker et al., J Biomed Semantics 5:39 (2014).
