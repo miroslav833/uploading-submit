@@ -1,0 +1,12 @@
+Key: MNXM162802. The answer rests on published human biochemistry and one row of the MNXref file, and the attached notes show it in the output of both programs (the line that begins with Key in the output of the first, and the last line of the output of the second).
+
+The key by hand. An aminotransferase of kidney and liver mitochondria that uses pyruvate, degrades asymmetric dimethylarginine and, when inactive, raises urinary 3-aminoisobutyrate in healthy people is AGXT2. It is the only enzyme that degrades D-3-aminoisobutyrate, the product of thymine breakdown, and people without its activity excrete large amounts of that enantiomer (Yoshino et al. 2014). The thymine-derived form has the (R) configuration (Tamaki et al. 1985). In MNXref 4.5 the entry drawn as (R) at C2, InChIKey QCHPKSFMDHPSNR-GSVOUGTGSA-N, is MNXM162802, named (R)-3-amino-2-methylpropanoate.
+
+The most tempting wrong answers, worked the same way. The L form made from valine, (S), InChIKey QCHPKSFMDHPSNR-VKHMYHEASA-N, is MNXM732376; it is degraded by another aminotransferase. A second L entry, MNXM1092532, has the name L-3-Aminoisobutanoate and no structure. The entry 3-aminoisobutyric acid with C2 open is MNXM9987.
+
+Check (Python, standard library, run next to chem_prop.tsv of MNXref 4.5):
+for line in open("chem_prop.tsv", encoding="utf8"):
+    p = line.rstrip("\n").split("\t")
+    if len(p) > 7 and p[7] == "QCHPKSFMDHPSNR-GSVOUGTGSA-N": print(p[0], p[1])    # MNXM162802 (R)-3-amino-2-methylpropanoate
+
+Sources. Yoshino et al., Prog. Neuropsychopharmacol. Biol. Psychiatry 53, 137 (2014); Tamaki et al., FEBS Lett. 191, 113 (1985); Rodionov et al., Trends Pharmacol. Sci. 35, 575 (2014); Moretti et al., Nucleic Acids Res. 49, D570 (2021); MNXref 4.5, www.metanetx.org.
