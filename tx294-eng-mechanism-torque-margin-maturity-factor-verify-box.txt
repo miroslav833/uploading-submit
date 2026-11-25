@@ -1,0 +1,17 @@
+Key: dynamic torque margin = 0.306, dimensionless, three significant figures. Section 2 of the attached notes prints it on the line "torque margin = 1.60/1.2250 - 1 = +0.30612 -> 0.306", section 3 reaches the same number from the torque balance, and section 4 holds the governing clauses as they stand in the standard.
+
+Which margin, and why it matters: NASA-STD-5017B keeps the static and the dynamic margin apart on this very point. Section 4.3.2 says Ta and FSa are not used in the static torque margin calculation; section 4.3.3 says the dynamic margin uses for Ta the torque required to achieve the minimum acceleration. The panel here has a specified minimum acceleration and the question asks for the dynamic margin, so all four torques enter.
+
+What decides the number: the standard sets the minimum factors of Equation 4-1 by the source of each torque datum (Table 1, page 21). An acceptance test of flight hardware at ambient conditions sits in the middle band, FSv 2.50, alongside a qualification test; only an acceptance test across the expected environmental extremes earns FSv 2.00. This hinge's bearing friction was measured on the flight unit at room temperature and ambient pressure, so it carries 2.50.
+
+By hand: friction 2.50 x 0.220 = 0.5500; harness, from a model, 3.00 x 0.100 = 0.3000; return spring, fixed and acceptance tested across the extremes, 1.25 x 0.160 = 0.2000; acceleration, calculated, 1.25 x 0.140 = 0.1750. The factored demand is 1.2250 N m exactly, and 1.60/1.2250 - 1 = 0.30612.
+
+Most tempting wrong answer, 0.435: the flight-unit test read as earning the lowest band, FSv 2.00 on the friction, for a demand of 1.1150 N m. Treating an ambient test as no test gives 0.199; pairing 2.00 with FSa 1.10 gives 0.463; applying 2.50 to the harness too gives 0.362; computing the static margin instead, with the acceleration term dropped, gives 0.524.
+
+Stability: the four factored terms are exact and their sum of 1.2250 N m gives the same key however it is rounded. The one-spring-out row of unity factors is confined by its own footnote to redundant springs in parallel, which this single-spring hinge does not have.
+
+Check in seconds (Python 3, standard library):
+demand = 2.50*0.220 + 3.00*0.100 + 1.25*0.160 + 1.25*0.140
+print(1.60/demand - 1)
+
+Citation: NASA-STD-5017B (Revision B, 6 December 2022), section 4.3 with Equation 4-1 on page 19 and Table 1 on page 21, and sections 4.3.2 and 4.3.3 on pages 23 and 24; https://standards.nasa.gov/standard/nasa/nasa-std-5017
