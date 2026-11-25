@@ -1,0 +1,13 @@
+Key: 16 km/h, to the nearest integer. In the attached notes the first program prints it on the line "KEY: v = 16.015 km/h -> 16 km/h" after reproducing the paper's own two worked examples (3.7 m and 3.8 m), and the second program finds the same speed by a search on the full relation.
+
+Source of the relation: Kohler et al., Nat. Hazards Earth Syst. Sci. 26, 5167 (2026), Eqs. (7) to (10) and Table 3 on page 5175, width factor Eqs. (A4) and (A5) on pages 5179 and 5180:
+h_p = [H (1 + 0.53 M') + min(v^2/2g, 1.54^2 H/2) / exp(1.31 M')] f_p, with f_p = 1 for an obstacle narrower than the flow is deep. The abstract gives none of these constants.
+
+By hand: w/H = 0.71, so f_p = 1. Gravity part 2.80 x 1.318 = 3.690 m; exp(1.31 x 0.60) = 2.195. A fast flow would load 3.690 + 3.320/2.195 = 5.20 m, above the plating, and a flow at rest 3.690 m, below it, so the speed lies below the saturation Froude number. Room for the inertia part 4.15 - 3.690 = 0.460 m; velocity head 0.460 x 2.195 = 1.009 m (below 3.320 m); v = sqrt(2 x 9.81 x 1.009) = 4.45 m/s = 16.0 km/h, Froude number 0.85.
+
+Most tempting wrong answer, 19 km/h: the depth plus the bare velocity head set equal to the plating height, v = sqrt(2 x 9.81 x 1.35) = 5.15 m/s = 18.5 km/h, with neither the pile-up term nor the dissipation factor of the paper. The guideline run-up with a dissipation factor of 1.5 gives 23 km/h without the width factor and 30 km/h with it.
+
+Check in seconds (Python 3, standard library):
+import math; print(3.6 * math.sqrt(2*9.81 * (4.15 - 2.80*(1 + 0.53*0.60)) * math.exp(1.31*0.60)))
+
+Citation: Kohler et al., Nat. Hazards Earth Syst. Sci. 26, 5167-5184 (2026), doi:10.5194/nhess-26-5167-2026.
