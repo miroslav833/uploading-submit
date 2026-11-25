@@ -1,0 +1,14 @@
+Key: 150 kPa (148.5 kPa unrounded). It stands in the attached verification notes in the output of the first script, line "KEY sigma_p (Eq. 10) = 148.50 kPa -> 150 kPa", and in the output of the second script, line "sigma_p = 148.50 kPa at z_p = 3.12 m by Eq. (11)". The theory is Takahashi, Yanai and Tanaka, J. Chem. Eng. Japan 12(5), 376-382 (1979), open on J-STAGE (doi 10.1252/jcej.12.376).
+
+By hand. X_p = arcsin(sin 18/sin 33) = 34.57 deg. Eqs. (1), (2): theta_c2 = 90 - 18 = 72.0 deg, theta_c1 = (90 + 33 - 18 - 34.57)/2 = 35.2 deg; 70 deg lies between, type A. Eq. (6): sin^2 33 = 0.2966 <= sin 18 = 0.3090, type A-2. Table 2: 2 zeta_o = 180 - X_p + phi_w - 2 theta = 23.43 deg, 2 zeta_R = X_p + phi_w = 52.57 deg. eta = 45 - 16.5 = 28.5 deg. Eq. (15): f = (zeta_R - zeta_o)[rad] cos 2eta - sin 2eta ln|cos(zeta_o - eta)/cos(zeta_R - eta)| = 0.13848 + 0.03588 = 0.1744. Eq. (10): sigma_p = gamma (R - R_o)(1 + sin delta cos 2zeta_R)/(2 sin delta |f|) = 7.848 x 2.70 x 1.3310/(2 x 0.5446 x 0.1744) = 148.5 kPa, on the vertical wall: Eq. (11) gives z_p = 3.12 m, or 2.94 m above the outlet without the R_o cot theta term, either way above the 0.98 m hopper. The fill height only enters the applicability check H/D = 4.38 >= 2.
+
+Most tempting wrong answers: switch-pressure models built on Janssen stresses where a 45 - delta/2 flow channel reaches the wall, 189 kPa with continuous vertical stress, 231 kPa with a squared stress-discontinuity jump, 83 kPa with a single wall-stress jump, and 181 kPa for the full head at that level; none is the cited theory. Within it, R in place of R - R_o gives 176 kPa, g in place of f gives 136 kPa, and the type A-1 values of Table 2, excluded by Eq. (6), give over 1300 kPa. Using g for f and dropping 2 sin delta together lands on the key by accident here, because g/f = 1.0893 and 2 sin delta = 1.0893 for these angles.
+
+Check program (Python 3, standard library):
+from math import *
+p, w, t, R, Ro, gam = radians(33), radians(18), radians(70), 3.20, 0.50, 800*9.81/1000
+Xp = asin(sin(w)/sin(p)); zo = (pi - Xp + w - 2*t)/2; zR = (Xp + w)/2; e = pi/4 - p/2
+f = (zR - zo)*cos(2*e) - sin(2*e)*log(abs(cos(zo - e)/cos(zR - e)))
+print(sin(p)**2 <= sin(w), gam*(R - Ro)*(1 + sin(p)*cos(2*zR))/(2*sin(p)*abs(f)))   # True 148.50
+
+Source: Takahashi, Yanai and Tanaka, J. Chem. Eng. Japan 12(5), 376-382 (1979), Eqs. (1), (2), (6), (10), (11), (15), Table 2.
