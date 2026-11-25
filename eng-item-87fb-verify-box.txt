@@ -1,0 +1,14 @@
+Key: 26 kPa (26.12 kPa unrounded). It stands in the attached verification notes in the output of the first script, line "KEY p0 = 26.122 kPa", and of the second script, line "p0 = 26.12 kPa -> 26 kPa". DNV-RP-C201, October 2010, Sec. 8.2, Eq. (8.3), followed in the document by: "But not less than 0.02 (t + As/s)/l (sigma_x,Sd + C tau_Sd)".
+
+By hand. t + As/s = 14 + 3000/700 = 18.286 mm. First expression: 0.4 x 18.286/(1200 x (1 - 700/6000)) x (355/210000) x (6.00/2.80)^2 x 200 MPa = 10.71 kPa. Lower bound: 0.02 x 18.286/2800 x 200 MPa = 26.12 kPa, which governs.
+
+Most tempting wrong answer: the first expression alone, 10.7 kPa (11 kPa).
+
+Check program (Python 3, standard library):
+t, As, s, l, LG, hw, fy, E, sx = 14.0, 3000.0, 700.0, 2800.0, 6000.0, 1200.0, 355.0, 210000.0, 200.0
+tb = t + As/s
+main = 0.4*tb/(hw*(1 - s/LG))*(fy/E)*(LG/l)**2*sx
+low = 0.02*tb/l*sx
+print(main*1000, low*1000, max(main, low)*1000)   # 10.71 26.12 26.12 kPa
+
+Source: DNV-RP-C201 Buckling Strength of Plated Structures, Det Norske Veritas, October 2010, Sec. 8.2.
