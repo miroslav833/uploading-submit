@@ -1,0 +1,9 @@
+Key: DDB_G0267376. It stands in section 2 of the attached notes (line KEY). By hand: Dictyostelium has the adenylyl cyclase genes acaA, acgA and acrA. A mutant that grows, aggregates and forms normal slugs, then makes long thin stalks and almost no viable spores, with a transcript rising more than 25-fold and a protein with histidine kinase and response regulator domains, is the acrA mutant (Soderbom et al., Development 126, 5463, 1999); its activity ACB is insensitive to GTPgammaS and osmolarity (Meima and Schaap, Dev. Biol. 212, 182, 1999). UniProtKB Q55F68 (acrA) carries the dictyBase cross-reference DDB_G0267376 (rest.uniprot.org, read on 2026-11-25).
+
+Most tempting wrong answer: DDB_G0274569, the gene acgA (Q03101), the osmosensing cyclase of spores, chosen because of the spore defect. The gene acaA (Q03100) is DDB_G0281545; cells without it do not aggregate.
+
+Check on the rows printed at the end of the notes, saved as dicty_cyclase_rows.tsv (Python 3, standard library):
+rows = [l.rstrip('\n').split('\t') for l in open('dicty_cyclase_rows.tsv') if not l.startswith('#')]
+print([r[3] for r in rows if r[1] == 'acrA'])   # ['DDB_G0267376;']
+
+Citations: Soderbom et al., Development 126, 5463 (1999); Meima and Schaap, Dev. Biol. 212, 182 (1999).
