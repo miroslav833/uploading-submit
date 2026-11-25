@@ -1,0 +1,11 @@
+Key: 0.216 mm (0.2159 mm). It stands in the attached notes in the section 'Key by root scan' (line 'KEY Dp = 0.2159 mm') and in the section 'Independent route' (line '... Dp = 0.2159 mm ...'). Source: Ishikura, Tanaka and Shinohara, J. Chem. Eng. Japan 12(4), 332-333 (1979), https://doi.org/10.1252/jcej.12.332, open access. Eq. (1), p. 333: L = 1.2 Frm^-0.25 (L in m, Fig. 4), Frm = {(U - Ut)^2/(g Dp)}{rho_f/(rho_s - rho_f)}, for Frm 0.05-2.5, U - Ut 15-80 mm/s, Dp 0.104-0.240 mm. By hand: U = (19.42/60000)/(pi x 0.0800^2/4) = 3.2367e-4/5.0265e-3 = 0.06439 m/s. Frm = (1.2/1.535)^4 = 0.3735. (U - Ut)^2 = 0.3735 x 9.81 x 1.6748 x Dp = 6.1366 Dp. Ut from Cd = 24/Re (1 + 0.15 Re^0.687): 18 Re + 2.7 Re^1.687 = Ar = g Dp^3 rho_f (rho_s - rho_f)/mu^2. At Dp = 0.2159 mm: Ar = 164.2, Re = 6.021, Ut = 6.021 x 1.002e-3/(998.2 x 0.2159e-3) = 0.02799 m/s, U - Ut = 0.03640 m/s = sqrt(6.1366 x 0.2159e-3). Most tempting wrong answer: 0.184 mm, from Stokes' law for Ut (or from rho_s in place of rho_s - rho_f). Program (Python): from math import pi; U=19.42/6e4/(pi*.08**2/4); k=(1.2/1.535)**4*9.81*1671.8/998.2
+def ut(D):
+ Ar=9.81*D**3*998.2*1671.8/1.002e-3**2; R=Ar/18
+ for i in range(60): R-=(18*R+2.7*R**1.687-Ar)/(18+4.555*R**.687)
+ return R*1.002e-3/(998.2*D)
+a,b=1e-5,2e-3
+for i in range(80):
+ m=(a+b)/2
+ if U-ut(m)-(k*m)**.5>0: a=m
+ else: b=m
+print(a*1e3)   # 0.2159
