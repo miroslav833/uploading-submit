@@ -1,0 +1,18 @@
+Key: 6.7 kg/min (6.6776 kg/min, 400.66 kg/h). The notes print it in 'Key, wrong forms and half-last-digit table' (line 'KEY') and in 'Independent route' (RK4 on the gas temperature, secant on w0, 400.6581 kg/h).
+
+By hand: Q = 6.00/3600 x 2.425e6 = 4041.7 W; G0 CH = 84.750 W/K; T2 = 90.0 - 47.69 = 42.31 C; ha A L = 84.750 ln(58.0/10.31) = 146.39 W/K; A = 0.070686 m2, L = 0.400 m, ha = 5177.3 W m-3 K-1. Kato, Onozawa, Noguchi (1983), p. 180-181: Rep = rho (UG + Up) Dp/mu = 1.06 (1.112 + 0.400) 0.0008/2.0e-5 = 64.11; Nu = 2.38e-3 Rep^n (eps/(1-eps))^0.97, n = 2.48 (eps/(1-eps))^-0.28; a = 6(1-eps)/Dp. Root eps = 0.995626: n = 0.54252, Nu = 4.400, h = 157.8 W m-2 K-1, a = 32.80 1/m. w0 = 900 x 0.070686 x 0.400 x 0.0043736 = 0.11129 kg/s = 6.68 kg/min.
+
+Most tempting wrong answer, 5.2 kg/min: Ranz-Marshall Nu = 2 + 0.6 Re^0.5 Pr^(1/3) on the gas velocity alone (Re 47.1) gives Nu = 5.67; on the relative velocity (Re 64.1, Pr 0.704) Nu = 6.273, h = 225.1 W m-2 K-1, w0 = 0.0781 kg/s = 4.7 kg/min. At this Reynolds number the paper's fit lies below that value for every voidage under 0.9982.
+
+Check program (standard library):
+from math import pi,log
+A=pi*.09/4;G=300/3600;ha=G*1017*log(58/(90-6/3600*2425e3/(G*1017)-32))/(A*.4)
+Re=1.06*(1.112+.4)*.0008/2e-5
+def f(e):
+ r=e/(1-e);return 2.38e-3*Re**(2.48*r**-.28)*r**.97*.0287/.0008*6*(1-e)/.0008-ha
+lo,hi=.94,.9999
+for i in range(100):
+ m=(lo+hi)/2;lo,hi=(lo,m) if f(lo)*f(m)<=0 else (m,hi)
+print(900*A*.4*(1-m)*60)  # 6.678
+
+Citations: Kato, Onozawa, Noguchi, J. Chem. Eng. Japan 16 (1983) 178-182, Eqs. (1), (3)-(8); Ranz and Marshall, Chem. Eng. Prog. 48 (1952) 141.
