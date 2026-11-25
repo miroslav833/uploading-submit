@@ -1,0 +1,16 @@
+Key: B2/b.1'(a,b,0)00s. The listed form stands in the attached verification notes in the part "table_excerpts.txt", which quotes the entry "15.1.4.1.m86.2  B2/b.1'(a,b,0)00s" of the ISO(3+d)D list with its operators. That the arrangement has this group is shown by the first script (line "15.1.4.1.m86.2 B2/b.1'(a,b,0)00s: IDENTICAL", the neighbouring entry "no"), by the second script, which lists the same kept operators, and by the recorded output of FINDSSG at the end ("Magnetic superspace group: 15.1.4.1.m86.2 B2/b.1'(a,b,0)00s").
+
+By hand. q = (0, 0, g); every Ni moment is m0 u cos(2 pi x4), u in the a-c plane, 35 degrees from c. An operation is kept when it sends the axial vector u to +u (no phase shift) or to -u (shift 1/2). Identity and inversion keep u. The twofold axis along [120], normal to a and c, reverses u, and so does the plane normal to [120], which contains u. Every other operation of 6/mmm turns u to another direction. In P6_3/mmc the two are (-x+y, y, -z+1/2) and the glide (x-y, -y, z+1/2). So the point group is 2/m with the unique axis in the basal plane, the lattice in that setting is centred, the plane is a glide plane: type C2/c, grey, q normal to the unique axis. The list keeps the unique axis along c, where the centred lattice is B and q reads (a,b,0); after the change of wave vector q -> q + (reciprocal vector) the shifts of the axis and the plane vanish and time reversal keeps 1/2: B2/b.1'(a,b,0)00s.
+
+Most tempting wrong answer: C2/c.1'(a,0,g)00s (or C2/c.1'(0,0,g) with some string), the same group written with unique axis b, which the list does not have. Second: B2/m.1'(a,b,0)0ss, from treating the plane through a and c as a mirror; it is a glide plane in P6_3/mmc, and the mirror of that class is the one normal to a. Third: Cmcm.1'(0,0,g)000s, the group when the moments point along a alone.
+
+Check program (Python 3, standard library). It applies six operations to the moment direction as an axial vector, in Cartesian axes x along a, y along [120], z along c:
+import math
+t = math.radians(35); u = (math.sin(t), 0.0, math.cos(t))
+ops = {"inversion": ((-1,-1,-1), -1), "twofold along [120]": ((-1,1,-1), 1), "plane normal to [120]": ((1,-1,1), -1), "twofold along a": ((1,-1,-1), 1), "mirror normal to a": ((-1,1,1), -1), "mirror normal to c": ((1,1,-1), -1)}
+for n, (d, det) in ops.items():
+    v = tuple(det*d[i]*u[i] for i in range(3))
+    print(n, "keeps u" if v == u else "reverses u" if v == tuple(-c for c in u) else "lost")
+Output: inversion keeps u; twofold along [120] reverses u; plane normal to [120] reverses u; the other three are lost.
+
+Sources: Stokes and Campbell, Acta Cryst. A78, 364-370 (2022); Stokes, Campbell and van Smaalen, Acta Cryst. A67, 45-55 (2011); van Smaalen, Campbell and Stokes, Acta Cryst. A69, 75-90 (2013); Perez-Mato, Ribeiro, Petricek and Aroyo, J. Phys.: Condens. Matter 24, 163201 (2012); Achiwa, J. Phys. Soc. Jpn. 27, 561-574 (1969).
