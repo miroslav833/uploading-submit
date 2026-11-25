@@ -1,0 +1,9 @@
+Key: 14F1.3(e,y). The key is in the first section of the attached notes (output line KEY) and again in the second section (line code).
+By hand, from the pages for bone 14 of the 2018 compendium (J Orthop Trauma 32 Suppl 1, S101 to S104). The scapula is 14, with 14A process, 14B body and 14F glenoid fossa. The fossa types are 14F0 through the neck, 14F1 simple and 14F2 multifragmentary. One line and two pieces give 14F1. The groups of 14F1 are 14F1.1 anterior rim, 14F1.2 posterior rim and 14F1.3 transverse or short oblique. A line from the anterior rim to the posterior rim is transverse, so the group is 14F1.3. That group takes i infraequatorial, e equatorial or p supraequatorial, and the line runs along the equator, so e. The first scapula page prints the process qualifications x coracoid, y acromion, z both, and says they may be added to any fracture coded as type B or type F. The acromion is broken, so y. Both letters go in one bracket.
+Wrong answers that tempt most. Blind attempts gave 14F1(c,e), the type without its group and with letters counted down an assumed list, and 14C1 with the findings in words. Two codes, 14F1.3(e) and 14A2, do not answer the question, which asks for one code.
+Check in seconds (Python, standard library):
+pattern, level, process = 'transverse', 'at', 'acromion'
+g = {'anterior rim': '1', 'posterior rim': '2', 'transverse': '3'}[pattern]
+q = {'below': 'i', 'at': 'e', 'above': 'p'}[level] + ',' + {'coracoid': 'x', 'acromion': 'y'}[process]
+print('14F1.' + g + '(' + q + ')')   # 14F1.3(e,y)
+Citations. Meinberg et al., J Orthop Trauma 32 Suppl 1, S1 and S101 (2018). Jaeger et al., J Shoulder Elbow Surg 22, 512 (2013).
