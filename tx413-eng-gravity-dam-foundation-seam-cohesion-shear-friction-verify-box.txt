@@ -1,0 +1,12 @@
+Key: 434 kPa, three significant figures. In the attached notes the first program prints "KEY (plane of weakness in the foundation, usual combination, Q = 4.0): c = 434.0 kPa -> 434 kPa", and the second finds 434.0 kPa by integrating the uplift numerically and bisecting on Q = 4.0.
+
+Source of the one detail the question does not quote: Design of Small Dams (USBR, 3rd ed. 1987), section 8.10, page 320: "Current Bureau of Reclamation practice locates the line of drains at a distance from the upstream face equal to 5 percent of the maximum reservoir depth at the dam or at the same distance from the upstream face as the drains formed within contraction joints." The question puts the foundation drains on that line and says the contraction joints carry no drains; the dam has no gallery.
+
+By hand: drain line 0.05 x 24.00 = 1.20 m. Heads on the plane: 26.00 m at the heel, 26.00/3 = 8.667 m at the drains, 0 at the toe. U = 9.81 x [1.20 x 34.667/2 + 17.80 x 8.667/2] = 960.7 kN/m. Normal force 5990 + 950 - 960.7 = 5979.3 kN/m; friction 0.839 x 5979.3 = 5016.6. Water force 0.5 x 9.81 x 26^2 = 3315.8. c = (4.0 x 3315.8 - 5016.6)/19.00 = 434.0 kPa.
+
+Most tempting wrong answers: 427 kPa with the drain line at the heel (U = 807.7 kN/m), and 436 kPa with a 5 ft minimum distance (1.52 m), which this handbook does not give. Others: 5 per cent of the base width, 433 kPa; 5 per cent of the depth plus 5 ft, 443 kPa; no drains, 499 kPa; Q = 3.0, 260 kPa.
+
+Check in seconds (Python 3, standard library):
+U=9.81*(1.2*(26+26/3)/2+17.8*(26/3)/2); print((4*0.5*9.81*26**2-(6940-U)*0.839)/19)
+
+Citation: USBR, Design of Small Dams, 3rd ed. (1987), sections 8.10 and 8.19.
