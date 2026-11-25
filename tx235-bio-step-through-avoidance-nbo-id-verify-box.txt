@@ -1,0 +1,16 @@
+Key: NBO:0000218 (passive avoidance learning behavior). In the attached notes it is printed under "3. Key" of the first script; the second script shows the same live record in EBI's Ontology Lookup Service and a scan of the whole release file.
+
+Worked by hand: the mouse is shocked once after entering the dark half and on retest avoids the shock by not entering, so the latency measures one-trial step-through, or passive (inhibitory), avoidance (Jarvik and Kopp 1967). The NBO has three kinds of avoidance learning under NBO:0000210: active (NBO:0000217, the action occurs), passive (NBO:0000218, no action occurs) and escape learning (NBO:0000219). The passive form fits, with no narrower term below it.
+
+Most tempting wrong answer: NBO:0000217, active avoidance learning behavior. A two-compartment box recalls the shuttle box, but here the shock follows a response the mouse makes, and the learned behaviour is withholding it.
+
+Check (Python standard library):
+import urllib.request, re
+url = "http://purl.obolibrary.org/obo/nbo/releases/2023-07-04/nbo.obo"
+for b in urllib.request.urlopen(url).read().decode().split("\n[Term]\n"):
+    if re.search(r"^is_a: NBO:0000210 ", b, re.M):
+        d = re.search(r'^def: "(.*?)"', b, re.M)
+        print(b.split("\n")[0], "|", b.split("\n")[1], "|", d.group(1) if d else "(no definition)")
+It prints the active, passive and escape learning terms with their definitions.
+
+Citations: Jarvik and Kopp, Psychol Rep 21:221-224 (1967); Gkoutos et al., Int Rev Neurobiol 103:69-87 (2012).
