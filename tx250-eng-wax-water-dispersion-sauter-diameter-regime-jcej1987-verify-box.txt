@@ -1,0 +1,16 @@
+Key: 88 um. It stands in the attached verification notes in the output of the first script, line "KEY 88.04 um -> 88 um", and in the output of the second script, line "Eq. (28): d32 = 88.23 um". Eq. (10) and Table 1 are on page 83, Eqs. (23), (24) and (27) to (30) on page 86 of Nishikawa, Mori and Fujieda, J. Chem. Eng. Japan 20, 82-88 (1987), open on J-STAGE (doi 10.1252/jcej.20.82).
+
+By hand, cgs units. n = 360 rpm = 6.00 1/s, d = 12.50 cm, d/D = 0.500. Eq. (10): eps = (4 Np/pi) n^3 d^2 (d/D)^3 = 6.366 x 216 x 156.25 x 0.125 = 2.686e4 cm2/s3. sigma/rho = 17.9/0.972 = 18.42. Eq. (29): eps_cr = (98.7 x 18.42)^1.5 x 0.125 x {(1 + 2.5 x 0.120^(2/3))/(1 + 3.5 x 0.120^0.75)}^(20/3) = 6.34e3 cm2/s3, so the vessel is in the coalescence region (4.2 times eps_cr). Eq. (24) with the viscosity-ratio terms equal to one: d32 = 0.0371 x eps^-0.25 x 0.5^0.75 x (1 + 3.5 x 0.120^0.75) x 18.42^0.375 = 0.0371 x 0.07799 x 0.5946 x 1.7290 x 2.981 = 8.80e-3 cm = 88 um. Eq. (28) with We' = n^2 d^3 rho/sigma = 3818 gives 88.2 um.
+
+Most tempting wrong answer: 71 um, the breakup correlation Eq. (23), 0.105 eps^-0.4 (d/D)^1.2 (1 + 2.5 phi^(2/3)) (sigma/rho)^0.6, which holds only below eps_cr. Generic Weber-number correlations give about 47 um (Chen-Middleman type), 65 um (Calabrese type) or 85 um (Mlynek-Resnick type). The viscosity terms equal one because the paper normalises them to its own wax-water system: Eq. (23) with factors of one reproduces the measured d32 of Fig. 4.
+
+Check program (Python 3, standard library):
+import math
+s, r, Np, D, d, phi, n = 17.9, 0.972, 5.00, 25.00, 12.50, 0.120, 6.00
+e = 4*Np/math.pi*n**3*d**2*(d/D)**3
+ecr = (98.7*s/r)**1.5*(d/D)**3*((1 + 2.5*phi**(2/3))/(1 + 3.5*phi**0.75))**(20/3)
+co = 0.0371*e**-0.25*(d/D)**0.75*(1 + 3.5*phi**0.75)*(s/r)**0.375
+br = 0.105*e**-0.4*(d/D)**1.2*(1 + 2.5*phi**(2/3))*(s/r)**0.6
+print(e, ecr, (co if e > ecr else br)*1e4)   # 26857, 6345, 88.0 um
+
+Source: Nishikawa, Mori and Fujieda, J. Chem. Eng. Japan 20(1), 82-88 (1987), Eqs. (10), (23), (24), (27) to (30).
