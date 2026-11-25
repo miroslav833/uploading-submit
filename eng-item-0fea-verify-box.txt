@@ -1,0 +1,13 @@
+Key: 0.17 m (0.1705 m unrounded). It stands in the attached verification notes in the output of the first script, line "KEY gap = 0.1705 m", and in the output of the second script, line "gap = 0.1705 m -> 0.17 m". The laws are Eqs. (1) and (2) on page 504 of Akiyama, Mitsumori, Terada and Koide, J. Chem. Eng. Japan 16(6), 502-507 (1983), open on J-STAGE (doi 10.1252/jcej.16.502).
+
+By hand. Thin film, Eq. (1): x_1 = 2.5e-3 (sigma/mu_w) t = 2.5e-3 x (0.0195/1.00e-3) x 6.00 = 0.2925 m; dimensionless time t rho_w sigma^2/mu_w^3 = 2.28e9, inside 3e6 to 3e9. Thick slick, Eq. (2): x_2 = 0.350 (g q/w)^(1/3) t = 0.350 x (9.81 x 4.00e-6/0.200)^(1/3) x 6.00 = 0.350 x 0.05811 x 6.00 = 0.1220 m. Gap 0.1705 m. Check of Eq. (2) against the paper: q 3.52e-6, w 0.15 gives 0.02145 m/s, within 1 per cent of the reported 2.167e-2 m/s.
+
+Most tempting wrong answers: the classical one-dimensional surface tension-viscous law puts the film front at 0.71 m and the gap near 0.59 m; a slick at the capillary thickness gives 0.21 m with Eq. (1); q in place of q/w in Eq. (2) gives 0.22 m.
+
+Check program (Python 3, standard library):
+sig, mu, rho, g, q, w, t = 0.0195, 1.00e-3, 998.0, 9.81, 4.00e-6, 0.200, 6.00
+x1 = 2.5e-3*sig/mu*t
+x2 = 0.350*(g*q/w)**(1/3)*t
+print(t*rho*sig**2/mu**3, x1, x2, x1 - x2)   # 2.28e9 0.2925 0.1220 0.1705
+
+Source: Akiyama, Mitsumori, Terada and Koide, J. Chem. Eng. Japan 16(6), 502-507 (1983), Eqs. (1) and (2), Figs. 4 and 5.
