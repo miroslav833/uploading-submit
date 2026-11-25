@@ -1,0 +1,11 @@
+Key: 63 mm/h (63.02 mm/h, rainfall ratio 2.2508). The notes print it in 'Key, wrong forms and half-last-digit table' (line 'KEY') and in 'Independent route' (forward model with bisection, 63.022 mm/h).
+
+By hand: Gorr et al. (2026), Eq. (2), p. 2120: ln V = 7.56 + 0.20 i30rr + 0.75 ln a + 1.11 sqrt(mh50); V m3, a km2, mh50 = km2 burned at moderate or high severity with slopes >= 50 %, i30rr = peak 30 min intensity / 30 min intensity of the 1 year storm. a = 2.600 km2 (table total), mh50 = 0.368 + 0.312 = 0.680 km2. ln 15400 = 9.6421; 0.20 i30rr = 9.6421 - 7.56 - 0.7166 - 0.9153 = 0.4502; i30rr = 2.2508; i30 = 2.2508 x 28.0 = 63.02 mm/h.
+
+Most tempting wrong answers: 27 mm/h if the moderate/high area on gradients of 40 % and more (1.110 km2) is used for mh50; 50 mm/h with all burned ground steeper than 50 % (0.821 km2). A solver without the paper tends to reach for Gartner et al. (2014), which needs the 15 min intensity and the relief and gives no answer here.
+
+Check program (standard library):
+from math import log,sqrt
+print(28*(log(15400)-7.56-.75*log(2.6)-1.11*sqrt(.68))/.2)  # 63.02
+
+Citations: Gorr, Rengers, Barnhart, Thomas, Kean, Nat. Hazards Earth Syst. Sci. 26 (2026) 2111-2132, Eq. (2), Table 9; Gartner, Cannon, Santi, Eng. Geol. 176 (2014) 45-56.
