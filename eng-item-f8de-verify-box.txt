@@ -1,0 +1,22 @@
+Key: 0.11 m/s (0.1104 m/s before rounding). In the attached notes the key is the line "KEY U_G" of the first section; the 2 x 2 solve of the second section returns 0.11040 m/s from three starting points.
+
+Source: Koide, Takazawa, Komura, Matsunaga, J. Chem. Eng. Japan 17, 459-466 (1984), free on J-STAGE. Eq. (4) and the sentence giving A = 0.364 for aqueous inorganic electrolytes (0.277 for water) are on p. 463; the rule that Eq. (4) serves columns with D_T delta >= 2e-4 m2, and Eq. (10), are on p. 464.
+
+By hand: D_T delta = 3.0e-4 m2, so Eq. (4). Groups: g mu^4/(rho sigma^3) = 2.928e-11, Sc = 486.8, D^2 g rho/sigma = 5628, Vt/sqrt(gD) = 7.139e-3, cs/rhos = 0.0513, (rhos - rho)/rho = 7.376. Eq. (4) solids term 2.7434 Re^-0.168, Eq. (10) solids term 3.5150 Re^-0.345, k_La = 0.6382 eps^1.18 / (1 + 3.5150 Re^-0.345), Re = D U rho/mu. At U = 0.1104 m/s: Re = 22016, Eq. (4) right side 0.2928, eps = 0.1517, Eq. (10) denominator 1.1116, k_La = 0.0620 1/s.
+
+Most tempting wrong answer: 0.14 m/s, from the water constant 0.277 for the sulfate solution (0.144). Solids terms dropped: 0.072 (Eq. 4 only), 0.095 (Eq. 10 only), 0.060 (both).
+
+Check program (Python standard library):
+import math
+g,D,r,m,s,DL,cs,ps,Vt=9.81,0.2,1047,1.05e-3,0.073,2.06e-9,450,8770,0.01
+Mo=g*m**4/r/s**3
+def kla(U):
+    Re=D*U*r/m; R=0.364*(U*m/s)**0.918*Mo**-0.252/(1+4.35*(cs/ps)**0.748*((ps-r)/r)**0.881*Re**-0.168)
+    lo,hi=0,0.7
+    for _ in range(80):
+        e=(lo+hi)/2; lo,hi=(e,hi) if e/(1-e)**4<R else (lo,e)
+    return r*DL*g/s*2.11*(m/r/DL)**0.5*Mo**-0.159*e**1.18/(1+1.47e4*(cs/ps)**0.612*(Vt/math.sqrt(g*D))**0.486*(D*D*g*r/s)**-0.477*Re**-0.345)
+lo,hi=0.01,0.5
+for _ in range(80):
+    u=(lo+hi)/2; lo,hi=(u,hi) if kla(u)<0.062 else (lo,u)
+print(round(u,4))   # 0.1104
