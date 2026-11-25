@@ -1,0 +1,17 @@
+Key: 42 kg of spheres per m^3 of slurry (41.94 before rounding). In the attached notes the key is the line "KEY C*" of the section "Key, competing readings and half-last-digit table"; the section "Independent route" integrates the balance numerically and returns 41.9442 from three starting points.
+
+Source: Kato, Nishiwaki, Fukuda, Tanaka, J. Chem. Eng. Japan 5, 112-118 (1972), free on J-STAGE. Eq. (2) is on p. 113; Eqs. (9), (12) and (13) on p. 117; u_l = (superficial slurry velocity)/(1 - eps_g) in the Nomenclature, p. 118.
+
+By hand: u_l = 0.0150/0.80 = 0.01875 m/s. Fr = 0.1/sqrt(9.81 x 0.2) = 0.071392, Re_p = 177e-6 x 0.0192/1.004e-6 = 3.3849, Pe_p = 13 Fr (1 + 0.009 Re_p Fr^-0.8)/(1 + 8 Fr^0.85) = 0.62842, E_p = 0.031826 m2/s. X1 = 1 + 0.5 (5.208)^-0.4 = 1.2584. With the converged mean 167.8 kg/m3: phi_l = 0.93339, v_p = 1.33 x 0.0192 x 1.5107 x 0.8417 = 0.032471 m/s, PpB = 3.0608, PlB = 1.7674, b = 1.2934, a = 1.3666, X0 = (X1 + a) e^b - a = 8.2014, C* = 344/8.2014 = 41.94; Xbar = (X1 + a)(e^b - 1)/b - a = 4.0016 returns the mean 167.8.
+
+Most tempting wrong answer: 47 kg/m3 (46.9), from setting the top concentration equal to the effluent (X1 = 1) instead of Eq. (13). Superficial in place of actual slurry velocity: 32.4. Older model (liquid dispersion, v_p = v_t): 136.
+
+Check program (Python standard library):
+import math
+g,D,L,ug,us,eg,dp,rp,vt,nu,C0=9.81,0.2,3.0,0.1,0.015,0.2,177e-6,2520,0.0192,1.004e-6,344
+Fr=ug/math.sqrt(g*D); Re=dp*vt/nu; Ep=ug*D*(1+8*Fr**0.85)/(13*Fr*(1+0.009*Re*Fr**-0.8))
+u=us/(1-eg); X1=1+0.5*(ug/vt)**-0.4; Cb=150
+for _ in range(200):
+    vp=1.33*vt*(ug/vt)**0.25*(1-Cb/rp)**2.5; b=(vp-u)*L/Ep; a=u*L/Ep/b
+    Cs=C0/((X1+a)*math.exp(b)-a); Cb=0.5*Cb+0.5*Cs*((X1+a)*(math.exp(b)-1)/b-a)
+print(round(Cs,2))   # 41.94
