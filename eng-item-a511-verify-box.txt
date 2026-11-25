@@ -1,0 +1,14 @@
+Key: 28 kg/m3 (28.18 before rounding). In the attached notes the key is the line "KEY" of the section "Key, competing readings and half-last-digit table"; the Runge-Kutta integration of the section "Independent route" returns the same 143.30 and 28.18.
+
+Source: Kojima and Asano, J. Chem. Eng. Japan 15, 321-323 (1982), free on J-STAGE. Eq. (2) and the definitions phi = v_L L/E, psi = E/[L{(1 - eps_G) v_T - v_L}] (Eqs. 6, 7) are on p. 321; c* = rho_PB rho_P/(rho_P - rho_PB) (Eq. 8) and the condition (Eqs. 9 to 12) on p. 322.
+
+By hand: phi = 0.0025 x 2/0.0039 = 1.2821; (1 - 0.12) x 0.012 - 0.0025 = 0.00806; psi = 0.0039/(2 x 0.00806) = 0.2419; phi psi = 0.3102; exponent 1/(0.88 x 0.2419) = 4.6970; C0 = 1.3102 e^4.6970 - 0.3102 = 143.30. c* = 1600 x 2650/1050 = 4038.1 kg/m3. c_F,max = 4038.1/143.30 = 28.18 kg/m3.
+
+Most tempting wrong answer: 11 kg/m3, from taking the stationary layer at the bulk density 1600 kg/m3 instead of the paper's Eq. (8) (11.2). Gas holdup left out of psi and the exponent: 24.5 (25).
+
+Check program (Python standard library):
+import math
+L,eps,vT,vL,E,rp,rpb=2.0,0.12,0.012,0.0025,0.0039,2650,1600
+phi=vL*L/E; psi=E/(L*((1-eps)*vT-vL))
+C0=(1+phi*psi)*math.exp(1/((1-eps)*psi))-phi*psi
+print(round(rpb*rp/(rp-rpb)/C0,2))   # 28.18
