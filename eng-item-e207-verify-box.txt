@@ -1,0 +1,19 @@
+Key: 25.2 m (25.198 m unrounded). It stands in the attached verification notes in the output of the first script, line "KEY L = 25.198 m", and of the second script, line "longest span = 25.198 m -> 25.2 m". DNV-RP-F105, February 2006, Sec. 2.3.3 (page 15) defines the ratio in the in-line screening criterion as "Current flow ratio = Uc,100year/(Uw,1year + Uc,100year). Minimum value of 0.6." Other clauses: Tables 2-1 and 2-2, Sec. 2.3.6 with its guidance note, 4.1.8, 4.3.5, 6.7.2, 6.7.9, 6.9.
+
+By hand. D = 0.3319 m, m = 136.54 kg/m, e/D = 0.904 so Ca = 1, m_e = 225.22 kg/m, EI = 3.7865e7 N m2. K_S = 4 pi m_e zeta/(rho D^2) = 0.6267, K_sd = 0.6267/1.15 = 0.5449, VR,onset = (0.6 + 0.5449)/1.1 = 1.0408. Computed ratio 0.300/1.000 = 0.300, raised to the minimum 0.6. Required f = 1.4 x 0.300/(1.0408 x 0.3319 x 0.6) x (1 - L/(250 D)) = 2.026 (1 - L/82.98). f1 = 3.56 sqrt(EI/m_e)/Leff^2 = 1459.7/Leff^2, Leff/L = 4.73/(-0.066 b^2 + 1.02 b + 0.63), b = log10(K_L L^4/EI). At L = 25.2 m both sides are 1.411 Hz. Within L/D < 140 (L < 46.5 m), the range of the approximate expressions in Sec. 6.7.1, this is the only sign change of the margin.
+
+Most tempting wrong answer: the ratio 0.300 without the minimum doubles the requirement and gives 13.7 m.
+
+Check program (Python 3, standard library):
+import math
+EI = 207e9*math.pi/64*(0.3239**4 - 0.2921**4); D = 0.3319
+me = 136.543 + 1.0*1025*math.pi/4*D**2
+VR = (0.6 + 4*math.pi*me*0.0250/(1025*D*D)/1.15)/1.1
+def g(L):
+    b = math.log10(1.20e6*L**4/EI); Le = L*4.73/(-0.066*b*b + 1.02*b + 0.63)
+    return 3.56*math.sqrt(EI/me)/Le**2 - 1.4*0.300/(VR*D*0.6)*(1 - L/(250*D))
+lo, hi = 10.0, 40.0
+for _ in range(60): lo, hi = ((lo + hi)/2, hi) if g((lo + hi)/2) > 0 else (lo, (lo + hi)/2)
+print(lo)   # 25.20
+
+Source: DNV-RP-F105 Free Spanning Pipelines, Det Norske Veritas, February 2006.
