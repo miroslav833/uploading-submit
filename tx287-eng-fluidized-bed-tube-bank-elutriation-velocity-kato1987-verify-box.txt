@@ -1,0 +1,20 @@
+Key: 0.62 per cent (0.62239 per cent, mass fraction 0.0062239). The notes print it in 'Key, wrong forms and half-last-digit table' (line 'KEY mass fraction') and again in 'Independent route' (time integration of the class inventories to steady state).
+
+By hand: A = 0.0900 - 16 pi 0.0337^2/4 = 0.075728 m^2, Ua = 0.045278/0.075728 = 0.59790 m/s, De = 4A/(1.2 + 16 pi 0.0337) = 0.10467 m (Kato et al. 1987, Eq. 1). Classes with Ut below Ua: 58.0 to 115.0 um. Bed Dp32 = 187.5 um, 100 Dp32 = 0.0188 m/s < Umf = 0.0320, so Eq. (8), p. 501: Ki/(rho_g(Ua-Uti)) = 2.65e-6 Fr^a Rep^1.6 De^-0.52 Umf^-0.65 ((rs-rg)/rg)^0.61, Fr = (Ua-Uti)^2/(g Dp), Rep = rg Uti Dp/mu, a = Rep^-0.4. Class 1: Rep 0.9844, Fr 205.44, Ki = 0.7391 kg/m2s, 3600 A Ki = 201.51 kg/h; classes 2-5: 94.34, 44.26, 15.94, 1.326 kg/h. Balance sum of 17.0 xF,i/(3600 A Ki + D) = 1 gives D = 15.222 kg/h; X1 = 0.340/216.73 = 0.001569, X2 = 0.510/109.56 = 0.004655, sum 0.6224 per cent.
+
+Most tempting wrong answer, 0.42 per cent (0.41 with the Reynolds number on U - Ut): the same balance with the Tanaka et al. (1972) constant 0.046 Fr^0.5 Re^0.3 ((rs-rg)/rg)^0.15, which knows nothing of the tubes. Geldart et al. (1979) gives 0.24 per cent; the group-A Eq. (7) gives 0.26.
+
+Check program (standard library):
+from math import pi
+A=.09-16*pi*.0337**2/4;De=4*A/(1.2+16*pi*.0337);U=163/3600/A
+d=[58,68.5,81,96.5,115,137,163,213.5,273.5,358.5];t=[.256,.31,.375,.458,.559,.683,.832,1.132,1.502,2.044]
+x=[.02,.03,.04,.05,.06,.1,.15,.25,.2,.1]
+def K(D,u):
+ D*=1e-6;R=1.2*u*D/1.81e-5;F=(U-u)**2/(9.81*D)
+ return 0 if u>=U else 3600*A*1.2*(U-u)*2.65e-6*F**R**-.4*R**1.6*De**-.52*.032**-.65*(2598.8/1.2)**.61
+k=[K(a,b) for a,b in zip(d,t)];lo,hi=1e-9,17
+for i in range(200):
+ m=(lo+hi)/2;s=sum(17*xi/(ki+m) for xi,ki in zip(x,k));lo,hi=(m,hi) if s>1 else (lo,m)
+print(100*(17*x[0]/(k[0]+m)+17*x[1]/(k[1]+m)))  # 0.6224
+
+Citations: Kato, Kanbara, Tajima, Shibasaki, Ozawa, Takarada, J. Chem. Eng. Japan 20 (1987) 498-504, Eqs. (1), (5), (7), (8), Table 1; Tanaka et al., J. Chem. Eng. Japan 5 (1972) 51-57; Geldart et al., Trans. IChemE 57 (1979) 269; Colakyan and Levenspiel, Powder Technol. 38 (1984) 223-232.
