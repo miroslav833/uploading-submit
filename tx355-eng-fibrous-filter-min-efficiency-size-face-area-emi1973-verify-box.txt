@@ -1,0 +1,12 @@
+Key: 2.41 m^2 of face area, three significant figures. Section 2 of the attached notes prints it on the line "KEY: A = 2.4072 m2 -> 2.41 m2", and section 3 finds the same area by a search that inverts neither branch.
+
+Source of the relation: Emi, Okuyama and Yoshioka, J. Chem. Eng. Japan 6, 349 (1973), Eq. 12 on page 351, for fibre diameters of 20 to 100 um: (dp)min [um] = 0.77 v0^0.13 for v0 [cm/s] < 20, and (dp)min [um] = 3.86 v0^-0.42 for v0 [cm/s] >= 20. The abstract gives none of these constants.
+
+By hand: setting (dp)min = 1.00 um, the first branch gives v0 = (1/0.77)^(1/0.13) = 7.467 cm/s and the second gives v0 = 3.86^(1/0.42) = 24.93 cm/s; each lies in the range of its own branch. With Q = 0.600 m3/s the areas are 0.600/0.07467 = 8.04 m2 and 0.600/0.24925 = 2.407 m2. The housing takes at most 5.00 m2, so the answer is 2.41 m2.
+
+Most tempting wrong answer, 8.04 m^2: the first root accepted without the check against the housing.
+
+Check in seconds (Python 3, standard library):
+print(0.600 / ((3.86/1.00) ** (1/0.42) / 100), 0.600 / ((1.00/0.77) ** (1/0.13) / 100))
+
+Citation: Emi, Okuyama and Yoshioka, J. Chem. Eng. Japan 6(4), 349-354 (1973), doi:10.1252/jcej.6.349.
