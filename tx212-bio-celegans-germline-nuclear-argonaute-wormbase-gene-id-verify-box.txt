@@ -1,0 +1,9 @@
+Key: WBGene00007624. It stands in section 2 of the attached notes (line KEY). By hand: an Argonaute of germ-cell nuclei that binds RdRP-made secondary small RNAs, is needed for H3K9me3 at the target and for passing RNAi to the progeny, and whose loss gives progressive sterility at 25 degrees is HRDE-1 (Buckley et al., Nature 489, 447, 2012). The nuclear Argonaute of the soma is NRDE-3 (Guang et al., Science 321, 537, 2008), which the normal somatic nuclear RNAi excludes. hrde-1 is C16C10.3 on chromosome III, NCBI Gene 175535. Ensembl (rest.ensembl.org/lookup/symbol/caenorhabditis_elegans/hrde-1) and mygene.info both give the WormBase identifier WBGene00007624, and the Alliance of Genome Resources record WB:WBGene00007624, supplied by WormBase, has the symbol hrde-1 (all read on 2026-11-25). The next number, WBGene00007625, is the gene C16C10.4. The gene page is wormbase.org/species/c_elegans/gene/WBGene00007624.
+
+Most tempting wrong answer: WBGene00019862, the gene nrde-3 (R04A9.2, chromosome X), from taking the nuclear Argonaute of somatic cells.
+
+Check on the rows printed at the end of the notes, saved as wormbase_gene_rows.tsv (Python 3, standard library):
+rows = [l.split('\t') for l in open('wormbase_gene_rows.tsv') if not l.startswith('#')]
+print([r[1] for r in rows if r[0] == 'hrde-1'])   # ['WBGene00007624']
+
+Citations: Buckley et al., Nature 489, 447 (2012); Guang et al., Science 321, 537 (2008).
