@@ -1,0 +1,9 @@
+Key: 61C2.2(b,k). The key is in the attached notes in the output of the first script (line KEY) and again in the output of the second script (line code).
+By hand, from the section Pelvic ring of the 2018 compendium (J Orthop Trauma 32 Suppl 1, S71 to S76, group 61C2 on S75). The type follows the posterior arch: 61A intact, 61B incomplete disruption, 61C complete disruption. Right side: both sacroiliac ligament groups torn and 14 mm of upward shift, a complete disruption, so 61C. Left side: impaction of the sacral ala with the posterior ligaments intact, an incomplete disruption. Group 61C2 is the one with a complete disruption on one side and an incomplete one on the other. Its subgroups follow the complete side: 61C2.1 ilium, 61C2.2 sacroiliac joint, 61C2.3 sacrum. The right disruption runs through the joint, so 61C2.2. Qualifications of 61C2: b bilateral pubic rami fracture, d symphysis disruption, k contralateral posterior lateral compression lesion of the sacrum. Rami broken on both sides give b, the 4 mm symphysis is not disrupted, and the left sacral lesion gives k.
+Wrong answers that tempt most. 61C1.2(b) reads the injury as one-sided. 61C2.3(b,k) takes the subgroup from the left sacral fracture. 61C2.2(e,j) has the right subgroup and letters that the page does not give for these findings.
+Check in seconds (Python, standard library):
+complete_site, other_side, rami, symphysis_open = 'sacroiliac joint', 'compression sacrum', 'bilateral', False
+sub = {'ilium': '1', 'sacroiliac joint': '2', 'sacrum': '3'}[complete_site]
+q = [{'bilateral': 'b', 'one side': 'a'}[rami]] + ['d'] * symphysis_open + [{'compression sacrum': 'k', 'compression ilium': 'l'}[other_side]]
+print('61C2.' + sub + '(' + ','.join(q) + ')')   # 61C2.2(b,k)
+Citations. Meinberg et al., J Orthop Trauma 32 Suppl 1, S1 and S71 (2018). Tile, J Bone Joint Surg Br 70-B, 1 (1988). Young et al., Radiology 160, 445 (1986).
