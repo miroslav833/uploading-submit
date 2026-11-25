@@ -1,0 +1,8 @@
+Key: 40A(d,g,h). The key is in the first section of the attached notes (output line KEY) and again in the second section (line code).
+By hand, from the section Dislocations of the 2018 compendium (J Orthop Trauma 32 Suppl 1, S107, knee on S110). The first digit is the distal bone of the joint, tibia 4, and the second is 0. The knee has three joints, 40A tibiofemoral, 40B patellofemoral and 40C proximal tibiofibular. 40A takes the qualifications a KDI, b KDII, c KDIIIM, d KDIIIL, e KDIV, f KDV, g associated arterial injury, h associated nerve injury. ACL and PCL torn, lateral collateral torn and medial collateral intact is KDIIIL, so d. The popliteal artery is closed, so g. The peroneal nerve is out, so h. The direction bracket is left off as the question says.
+Wrong answers that tempt most. KD-IIIL(C)(N) is the Schenck label and not the compendium code. 40-D(KD IIIL, C, N) has the region number and no printed letter. 40A(c,g,h) exchanges the medial and the lateral side.
+Check in seconds (Python, standard library):
+acl, pcl, mcl, lcl, artery, nerve = True, True, False, True, True, True
+k = ('e' if mcl and lcl else 'c' if mcl else 'd' if lcl else 'b') if acl and pcl else 'a'
+print('40A(' + ','.join([k] + ['g'] * artery + ['h'] * nerve) + ')')   # 40A(d,g,h)
+Citations. Meinberg et al., J Orthop Trauma 32 Suppl 1, S1 and S107 (2018). Wascher, Clin Sports Med 19, 457 (2000). Wascher et al., J Orthop Trauma 11, 525 (1997).
