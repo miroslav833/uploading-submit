@@ -1,0 +1,16 @@
+Key: 39 cm3/s. It stands in the attached verification notes in the output of the first script, line "KEY 39.03 cm3/s -> 39 cm3/s", and in the output of the second script, line "G = 3.9035e-05 m3/s = 39.03 cm3/s". Eqs. (1) to (3) are on page 430 and Eqs. (6) and (7) on page 431 of Kumagai and Endoh, J. Chem. Eng. Japan 15(6), 427-433 (1982), open on J-STAGE (doi 10.1252/jcej.15.427).
+
+By hand, SI units. Re = V D/nu = 3.70 x 3.02e-3/3.17e-6 = 3525. Eq. (1): Re1* = 31.1 D^0.632 Lj^-0.091 (sin a)^-0.137 nu^-0.628 = 2838. Eq. (2): Re2* = 321 D^0.832 Lj^0.128 (sin a)^-0.301 nu^-0.624 = 5395. Re1* < Re < Re2*, so region II. Eq. (6): G = 1.58e-2 V^1.67 D^1.06 Lj^0.33 (sin a)^-0.80 nu^0.11; log10 G = -1.8013 + 0.9489 - 2.6712 - 0.3300 + 0.0500 - 0.6049 = -4.4085, G = 3.90e-5 m3/s = 39 cm3/s.
+
+Most tempting wrong answers: about 24 cm3/s from a generic plunging-jet correlation in the Froude number and Lj/D (Bin's form), or 26.5 cm3/s, the liquid flow rate, for an entrainment ratio of one. The region IV correlation, Eq. (7), gives 13 cm3/s; alpha taken from the vertical gives 61 cm3/s.
+
+Check program (Python 3, standard library):
+import math
+D, Lj, a, nu, V = 3.02e-3, 0.100, 60.0, 3.17e-6, 3.70
+s = math.sin(math.radians(a))
+R1 = 31.1*D**0.632*Lj**-0.091*s**-0.137*nu**-0.628
+R2 = 321*D**0.832*Lj**0.128*s**-0.301*nu**-0.624
+G = 1.58e-2*V**1.67*D**1.06*Lj**0.33*s**-0.80*nu**0.11
+print(V*D/nu, R1, R2, G*1e6)   # 3525, 2838, 5395, 39.0 cm3/s
+
+Source: Kumagai and Endoh, J. Chem. Eng. Japan 15(6), 427-433 (1982), Eqs. (1) to (3) and (6).
