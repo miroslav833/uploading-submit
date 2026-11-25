@@ -1,0 +1,9 @@
+Key: XB-GENEPAGE-1033828. It stands in section 2 of the attached notes (line KEY). By hand: a maternal RNA at the vegetal cortex that codes for a transcription factor, whose depletion by antisense oligos and host transfer removes endoderm and the mesoderm-inducing capacity of the vegetal mass, is VegT (Zhang et al., Cell 94, 515, 1998; Kofron et al., Development 126, 5759, 1999). In the Xenbase file XenbaseGenepageToGeneIdMapping.txt (download.xenbase.org/xenbase/GenePageReports/, read on 2026-11-25) the row with gene page symbol vegt reads XB-GENEPAGE-1033828, with the X. tropicalis gene XB-GENE-1033829 and the X. laevis genes vegt.L XB-GENE-6252142 and vegt.S XB-GENE-1033836.
+
+Most tempting wrong answer: a species-level gene number of vegt in place of the gene page, such as 1033829 (the X. tropicalis gene). The gene page of gdf1 (Vg1), the vegetally localized RNA for a secreted TGF-beta ligand that the stem excludes, is XB-GENEPAGE-481418.
+
+Check on the rows printed at the end of the notes, saved as xenbase_genepage_rows.tsv (Python 3, standard library):
+rows = [l.split('\t') for l in open('xenbase_genepage_rows.tsv') if not l.startswith('#')]
+print([r[0] for r in rows if r[1] == 'vegt'])   # ['XB-GENEPAGE-1033828']
+
+Citations: Zhang et al., Cell 94, 515 (1998); Kofron et al., Development 126, 5759 (1999); Fisher et al., Genetics 224, iyad018 (2023).
