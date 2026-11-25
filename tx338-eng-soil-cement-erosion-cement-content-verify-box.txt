@@ -1,0 +1,15 @@
+Key: 841 m^3 of cement, three significant figures. Section 2 of the attached notes prints it on the line "KEY: cement = 14.00 per cent of 6008.33 m3 = 841.17 m3 -> 841 m3", section 3 checks the geometry two further ways, and section 4 holds the governing passage as the publication prints it.
+
+What decides it: Design of Small Dams (third edition, 1987), section 6.22(f), does not build a soil-cement facing at the content the laboratory series identifies. That content "is then increased by 2 percentage points for erosion resistance", and the 4-point increase of the next sentence belongs to a soil that it is necessary to use with more than 50 per cent fines. Two nearby thresholds must be kept apart: fines above 35 per cent are a remark about processing cost with no allowance, and soils at 50 per cent or more are not recommended in their natural state. This borrow is at 38 per cent, so the allowance is 2 points and the facing is built at 12 + 2 = 14 per cent.
+
+By hand: on a 3:1 slope the face runs sqrt(10) = 3.16228 per unit height, so 19.0 m gives 60.083 m of slope length; over 200 m of axis that is 12,016.7 m2, and at 0.50 m normal thickness the compacted volume is 6,008.3 m3. Cement = 0.14 x 6,008.3 = 841.2 m3.
+
+Most tempting wrong answer, 721 m^3: the facing built at the 12 per cent the durability criteria gave, with no erosion allowance. Reading the 38 per cent against the 35 per cent remark and taking 4 points gives 961 m^3; adding both allowances gives 1,082 m^3; taking the handbook's typical total of 10 to 12 per cent instead of the arithmetic gives 601 to 721 m^3; measuring the 0.50 m vertically rather than normal to the slope gives 798 m^3.
+
+Stability: the content is a whole number of percentage points, so only the slope factor matters, and three figures of it (3.16) still give 841 m^3.
+
+Check in seconds (Python 3, standard library):
+V = 19.0 * (10 ** 0.5) * 200.0 * 0.50
+print(0.14 * V)
+
+Citation: Bureau of Reclamation, Design of Small Dams, third edition 1987, chapter 6, section 6.22(f), pages 264 and 265; https://www.usbr.gov/tsc/techreferences/mands/mands-pdfs/SmallDams.pdf
