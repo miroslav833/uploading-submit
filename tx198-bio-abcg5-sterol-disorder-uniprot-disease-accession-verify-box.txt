@@ -1,0 +1,12 @@
+Key: DI-05695. It stands in the attached verification notes, sections 1 and 2, which reach it from the UniProt entry of sterolin-1 by two routes; the rows are copied in the data file at the end of the notes (humdisease.txt of release 2026_04 of 04-Nov-2026, downloaded 2026-11-25 from https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/docs/humdisease.txt, SHA-256 in the data file; once a later release is current, the same file is in the release-2026_04 folder under previous_releases; the UniProt entries from https://rest.uniprot.org/uniprotkb/Q9H222.txt and Q9H221.txt).
+
+Working. The picture (tendon xanthomas, modest cholesterol, plant sterols about thirtyfold raised, consanguinity) is sitosterolemia. Sterolin-1 is ABCG5 and sterolin-2 is ABCG8 (Lu et al. 2001). UniProt entry Q9H222 (ABCG5, AltName Sterolin-1) has DISEASE: Sitosterolemia 2 (STSL2) [MIM:618666]; Q9H221 (ABCG8, Sterolin-2) has DISEASE: Sitosterolemia 1 (STSL1) [MIM:210250]. In humdisease.txt: ID Sitosterolemia 2., AC DI-05695, DR MIM 618666; ID Sitosterolemia 1., AC DI-02308, DR MIM 210250. So the girl's disorder is Sitosterolemia 2, DI-05695.
+
+The most tempting wrong answer is DI-02308 (Sitosterolemia 1, the ABCG8 form and the older single term); its description text in humdisease.txt is word for word the same as that of DI-05695, so only the gene decides.
+
+Check in Python (after downloading humdisease.txt):
+for e in open('humdisease.txt').read().split('//\n'):
+    if 'ID   Sitosterolemia 2.' in e:
+        print([l for l in e.splitlines() if l.startswith('AC')])   # ['AC   DI-05695']
+
+Sources: Berge et al., Science 290, 1771 (2000); Lu et al., Am. J. Hum. Genet. 69, 278 (2001); UniProt Consortium, Nucleic Acids Res. 53, D609 (2025).
