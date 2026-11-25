@@ -1,0 +1,15 @@
+Key: 96.7 N s/m^2 (96.72 unrounded). It stands in the attached verification notes in the output of the first script, line "KEY c = 96.72 N s/m2", and of the second script, line "c = 96.723 N s/m2 -> 96.7". DNV-RP-C205, October 2010, Sec. 6.7.2.5: "For dynamic analysis of lower riser segments in deep water responding at low KC numbers due to low riser velocity, the KC-adjusted drag coefficient should not exceed 0.8 since the hydrodynamic force in still water is a damping force and one should use a lower drag coefficient to be conservative."
+
+By hand. Delta = 3.0/533.4 = 5.62e-3, C_DS = (29 + 4 log10 Delta)/20 = 1.000. KC = 2 pi 0.680/0.5334 = 8.01. C_pi = 1.50 - 0.024(12/1.000 - 10) = 1.452, psi = 1.452 + 0.10(8.01 - 12) = 1.053, C_DS psi = 1.053, limited to 0.8. c = 8 rho C_D D A/(3T) = 8 x 1025 x 0.8 x 0.5334 x 0.680/24.6 = 96.72.
+
+Most tempting wrong answer: C_D = 1.053 without the limit gives 127.315 N s/m^2, which is 127.
+
+Check program (Python 3, standard library):
+import math
+D, k, A, T, rho = 0.5334, 3.0e-3, 0.680, 8.20, 1025.0
+CDS = (29 + 4*math.log10(k/D))/20; KC = 2*math.pi*A/D
+psi = 1.50 - 0.024*(12/CDS - 10) + 0.10*(KC - 12)
+CD = min(CDS*psi, 0.8)
+print(CDS*psi, 8*rho*CD*D*A/(3*T))   # 1.053 96.72
+
+Source: DNV-RP-C205, Det Norske Veritas, October 2010, Sec. 6.7.
