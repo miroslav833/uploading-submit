@@ -1,0 +1,15 @@
+Key: PLANA:0007547 (anterior pole progenitor cell). In the attached notes it is printed under "3. Key" of the first script; the second script shows the same live record in EBI's Ontology Lookup Service and a scan of the whole release file.
+
+Worked by hand: the wound-induced, Hedgehog-controlled Forkhead gene of the ventral midline is foxD and the TALE homeobox gene of the anterior compartment is prep. piwi-1-positive dividing cells with both, needed for the notum- and follistatin-expressing muscle cluster at the head tip (the anterior pole), are the anterior pole progenitors (Scimone et al. 2014). PLANA defines anterior pole progenitor cell, PLANA:0007547, as piwi-1+, foxD+, prep+ progenitor neoblasts required for formation of the anterior pole.
+
+Most tempting wrong answer: PLANA:0002097, specialized neoblast, the general class of lineage-primed neoblasts; it is a sibling of the key for lineage-primed neoblasts in general, not the term for this lineage. PLANA:0007524 (anterior pole) and PLANA:0003109 (anterior pole cell) name the differentiated cluster, not its progenitors.
+
+Check (Python standard library):
+import urllib.request, re
+url = "http://purl.obolibrary.org/obo/plana/releases/2023-03-13/plana.obo"
+for b in urllib.request.urlopen(url).read().decode().split("\n[Term]\n"):
+    if re.search(r"^is_a: PLANA:0000429 ", b, re.M) and "foxD" in b:
+        print(b.split("\n")[0], "|", re.search(r'^def: "(.*?)"', b, re.M).group(1))
+It prints PLANA:0007547 with its definition.
+
+Citations: Scimone et al., PLoS Genet 10:e1003999 (2014); Felix and Aboobaker, PLoS Genet 6:e1000915 (2010); Nowotarski et al., Development 148:dev196097 (2021).
