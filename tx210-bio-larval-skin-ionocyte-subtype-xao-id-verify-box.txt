@@ -1,0 +1,16 @@
+Key: XAO:0005233 (ionocyte, beta subtype). In the attached notes it is printed under "3. Key" of the first script; the second section shows the same live record in EBI's Ontology Lookup Service and a scan of the whole release file.
+
+Worked by hand: foxi1-dependent, mitochondria-rich cells among the multiciliated and goblet cells of the tailbud-stage epidermis are the skin ionocytes, which form an alpha and a beta subtype like the intercalated cells of the kidney (Quigley et al. 2011). The alpha subtype has ae1 (slc4a1) and an apical H+ V-ATPase; the beta subtype has pendrin (SLC26A4) and a cytosolic or basolateral V-ATPase. The group described has no apical pump, a cytoplasmic and basolateral pump, SLC26A4 transcripts and no slc4a1, so it is the beta subtype, XAO:0005233, the most specific term below ionocyte (XAO:0004085).
+
+Most tempting wrong answer: XAO:0005232, ionocyte, alpha subtype. The ontology calls both subtypes proton-secreting cells, which draws a reader who sees a V-ATPase to the acid-secreting form, but the alpha definition requires slc4a1 and an apical pump, both absent here.
+
+Check (Python standard library):
+import urllib.request, re
+url = "https://raw.githubusercontent.com/xenopus-anatomy/xao/v2024-09-03/xenopus_anatomy.obo"
+req = urllib.request.Request(url, headers={"User-Agent": "generic-client"})
+for b in urllib.request.urlopen(req).read().decode().split("\n[Term]\n"):
+    if re.search(r"^is_a: XAO:0004085 ", b, re.M):
+        print(b.split("\n")[0], "|", re.search(r'^def: "(.*?)"', b, re.M).group(1))
+It prints the alpha subtype (slc4a1, apical V-ATPase) and the beta subtype (pendrin, cytosolic or basolateral V-ATPase).
+
+Citations: Quigley et al., Development 138:705-714 (2011); Roy et al., Clin J Am Soc Nephrol 10:305-324 (2015); Segerdell et al., BMC Dev Biol 8:92 (2008).
