@@ -1,0 +1,15 @@
+Key: 1300 Pa, upper tap higher (1311.8 Pa before rounding). In the attached notes the key is the line "KEY" of the section "Key, competing readings and half-last-digit table"; the section "Independent route" repeats it in the paper's units as a power balance (1311.8 Pa).
+
+Source: Sato, Hirose, Takahashi and Toda, J. Chem. Eng. Japan 6, 147-152 (1973), free on J-STAGE. On p. 149: Eqs. (1)-(2) d' = d/M, M = 1 + 4d/[6D(1 - eps)]; Eq. (5) f_v = 150 + 4.2 Re^(5/6); Eq. (7) Delta P_e = -Delta p + rho_f (g/g_c) Delta L with Eq. (9) rho_f = (rho_l U_l + rho_g U_g)/(U_l + U_g), "pressure loss is an energy concept but not a momentum concept, Eq. (7) is used"; Eq. (12) phi_l = 1.30 + 1.85 chi^-0.85.
+
+By hand: M = 1.2163, d' = 7.810 mm; Re_l = 41.54, Re_g = 457.3; Delta P_l/L = 45.53 and Delta P_g/L = 477.08 Pa/m; chi = 0.3089; phi_l = 6.3212; two-phase loss 39.957 x 45.53 = 1819.2 Pa/m, 1364.4 Pa over 0.750 m. rho_f = (2.994 + 0.600)/0.503 = 7.15 kg/m3; gravity term 7.15 x 9.807 x 0.750 = 52.6 Pa. p_upper - p_lower = 1364.4 - 52.6 = 1311.8 Pa.
+
+Most tempting wrong answer: 610 Pa, from reading the loss as a momentum-balance frictional gradient and subtracting the weight of the bed contents with the paper's holdup (R_l = 0.2336 of the voids, density eps(rho_l R_l + rho_g(1 - R_l)) = 102.28 kg/m3, head 752.3 Pa): 1364.4 - 752.3 = 612.1 Pa; with the liquid head alone 615.0 to 617.7 Pa (610 or 620). With no gravity term at all: 1364 Pa (1400).
+
+Check program (Python standard library):
+D,d,e,UL,UG,rl,rg,ml,mg,dL,g=0.052,0.0095,0.437,0.003,0.5,998,1.2,1e-3,1.82e-5,0.75,9.807
+dd=d/(1+4*d/(6*D*(1-e)))
+G=lambda U,r,m:(150+4.2*(dd*U*r/(m*(1-e)))**(5/6))*m*U*(1-e)**2/(dd**2*e**3)
+chi=(G(UL,rl,ml)/G(UG,rg,mg))**0.5
+loss=(1.30+1.85*chi**-0.85)**2*G(UL,rl,ml)*dL
+print(round(loss-(rl*UL+rg*UG)/(UL+UG)*g*dL,1))   # 1311.8
