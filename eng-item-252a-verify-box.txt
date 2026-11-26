@@ -1,0 +1,5 @@
+Key: 220 s (220.8 s). It stands in section 2 of the attached notes (line KEY) and in section 3 (line SAME KEY BY THIS ROUTE). Source: NASA SP-106 (1966), chapter 4, p. 110-111: Stephens et al. smooth-wall decrement, Eq. (4.10a) with K = 5.23, reducing for h/R > 1 to Eq. (4.10b) delta = 5.23 nu^(1/2) R^(-3/4) g^(-1/4); Mikishev-Dorozhkin Eq. (4.8b) has 4.98. By hand: omega^2 = (1.8412 x 9.81/0.400) tanh(3.6824) = 45.10, T = 0.9356 s; delta = 5.23 x 1e-3 x 0.4^-0.75 x 9.81^-0.25 = 5.875e-3; n = ln 4/delta = 235.95; t = 235.95 x 0.9356 = 220.8 s. Most tempting wrong answer: the constant 4.98 (Mikishev and Dorozhkin) in place of 5.23, t = 231.8 s (230 s). Check program (Python, standard library):
+import math
+w=math.sqrt(1.8412*9.81/0.4*math.tanh(1.8412*2)); d=5.23*1e-3*0.4**-0.75*9.81**-0.25
+print(math.log(4)/d*2*math.pi/w)   # 220.8 s
+Link: https://ntrs.nasa.gov/citations/19670006555
