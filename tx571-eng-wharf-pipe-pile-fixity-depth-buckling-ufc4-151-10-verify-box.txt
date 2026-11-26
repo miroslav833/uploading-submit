@@ -1,0 +1,12 @@
+Key: 2150 kips, three significant figures. In the attached notes the first program prints "KEY: P = 2152.3 kips -> 2150 kips at three significant figures", and the second finds 2152.3 kips by a numerical eigenvalue search on the equivalent column.
+
+The detail the question leaves to the criteria document, UFC 4-151-10 (10 September 2001), paragraph 2-1.1.1.1, page 2-1: "In soft, cohesive soils, the point of fixity may be assumed to occur at a depth of 3.05 m (10 ft.) below the mudline for piles having modulus of elasticity - moment of inertia products (EI) of ... (10 x 10^9 lb-in2) or less. The point of fixity may be assumed to occur at a depth of 3.66 m (12 ft) below the mudline for piles having an EI greater than ... (10 x 10^9 lb-in2.)"
+
+By hand: EI = 29,000,000 x 732 = 2.12 x 10^10 lb in2, greater than 10 x 10^9, so 12 ft. Column 28.00 + 12 = 40.0 ft; K L = 0.65 x 40.0 = 26.0 ft = 312.0 in. P = pi^2 x 29,000 x 732 / 312.0^2 = 2152 kips.
+
+Most tempting wrong answer: 2380 kips, with 10 ft to fixity (the soft-soil value for the lower stiffness class; K L = 296.4 in). Others: 5 ft (other cases), 3160; 8 ft (loose granular or medium cohesive soil), 2660; fixed at the mudline, 4390; K = 0.73, 1710.
+
+Check in seconds (Python 3, standard library):
+import math; print(math.pi**2*29000*732/(0.65*(28+12)*12)**2)
+
+Citation: UFC 4-151-10, General Criteria for Waterfront Construction, 10 September 2001, section 2-1.1.1.
