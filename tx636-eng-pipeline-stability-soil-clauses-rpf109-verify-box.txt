@@ -1,0 +1,13 @@
+Key: 4.7 kN/m. It stands in the attached notes in the first section, output line 'KEY F_R = 4692.4 N/m = 4.692 kN/m', and in the second section as 'F_R = 4692 N/m = 4.69 kN/m'.
+
+By hand: DNV-RP-F109 (October 2010) Eq. (3.30): z_pt/D = 0.5 tan(theta), not more than z_t/(2D). Here 0.5 tan 20.0 = 0.1820 against the limit 0.3000, so 0.1820. Eq. (3.24): F_C = w_s - F_Z = 2.20 kN/m, kappa_s = 9.00 x 1.000^2/2.20 = 4.091 (below 26.7). Eq. (3.23): F_R/F_C = (5.0 x 4.091 - 0.15 x 4.091^2) x 0.1820^1.25 = 17.944 x 0.11886 = 2.133, F_R = 4.69 kN/m.
+
+Most tempting wrong answer: 21 kN/m, from the full trench depth as the penetration (z_p/D = 0.600). Half the trench depth, the limit of Eq. (3.30) taken for the rule, gives 8.8 kN/m; tan(theta) without the half gives 11 kN/m.
+
+Check program:
+from math import tan, radians
+D, zt, th, gam, ws, FZ = 1.000, 0.600, 20.0, 9.00, 3.00, 0.80
+z = min(0.5*tan(radians(th)), zt/(2*D)); k = gam*D*D/(ws - FZ)
+print((ws - FZ)*(5.0*k - 0.15*k*k)*z**1.25)   # 4.692
+
+Source: DNV-RP-F109 (October 2010), Sec. 3.4.6, Eqs. (3.23), (3.24), (3.30).
