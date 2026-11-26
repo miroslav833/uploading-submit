@@ -1,0 +1,12 @@
+Key: 3.4 m/s. It stands in the attached notes in the first section, output line 'KEY U = 3.390 m/s', and in the second section as 'U_m 5.045 m/s, r_0.5 2.745 m, U 3.390 m/s'.
+
+By hand: DNV-RP-H103 (April 2011) clause 7.2.8.3: U(r; x) = U_m [1 + 0.4142 (r/r_0.5)^2]^-2, U_m = U_0/(0.89 + 0.149 x/D), r_0.5 = 0.39 D + 0.0875 x. Here x/D = 6.00, U_m = 9.00/1.784 = 5.045 m/s, r_0.5 = 1.170 + 1.575 = 2.745 m, (2.00/2.745)^2 = 0.5309, factor (1 + 0.4142 x 0.5309)^-2 = 0.6720, U = 3.39 m/s.
+
+Most tempting wrong answer: 3.7 m/s (3.65), from the textbook free jet with spreading constant 0.081, a potential core to 6.2 D and a Gaussian layer measured from the core edge. The same jet in its established-flow form gives 3.6; the centreline value alone is 5.0.
+
+Check program:
+U0, D, x, r = 9.00, 3.00, 18.0, 2.00
+Um = U0/(0.89 + 0.149*x/D); rh = 0.39*D + 0.0875*x
+print(Um*(1 + 0.4142*(r/rh)**2)**-2)   # 3.390
+
+Source: DNV-RP-H103 (April 2011), clauses 7.2.8.2 and 7.2.8.3, Figure 7-4.
