@@ -1,0 +1,11 @@
+Key: 14 MPa (14.36 MPa unrounded). It stands in the attached verification notes in the output of the first script, line "KEY nominal range = 14.362 MPa", and of the second script, line "nominal 14.362 MPa -> 14 MPa". DNV-RP-F204, October 2010, Sec. 3.4.1: "A detailed fatigue analysis can be omitted if the largest local stress range for actual details is less than the fatigue limit at 10^7 cycles for the 2-slope S-N curves given in DNV-RP-C203, for air and for seawater with cathodic protection. The effect of the Design Fatigue Factor (DFF) should be taken into account, by reducing the allowable stress range by a factor (DFF)^-0.33."
+
+By hand. Fatigue limit at 1e7 cycles on the m = 5 branch: 10^((14.832 - 7)/5) = 36.85 MPa. Allowable local range 36.85 x 10^-0.33 = 17.23 MPa. Nominal: 17.23/1.20 = 14.36 MPa.
+
+Most tempting wrong answer: reducing by DFF^(1/5), the slope of the branch, gives 36.85/1.585 = 23.25 MPa local and 19 MPa nominal.
+
+Check program (Python 3, standard library):
+d = 10**((14.832 - 7)/5)
+print(d, d*10**-0.33/1.20, d*10**-0.2/1.20)   # 36.85 14.36 19.37
+
+Source: DNV-RP-F204 Riser Fatigue, Det Norske Veritas, October 2010, Sec. 3.4.1, page 14 (https://rules.dnv.com/docs/pdf/dnvpm/codes/docs/2010-10/RP-F204.pdf); DNV-RP-C203 (April 2010) Table 2-2 lists the F1 seawater-with-CP fatigue limit at 1e7 cycles as 36.84 MPa.
