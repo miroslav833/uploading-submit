@@ -1,0 +1,23 @@
+Key: 17 kips (17.10 before rounding). In the attached notes the key is the line "KEY" of the section "Key, competing readings and half-last-digit table"; the grid search of the section "Independent route" returns the same 10.687 ksi and 17.10 kip.
+
+Source: Kuhn, Peterson and Levin, NACA TN 2661 (1952), open on the NASA Technical Reports Server. Section 4.11(b), p. 47: for single uprights "the stress sigma_U should not exceed the column yield stress, and the average stress over the cross section of the upright, sigma_Uav = sigma_U A_Ue/A_U (38), should not exceed the allowable stress for a column with the slenderness ratio h_U/2rho". Section 4.1(b), p. 41: A_Ue = A_U/[1 + (e/rho)^2]. Formulas (27), (30a), (30c), (30e) on pp. 18-20.
+
+By hand: (e/rho)^2 = 0.9103, A_Ue = 0.02534 in2, A_Ue/A_U = 0.5235, A_Ue/(d t) = 0.06598. h_U/(2 rho) = 114.8, Euler stress pi^2 x 10600/114.8^2 = 7.939 ksi, so sigma_U at the limit = 7.939/0.5235 = 15.17 ksi (below 40 ksi). At tau = 10.69 ksi: k = tanh(0.5 log10 17.81) = 0.5548, B = 1.32 + 0.68 k = 1.6973, tan alpha = 0.7380, sigma_U = 0.5548 x 10.69 x 0.7380/(0.06598 + 0.2226) = 15.17 ksi, and tan^2 alpha = 1.6973/(1.6973 + 1.4190) = 0.5446 closes. S_W = 10.69 x 50.0 x 0.032 = 17.10 kips.
+
+Most tempting wrong answer: 11 kips (11.02), from comparing sigma_U itself with the column allowable at h_U/(2 rho): sigma_U = 7.939 ksi is reached at tau = 6.890 ksi (k = 0.4854), S_W = 6.890 x 1.6 = 11.02 kips. The double-upright rule (sigma_U against the column at L_e/rho, section 4.9) gives 5.47 kips.
+
+Check program (Python standard library):
+import math
+E,mu,he,hU,d,t,AU,e,rho,tcr=10600,0.32,50,45,12,0.032,0.0484,0.187,0.196,0.6
+Ae=AU/(1+(e/rho)**2); allow=math.pi**2*E/(hU/(2*rho))**2
+def avg(tau):
+    k=math.tanh(0.5*math.log10(tau/tcr)); B=1+mu+k*(1-mu); a=0.7
+    for i in range(300):
+        s=k*math.tan(a)/(Ae/(d*t)+0.5*(1-k)); a=0.5*(a+math.atan(math.sqrt(B/(B+s))))
+    return s*tau*Ae/AU
+lo,hi=1.0,30.0
+for i in range(100):
+    m=(lo+hi)/2
+    if avg(m)<allow: lo=m
+    else: hi=m
+print(round(lo*he*t,2))   # 17.10
