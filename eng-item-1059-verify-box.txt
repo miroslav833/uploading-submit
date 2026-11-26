@@ -1,0 +1,13 @@
+Key: 159 kPa (158.83 kPa unrounded). It stands in the attached verification notes in the output of the first script, line "KEY ps = 158.830 kPa", and of the second script, line "p_s = 158.830 kPa -> 159 kPa". DNV-RP-C205, October 2010, 8.7.2.5: "For flat bottom slamming taking account of cushioning and three dimensional effects, the slamming pressure coefficient should not be taken less than CPa = 2 pi." 8.7.2.7: "For a wedged shaped body with 0 < beta < 15 deg, taking account of cushioning and three dimensional effects, a linear interpolation between results for flat bottom (CPa = 2 pi for beta = 0) and beta = 15 deg can be applied."
+
+By hand. CPa(15) = 2.5/(tan 15)^1.1 = 10.643. CPa(8) = 6.2832 + (10.643 - 6.2832)(8/15) = 8.609. ps = 0.5 x 1025 x 8.609 x 36 = 158.8 kPa.
+
+Most tempting wrong answer: 2.5/(tan 8)^1.1 = 21.64 gives 399 kPa.
+
+Check program (Python 3, standard library):
+import math
+c15 = 2.5/math.tan(math.radians(15))**1.1
+c = 2*math.pi + (c15 - 2*math.pi)*8.0/15
+print(c15, c, 0.5*1025*c*36/1000)   # 10.643 8.609 158.8
+
+Source: DNV-RP-C205, Det Norske Veritas, October 2010, Sec. 8.7.2.
