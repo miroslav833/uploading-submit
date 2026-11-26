@@ -1,0 +1,4 @@
+Key: 12.3 MN·m (12.29 MN·m). It stands in section 2 of the attached notes (line KEY) and in section 3 (line SAME KEY BY THIS ROUTE). Source: Becker, NACA TN 3786 (1958), p. 24, Eq. (14) C_f = E I_f L/(M D^2), Eq. (15) Shanley 1/16,000, Eq. (16) Gerard 6.84e-5; appendix p. 55: C_f may be taken at 6.84e-5. By hand: A = 264.42 mm2, centroid 50.429 mm from the outer flange, I_f = 136478 + 683 + 100706 + 108842 = 346709 mm4; E I_f = 24616 N m2; M = 24616 x 0.533/(6.84e-5 x 3.95^2) = 1.2294e7 N m. Most tempting wrong answer: Shanley's 1/16,000, M = 13.45 MN·m (13.5 MN·m). Check program (Python, standard library):
+A=264.42; y=(174.42*48.45+50.4*96.9)/A; I=1.8*96.9**3/12+174.42*(48.45-y)**2+39.6*y**2+50.4*(96.9-y)**2
+print(71e9*I*1e-12*0.533/(6.84e-5*3.95**2)/1e6)   # 12.29 MN m
+Link: https://ntrs.nasa.gov/citations/19930084534
