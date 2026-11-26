@@ -1,0 +1,7 @@
+Key: 11 m (10.93 m). It stands in section 2 of the attached notes (line KEY) and in section 3 (line SAME KEY BY THIS ROUTE). Source: DNV-RP-E302 (2002): Table 2-1 (ULS, CC1: 1.10, 1.50, gamma_m 1.40); Eqs. (2.2), (2.3), (3.1) to (3.3); s_c = 1 + 0.2 W_F/L_F; section 3.2.2: 'For anchors penetrated less than the minimum depth zmin = 4.5 WF ... the Nc-value for plain strain conditions will vary with depth between 5.14 and 12.0', Eq. (3.4) (Nc)shallow = 5.14[1 + 0.987 arctan(zi/WF)], 'valid for Nc <= 12.0'; section 3.2.3: eta 'set equal to 0.75 based on well controlled onshore field tests'. By hand: T_d = 1.10 x 1800 + 1.50 x 1050 = 3555 kN; required N_c s_c eta s_u = 3555 x 1.40/(25.00 x 1.10) = 180.98 kPa. Deep trial: 180.98/10.80 = 16.76 kPa, z = 9.84 m = 1.97 W, so shallow. Shallow: at z = 10.93 m, z/W = 2.186, N_c = 5.14(1 + 0.987 x 1.1417) = 10.932, x 1.2 x 0.75 = 9.839, s_u = 18.394 kPa, product 180.98 kPa. Most tempting wrong answer: the deep factor 12.0 (equivalently 9 times the shape factor) gives 9.8 m. Check program (Python, standard library):
+import math
+f=lambda z: 5.14*(1+0.987*math.atan(z/5))*0.9*(2+1.5*z)*25*1.1/1.4-(1.1*1800+1.5*1050)
+lo,hi=0.0,22.5
+for _ in range(60): m=(lo+hi)/2; lo,hi=(m,hi) if f(m)<0 else (lo,m)
+print(hi)   # 10.93 m
+Link: https://rules.dnv.com/docs/pdf/DNVPM/codes/docs/2002-12/RP-E302.pdf
