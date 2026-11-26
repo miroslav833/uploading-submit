@@ -1,0 +1,12 @@
+Key: 14800 kips (to the nearest 100 kips; unrounded 14,806). In the attached notes the first program prints "KEY: the lesser, 14805.5 kips -> 14800 kips to the nearest 100 kips", and the second reaches 14805.5 kips by adding the tributary cells of the 160 piles.
+
+The details the question leaves to the criteria document, UFC 4-213-10 (15 August 2002), pages 5-1 to 5-2: "The total holddown capacity is not necessarily the sum of the individual capacities of a pile group and may never be larger than the weight of the block of soil included in the pile group." "In computing the weight of this block, assume its plan dimensions to extend beyond the outer rows of piles by a distance of one-half the typical pile spacing." "For the depth of block, assume the block bottom is above the pile tips by a distance of one-half the typical pile spacing."
+
+By hand: outer rows 42.0 ft by 114.0 ft, block 48.0 ft by 120.0 ft; depth 45.0 - 3.0 = 42.0 ft; weight 61.2 x 48 x 120 x 42 / 1000 = 14,806 kips. Sum of individual capacities 160 x 112 = 17,920 kips. The smaller is 14,806, so 14,800 kips.
+
+Most tempting wrong answer: 15,900 kips, with the half-spacing taken in plan but the block run down to the pile tips (61.2 x 48 x 120 x 45 / 1000 = 15,863). Others: block bounded by the outer rows over the full pile length, 13,200; sum of the pile capacities, 17,900; outer rows with the bottom raised, 12,300; the section's default 60 lb/ft3 in place of the tested weight, 14,500.
+
+Check in seconds (Python 3, standard library):
+print(min(160*112, 61.2*(7*6+6)*(19*6+6)*(45-3)/1000))
+
+Citation: UFC 4-213-10, Design: Graving Drydocks, 15 August 2002, section 5-2.2.2.
