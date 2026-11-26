@@ -1,0 +1,5 @@
+Key: 0.32 s^-1 (0.3181). It stands in section 2 of the attached notes (line KEY) and in section 3 (line SAME KEY BY THIS ROUTE). Source: Hirose, Toda and Sato, J. Chem. Eng. Japan 7, 187 (1974): Eq. (4) E_l = (dP_lg/dh) U_l/(eps R_l), energy loss per unit volume of liquid in the bed, in Kg-m/sec-m3 (kilogram-force; Nomenclature and Fig. 4 axis); Eq. (5) (ka)/eps = 0.163 (U_g/eps)^0.6 E_l^0.31; Eqs. (7), (8) from Sato et al. (1973). By hand: chi = 5.9842, phi_l = 1.7043, dP_lg/dh = 26316 Pa/m = 2683.53 kgf/m2 per m; a_s = 651.34 1/m, R_l = 0.5140; E_l = 2683.53 x 0.0490/(0.391 x 0.5140) = 654.32; ka = 0.391 x 0.163 x 0.6688 x 654.32^0.31 = 0.3181 1/s. Most tempting wrong answer: the same definition in W/m3, 0.65 s^-1; per unit bed volume in W/m3, 0.39 s^-1. Check program (Python, standard library):
+import math
+c=(9060/253)**0.5; G=(1.30+1.85*c**-0.85)**2*9060/9.80665; R=0.04*(6*0.609/0.00561)**(1/3)*c**0.22
+print(0.391*0.163*(0.2/0.391)**0.6*(G*0.049/(0.391*R))**0.31)   # 0.3181 1/s
+Link: https://www.jstage.jst.go.jp/article/jcej1968/7/3/7_3_187/_pdf
