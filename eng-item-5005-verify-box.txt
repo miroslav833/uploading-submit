@@ -1,0 +1,5 @@
+Key: 8.6 kN·m (8.59 kN·m). It stands in section 2 of the attached notes (line KEY) and in section 3 (line SAME KEY BY THIS ROUTE). Source: Gerard and Becker, NACA TN 3783 (1957), p. 51, Eq. (61): 0.8 R_c + R_t = 0.9 for axial tension with torsion (Batdorf, Stein and Schildcrout), -1 < R_c < 0, 30 < Z_L < 7.7 (r/t)^2. By hand: sigma_x = 31000/1256.64 = 24.669 MPa, R_c = -0.4011; Z_L = 1800 x 0.94398 = 1699; R_t = 0.9 + 0.3209 = 1.2209; tau = 27.348 MPa; T = 3.1416e5 x 27.348 N mm = 8.59 kN m. Most tempting wrong answer: the compression parabola R_c + R_t^2 = 1 carried into tension, R_t = 1.1837, T = 8.33 kN m (8.3). Check program (Python, standard library):
+import math
+Rc=-31000/(2*math.pi*250*0.8)/61.5
+print((0.9-0.8*Rc)*22.4*2*math.pi*250**2*0.8/1e6)   # 8.59 kN m
+Link: https://ntrs.nasa.gov/citations/19930084510
