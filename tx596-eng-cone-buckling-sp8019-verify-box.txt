@@ -1,0 +1,16 @@
+Key: 46.7 kN m. It stands in the attached notes in the first section, output line 'KEY T_cr = 46.700 kN m', and again in the second section as 'torque 46.700 kN m'.
+
+By hand: NASA SP-8019 Sec. 4.2.4 gives T_cr = 52.8 gamma D (t/l)^(1/2) (r/t)^(5/4), Eq. (11), gamma = 0.67, Eq. (12), l the axial length (symbol list), and r = r2 cos(alpha) {1 + [0.5(1 + r2/r1)]^(1/2) - [0.5(1 + r2/r1)]^(-1/2)} r1/r2, Eq. (11a). Here l = 0.950/tan 30 = 1.6454 m; r2/r1 = 4.8, braces 1 + 1.7029 - 0.5872 = 2.1157, times 0.20833 = 0.4408; r = 1.0392 x 0.4408 = 0.4581 m; D = 72.00e9 x (1.8e-3)^3 / (12 x 0.8911) = 39.27 N m; (t/l)^(1/2) = 0.033075; (r/t)^(5/4) = 1016.4; T_cr = 52.8 x 0.67 x 39.27 x 0.033075 x 1016.4 = 46 700 N m.
+
+Most tempting wrong answer: 49.7 kN m, from the slant length 1.900 m in place of the axial length and the braces written with r1/r2 inside and no outer factor (r = 0.5100 m). The slant length alone gives 43.5, the altered braces alone 53.4, the theoretical torque without the 0.67 gives 69.7.
+
+Check program:
+from math import cos, tan, radians, sqrt
+E, mu, t, r1, r2, a = 72.00e9, 0.330, 1.800e-3, 0.2500, 1.200, radians(30.0)
+x = 0.5*(1 + r2/r1)
+r = r2*cos(a)*(1 + sqrt(x) - 1/sqrt(x))*r1/r2
+l = (r2 - r1)/tan(a)
+D = E*t**3/(12*(1 - mu**2))
+print(52.8*0.67*D*(t/l)**0.5*(r/t)**1.25/1e3)   # 46.70
+
+Sources: NASA SP-8019 (September 1968), Sec. 4.2.4, Eqs. (11), (11a), (12), Figure 1 and the symbol list; P. Seide, J. Appl. Mech. 29(2), 321-328 (1962).
