@@ -1,0 +1,12 @@
+Key: 11.9 kips, three significant figures. In the attached notes the first program prints "KEY: P = 11.922 kips -> 11.9 kips", and the second reaches 11.922 kips by a numerical beam solution with bisection on the load.
+
+The one detail the question leaves to the criteria document: UFC 4-152-01 (24 January 2017), paragraph 5-4.4.3 a, pages 128 to 129: "Timber. For operating condition, the allowable stress in flexure (tension and compression) may be taken as 0.67 times modulus of rupture or the published allowable values increased by a factor of 2.0, whichever is less." The 2005 edition prints the same rule.
+
+By hand: 0.67 x 6.60 = 4.422 ksi against 2.0 x 2.45 = 4.90 ksi, so 4.422 ksi. S = pi x 13.00^3 / 32 = 215.69 in3; allowable moment 953.8 kip in. Simple span 360 in, load 120 in from the chock: M = P x 120 x 240 / 360 = 80.0 P. P = 953.8 / 80.0 = 11.92 kips.
+
+Most tempting wrong answer: 13.2 kips, from twice the published value alone (4.90 ksi, the usual impact increase for timber), which the clause allows only when it is the lesser limit. Others: half the modulus of rupture (3.30 ksi), 8.90 kips; published value without increase, 6.61 kips; 0.9 times modulus of rupture (the accidental condition), 16.0 kips; load placed at midspan, 10.6 kips. Two-thirds in place of 0.67 gives 11.86, still 11.9 kips.
+
+Check in seconds (Python 3, standard library):
+import math; print(min(0.67*6.60, 2*2.45)*math.pi*13**3/32/(120*240/360))
+
+Citation: UFC 4-152-01, Design: Piers and Wharves, 24 January 2017, paragraph 5-4.4.3.
