@@ -1,0 +1,5 @@
+Key: 2.3 mm. NASA SP-8007 (1968): axial allowable sigma = gamma E (t/r)/sqrt(3(1-mu^2)), gamma = 1 - 0.901(1 - exp(-phi)), phi = sqrt(r/t)/16 (Eqs. 4-6); torsion allowable tau = 0.747 x 0.67 x E/[(r/t)^1.25 (l/r)^0.5] (Eqs. 26, 28); combination R_c + R_t = 1 (Eq. 32, section 4.2.5.3, p. 14). With sigma = 101.86/t and tau = 35.01/t MPa the root is t = 2.2816 mm: gamma = 0.4562, allowables 90.71 and 30.22 MPa, R_c = 0.4922, R_t = 0.5078. The most tempting wrong value is 2.1 mm (2.082) from the parabolic rule R_c + R_t^2 = 1. The notes print 'KEY: t = 2.2816 mm -> 2.3 mm' and the independent grid route prints 2.3 mm. Check program (Python): import math
+def f(t): g=1-0.901*(1-math.exp(-math.sqrt(500/t)/16)); return 320e3/(2*math.pi*500*t)/(g*72000*t/500/math.sqrt(2.73)) + 55e6/(2*math.pi*500**2*t)/(0.747*0.67*72000/((500/t)**1.25*2**0.5))
+lo,hi=1.0,5.0
+for _ in range(60): m=(lo+hi)/2; lo,hi=(m,hi) if f(m)>1 else (lo,m)
+print(hi) prints 2.2816.
