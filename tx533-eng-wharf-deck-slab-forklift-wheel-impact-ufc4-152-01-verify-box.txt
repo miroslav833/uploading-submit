@@ -1,0 +1,12 @@
+Key: 16.3 kip-ft/ft, three significant figures. In the attached notes the first program prints "KEY: 1.15 x 14.182 = 16.309 -> 16.3 kip ft per ft", and the second reaches 16.309 by integrating the shear along the span.
+
+The one detail the question leaves to the criteria document: UFC 4-152-01 (24 January 2017), paragraph 3-3.6.3, pages 57 to 58: "Apply an impact factor of 15 percent to the maximum wheel loads in the design of slabs, beams and pile caps. The impact factor need not be applied when designing piles and other substructure elements, when designing filled structures, and where wheel loads are distributed through paving and ballast (1.5 feet (0.46 m) or more)." The member is a slab and the deck is bare, so the 15 percent applies.
+
+By hand: P L / 4 = 39.0 x 8.00 / 4 = 78.0 kip ft; over the 5.50 ft effective width 14.18 kip ft/ft; with impact 1.15 x 14.18 = 16.31 kip ft/ft.
+
+Most tempting wrong answer: 18.4 kip-ft/ft, from the 30 percent impact of the highway bridge standard specifications (50/(L + 125), capped), or 18.9 with the 33 percent of the LRFD bridge specifications. Others: no impact, 14.2; the chapter's 20 percent for railroad loading, 17.0; load spread uniformly over the span, 8.15.
+
+Check in seconds (Python 3, standard library):
+print(1.15*39.0*8.00/4/5.50)
+
+Citation: UFC 4-152-01, Design: Piers and Wharves, 24 January 2017, paragraph 3-3.6.3.
