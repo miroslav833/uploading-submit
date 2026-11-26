@@ -1,0 +1,12 @@
+Key: 180 kN. It stands in the attached notes in the first section, output line 'KEY F_p = 180.06 kN', and in the second section as 'h' = 1.4286; F_p = 180.06 kN'.
+
+By hand: DNV-RP-F111 (October 2010) Eq. (4.12): F_p = 3.9 m_t g (1 - e^(-1.8 h')) (OD/L_clump)^(-0.65); Eq. (4.13): h' = (H_sp + OD)/L_clump; Eq. (4.14): L_clump = 0.7 m for the roller type. The drum is the 0.76 m one of the model tests, for which Eq. (4.16) also returns 0.7 m. Here h' = (0.100 + 0.900)/0.7 = 1.4286, 1 - e^(-2.5714) = 0.9236, (0.900/0.7)^(-0.65) = 0.8493, m_t g = 58.86 kN, F_p = 3.9 x 58.86 x 0.9236 x 0.8493 = 180.1 kN.
+
+Most tempting wrong answer: 170 kN, from 3.9 m_t g (1 - e^(-1.8 x 0.750)) with the trawl-board height H_sp + OD/2 + 0.2 in metres and no diameter factor. Leaving the diameter factor out gives 212 kN; the drum diameter 0.76 m as L_clump gives 186 kN; the bobbin length 0.55 m gives 160 kN; the board height parameter divided by 0.7 m gives 167 kN.
+
+Check program:
+from math import exp
+mt, g, Hsp, OD, L = 6000.0, 9.81, 0.100, 0.900, 0.7
+print(3.9*mt*g*(1 - exp(-1.8*(Hsp + OD)/L))*(OD/L)**-0.65/1e3)   # 180.06
+
+Source: DNV-RP-F111 (October 2010), Sec. 4.4, Eqs. (4.12) to (4.14).
