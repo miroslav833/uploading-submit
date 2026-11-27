@@ -1,0 +1,14 @@
+Key: 0.17 kg/h, two significant figures. In the attached notes the first program prints "KEY: vapour throughput = 0.1723 kg/h -> 0.17 kg/h at two figures", and the second, which integrates the differential momentum balance numerically and uses no closed form, prints 0.1723 kg/h as well.
+
+Source: Munakata and Matsuda, J. Chem. Eng. Japan 6, 58 (1973). Eq. (1) is the momentum balance with the factor (mean of u^2)/(mean u), "unity and 4/3 respectively for turbulent and laminar flows". Eq. (2), integrated at constant temperature: 2 f G^2 l/D + beta G^2 ln(p1/p2) + (M/2RT)(p2^2 - p1^2) = 0. Eq. (7) is the same with f = 16/Re_G and beta = 4/3.
+
+By hand (SI): with f = 16 mu/(G D) the friction term is 32 mu l G/D^2 = 0.6448 G. Acceleration: (4/3) ln 3 = 1.4648. Pressure term: 0.2783 x (60.0^2 - 20.0^2)/(2 x 8.314 x 405) = 0.13224. Quadratic 1.4648 G^2 + 0.6448 G - 0.13224 = 0, G = 0.1524 kg/(m^2 s). Area 3.1416e-4 m^2, flow 4.786e-5 kg/s = 0.172 kg/h. Re = 491, entry length 0.49 m of 1.300 m, top velocity 0.838 of sqrt(RT/M) = 110.0 m/s, Knudsen number 2.1e-3.
+
+Most tempting wrong answer: 0.18 kg/h (0.182), from the textbook isothermal equation whose acceleration term has the factor 1 of a flat profile. Others: no acceleration term, 0.23 kg/h; factor 2, 0.16 kg/h; 64/Re used as the Fanning factor, 0.056 kg/h.
+
+Check in seconds (Python 3, standard library):
+import math
+a=32*6.2e-6*1.300/0.0200**2; b=4/3*math.log(3); c=0.2783*(60.0**2-20.0**2)/(2*8.314*405)
+G=(-a+math.sqrt(a*a+4*b*c))/(2*b); print(G*math.pi*0.0200**2/4*3600)
+
+Citation: T. Munakata and A. Matsuda, J. Chem. Eng. Japan 6, 58-63 (1973), DOI 10.1252/jcej.6.58.
