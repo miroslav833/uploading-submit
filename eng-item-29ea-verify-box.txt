@@ -1,14 +1,16 @@
-Key: 0.17 kg/h, two significant figures. In the attached notes the first program prints "KEY: vapour throughput = 0.1723 kg/h -> 0.17 kg/h at two figures", and the second, which integrates the differential momentum balance numerically and uses no closed form, prints 0.1723 kg/h as well.
+Key: 3.2 g/h, two significant figures. In the attached notes the first program prints "KEY: vapour throughput = 3.2060 g/h -> 3.2 g/h at two figures" from the paper's Eq. (3), and the second prints 3.2060 g/h from the dimensionless Eq. (8).
 
-Source: Munakata and Matsuda, J. Chem. Eng. Japan 6, 58 (1973). Eq. (1) is the momentum balance with the factor (mean of u^2)/(mean u), "unity and 4/3 respectively for turbulent and laminar flows". Eq. (2), integrated at constant temperature: 2 f G^2 l/D + beta G^2 ln(p1/p2) + (M/2RT)(p2^2 - p1^2) = 0. Eq. (7) is the same with f = 16/Re_G and beta = 4/3.
+Source: Munakata and Matsuda, J. Chem. Eng. Japan 6, 58 (1973). Ranges (section 5): turbulent Eq. (6) for Re_G > 3000; laminar Eq. (7) for Re_G < 2000 and Kn_2 < 1e-2; slip to molecular flow Eq. (8) for Kn_2 > 1e-2, with Kn_2 at the top pressure. Eq. (8) is Knudsen's semi-empirical equation, their Eq. (3): (pi/4) D^2 G = [(pi/128) D^4 rho_av/(mu l) + (sqrt(2 pi)/6) sqrt(M/RT) (D^3/l) (1 + x)/(1 + 1.235 x)] (p1 - p2), x = (rho_av/mu) sqrt(RT/M) D, rho_av at (p1 + p2)/2.
 
-By hand (SI): with f = 16 mu/(G D) the friction term is 32 mu l G/D^2 = 0.6448 G. Acceleration: (4/3) ln 3 = 1.4648. Pressure term: 0.2783 x (60.0^2 - 20.0^2)/(2 x 8.314 x 405) = 0.13224. Quadratic 1.4648 G^2 + 0.6448 G - 0.13224 = 0, G = 0.1524 kg/(m^2 s). Area 3.1416e-4 m^2, flow 4.786e-5 kg/s = 0.172 kg/h. Re = 491, entry length 0.49 m of 1.300 m, top velocity 0.838 of sqrt(RT/M) = 110.0 m/s, Knudsen number 2.1e-3.
+By hand: mean speed sqrt(8RT/(pi M)) = 175.5 m/s; top density 2.810e-4 kg/m3; mean free path 2 mu/(rho c) = 2.514e-4 m; Kn_2 = 0.0126, above 0.01 (at the mean pressure it is 0.0082). rho_av = 4.298e-4 kg/m3 at 5.20 Pa; sqrt(RT/M) = 110.0 m/s; x = 152.5; factor 0.8107. Poiseuille term 8.167e-7 kg/s = 2.940 g/h; molecular term 9.115e-8 kg/s = 0.3282 g/h, times 0.8107 = 0.2660 g/h. Sum 3.206 g/h.
 
-Most tempting wrong answer: 0.18 kg/h (0.182), from the textbook isothermal equation whose acceleration term has the factor 1 of a flat profile. Others: no acceleration term, 0.23 kg/h; factor 2, 0.16 kg/h; 64/Re used as the Fanning factor, 0.056 kg/h.
+Most tempting wrong answer: 2.9 g/h, from the laminar equation (the paper's Eq. (7) gives 2.928, plain Poiseuille flow at the mean density 2.940), chosen because Re is 9 and the Knudsen number at the mean pressure is under 0.01. Others: Poiseuille with a first-order slip factor 1 + 8 Kn, 3.1 g/h; Poiseuille plus free-molecular flow without Knudsen's factor, 3.3 g/h; free-molecular flow alone, 0.33 g/h.
 
 Check in seconds (Python 3, standard library):
 import math
-a=32*6.2e-6*1.300/0.0200**2; b=4/3*math.log(3); c=0.2783*(60.0**2-20.0**2)/(2*8.314*405)
-G=(-a+math.sqrt(a*a+4*b*c))/(2*b); print(G*math.pi*0.0200**2/4*3600)
+D=0.0200; l=1.20; p1=7.00; p2=3.40; M=0.2783; T=405; mu=6.2e-6; R=8.314
+rho=(p1+p2)/2*M/(R*T); x=rho/mu*math.sqrt(R*T/M)*D
+w=(math.pi/128*D**4*rho/(mu*l)+math.sqrt(2*math.pi)/6*math.sqrt(M/(R*T))*D**3/l*(1+x)/(1+1.235*x))*(p1-p2)
+print(w*3.6e6)
 
 Citation: T. Munakata and A. Matsuda, J. Chem. Eng. Japan 6, 58-63 (1973), DOI 10.1252/jcej.6.58.
